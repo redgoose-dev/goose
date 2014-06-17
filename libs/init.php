@@ -5,13 +5,30 @@ require_once(PWD.'/data/config/user.php');
 require_once(PWD.'/libs/variable.php');
 require_once(PWD.'/libs/Database.class.php');
 require_once(PWD.'/libs/Spawn.class.php');
+require_once(PWD.'/libs/Router.class.php');
+require_once(PWD.'/libs/functions.php');
+
+// init router
+$router = new Router();
 
 // create instanse object
 $spawn = new Spawn($dbConfig);
 
+// route setting
+$router->setBasePath(ROOT);
+require_once(PWD.'/libs/route.maps.php');
+$route = $router->matchCurrentRequest();
+
 // route action
 if ($route)
 {
+	$routePapameters = $route->getParameters();
+	$routeTarget = $route->getTarget();
+	$routeMethod = $route->getMethods();
+
+	$paramController = $routePapameters['controller'];
+	$paramAction = $routePapameters['action'];
+
 	switch ($routeTarget['type'])
 	{
 		case "api":

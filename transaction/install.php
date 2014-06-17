@@ -3,6 +3,12 @@ if(!defined("GOOSE")){exit();}
 
 //header('Content-Type: text/plain; charset=utf-8');
 
+$pattern = '/\//i';
+$root = preg_replace($pattern, '', $_SERVER['REQUEST_URI']);
+
+var_dump($root);
+$util->out();
+
 /**
  * Check $_POST
  * 
@@ -41,6 +47,8 @@ function createConfig()
 {
 	$str = "<?php\n";
 	$str .= "if(!defined(\"GOOSE\")){exit();}\n";
+	$str .= "\n";
+	$str .= "define('ROOT', '".$_SERVER['REQUEST_URI']."');";
 	$str .= "\n";
 	$str .= "\$dbConfig = array('mysql:dbname=".$_POST['dbName'].";host=".$_POST['dbHost']."', '".$_POST['dbId']."', '".$_POST['dbPassword']."');\n";
 	$str .= "\$tablesName = array(\n";
@@ -82,6 +90,7 @@ else
 }
 
 
+$util->out();
 /*
 	Install Database
 */

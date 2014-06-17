@@ -9,7 +9,7 @@
 	<header>
 		<h1>Install Goose</h1>
 	</header>
-	<form action="<?=ROOT?>/install/" method="post">
+	<form action="./" method="post">
 		<fieldset>
 			<legend>데이터베이스 정보</legend>
 			<label>

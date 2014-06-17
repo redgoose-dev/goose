@@ -1,0 +1,20 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond $1 !\.(js|ico|gif|jpg|jpeg|png|css|swf|mp3|wav|txt|zip|rar)$
+RewriteRule ^(.*)$ index.php [NC,L]
+
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag log_errors on
+
+<ifModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 seconds"
+ExpiresByType text/html "access plus 1 seconds"
+ExpiresByType image/gif "access plus 2592000 seconds"
+ExpiresByType image/jpeg "access plus 2592000 seconds"
+ExpiresByType image/png "access plus 2592000 seconds"
+ExpiresByType text/css "access plus 604800 seconds"
+ExpiresByType text/javascript "access plus 216000 seconds"
+ExpiresByType application/x-javascript "access plus 216000 seconds"
+</ifModule>
