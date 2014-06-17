@@ -1,0 +1,299 @@
+@import "lib.scss";
+@import "init.scss";
+
+
+/* error message */
+.errorMsg {
+	margin:0; padding:1em .5em; color:#666;
+}
+
+
+/* temp iframe */
+#tmp_iframe {
+	position:absolute; left:-100px; top:0; width:30px; height:30px;
+}
+
+
+/* Header */
+#header {
+	padding: 0 $margin_side 5px;
+	border-bottom: 1px solid #999;
+	background: #a2a5a4;
+	h1 {
+		margin: 0; padding: 6px 20px 0 0;
+		font-size: 20px;
+		a {
+			display: inline-block; padding: 1px 0;
+			vertical-align: top;
+			font-family: "Lucida Grande", "Helvetica", sans-serif;
+			color: #fff; text-decoration: none; font-weight: bold;
+		}
+	}
+	nav {
+		padding: 5px 0 0 0;
+		ul {
+			@extend %ul;
+			@extend %clear;
+		}
+		li {
+			float: left; margin: 0 10px 0 0;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+		a {
+			display: block; padding: 2px 0 4px;
+			font-size: 13px; color: #fff; font-weight: bold; text-decoration: none;
+			&:hover {text-decoration: underline;}
+		}
+	}
+}
+
+
+/* Footer */
+#footer {
+	margin: 30px $margin_side_min 15px; text-align: center;
+	address {
+		padding: 0;
+		font-size: 12px; color: $color_blur;
+	}
+}
+
+
+/* Container */
+#container {
+	margin: 15px $margin_side_min;
+}
+
+
+/* Auth */
+.auth {
+	fieldset {
+		margin: 15px 0; padding: 0;
+		legend {@extend %blind;}
+		label {display: block; margin-bottom: 5px; font-size: 14px;}
+	}
+}
+
+
+/* Index */
+.index {
+	margin: 0; padding: 0; list-style: none;
+	a {text-decoration: none;}
+	li {
+		margin: 0;
+		border-bottom:1px dashed #d6d6d6;
+		> a {display: block; padding: 10px 0;}
+		> .body {
+			@extend %clear;
+			padding: 10px 0;
+			> a {display: block; padding: 0;}
+		}
+		&:hover {
+			/* background: #f9f9f9; */
+		}
+		&.placeHolder {background: #e4f5fa;}
+	}
+	dl {
+		margin: 0;
+		@extend %clear;
+		dt {
+			float: right; padding: 0; margin: -3px 0;
+			img {display: block; max-width: 60px;}
+		}
+		dd {margin: 0;}
+		&.noimg {
+			dd {margin-right: 70px;}
+		}
+	}
+	.body {
+		strong {color:#b68250; font-size: 14px;}
+		em {font-style: normal;}
+	}
+	.inf {
+		font-size:13px; color:#666;
+		span {
+			&:after {content: ',';}
+			&:last-child:after {content: '';}
+		}
+		p {margin: 0;}
+	}
+	nav {
+		float: right; margin-top: 10px;
+		a {
+			display: inline-block; padding: 3px 5px;
+			font-size: 13px; font-weight: 600; color: $color_blur;
+			text-decoration: none;
+			&.highlight {color: $color_basic;}
+		}
+	}
+	.empty {
+		padding: 30px 0; text-align: center; font-size: 16px; color: $color_blur;
+		border-bottom:1px dashed #d6d6d6;
+		&:hover {background: none;}
+	}
+}
+
+
+/* Categories */
+.categories {
+	border-bottom: 1px solid #ddd; padding: 5px 0;
+	ul {
+		@extend %ul;
+		@extend %clear;
+	}
+	li {float: left;}
+	a {
+		display: block; padding: 3px 8px 3px 5px;
+		font-size:12px; color: $color_blur; text-decoration: none;
+		font-family:'Lucida Grande', 'Helvetica', sans-serif;
+		&:hover {text-decoration:underline;}
+	}
+	li.active a {font-weight:bolder; color:#469fc0; text-decoration:underline;}
+}
+
+
+/* Article body */
+.articleBody {
+	border-bottom: 1px solid #ddd; padding: 0 0 15px; margin: 15px 0;
+	p {margin: 5px 0 10px;}
+	pre {
+		border: 1px dashed #ccc; padding: 12px; background: #fafafa; overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+}
+
+
+/* Form */
+.form {
+	fieldset {
+		> dl {
+			margin: 15px 0;
+			> dt {
+				margin: 0 0 4px 3px; padding: 0;
+				font-size: 14px; font-weight: 600;
+				&:before {
+					content: ''; display: inline-block;
+					width: 5px; height: 10px; margin-right: 5px;
+					background-image:url('../img/ico_arrow1.png');
+					background-position:0 45%;
+					background-repeat:no-repeat;
+					background-size:5px auto;
+				}
+			}
+			> dd {
+				margin: 3px 0 0 0; font-size: 13px; color: $color_blur;
+				p {margin: 4px 0 0 0;}
+				input[type=text] {margin: 0;}
+				select {margin-left: 0;}
+			}
+		}
+	}
+	.message {
+		color: $color_blur; font-size: 16px; margin: 0; padding: 30px 0 30px;
+		border-bottom: 1px dashed #ddd;
+	}
+
+}
+
+
+/* Settings */
+.Documents {
+	color: #333; word-break: break-all;
+	> section {
+		margin: 48px 0;
+		&.first {margin-top: 0;}
+		> h1 {margin-bottom: 10px; font-size: 20px;}
+		> h2 {margin-bottom: 5px; font-size: 18px;}
+		> p {margin: 5px 0;}
+		> section {
+			margin: 20px 0;
+			> h1 {margin: 0 0 5px; font-size: 16px;}
+			> p {margin: 5px 0;}
+			.ui-table {margin: 10px 0;}
+		}
+	}
+	ul, ol {
+		margin: 10px 0; padding-left: 20px;
+	}
+	.ui-table {margin: 20px 0;}
+	pre {
+		margin: 10px 0; padding: 12px;
+		border: 1px solid #ddd;
+		font-family: Monaco, Verdana; font-size: 12px; color: #666;
+		white-space: pre-wrap;
+	}
+}
+
+
+/* JSON */
+.jsonCode {
+	.snippet-wrap pre.sh_sourceCode {margin-top: 1.5em;}
+}
+
+
+/* For desktop */
+@media all and (min-width:640px) {
+	#header {
+		h1 {
+			float: left; line-height: 31px; padding-top: 5px;
+			font-size: 24px;
+			a {padding: 0;}
+		}
+		nav {
+			padding: 14px 0 0 0;
+			li {
+				float: left; margin-right: 15px; width: auto;
+				a {font-size:14px; padding: 0;}
+			}
+		}
+	}
+
+	#container {
+		margin: 15px $margin_side 20px;
+		.hgroup {
+			h1 {font-size:24px;}
+		}
+	}
+
+	#footer {
+		text-align: right;
+	}
+
+	.auth {
+		fieldset, nav {
+			padding: 0;
+		}
+	}
+
+	.index {
+		.body {
+			strong {font-size: 16px;}
+		}
+		.inf {font-size:14px;}
+		dl {
+			dt {
+				img {max-width: 80px;}
+			}
+			&.noimg {
+				dd {margin-right: 90px;}
+			}
+		}
+	}
+
+	.categories {
+		a {font-size: 13px;}
+	}
+
+	.form {
+		fieldset {
+			> dl.table {
+				display: table; width: 100%; margin: 0;
+				border-bottom: 1px solid #ddd;
+				> dt, > dd {display: table-cell; vertical-align: middle; padding: 8px 0;}
+				> dt {width: 130px; margin: 0; padding-left: 10px; font-size: 13px;}
+				> dd {margin: 0;}
+			}
+		}
+	}
+}
