@@ -158,6 +158,7 @@ class Util {
 		}
 	}
 
+	// 디렉토리 목록 가져오기
 	public function readDir($str=null)
 	{
 		$result = array();
@@ -189,6 +190,41 @@ class Util {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Create user file value
+	 * 
+	 * @return String : user.php 내용
+	 */
+	public function createUserFile($post, $dir)
+	{
+		global $root, $url;
+	
+		$str = "<?php\n";
+		$str .= "if(!defined(\"GOOSE\")){exit();}\n";
+		$str .= "\n";
+		$str .= "define('ROOT', '".$post['root']."');\n";
+		$str .= "define('URL', '".$post['url']."');\n";
+		$str .= "\n";
+		$str .= "\$dbConfig = array('mysql:dbname=".$post['dbName'].";host=".$post['dbHost']."', '".$post['dbId']."', '".$post['dbPassword']."');\n";
+		$str .= "\$tablesName = array(\n";
+		$str .= "\t'articles' => '".$post['dbPrefix']."articles',\n";
+		$str .= "\t'categories' => '".$post['dbPrefix']."categories',\n";
+		$str .= "\t'extraKey' => '".$post['dbPrefix']."extraKey',\n";
+		$str .= "\t'extraVar' => '".$post['dbPrefix']."extraVar',\n";
+		$str .= "\t'files' => '".$post['dbPrefix']."files',\n";
+		$str .= "\t'users' => '".$post['dbPrefix']."users',\n";
+		$str .= "\t'moduleGroups' => '".$post['dbPrefix']."moduleGroups',\n";
+		$str .= "\t'modules' => '".$post['dbPrefix']."modules',\n";
+		$str .= "\t'tempFiles' => '".$post['dbPrefix']."tempFiles',\n";
+		$str .= "\t'jsons' => '".$post['dbPrefix']."jsons'\n";
+		$str .= ");\n";
+		$str .= "\$api_key = \"".$post['apiPrefix']."\";\n";
+		$str .= "\$adminLevel = \"".$post['adminLevel']."\";\n";
+		$str .= "?>";
+
+		return $this->fop($dir, 'w', $str);
 	}
 }
 ?>
