@@ -23,7 +23,6 @@ $users = $spawn->getItems(array(
 			<?
 			foreach ($users as $k=>$v)
 			{
-				$util->console($v);
 			?>
 				<li>
 					<div class="body">
