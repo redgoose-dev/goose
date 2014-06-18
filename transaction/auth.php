@@ -9,15 +9,22 @@ switch ($paramAction)
 		$auth = $spawn->getItem(array(
 			field => '*',
 			table => $tablesName[users],
-			where => "email='". $_POST['email'] ."' and level='1'"
+			where => "email='".$_POST['email']."'"
 		));
 
 		if ($auth[pw] == $pw)
 		{
-			$_SESSION['gooseEmail'] = $auth['email'];
-			$_SESSION['gooseName'] = $auth['name'];
-			$_SESSION['gooseLevel'] = $auth['level'];
-			$util->redirect($_POST['redir']);
+			if ($auth['level'] > $adminLevel)
+			{
+				$util->back('접속 권한이 없습니다.');
+			}
+			else
+			{
+				$_SESSION['gooseEmail'] = $auth['email'];
+				$_SESSION['gooseName'] = $auth['name'];
+				$_SESSION['gooseLevel'] = $auth['level'];
+				$util->redirect($_POST['redir']);
+			}
 		}
 		else
 		{
