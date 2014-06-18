@@ -30,14 +30,14 @@ switch($paramAction)
 	case 'create':
 		$turn = $spawn->getCount(array(
 			'table' => $tablesName[extraKey],
-			'where' => 'module_srl='.(int)$_POST[module_srl]
+			'where' => 'nest_srl='.(int)$_POST[nest_srl]
 		));
 		
 		$spawn->insert(array(
 			'table' => $tablesName[extraKey],
 			'data' => array(
 				'srl' => null,
-				'module_srl' => $_POST[module_srl],
+				'nest_srl' => $_POST[nest_srl],
 				'turn' => $turn,
 				'keyName' => $_POST[keyName],
 				'name' => $_POST[name],
@@ -47,7 +47,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/extrakey/index/'.$_POST[module_srl].'/');
+		$util->redirect(ROOT.'/extrakey/index/'.$_POST[nest_srl].'/');
 		break;
 
 
@@ -65,7 +65,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/extrakey/index/'.$_POST[module_srl].'/');
+		$util->redirect(ROOT.'/extrakey/index/'.$_POST[nest_srl].'/');
 		break;
 
 
@@ -85,7 +85,7 @@ switch($paramAction)
 		$extraKey = $spawn->getItems(array(
 			'field' => 'srl,turn',
 			'table' => $tablesName[extraKey],
-			'where' => 'module_srl='.(int)$_POST[module_srl],
+			'where' => 'nest_srl='.(int)$_POST[nest_srl],
 			'order' => 'turn',
 			'sort' => 'asc'
 		));
@@ -99,7 +99,7 @@ switch($paramAction)
 			$n++;
 		}
 
-		$util->redirect(ROOT.'/extrakey/index/'.$_POST[module_srl].'/');
+		$util->redirect(ROOT.'/extrakey/index/'.$_POST[nest_srl].'/');
 		break;
 
 
@@ -117,7 +117,7 @@ switch($paramAction)
 				));
 			}
 
-			$util->redirect(ROOT.'/extrakey/index/'.$_POST[module_srl].'/');
+			$util->redirect(ROOT.'/extrakey/index/'.$_POST[nest_srl].'/');
 		}
 		break;
 }

@@ -3,12 +3,12 @@ if(!defined("GOOSE")){exit();}
 
 if ($routePapameters['param1'])
 {
-	$module_srl = (int)$routePapameters['param0'];
+	$nest_srl = (int)$routePapameters['param0'];
 	$category_srl = (int)$routePapameters['param1'];
 }
 else if ($routePapameters['param0'])
 {
-	$module_srl = (int)$routePapameters['param0'];
+	$nest_srl = (int)$routePapameters['param0'];
 }
 else
 {
@@ -16,12 +16,12 @@ else
 	exit;
 }
 
-$module = $spawn->getItem(array(
+$nest = $spawn->getItem(array(
 	'field' => 'srl,group_srl,name',
-	'table' => $tablesName[modules],
-	'where' => 'srl='.$module_srl
+	'table' => $tablesName[nests],
+	'where' => 'srl='.$nest_srl
 ));
-$moduleName = ($module[name]) ? '['.$module[name].'] ' : null;
+$nestName = ($nest[name]) ? '['.$nest[name].'] ' : null;
 
 if ($paramAction !== 'create')
 {
@@ -42,12 +42,12 @@ $titleType = getActionType($paramAction);
 
 <section class="form">
 	<div class="hgroup">
-		<h1><?=$moduleName?>분류<?=$titleType?></h1>
+		<h1><?=$nestName?>분류<?=$titleType?></h1>
 	</div>
 
 	<form action="<?=ROOT?>/category/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this); return false;">
-		<input type="hidden" name="module_srl" value="<?=$module_srl?>"/>
-		<input type="hidden" name="group_srl" value="<?=$module[group_srl]?>"/>
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
+		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>"/>
 		<input type="hidden" name="category_srl" value="<?=$category_srl?>"/>
 		<?
 		if ($paramAction == "delete")

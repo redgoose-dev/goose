@@ -3,14 +3,14 @@ if(!defined("GOOSE")){exit();}
 
 if ($paramAction == 'create')
 {
-	if (!$module_srl)
+	if (!$nest_srl)
 	{
-		$util->back('module값이 없습니다.');
+		$util->back('nest값이 없습니다.');
 		exit;
 	}
-	$module = $spawn->getItem(array(
-		'table' => $tablesName[modules],
-		'where' => 'srl='.$module_srl
+	$nest = $spawn->getItem(array(
+		'table' => $tablesName[nests],
+		'where' => 'srl='.$nest_srl
 	));
 }
 else if ($paramAction == 'modify')
@@ -24,14 +24,14 @@ else if ($paramAction == 'modify')
 		'table' => $tablesName[articles],
 		'where' => 'srl='.$article_srl
 	));
-	$module = $spawn->getItem(array(
-		'table' => $tablesName[modules],
-		'where' => 'srl='.$article[module_srl]
+	$nest = $spawn->getItem(array(
+		'table' => $tablesName[nests],
+		'where' => 'srl='.$article[nest_srl]
 	));
-	$module_srl = $article[module_srl];
+	$nest_srl = $article[nest_srl];
 }
 
-$moduleName = '['.$module[name].'] ';
+$nestName = '['.$nest[name].'] ';
 $titleType = getActionType($paramAction);
 
 function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
@@ -70,12 +70,12 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 
 <section class="form">
 	<div class="hgroup">
-		<h1><?=$moduleName?>문서<?=$titleType?></h1>
+		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>
 
 	<form name="writeForm" action="<?=ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data" onsubmit="return onCheck(this);">
-		<input type="hidden" name="group_srl" value="<?=$module[group_srl]?>" />
-		<input type="hidden" name="module_srl" value="<?=$module_srl?>" />
+		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>" />
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
 		<input type="hidden" name="page" value="<?=$_GET[page]?>" />
 		<input type="hidden" name="addQueue" />
@@ -85,7 +85,7 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 		<fieldset>
 			<legend class="blind">문서<?=$titleType?></legend>
 			<?
-			if ($module[useCategory] == 1)
+			if ($nest[useCategory] == 1)
 			{
 			?>
 				<dl class="table">
@@ -96,7 +96,7 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 							<?
 							$items = $spawn->getItems(array(
 								table => $tablesName[categories],
-								where => 'module_srl='.$module[srl],
+								where => 'nest_srl='.$nest[srl],
 								order => 'turn',
 								sort => 'asc'
 							));
@@ -127,9 +127,9 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 		<?
 		// Import editor Plugin
 		$editorDir = PWD.'/plugins/editor/';
-		if (file_exists($editorDir.$module['editor'].'/index.php'))
+		if (file_exists($editorDir.$nest['editor'].'/index.php'))
 		{
-			require_once($editorDir.$module['editor'].'/index.php');
+			require_once($editorDir.$nest['editor'].'/index.php');
 		}
 		else
 		{
@@ -140,11 +140,11 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 		}
 
 		// Extra var
-		if ($module[useExtraVar] == 1)
+		if ($nest[useExtraVar] == 1)
 		{
 			$extraCount = $spawn->getCount(array(
 				'table' => $tablesName[extraKeys],
-				'where' => 'module_srl='.$module[srl]
+				'where' => 'nest_srl='.$nest[srl]
 			));
 			if ($extraCount > 0)
 			{
@@ -157,7 +157,7 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 						<?
 						$items = $spawn->getItems(array(
 							'table' => $tablesName[extraKeys],
-							'where' => 'module_srl='.$module[srl],
+							'where' => 'nest_srl='.$nest[srl],
 							'order' => 'turn',
 							'sort' => 'asc'
 						));

@@ -9,27 +9,27 @@ if (!$article_srl)
 }
 
 $article = $spawn->getItem(array(
-	'field' => 'srl,module_srl,category_srl,title',
+	'field' => 'srl,nest_srl,category_srl,title',
 	'table' => $tablesName[articles],
 	'where' => 'srl='.$article_srl
 ));
 
-$module = $spawn->getItem(array(
-	'table' => $tablesName[modules],
-	'where' => 'srl='.$article[module_srl]
+$nest = $spawn->getItem(array(
+	'table' => $tablesName[nests],
+	'where' => 'srl='.$article[nest_srl]
 ));
-$moduleName = '['.$module[name].'] ';
+$nestName = '['.$nest[name].'] ';
 
 $titleType = getActionType($paramAction);
 ?>
 
 <section class="form">
 	<div class="hgroup">
-		<h1><?=$moduleName?>문서<?=$titleType?></h1>
+		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>
 	<form name="writeForm" action="<?=ROOT?>/article/delete/" method="post">
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
-		<input type="hidden" name="module_srl" value="<?=$article[module_srl]?>" />
+		<input type="hidden" name="nest_srl" value="<?=$article[nest_srl]?>" />
 		<input type="hidden" name="category_srl" value="<?=$article[category_srl]?>" />
 		<input type="hidden" name="page" value="<?=$_GET[page]?>" />
 		<fieldset>

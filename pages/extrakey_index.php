@@ -1,18 +1,18 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$module_srl = (int)$routePapameters['param0'];
-if ($module_srl)
+$nest_srl = (int)$routePapameters['param0'];
+if ($nest_srl)
 {
-	$module = $spawn->getItems(array(
-		'table' => $tablesName[modules],
-		'where' => 'srl='.$module_srl
+	$nest = $spawn->getItems(array(
+		'table' => $tablesName[nests],
+		'where' => 'srl='.$nest_srl
 	));
-	$moduleName = ($module[name]) ? '['.$module[name].']' : '';
+	$nestName = ($nest[name]) ? '['.$nest[name].']' : '';
 }
 else
 {
-	$util->back('모듈값이 없습니다.');
+	$util->back('둥지값이 없습니다.');
 }
 ?>
 
@@ -21,7 +21,7 @@ else
 		<h1><?=$tableName?> 확장변수 목록</h1>
 	</div>
 	<form action="<?=ROOT?>/extrakey/sort/" method="post" name="listForm" id="listForm">
-		<input type="hidden" name="module_srl" value="<?=$module_srl?>" />
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
 			<legend class="blind">확장변수 목록</legend>
@@ -29,7 +29,7 @@ else
 				<?
 				$itemsIndex = $spawn->getItems(array(
 					'table' => $tablesName[extraKey],
-					'where' => 'module_srl='.$module_srl,
+					'where' => 'nest_srl='.$nest_srl,
 					'order' => 'turn',
 					'sort' => 'asc'
 				));
@@ -46,8 +46,8 @@ else
 								<p>설명 : <?=$v[info]?></p>
 							</div>
 							<nav>
-								<a href="<?=ROOT?>/extrakey/modify/<?=$v[module_srl]?>/<?=$v[srl]?>/">수정</a>
-								<a href="<?=ROOT?>/extrakey/delete/<?=$v[module_srl]?>/<?=$v[srl]?>/">삭제</a>
+								<a href="<?=ROOT?>/extrakey/modify/<?=$v[nest_srl]?>/<?=$v[srl]?>/">수정</a>
+								<a href="<?=ROOT?>/extrakey/delete/<?=$v[nest_srl]?>/<?=$v[srl]?>/">삭제</a>
 							</nav>
 						</div>
 					</li>
@@ -58,9 +58,9 @@ else
 			</ul>
 		</fieldset>
 		<div class="btngroup">
-			<span><a href="<?=ROOT?>/extrakey/create/<?=$module_srl?>/" class="ui-button btn-highlight">확장변수추가</a></span>
+			<span><a href="<?=ROOT?>/extrakey/create/<?=$nest_srl?>/" class="ui-button btn-highlight">확장변수추가</a></span>
 			<span><a href="javascript:onSubmit(document.listForm);" class="ui-button">순서변경</a></span>
-			<span><a href="<?=ROOT?>/module/index/<?=$module[group_srl]?>/" class="ui-button">모듈목록</a></span>
+			<span><a href="<?=ROOT?>/nest/index/<?=$nest[group_srl]?>/" class="ui-button">둥지목록</a></span>
 		</div>
 	</form>
 </section>

@@ -7,7 +7,7 @@ function checkExistEmail()
 	global $spawn, $util, $tablesName;
 
 	$cnt = $spawn->getCount(array(
-		table => $tablesName[users],
+		table => $tablesName['users'],
 		where => "email='".$_POST['email']."'"
 	));
 	return ($cnt > 0) ? true : false;
@@ -46,7 +46,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/users/index/');
+		$util->redirect(ROOT.'/user/index/');
 		break;
 
 	case 'modify':
@@ -77,7 +77,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/users/index/');
+		$util->redirect(ROOT.'/user/index/');
 		break;
 
 	case 'delete':
@@ -86,7 +86,7 @@ switch($paramAction)
 			'where' => 'srl='.$_POST['user_srl']
 		));
 
-		$util->redirect(ROOT.'/users/index/');
+		$util->redirect(ROOT.'/user/index/');
 		break;
 }
 ?>

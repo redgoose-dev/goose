@@ -3,12 +3,12 @@ if(!defined("GOOSE")){exit();}
 
 if ($routePapameters['param1'])
 {
-	$module_srl = (int)$routePapameters['param0'];
+	$nest_srl = (int)$routePapameters['param0'];
 	$extra_srl = (int)$routePapameters['param1'];
 }
 else if ($routePapameters['param0'])
 {
-	$module_srl = (int)$routePapameters['param0'];
+	$nest_srl = (int)$routePapameters['param0'];
 }
 else
 {
@@ -16,12 +16,12 @@ else
 	exit;
 }
 
-// get module
-$module = $spawn->getItem(array(
-	'table' => $tablesName[modules],
-	'where' => 'srl='.$module_srl
+// get nest
+$nest = $spawn->getItem(array(
+	'table' => $tablesName[nests],
+	'where' => 'srl='.$nest_srl
 ));
-$moduleName = ($module[name]) ? '['.$module[name].']' : '';
+$nestName = ($nest[name]) ? '['.$nest[name].']' : '';
 
 if ($paramAction != 'create')
 {
@@ -41,12 +41,12 @@ $titleType = getActionType($paramAction);
 
 <section class="form">
 	<div class="hgroup">
-		<h1><?=$moduleName?> 확장변수 <?=$titleType?></h1>
+		<h1><?=$nestName?> 확장변수 <?=$titleType?></h1>
 	</div>
 	
 	<form action="<?=ROOT?>/extrakey/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this); return false;">
-		<input type="hidden" name="module_srl" value="<?=$module_srl?>" />
-		<input type="hidden" name="group_srl" value="<?=$module[group_srl]?>" />
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
+		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>" />
 		<input type="hidden" name="extra_srl" value="<?=$extra_srl?>" />
 		<?
 		if ($paramAction == "delete")

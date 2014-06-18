@@ -12,7 +12,7 @@
 		<p>Goose에서 제공하는 컨텐츠는 다음과 같습니다.</p>
 		<ul>
 			<li>
-				<strong>Modules</strong><br/>
+				<strong>nests</strong><br/>
 				Goose 관리 프로그램의 핵심적인 요소입니다. 글이나 사진을 올릴 수 있거나 수정, 삭제할 수 있습니다. 이 데이터를 통하여 외부 프로그램에서 출력할 수 있습니다.
 			</li>
 			<li>
@@ -21,7 +21,7 @@
 			</li>
 			<li>
 				<strong>API</strong><br/>
-				Modules 컨텐츠에 있는 데이터를 외부 어플리케이션에서 가져올 수 있게 지원할 수 있는 도구를 제공합니다.
+				nests 컨텐츠에 있는 데이터를 외부 어플리케이션에서 가져올 수 있게 지원할 수 있는 도구를 제공합니다.
 			</li>
 		</ul>
 	</section>
@@ -42,9 +42,9 @@
 		</p>
 		<ul>
 			<li>
-				<strong>Modules</strong><br/>
+				<strong>nests</strong><br/>
 				이 메뉴는 사이트 앱의 데이터를 보관하고 관리하는 공간으로 하나의 게시물이나 포스트의 집합이라고 할 수 있습니다.<br/>
-				moduleGroup > module > article 구조로 구성되어 있으며 article 테이블이 포스팅 데이터가 들어갑니다.
+				nestGroup > nest > article 구조로 구성되어 있으며 article 테이블이 포스팅 데이터가 들어갑니다.
 			</li>
 			<li>
 				<strong>JSON</strong><br/>
@@ -86,12 +86,12 @@
 					<tr>
 						<th>group_srl</th>
 						<td class="center nowrap">number</td>
-						<td>moduleGroups 테이블 고유번호</td>
+						<td>nestGroups 테이블 고유번호</td>
 					</tr>
 					<tr>
-						<th>module_srl</th>
+						<th>nest_srl</th>
 						<td class="center nowrap">number</td>
-						<td>modules 테이블 고유번호</td>
+						<td>nests 테이블 고유번호</td>
 					</tr>
 					<tr>
 						<th>category_srl</th>
@@ -160,9 +160,9 @@
 						<td>고유번호</td>
 					</tr>
 					<tr>
-						<th>module_srl</th>
+						<th>nest_srl</th>
 						<td class="center nowrap">number</td>
-						<td>modules 테이블 고유번호</td>
+						<td>nests 테이블 고유번호</td>
 					</tr>
 					<tr>
 						<th>turn</th>
@@ -219,13 +219,13 @@
 			</table>
 		</section>
 		<section>
-			<h1>moduleGroups</h1>
+			<h1>nestGroups</h1>
 			<p>
-				모듈의 그룹정보를 담아둔 테이블입니다.<br/>
-				이 테이블을 만든 이유는 여러 모듈을 사용하는 앱을 만들때 묶어줄 수 있는 장치가 필요했기 때문입니다.
+				둥지의 그룹정보를 담아둔 테이블입니다.<br/>
+				이 테이블을 만든 이유는 여러 둥지를 사용하는 앱을 만들때 묶어줄 수 있는 장치가 필요했기 때문입니다.
 			</p>
 			<table class="ui-table">
-				<caption>moduleGroups 테이블 필드목록</caption>
+				<caption>nestGroups 테이블 필드목록</caption>
 				<thead>
 					<tr>
 						<th scope="col">field</th>
@@ -253,10 +253,10 @@
 			</table>
 		</section>
 		<section>
-			<h1>modules</h1>
+			<h1>nests</h1>
 			<p>article 데이터의 그룹이 되는 테이블입니다. 이 테이블은 썸네일 이미지 사이즈나 출력갯수, 분류나 확장변수를 사용할것인지의 여부를 저장하는 테이블이 됩니다.</p>
 			<table class="ui-table">
-				<caption>modules 테이블 필드목록</caption>
+				<caption>nests 테이블 필드목록</caption>
 				<thead>
 					<tr>
 						<th scope="col">field</th>
@@ -704,17 +704,17 @@ $spawn = new Spawn($dbConfig);
 		</section>
 		<section>
 			<h1>특정 테이블 데이터 출력하기</h1>
-			<p>Spawn 클래스를 활용하여 데이터를 출력할 수 있습니다. 위의 Spawn.class.php 기능설명을 참고하여 modules 테이블의 내용을 출력하도록 하겠습니다.</p>
+			<p>Spawn 클래스를 활용하여 데이터를 출력할 수 있습니다. 위의 Spawn.class.php 기능설명을 참고하여 nests 테이블의 내용을 출력하도록 하겠습니다.</p>
 <pre>
 // 데이터 총합
 $count = $spawn->getCount(array(
-	table => $tablesName[modules],
+	table => $tablesName[nests],
 	where => $itemParameter
 ));
 
 // 데이터 가져오기
-$modules = $spawn->getItems(array(
-	'table' => $tablesName[modules],
+$nests = $spawn->getItems(array(
+	'table' => $tablesName[nests],
 	'order' => 'srl',
 	'sort' => 'desc'
 ));
@@ -723,7 +723,7 @@ $modules = $spawn->getItems(array(
 if ($count > 0)
 {
 	echo "&lt;ul>";
-	foreach ($modules as $k=>$v)
+	foreach ($nests as $k=>$v)
 	{
 		echo "&lt;li>$v[name]&lt;/li>";
 	}

@@ -1,14 +1,14 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$module_srl = ($routePapameters['param0']) ? (int)$routePapameters['param0'] : null;
-if ($paramAction !== "create" and $module_srl)
+$nest_srl = ($routePapameters['param0']) ? (int)$routePapameters['param0'] : null;
+if ($paramAction !== "create" and $nest_srl)
 {
-	$module = $spawn->getItem(array(
-		'table' => $tablesName[modules],
-		'where' => 'srl='.$module_srl
+	$nest = $spawn->getItem(array(
+		'table' => $tablesName[nests],
+		'where' => 'srl='.$nest_srl
 	));
-	$thumnailSize = explode("*", $module[thumnailSize]);
+	$thumnailSize = explode("*", $nest[thumnailSize]);
 }
 
 if ($thumnailSize[1])
@@ -20,7 +20,7 @@ else
 	$thumnailSize = array('width'=>100, 'height'=>100);
 }
 
-$listCount = ($module[listCount]) ? $module[listCount] : 12;
+$listCount = ($nest[listCount]) ? $nest[listCount] : 12;
 $titleType = ($paramAction == 'create') ? '만들기' : '';
 $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
@@ -28,11 +28,10 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 
 <section class="form">
 	<div class="hgroup">
-		<h1>모듈<?=$titleType?></h1>
+		<h1>둥지<?=$titleType?></h1>
 	</div>
-	<form action="<?=ROOT?>/module/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this);">
-		<input type="hidden" name="group_srl" value="<?=$module[group_srl]?>" />
-		<input type="hidden" name="module_srl" value="<?=$module_srl?>" />
+	<form action="<?=ROOT?>/nest/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this);">
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<?
 		if ($paramAction == "delete")
 		{
@@ -45,8 +44,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 			</script>
 
 			<fieldset>
-				<legend class="blind">모듈<?=$titleType?></legend>
-				<p class="message">"<?=$module[name]?>"모듈을 삭제하시겠습니까? 삭제된 모듈은 복구할 수 없습니다.</p>
+				<legend class="blind">둥지<?=$titleType?></legend>
+				<p class="message">"<?=$nest[name]?>"둥지를 삭제하시겠습니까? 삭제된 둥지는 복구할 수 없습니다.</p>
 			</fieldset>
 		<?
 		}
@@ -58,21 +57,21 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 			{
 				if (!frm.id.value)
 				{
-					alert('모듈아이디 항목이 비었습니다.');
+					alert('둥지아이디 항목이 비었습니다.');
 					frm.id.focus();
 					return false;
 				}
 				
 				if (!frm.id.value.match(/^[a-zA-Z0-9]+$/))
 				{
-					alert('모듈아이디는 영문과 숫자로 작성해주세요.');
+					alert('둥지아이디는 영문과 숫자로 작성해주세요.');
 					frm.id.focus();
 					return false;
 				}
 
 				if (!frm.name.value)
 				{
-					alert('모듈이름 항목이 비었습니다.');
+					alert('둥지이름 항목이 비었습니다.');
 					frm.name.focus();
 					return false;
 				}
@@ -88,21 +87,21 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 			}
 			</script>
 			<fieldset>
-				<legend class="blind">모듈<?=$titleType?></legend>
+				<legend class="blind">둥지<?=$titleType?></legend>
 				<dl class="table">
-					<dt><label for="group_srl">모듈그룹</label></dt>
+					<dt><label for="group_srl">둥지그룹</label></dt>
 					<dd>
 						<select name="group_srl" id="group_srl">
 							<option value="0">선택하세요.</option>
 							<?
 							$group = $spawn->getItems(array(
-								'table' => $tablesName[moduleGroups],
+								'table' => $tablesName[nestGroups],
 								'order' => 'srl',
 								'sort' => 'asc'
 							));
 							foreach ($group as $k=>$v)
 							{
-								$selected = ($v[srl] == $module[group_srl]) ? ' selected="selected"' : '';
+								$selected = ($v[srl] == $nest[group_srl]) ? ' selected="selected"' : '';
 								echo "<option value=\"$v[srl]\"$selected>$v[name]</option>";
 							}
 							?>
@@ -111,9 +110,9 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<?
-					if ($module[id])
+					if ($nest[id])
 					{
-						$attr = ' value="'.$module[id].'" readonly';
+						$attr = ' value="'.$nest[id].'" readonly';
 					}
 					?>
 					<dt><label for="id">아이디</label></dt>
@@ -123,8 +122,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					</dd>
 				</dl>
 				<dl class="table">
-					<dt><label for="name">모듈이름</label></dt>
-					<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$module[name]?>"/></dd>
+					<dt><label for="name">둥지이름</label></dt>
+					<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$nest[name]?>"/></dd>
 				</dl>
 				<dl class="table">
 					<dt><label for="thumWidth">썸네일사이즈</label></dt>
@@ -140,10 +139,10 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 						<?
 						if ($paramAction == "modify")
 						{
-							$thumType1 = ($module[thumnailType] == "crop") ? ' checked = "checked"' : '';
-							$thumType2 = ($module[thumnailType] == "resize") ? ' checked = "checked"' : '';
-							$thumType3 = ($module[thumnailType] == "resizeWidth") ? ' checked = "checked"' : '';
-							$thumType4 = ($module[thumnailType] == "resizeHeight") ? ' checked = "checked"' : '';
+							$thumType1 = ($nest[thumnailType] == "crop") ? ' checked = "checked"' : '';
+							$thumType2 = ($nest[thumnailType] == "resize") ? ' checked = "checked"' : '';
+							$thumType3 = ($nest[thumnailType] == "resizeWidth") ? ' checked = "checked"' : '';
+							$thumType4 = ($nest[thumnailType] == "resizeHeight") ? ' checked = "checked"' : '';
 						}
 						else
 						{
@@ -167,8 +166,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<?
-					$useCategoryYes = ($module[useCategory] == 1) ? ' checked = "checked"' : '';
-					$useCategoryNo = ($module[useCategory] != 1) ? ' checked = "checked"' : '';
+					$useCategoryYes = ($nest[useCategory] == 1) ? ' checked = "checked"' : '';
+					$useCategoryNo = ($nest[useCategory] != 1) ? ' checked = "checked"' : '';
 					?>
 					<dt><label for="useCategory">분류사용</label></dt>
 					<dd>
@@ -178,8 +177,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<?
-					$useExtraVarYes = ($module[useExtraVar] == 1) ? ' checked = "checked"' : '';
-					$useExtraVarNo = ($module[useExtraVar] != 1) ? ' checked = "checked"' : '';
+					$useExtraVarYes = ($nest[useExtraVar] == 1) ? ' checked = "checked"' : '';
+					$useExtraVarNo = ($nest[useExtraVar] != 1) ? ' checked = "checked"' : '';
 					?>
 					<dt><label for="useExtraVar">확장변수사용</label></dt>
 					<dd>
@@ -196,7 +195,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 							echo (!count($tree)) ? "<option>에디터 없음</option>" : "";
 							foreach($tree as $k=>$v)
 							{
-								$selected = ($v == $module['editor']) ? ' selected' : '';
+								$selected = ($v == $nest['editor']) ? ' selected' : '';
 								echo "<option value=\"$v\"$selected>$v</option>";
 							}
 							?>

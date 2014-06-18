@@ -72,12 +72,12 @@ $spawn = new Spawn($dbConfig);
 $spawn->action("set names utf8");
 
 // create db table
-// create table "article"
+// create table "articles"
 $result = $spawn->action("
 	create table `".$tablesName['articles']."` (
 		`srl` bigint(11) not null auto_increment,
 		`group_srl` int(11) default null,
-		`module_srl` bigint(11) default null,
+		`nest_srl` bigint(11) default null,
 		`category_srl` bigint(11) default null,
 		`thumnail_srl` bigint(11) default null,
 		`title` varchar(250) default null,
@@ -100,19 +100,24 @@ if ($result != 'success')
 $result = $spawn->action("
 	create table `".$tablesName['categories']."` (
 		`srl` bigint(11) not null auto_increment,
-		`module_srl` bigint(11) default null,
+		`nest_srl` bigint(11) default null,
 		`turn` int(11) default null,
 		`name` varchar(30) default null,
 		`regdate` varchar(25) default null,
 		primary key (`srl`),
 		unique key `srl` (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
 // create table "extraKey"
 $result = $spawn->action("
 	create table `".$tablesName['extraKey']."` (
 		`srl` bigint(11) not null auto_increment,
-		`module_srl` bigint(11) default null,
+		`nest_srl` bigint(11) default null,
 		`turn` int(11) default null,
 		`keyName` varchar(20) default null,
 		`name` varchar(25) default null,
@@ -121,6 +126,11 @@ $result = $spawn->action("
 		`defaultValue` varchar(250) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
 // create table "extraVar"
 $result = $spawn->action("
@@ -129,6 +139,11 @@ $result = $spawn->action("
 		`key_srl` bigint(11) default null,
 		`value` longtext not null
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
 // create table "files"
 $result = $spawn->action("
@@ -139,6 +154,11 @@ $result = $spawn->action("
 		`loc` varchar(255) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
 // create table "jsons"
 $result = $spawn->action("
@@ -149,6 +169,11 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
 // create table "users"
 $result = $spawn->action("
@@ -161,19 +186,29 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
-// create table "moduleGroups"
+// create table "nestGroups"
 $result = $spawn->action("
-	create table `".$tablesName['moduleGroups']."` (
+	create table `".$tablesName['nestGroups']."` (
 		`srl` bigint(11) not null auto_increment,
 		`name` varchar(250) default null,
 		`regdate` varchar(25) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
-// create table "modules"
+// create table "nests"
 $result = $spawn->action("
-	create table `".$tablesName['modules']."` (
+	create table `".$tablesName['nests']."` (
 		`srl` bigint(11) not null auto_increment,
 		`group_srl` int(11) default null,
 		`id` varchar(20) default null,
@@ -187,6 +222,11 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
 // create table "tempFiles"
 $result = $spawn->action("
@@ -197,6 +237,11 @@ $result = $spawn->action("
 		`date` varchar(14) default null,
 		PRIMARY KEY (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['articles']."' table";
+	$util->out();
+}
 
 
 // insert admin info
@@ -213,6 +258,11 @@ $result = $spawn->action("
 			'".date('YmdHis')."'
 		)
 	");
+if ($result != 'success')
+{
+	echo $result;
+	$util->out();
+}
 
 
 /*

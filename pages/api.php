@@ -35,7 +35,7 @@
 		<h1>Parameter</h1>
 		<p>
 			Goose api는 url주소형식으로 요청합니다. 주소를 적는 방식은 다음과 같습니다. 아래 주소는 가장 기초적인 형태이며 조건에 따라 아래 설명된 규칙을 참고하여 url을 만드시면 됩니다.<br/>
-			<strong>http://xxx.com/goose/api/item?apikey=XXX&table=modules&act=index&output=json</strong><br/>
+			<strong>http://xxx.com/goose/api/item?apikey=XXX&table=nests&act=index&output=json</strong><br/>
 		</p>
 		<table class="ui-table">
 			<caption>요청 파라메터 (request parameter)</caption>
@@ -100,7 +100,7 @@
 				<tr>
 					<th class="nowrap">mod</th>
 					<td class="nowrap center">number</td>
-					<td>module ID</td>
+					<td>nest ID</td>
 				</tr>
 				<tr>
 					<th class="nowrap">group</th>

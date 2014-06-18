@@ -23,7 +23,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 	<div class="hgroup">
 		<h1>사용자 <?=$titleType?></h1>
 	</div>
-	<form action="<?=ROOT?>/users/<?=$paramAction?>/" method="post" id="regsterForm">
+	<form action="<?=ROOT?>/user/<?=$paramAction?>/" method="post" id="regsterForm">
 		<input type="hidden" name="user_srl" value="<?=$user[srl]?>" />
 		<?
 		if ($paramAction == "delete")

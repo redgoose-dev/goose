@@ -12,7 +12,7 @@ switch($paramAction)
 		}
 		$regdate = date("YmdHis");
 		$spawn->insert(array(
-			table => $tablesName[moduleGroups],
+			table => $tablesName[nestGroups],
 			data => array(
 				srl => null,
 				name => $_POST[name],
@@ -31,7 +31,7 @@ switch($paramAction)
 			exit;
 		}
 		$spawn->update(array(
-			table => $tablesName[moduleGroups],
+			table => $tablesName[nestGroups],
 			where => 'srl='.$_POST[group_srl],
 			data => array("name='$_POST[name]'")
 		));
@@ -42,11 +42,11 @@ switch($paramAction)
 	// delete
 	case 'delete':
 		$spawn->delete(array(
-			table => $tablesName[moduleGroups],
+			table => $tablesName[nestGroups],
 			where => 'srl='.$_POST[group_srl]
 		));
 		$spawn->update(array(
-			table => $tablesName[modules],
+			table => $tablesName[nests],
 			where => 'group_srl='.$_POST[group_srl],
 			data => array("group_srl=NULL")
 		));

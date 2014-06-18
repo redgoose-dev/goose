@@ -94,7 +94,7 @@ switch($paramAction)
 			data => array(
 				srl => null,
 				group_srl => $_POST[group_srl],
-				module_srl => $_POST[module_srl],
+				nest_srl => $_POST[nest_srl],
 				category_srl => $_POST[category_srl],
 				thumnail_srl => null,
 				title => $_POST[title],
@@ -132,7 +132,7 @@ switch($paramAction)
 		{
 			$extraKey = $spawn->getItems(array(
 				table => $tablesName[extraKey],
-				where => 'module_srl='.(int)$_POST[module_srl],
+				where => 'nest_srl='.(int)$_POST[nest_srl],
 				order => 'turn',
 				sort => 'asc'
 			));
@@ -152,7 +152,7 @@ switch($paramAction)
 		}
 
 		$n = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
-		$util->redirect(ROOT.'/article/index/'.$_POST[module_srl].'/'.$n);
+		$util->redirect(ROOT.'/article/index/'.$_POST[nest_srl].'/'.$n);
 		break;
 
 	// modify
@@ -204,7 +204,7 @@ switch($paramAction)
 		$extraKey = $spawn->getItems(array(
 			field => 'srl,keyName',
 			table => $tablesName['extraKey'],
-			where => 'module_srl='.(int)$_POST[module_srl],
+			where => 'nest_srl='.(int)$_POST[nest_srl],
 			order => 'turn',
 			sort => 'asc'
 		));
@@ -298,7 +298,7 @@ switch($paramAction)
 		));
 
 		$url = ROOT.'/article/index/';
-		$url .= ($_POST[module_srl]) ? $_POST[module_srl].'/' : '';
+		$url .= ($_POST[nest_srl]) ? $_POST[nest_srl].'/' : '';
 		$url .= ($_POST[category_srl]) ? $_POST[category_srl].'/' : '';
 		$util->redirect($url);
 		break;

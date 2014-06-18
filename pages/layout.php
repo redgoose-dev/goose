@@ -22,8 +22,8 @@ if(!defined("GOOSE")){exit();}
 		<h1><a href="<?=ROOT?>/">Goose</a></h1>
 		<nav>
 			<ul>
-				<li><a href="<?=ROOT?>/module/index/">Modules</a></li>
-				<li><a href="<?=ROOT?>/users/index/">Users</a></li>
+				<li><a href="<?=ROOT?>/nest/index/">Nest</a></li>
+				<li><a href="<?=ROOT?>/user/index/">User</a></li>
 				<li><a href="<?=ROOT?>/json/index/">JSON</a></li>
 				<li><a href="<?=ROOT?>/api/">API</a></li>
 				<li><a href="<?=ROOT?>/help/">Help</a></li>

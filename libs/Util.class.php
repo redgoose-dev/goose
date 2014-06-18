@@ -215,8 +215,8 @@ class Util {
 		$str .= "\t'extraVar' => '".$post['dbPrefix']."extraVar',\n";
 		$str .= "\t'files' => '".$post['dbPrefix']."files',\n";
 		$str .= "\t'users' => '".$post['dbPrefix']."users',\n";
-		$str .= "\t'moduleGroups' => '".$post['dbPrefix']."moduleGroups',\n";
-		$str .= "\t'modules' => '".$post['dbPrefix']."modules',\n";
+		$str .= "\t'nestGroups' => '".$post['dbPrefix']."nestGroups',\n";
+		$str .= "\t'nests' => '".$post['dbPrefix']."nests',\n";
 		$str .= "\t'tempFiles' => '".$post['dbPrefix']."tempFiles',\n";
 		$str .= "\t'jsons' => '".$post['dbPrefix']."jsons'\n";
 		$str .= ");\n";

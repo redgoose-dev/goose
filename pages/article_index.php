@@ -1,33 +1,33 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$module_srl = (int)$routePapameters['param0'];
+$nest_srl = (int)$routePapameters['param0'];
 $category_srl = (int)$routePapameters['param1'];
 
-if ($module_srl)
+if ($nest_srl)
 {
-	$module = $spawn->getItem(array(
+	$nest = $spawn->getItem(array(
 		'field' => 'srl,group_srl,name,useCategory,listCount,thumnailSize',
-		'table' => $tablesName[modules],
-		'where' => 'srl='.$module_srl
+		'table' => $tablesName[nests],
+		'where' => 'srl='.$nest_srl
 	));
-	if ($module[srl])
+	if ($nest[srl])
 	{
-		$moduleName = '['.$module[name].'] ';
+		$nestName = '['.$nest[name].'] ';
 		$category = $spawn->getItems(array(
 			'table' => $tablesName[categories],
-			'where' => 'module_srl='.(int)$module[srl],
+			'where' => 'nest_srl='.(int)$nest[srl],
 			'order' => 'turn',
 			'sort' => 'asc'
 		));
 	}
 	else
 	{
-		$util->back('없는 모듈번호입니다.');
+		$util->back('없는 둥지번호입니다.');
 		exit;
 	}
 
-	$articleWhere = 'module_srl='.$module_srl;
+	$articleWhere = 'nest_srl='.$nest_srl;
 	$articleWhere .= ($category_srl) ? ' and category_srl='.$category_srl : '';
 }
 
@@ -62,9 +62,9 @@ if ($articleCount > 0)
 	<div class="hgroup">
 		<?
 		$url = ROOT.'/article/index/';
-		$url .= ($module_srl) ? $module_srl.'/' : '';
+		$url .= ($nest_srl) ? $nest_srl.'/' : '';
 		?>
-		<h1><a href="<?=$url?>"><?=$moduleName?>문서목록</a></h1>
+		<h1><a href="<?=$url?>"><?=$nestName?>문서목록</a></h1>
 	</div>
 
 	<?
@@ -83,7 +83,7 @@ if ($articleCount > 0)
 					$active = ($category_srl == $v[srl]) ? " class='active'" : "";
 					?>
 					<li<?=$active?>>
-						<a href="<?=ROOT?>/article/index/<?=$module_srl?>/<?=$v[srl]?>/"><?=$v[name]?>(<?=$cnt?>)</a>
+						<a href="<?=ROOT?>/article/index/<?=$nest_srl?>/<?=$v[srl]?>/"><?=$v[name]?>(<?=$cnt?>)</a>
 					</li>
 					<?
 				}
@@ -145,20 +145,20 @@ if ($articleCount > 0)
 				<nav class="btngroup">
 					<?
 					$url = ROOT.'/article/create/';
-					$url .= ($module_srl) ? $module_srl.'/' : '';
+					$url .= ($nest_srl) ? $nest_srl.'/' : '';
 					$url .= ($category_srl) ? $category_srl.'/' : '';
 					?>
 					<span><a href="<?=$url?>" class="ui-button btn-highlight">글쓰기</a></span>
 					<?
-					$url = ROOT.'/module/index/';
-					$url .= ($module[group_srl]) ? $module[group_srl].'/' : '';
+					$url = ROOT.'/nest/index/';
+					$url .= ($nest[group_srl]) ? $nest[group_srl].'/' : '';
 					?>
-					<span><a href="<?=$url?>" class="ui-button">모듈목록</a></span>
+					<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
 					<?
 					if (count($category) > 0)
 					{
 						$url = ROOT.'/category/index/';
-						$url .= ($module_srl) ? $module_srl.'/' : '';
+						$url .= ($nest_srl) ? $nest_srl.'/' : '';
 						echo "<span><a href='$url' class='ui-button'>분류목록</a></span>";
 					}
 					?>

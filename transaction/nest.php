@@ -3,13 +3,13 @@ if(!defined("GOOSE")){exit();}
 
 if (!$_POST[name] and $paramAction!='delete')
 {
-	$util->back('[모듈이름]항목이 비었습니다.');
+	$util->back('[둥지이름]항목이 비었습니다.');
 	exit;
 }
 
-if (!$_POST[module_srl] and $paramAction!='create')
+if (!$_POST[nest_srl] and $paramAction!='create')
 {
-	$util->back('module_srl값이 없습니다.');
+	$util->back('nest_srl값이 없습니다.');
 	exit;
 }
 
@@ -25,14 +25,14 @@ switch($paramAction)
 	case 'create':
 		$regdate = date("YmdHis");
 		
-		// module id check
+		// nest id check
 		if (!$_POST[id])
 		{
 			$util->back('id값이 없습니다.');
 			exit;
 		}
 		$cnt = $spawn->getCount(array(
-			table => $tablesName[modules],
+			table => $tablesName['nests'],
 			where => "id='$_POST[id]'"
 		));
 		if ($cnt > 0)
@@ -43,7 +43,7 @@ switch($paramAction)
 		
 		// insert data
 		$dd = $spawn->insert(array(
-			table => $tablesName['modules'],
+			table => $tablesName['nests'],
 			data => array(
 				srl => null,
 				group_srl => (int)$_POST['group_srl'],
@@ -59,23 +59,23 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/module/index/');
+		$util->redirect(ROOT.'/nest/index/');
 		break;
 
 
 	// modify
 	case 'modify':
 		$spawn->update(array(
-			table => $tablesName[articles],
-			where => 'module_srl='.(int)$_POST[module_srl],
+			table => $tablesName['articles'],
+			where => 'nest_srl='.(int)$_POST[nest_srl],
 			data => array(
-				"group_srl=$_POST[module_srl]"
+				"group_srl=$_POST[nest_srl]"
 			)
 		));
 
 		$result = $spawn->update(array(
-			table => $tablesName[modules],
-			where => 'srl='.(int)$_POST[module_srl],
+			table => $tablesName[nests],
+			where => 'srl='.(int)$_POST[nest_srl],
 			data => array(
 				"group_srl=$_POST[group_srl]",
 				"name='$_POST[name]'",
@@ -88,7 +88,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/module/index/'.$_POST[group_srl].'/');
+		$util->redirect(ROOT.'/nest/index/'.$_POST[group_srl].'/');
 		break;
 
 
@@ -96,7 +96,7 @@ switch($paramAction)
 	case 'delete':
 		$articles = $spawn->getItems(array(
 			table => $tablesName[articles],
-			where => 'module_srl='.(int)$_POST[module_srl]
+			where => 'nest_srl='.(int)$_POST[nest_srl]
 		));
 
 		foreach ($articles as $k=>$v)
@@ -139,21 +139,21 @@ switch($paramAction)
 		}
 		$spawn->delete(array(
 			table => $tablesName[categories],
-			where => 'module_srl='.(int)$_POST[module_srl]
+			where => 'nest_srl='.(int)$_POST[nest_srl]
 		));
 		$spawn->delete(array(
 			table => $tablesName[extraKeys],
-			where => 'module_srl='.(int)$_POST[module_srl]
+			where => 'nest_srl='.(int)$_POST[nest_srl]
 		));
 		$spawn->delete(array(
 			table => $tablesName[articles],
-			where => 'module_srl='.(int)$_POST[module_srl]
+			where => 'nest_srl='.(int)$_POST[nest_srl]
 		));
 		$spawn->delete(array(
-			table => $tablesName[modules],
-			where => 'srl='.(int)$_POST[module_srl]
+			table => $tablesName[nests],
+			where => 'srl='.(int)$_POST[nest_srl]
 		));
 
-		$util->redirect(ROOT.'/module/index/');
+		$util->redirect(ROOT.'/nest/index/');
 		break;
 }

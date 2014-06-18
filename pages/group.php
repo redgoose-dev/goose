@@ -4,31 +4,31 @@ if(!defined("GOOSE")){exit();}
 // index
 if ($paramAction == 'index')
 {
-	$itemCount = $spawn->getCount(array('table'=>$tablesName[moduleGroups]));
+	$itemCount = $spawn->getCount(array('table'=>$tablesName[nestGroups]));
 ?>
 	<section>
 		<div class="hgroup">
-			<h1>모듈그룹 목록</h1>
+			<h1>둥지그룹 목록</h1>
 		</div>
 		<ul class="index">
 			<?
 			if ($itemCount > 0)
 			{
 				$itemIndex = $spawn->getItems(array(
-					'table' => $tablesName[moduleGroups],
+					'table' => $tablesName[nestGroups],
 					'order' => 'srl',
 					'sort' => 'asc'
 				));
 				foreach ($itemIndex as $k=>$v)
 				{
-					$moduleCount = $spawn->getCount(array(
-						'table' => $tablesName[modules],
+					$nestCount = $spawn->getCount(array(
+						'table' => $tablesName[nests],
 						'where' => 'group_srl='.(int)$v[srl]
 					));
 				?>
 					<li>
 						<div class="body">
-							<strong><?=$v[srl]?> - <?=$v[name]?>(<?=$moduleCount?>)</strong>
+							<strong><?=$v[srl]?> - <?=$v[name]?>(<?=$nestCount?>)</strong>
 							<nav>
 								<a href="<?=ROOT?>/group/modify/<?=$v[srl]?>/">수정</a>
 								<a href="<?=ROOT?>/group/delete/<?=$v[srl]?>/">삭제</a>
@@ -46,7 +46,7 @@ if ($paramAction == 'index')
 		</ul>
 		<nav class="btngroup">
 			<span><a href="<?=ROOT?>/group/create/" class="ui-button btn-highlight">그룹추가</a></span>
-			<span><a href="<?=ROOT?>/module/index/" class="ui-button">모듈목록</a></span>
+			<span><a href="<?=ROOT?>/nest/index/" class="ui-button">둥지목록</a></span>
 		</nav>
 	</section>
 <?
@@ -62,7 +62,7 @@ else
 ?>
 	<section class="form">
 		<div class="hgroup">
-			<h1>모듈그룹 <?=$titleType?></h1>
+			<h1>둥지그룹 <?=$titleType?></h1>
 		</div>
 		<form action="<?=ROOT?>/group/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this); return false;">
 			<input type="hidden" name="group_srl" value="<?=$group_srl?>"/>
@@ -71,7 +71,7 @@ else
 			{
 				$group = $spawn->getItem(array(
 					'field' => 'name',
-					'table' => $tablesName[moduleGroups],
+					'table' => $tablesName[nestGroups],
 					'where' => 'srl='.$group_srl
 				));
 			}

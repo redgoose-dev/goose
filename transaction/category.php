@@ -10,29 +10,29 @@ switch($paramAction)
 			$util->back('[제목]항목이 비었습니다.');
 			exit;
 		}
-		if (!$_POST[module_srl])
+		if (!$_POST[nest_srl])
 		{
-			$util->back('module_srl값이 없습니다.');
+			$util->back('nest_srl값이 없습니다.');
 			exit;
 		}
 
 		$regdate = date("YmdHis");
 		$turn = $spawn->getCount(array(
 			'table' => $tablesName[categories],
-			'where' => 'module_srl='.$_POST[module_srl]
+			'where' => 'nest_srl='.$_POST[nest_srl]
 		));
 
 		$spawn->insert(array(
 			'table' => $tablesName[categories],
 			'data' => array(
 				'srl' => null,
-				'module_srl' => $_POST[module_srl],
+				'nest_srl' => $_POST[nest_srl],
 				'turn' => $turn,
 				'name' => $_POST[name],
 				'regdate' => $regdate
 			)
 		));
-		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/');
+		$util->redirect(ROOT.'/category/index/'.$_POST[nest_srl].'/');
 		break;
 
 
@@ -48,7 +48,7 @@ switch($paramAction)
 			'where' => 'srl='.$_POST[category_srl],
 			'data' => array("name='$_POST[name]'")
 		));
-		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/');
+		$util->redirect(ROOT.'/category/index/'.$_POST[nest_srl].'/');
 		break;
 
 
@@ -66,7 +66,7 @@ switch($paramAction)
 		$category = $spawn->getItems(array(
 			'field' => 'srl,turn',
 			'table' => $tablesName[categories],
-			'where' => 'module_srl='.$_POST[module_srl],
+			'where' => 'nest_srl='.$_POST[nest_srl],
 			'order' => 'turn',
 			'sort' => 'asc'
 		));
@@ -80,7 +80,7 @@ switch($paramAction)
 			));
 			$n++;
 		}
-		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/');
+		$util->redirect(ROOT.'/category/index/'.$_POST[nest_srl].'/');
 		break;
 
 
@@ -97,7 +97,7 @@ switch($paramAction)
 					'data' => array('turn='.$i)
 				));
 			}
-			$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/');
+			$util->redirect(ROOT.'/category/index/'.$_POST[nest_srl].'/');
 		}
 		else
 		{
