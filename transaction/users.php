@@ -52,26 +52,29 @@ switch($paramAction)
 	case 'modify':
 		// check value
 		$filters = array('name', 'email', 'level');
-		if (($_SESSION['gooseLevel'] > 1))
-		{
-			$filters[] = 'pw';
-		}
 		$errorValue = $util->checkExistValue($_POST, $filters);
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
 		}
-
-		$updateData = array();
-		$updateData[] = "name='".$_POST['name']."'";
-		$updateData[] = "level='".$_POST['level']."'";
-		$updateData[] = ($_POST['pw']) ? "pw='".md5($_POST['pw'])."'" : null;
+		
+		if ($_SESSION['gooseEmail'] != $_POST['email'])
+		{
+			if ($_SESSION['gooseLevel'] <= $adminLevel)
+			{
+				$util->back("수정할 수 있는 권한이 없습니다.");
+			}
+		}
 
 		// update db
 		$result = $spawn->update(array(
 			table => $tablesName['users'],
 			where => 'srl='.(int)$_POST['user_srl'],
-			data => $updateData
+			data => array(
+				"name='".$_POST['name']."'",
+				"level='".$_POST['level']."'",
+				($_POST['pw']) ? "pw='".md5($_POST['pw'])."'" : null
+			)
 		));
 
 		$util->redirect(ROOT.'/users/index/');
