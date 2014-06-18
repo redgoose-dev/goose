@@ -65,11 +65,11 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
-		$spawn->update(array(
+		$result = $spawn->update(array(
 			table => $tablesName['articles'],
 			where => 'nest_srl='.(int)$_POST[nest_srl],
 			data => array(
-				"group_srl=$_POST[nest_srl]"
+				"group_srl=".(int)$_POST[group_srl]
 			)
 		));
 
