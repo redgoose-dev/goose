@@ -73,7 +73,7 @@ switch($paramAction)
 			)
 		));
 
-		$dd = $spawn->update(array(
+		$result = $spawn->update(array(
 			table => $tablesName[modules],
 			where => 'srl='.(int)$_POST[module_srl],
 			data => array(
