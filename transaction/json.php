@@ -40,7 +40,7 @@ switch($paramAction)
 		));
 
 		// go to index
-		$util->redirect(ROOT.'/json/index/', '등록완료');
+		$util->redirect(ROOT.'/json/index/');
 		break;
 
 	// modify
@@ -54,7 +54,7 @@ switch($paramAction)
 				"regdate=$regdate",
 			), debug => false
 		));
-		$util->redirect(ROOT.'/json/view/'.$_POST[srl].'/', '수정완료');
+		$util->redirect(ROOT.'/json/view/'.$_POST[srl].'/');
 		break;
 
 	// delete

@@ -88,7 +88,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/module/index/'.$_POST[group_srl].'/', '수정완료');
+		$util->redirect(ROOT.'/module/index/'.$_POST[group_srl].'/');
 		break;
 
 
@@ -154,6 +154,6 @@ switch($paramAction)
 			where => 'srl='.(int)$_POST[module_srl]
 		));
 
-		$util->redirect(ROOT.'/module/index/', '삭제완료');
+		$util->redirect(ROOT.'/module/index/');
 		break;
 }

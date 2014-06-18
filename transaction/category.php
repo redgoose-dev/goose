@@ -32,7 +32,7 @@ switch($paramAction)
 				'regdate' => $regdate
 			)
 		));
-		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/', '등록완료');
+		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/');
 		break;
 
 
@@ -48,7 +48,7 @@ switch($paramAction)
 			'where' => 'srl='.$_POST[category_srl],
 			'data' => array("name='$_POST[name]'")
 		));
-		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/', '수정완료');
+		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/');
 		break;
 
 
@@ -80,7 +80,7 @@ switch($paramAction)
 			));
 			$n++;
 		}
-		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/', '삭제완료');
+		$util->redirect(ROOT.'/category/index/'.$_POST[module_srl].'/');
 		break;
 
 
