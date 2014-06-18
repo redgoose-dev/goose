@@ -59,7 +59,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/module/index/', '등록완료');
+		$util->redirect(ROOT.'/module/index/');
 		break;
 
 
