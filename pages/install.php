@@ -38,6 +38,7 @@
 				<span><input type="text" name="dbPrefix" maxlength="20" value="GOOSE_" /></span>
 			</label>
 		</fieldset>
+
 		<fieldset>
 			<legend>관리자 정보</legend>
 			<label>
@@ -57,6 +58,7 @@
 				<span><input type="password" name="password2" maxlength="20" /></span>
 			</label>
 		</fieldset>
+
 		<fieldset>
 			<legend>API</legend>
 			<label>
