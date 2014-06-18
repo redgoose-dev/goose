@@ -239,7 +239,7 @@ $result = $spawn->action("
 			'".$_POST['name']."',
 			'".$_POST['email']."',
 			'".md5($_POST['password'])."',
-			'9',
+			'1',
 			'".date('YmdHis')."'
 		)
 	");

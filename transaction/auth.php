@@ -9,13 +9,14 @@ switch ($paramAction)
 		$auth = $spawn->getItem(array(
 			field => '*',
 			table => $tablesName[users],
-			where => "email='". $_POST['email'] ."' and level='9'"
+			where => "email='". $_POST['email'] ."' and level='1'"
 		));
 
 		if ($auth[pw] == $pw)
 		{
-			$_SESSION['gooseEmail'] = $auth[email];
-			$_SESSION['gooseName'] = $auth[name];
+			$_SESSION['gooseEmail'] = $auth['email'];
+			$_SESSION['gooseName'] = $auth['name'];
+			$_SESSION['gooseLevel'] = $auth['level'];
 			$util->redirect($_POST['redir']);
 		}
 		else
@@ -27,6 +28,7 @@ switch ($paramAction)
 	case 'logout':
 		session_unset("gooseEmail");
 		session_unset("gooseName");
+		session_unset("gooseLevel");
 		$util->redirect(ROOT."/");
 		break;
 }
