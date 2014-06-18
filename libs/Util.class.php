@@ -9,6 +9,11 @@ class Util {
 		$this->start_time = array_sum(explode(' ', microtime()));
 	}
 
+	private function typeCheck($obj)
+	{
+		return (is_array($obj)) ? json_encode($obj) : "'" . $obj . "'";
+	}
+
 	// error
 	public function error($code=404)
 	{
@@ -27,11 +32,7 @@ class Util {
 	// console.log
 	public function console($obj)
 	{
-		function typeCheck($obj)
-		{
-			return (is_array($obj)) ? json_encode($obj) : "'" . $obj . "'";
-		}
-		echo "<script type='text/javascript'>console.log(" . typeCheck($obj) . ");</script>";
+		echo "<script type='text/javascript'>console.log(" . $this->typeCheck($obj) . ");</script>";
 	}
 
 	// alert message
@@ -172,6 +173,22 @@ class Util {
 			}
 		}
 		return $result;
+	}
+
+	// 배열속에 필수값이 들어있는지 확인
+	public function checkExistValue($target, $required=null)
+	{
+		if ($required)
+		{
+			foreach ($required as $k=>$v)
+			{
+				if (array_key_exists($v, $target) && !$target[$v])
+				{
+					return $v;
+				}
+			}
+		}
+		return false;
 	}
 }
 ?>
