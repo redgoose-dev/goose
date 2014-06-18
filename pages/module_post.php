@@ -113,7 +113,6 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					<?
 					if ($module[id])
 					{
-						$disabled = ' ipt-disabled';
 						$attr = ' value="'.$module[id].'" readonly';
 					}
 					?>
