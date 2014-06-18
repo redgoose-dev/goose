@@ -35,38 +35,6 @@ function checkPost()
 	return true;
 }
 
-/**
- * Create config value
- * 
- * @return String : user.php 내용
- */
-function createConfig()
-{
-	global $root, $url;
-
-	$str = "<?php\n";
-	$str .= "if(!defined(\"GOOSE\")){exit();}\n";
-	$str .= "\n";
-	$str .= "define('ROOT', '$root');\n";
-	$str .= "define('URL', '$url');\n";
-	$str .= "\n";
-	$str .= "\$dbConfig = array('mysql:dbname=".$_POST['dbName'].";host=".$_POST['dbHost']."', '".$_POST['dbId']."', '".$_POST['dbPassword']."');\n";
-	$str .= "\$tablesName = array(\n";
-	$str .= "\t'articles' => '".$_POST['dbPrefix']."articles',\n";
-	$str .= "\t'categories' => '".$_POST['dbPrefix']."categories',\n";
-	$str .= "\t'extraKey' => '".$_POST['dbPrefix']."extraKey',\n";
-	$str .= "\t'extraVar' => '".$_POST['dbPrefix']."extraVar',\n";
-	$str .= "\t'files' => '".$_POST['dbPrefix']."files',\n";
-	$str .= "\t'users' => '".$_POST['dbPrefix']."users',\n";
-	$str .= "\t'moduleGroups' => '".$_POST['dbPrefix']."moduleGroups',\n";
-	$str .= "\t'modules' => '".$_POST['dbPrefix']."modules',\n";
-	$str .= "\t'tempFiles' => '".$_POST['dbPrefix']."tempFiles',\n";
-	$str .= "\t'jsons' => '".$_POST['dbPrefix']."jsons'\n";
-	$str .= ");\n";
-	$str .= "\$api_key = \"".$_POST['apiPrefix']."\";\n";
-	$str .= "?>";
-	return $str;
-}
 
 // 파일 만들기
 if (checkPost() == true)
@@ -78,8 +46,10 @@ if (checkPost() == true)
 	$util->createDirectory(PWD."/data/thumnail", 0777);
 
 	// create user.php
-	$fileResult = $util->fop(PWD.'/data/config/user.php', 'w', createConfig());
-	if ($fileResult != 'success')
+	$_POST['root'] = $root;
+	$_POST['url'] = $url;
+	$_POST['adminLevel'] = 1;
+	if ($util->createUserFile($_POST, PWD.'/data/config/user.php') != 'success')
 	{
 		$util->out();
 	}
