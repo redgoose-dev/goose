@@ -7,13 +7,11 @@ if(!defined("GOOSE")){exit();}
 <head>
 <meta charset="utf-8">
 <title>Goose Admin</title>
-<link rel="icon" type="image/x-icon" href="/icons/redgoose_256x256x32.png">
 <meta name="author" content="Goose Admin">
 <meta name="generator" content="redgoose">
 <meta http-equiv="Content-Language" content="kr">
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <link rel="stylesheet" type="text/css" href="<?=ROOT?>/pages/src/css/layout.css" media="screen" />
-<script>function log(o){console.log(o);}</script>
 </head>
 <body>
 <main>
