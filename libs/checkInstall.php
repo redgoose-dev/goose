@@ -15,10 +15,7 @@ if (!file_exists(PWD."/data/config/user.php"))
 	else
 	{
 		require_once(PWD.'/pages/install.php');
-	}	
-	exit;
+	}
+	$util->out();
 }
-
-// go to init
-require_once(PWD.'/libs/init.php');
 ?>
