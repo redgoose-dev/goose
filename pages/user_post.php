@@ -41,8 +41,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 			<fieldset>
 				<legend class="blind">사용자 <?=$titleType?></legend>
 				<dl class="table">
-					<dt><label for="name">이름</label></dt>
-					<dd><input type="text" name="name" id="name" size="20" maxlength="20" placeholder="사용자 이름을 입력하세요." value="<?=$user['name']?>" /></dd>
+					<dt><label for="name">닉네임</label></dt>
+					<dd><input type="text" name="name" id="name" size="20" maxlength="20" placeholder="닉네임을 입력하세요." value="<?=$user['name']?>" /></dd>
 				</dl>
 				<?
 				$attr = ($user['email']) ? ' readonly' : '';
