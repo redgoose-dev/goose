@@ -124,6 +124,7 @@ $result = $spawn->action("
 		`info` varchar(250) default null,
 		`formType` int(11) default null,
 		`defaultValue` varchar(250) default null,
+		`required` int(1) not null default '0',
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
@@ -135,6 +136,7 @@ if ($result != 'success')
 // create table "extraVar"
 $result = $spawn->action("
 	create table `".$tablesName['extraVar']."` (
+		`srl` bigint(11) not null auto_increment,
 		`article_srl` bigint(11) default null,
 		`key_srl` bigint(11) default null,
 		`value` longtext not null
