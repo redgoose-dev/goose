@@ -13,7 +13,7 @@ else if ($routePapameters['param0'])
 else
 {
 	$util->back('값이 없습니다.');
-	exit;
+	$util->out();
 }
 
 $nest = $spawn->getItem(array(
@@ -25,11 +25,10 @@ $nestName = ($nest[name]) ? '['.$nest[name].'] ' : null;
 
 if ($paramAction !== 'create')
 {
-
 	if (!$category_srl)
 	{
-		$util->back('category값이 없습니다.');
-		exit;
+		$util->back('category_srl값이 없습니다.');
+		$util->out();
 	}
 	$category = $spawn->getItem(array(
 		'table' => $tablesName[categories],
@@ -45,7 +44,7 @@ $titleType = getActionType($paramAction);
 		<h1><?=$nestName?>분류<?=$titleType?></h1>
 	</div>
 
-	<form action="<?=ROOT?>/category/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this); return false;">
+	<form action="<?=ROOT?>/category/<?=$paramAction?>/" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
 		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>"/>
 		<input type="hidden" name="category_srl" value="<?=$category_srl?>"/>
@@ -53,12 +52,6 @@ $titleType = getActionType($paramAction);
 		if ($paramAction == "delete")
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				return true;
-			}
-			</script>
 			<fieldset>
 				<legend class="blind">분류<?=$titleType?></legend>
 				<p class="message">"<?=$category[name]?>"분류를 삭제하시겠습니까? 삭제된 분류는 복구할 수 없습니다.</p>
@@ -68,17 +61,6 @@ $titleType = getActionType($paramAction);
 		else
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				if (!frm.name.value)
-				{
-					alert('이름 항목이 비었습니다.');
-					frm.name.focus();
-					return false;
-				}
-			}
-			</script>
 			<fieldset>
 				<legend class="blind">분류<?=$titleType?></legend>
 				<dl class="table">
@@ -95,3 +77,21 @@ $titleType = getActionType($paramAction);
 		</nav>
 	</form>
 </section>
+
+<?
+if ($paramAction != "delete")
+{
+?>
+	<script src="<?=$jQueryAddress?>"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script>
+	jQuery('#regsterForm').validate({
+		rules : {
+			name : {required : true, minlength : 3}
+		}
+	});
+	</script>
+<?
+}
+?>
