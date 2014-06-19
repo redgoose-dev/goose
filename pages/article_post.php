@@ -34,54 +34,56 @@ else if ($paramAction == 'modify')
 $nestName = '['.$nest[name].'] ';
 $titleType = getActionType($paramAction);
 
-function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
+/**
+ 확장변수 폼 만들어주는 함수
+ */
+function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="", $required=null)
 {
+	$requiredAttr = ($required == 1) ? 'required' : '';
+
 	switch ($n)
 	{
-		// 한줄입력칸
+		// 한줄입력칸 (input[type=text])
 		case 0:
 			$value = ($selectVar) ? $selectVar : $keyValue;
-			$str = "<span class='ipt-text ipt-block'><input type='text' name='$keyName' value='$value'/></span>";
+			$str = "<input type=\"text\" name=\"$keyName\" id=\"$keyName\" value=\"$value\" class=\"block\" $requiredAttr />";
 			break;
 
-		// 여러줄입력칸
+		// 여러줄입력칸 (textarea)
 		case 1:
 			$value = ($selectVar) ? $selectVar : $keyValue;
-			$str = "<span class='ipt-text ipt-ta ipt-block'><textarea name='$keyName'>$value</textarea></span>";
+			$str = "<textarea name=\"$keyName\" id=\"$keyName\" class=\"block\" $requiredAttr>$value</textarea>";
 			break;
 
-		// 단일선택
+		// 단일선택 (select)
 		case 2:
 			$arr = explode(",", $keyValue);
-			$str = "<span class='iptSelect'>";
-			$str .= "<select name='$keyName' id='$keyName'>";
-			$str .= "<option value=''>선택하세요.</option>";
+			$str .= "<select name=\"$keyName\" id=\"$keyName\" $requiredAttr>";
+			$str .= "<option value=\"\">선택하세요.</option>";
 			for ($i=0; $i<count($arr); $i++)
 			{
-				$str .= ($selectVar == $arr[$i]) ? "<option value='$arr[$i]' selected='selected'>$arr[$i]</option>" : "<option value='$arr[$i]'>$arr[$i]</option>";
+				$selected = ($selectVar == $arr[$i]) ? 'selected' : '';
+				$str .= "<option value=\"$arr[$i]\" $selected>$arr[$i]</option>";
 			}
 			$str .= "</select>";
-			$str .= "</span>";
 			break;
 	}
 	return $str;
 }
 ?>
 
+<script src="<?=$jQueryAddress?>"></script>
+
 <section class="form">
 	<div class="hgroup">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>
 
-	<form name="writeForm" action="<?=ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data" onsubmit="return onCheck(this);">
+	<form name="writeForm" id="regsterForm" action="<?=ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
 		<input type="hidden" name="page" value="<?=$_GET[page]?>" />
-		<input type="hidden" name="addQueue" />
-		<input type="hidden" name="thumnail_srl" />
-		<input type="hidden" name="thumnail_image" />
-		<input type="hidden" name="thumnail_coords" value="<?=$article[thumnail_coords]?>" />
 		<fieldset>
 			<legend class="blind">문서<?=$titleType?></legend>
 			<?
@@ -102,14 +104,8 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 							));
 							foreach($items as $k=>$v)
 							{
-								if ($article[category_srl]==$v[srl] or $category_srl==$v[srl])
-								{
-									echo '<option value="'.$v[srl].'" selected>'.$v[name].'</option>';
-								}
-								else
-								{
-									echo '<option value="'.$v[srl].'">'.$v[name].'</option>';
-								}
+								$selected = ($article[category_srl]==$v[srl] or $category_srl==$v[srl]) ? 'selected' : '';
+								echo "<option value=\"$v[srl]\" $selected>$v[name]</option>";
 							}
 							?>
 						</select>
@@ -143,7 +139,7 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 		if ($nest[useExtraVar] == 1)
 		{
 			$extraCount = $spawn->getCount(array(
-				'table' => $tablesName[extraKeys],
+				'table' => $tablesName[extraKey],
 				'where' => 'nest_srl='.$nest[srl]
 			));
 			if ($extraCount > 0)
@@ -151,33 +147,36 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 		?>
 				<!-- 확장변수 폼 -->
 				<input type="hidden" name="useExtraVar" value="1" />
-				<fieldset class='extraForm'>
-					<h1>확장변수<?=$titleType?></h1>
-					<ul>
-						<?
-						$items = $spawn->getItems(array(
-							'table' => $tablesName[extraKeys],
-							'where' => 'nest_srl='.$nest[srl],
-							'order' => 'turn',
-							'sort' => 'asc'
-						));
-						foreach($items as $k=>$v)
-						{
-							$extVar = ($article[srl]) ? $spawn->getItem(array(
-								'table' => $tablesName[extraVars],
-								'where' => 'article_srl='.$article[srl].' and key_srl='.(int)$v[srl]
-							)) : null;
-							$defaultValue = ($paramAction=='create' or $v[formType]==2) ? $v[defaultValue] : '';
-							?>
-							<li>
-								<label for="<?=$v[keyName]?>"><?=$v[name]?></label>
-								<?=extraKeyTypePrint($v[formType], 'ext_'.$v[keyName], $defaultValue, $extVar[value])?>
-								<p><?=$v[info]?></p>
-							</li>
-							<?
-						}
+				<fieldset style="margin-top:30px">
+					<legend>추가 입력항목</legend>
+					<?
+					$items = $spawn->getItems(array(
+						'table' => $tablesName[extraKey],
+						'where' => 'nest_srl='.$nest[srl],
+						'order' => 'turn',
+						'sort' => 'asc'
+					));
+					foreach($items as $k=>$v)
+					{
+						$extVar = ($article[srl]) ? $spawn->getItem(array(
+							'table' => $tablesName[extraVars],
+							'where' => 'article_srl='.$article[srl].' and key_srl='.(int)$v[srl]
+						)) : null;
+						$defaultValue = ($paramAction=='create' or $v[formType]==2) ? $v[defaultValue] : '';
+						$requiredClass = ($v[required]) ? 'class="required"' : '';
 						?>
-					</ul>
+						<dl class="table<?=($k==0)?' first':''?>">
+							<dt>
+								<label for="ext_<?=$v[keyName]?>" <?=$requiredClass?>><?=$v[name]?></label>
+							</dt>
+							<dd>
+								<?=extraKeyTypePrint($v[formType], 'ext_'.$v[keyName], $defaultValue, $extVar[value], $v[required])?>
+								<p><?=$v[info]?></p>
+							</dd>
+						</dl>
+						<?
+					}
+					?>
 				</fieldset>
 				<!-- // 확장변수 폼 -->
 		<?
@@ -190,3 +189,14 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="")
 		</nav>
 	</form>
 </article>
+
+<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
+<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+<script>
+jQuery('#regsterForm').validate({
+	rules : {
+		title : {required : true, minlength : 5}
+		,content : {required : true}
+	}
+});
+</script>
