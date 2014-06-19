@@ -39,10 +39,15 @@ else
 				?>
 					<li srl="<?=$v[srl]?>">
 						<div class="body">
-							<strong>[<?=$v[keyName]?>] <?=$v[name]?></strong>
+							<strong>
+								<?=$v[keyName]?>
+								-
+								<?=($v[required]) ? '(필수)' : ''?>
+								<?=$v[name]?>
+							</strong>
 							<div class="inf">
 								<p>형식 : <?=$extraKeyTypeArray[$n]?></p>
-								<p>기본값 : <?=$v[defaultValue]?></p>
+								<?=($v[defaultValue]) ? "<p>기본값 : $v[defaultValue]</p>" : ""?>
 								<p>설명 : <?=$v[info]?></p>
 							</div>
 							<nav>

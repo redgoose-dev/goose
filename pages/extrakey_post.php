@@ -1,4 +1,4 @@
-<?
+<?php
 if(!defined("GOOSE")){exit();}
 
 if ($routePapameters['param1'])
@@ -13,7 +13,7 @@ else if ($routePapameters['param0'])
 else
 {
 	$util->back('값이 없습니다.');
-	exit;
+	$util->out();
 }
 
 // get nest
@@ -28,10 +28,10 @@ if ($paramAction != 'create')
 	if (!$extra_srl)
 	{
 		$util->back('extrakey값이 없습니다.');
-		exit;
+		$util->out();
 	}
 	$extrakey = $spawn->getItem(array(
-		'table' => $tablesName[extraKeys],
+		'table' => $tablesName[extraKey],
 		'where' => 'srl='.$extra_srl
 	));
 }
@@ -44,7 +44,7 @@ $titleType = getActionType($paramAction);
 		<h1><?=$nestName?> 확장변수 <?=$titleType?></h1>
 	</div>
 	
-	<form action="<?=ROOT?>/extrakey/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this); return false;">
+	<form action="<?=ROOT?>/extrakey/<?=$paramAction?>/" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>" />
 		<input type="hidden" name="extra_srl" value="<?=$extra_srl?>" />
@@ -52,12 +52,6 @@ $titleType = getActionType($paramAction);
 		if ($paramAction == "delete")
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				return true;
-			}
-			</script>
 			<fieldset>
 				<legend class="blind">확장변수 <?=$titleType?></legend>
 				<p class="message">이 확장변수를 삭제하시겠습니까? 삭제된 확장변수는 복구할 수 없습니다.</p>
@@ -67,39 +61,6 @@ $titleType = getActionType($paramAction);
 		else
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				if (!frm.keyName.value)
-				{
-					alert('확장변수이름 항목이 비었습니다.');
-					frm.keyName.focus();
-					return false;
-				}
-			
-				if (!frm.keyName.value.match(/^[a-zA-Z0-9]+$/))
-				{
-					alert('확장변수이름은 영문으로 작성해주세요.');
-					frm.keyName.focus();
-					return false;
-				}
-				
-				if (frm.keyName.value.length < 4)
-				{
-					alert('확장변수이름의 글자수가 4자 이상이어야합니다.');
-					frm.keyName.focus();
-					return false;
-				}
-			
-				if (!frm.name.value)
-				{
-					alert('입력항목이름 항목이 비었습니다.');
-					frm.name.focus();
-					return false;
-				}
-			}
-			</script>
-
 			<fieldset>
 				<legend class="blind">확장변수 <?=$titleType?></legend>
 				<dl class="table">
@@ -117,17 +78,23 @@ $titleType = getActionType($paramAction);
 							<?
 							for ($i=0; $i<count($extraKeyTypeArray); $i++)
 							{
-								if ($extrakey[formType] == $i)
-								{
-									echo "<option value='$i' selected='selected'>$extraKeyTypeArray[$i]</option>";
-								}
-								else
-								{
-									echo "<option value='$i'>$extraKeyTypeArray[$i]</option>";
-								}
+								$selected = ($extrakey[formType] == $i) ? 'selected' : '';
+								echo "<option value='$i' $selected>$extraKeyTypeArray[$i]</option>";
 							}
 							?>
 						</select>
+					</dd>
+				</dl>
+				<dl class="table">
+					<dt><label for="required">필수항목</label></dt>
+					<dd>
+						<?
+						$check1 = ($extrakey[required] == '0') ? 'checked' : '';
+						$check2 = ($extrakey[required] == '1') ? 'checked' : '';
+						?>
+						<label>기본값 <input type="radio" name="required" value="0" <?=$check1?>/></label>
+						&nbsp;&nbsp;
+						<label>필수 <input type="radio" name="required" value="1" <?=$check2?>/></label>
 					</dd>
 				</dl>
 				<dl class="table">
@@ -151,3 +118,30 @@ $titleType = getActionType($paramAction);
 		</div>
 	</form>
 </section>
+
+<?
+if ($paramAction != "delete")
+{
+?>
+	<script src="<?=$jQueryAddress?>"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script>
+	jQuery(function($){
+		$.validator.addMethod("alphanumeric", function(value, element) {
+			return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+		});
+		$('#regsterForm').validate({
+			rules : {
+				keyName : {required : true, minlength : 4, alphanumeric : true}
+				,name : {required : true, minlength : 4}
+			}
+			,messages : {
+				keyName : {alphanumeric: '알파벳과 숫자만 사용가능합니다.'}
+			}
+		});
+	});
+	</script>
+<?
+}
+?>
