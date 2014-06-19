@@ -30,19 +30,12 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 	<div class="hgroup">
 		<h1>둥지<?=$titleType?></h1>
 	</div>
-	<form action="<?=ROOT?>/nest/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this);">
+	<form action="<?=ROOT?>/nest/<?=$paramAction?>/" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<?
 		if ($paramAction == "delete")
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				return true;
-			}
-			</script>
-
 			<fieldset>
 				<legend class="blind">둥지<?=$titleType?></legend>
 				<p class="message">"<?=$nest[name]?>"둥지를 삭제하시겠습니까? 삭제된 둥지는 복구할 수 없습니다.</p>
@@ -52,40 +45,6 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		else
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				if (!frm.id.value)
-				{
-					alert('둥지아이디 항목이 비었습니다.');
-					frm.id.focus();
-					return false;
-				}
-				
-				if (!frm.id.value.match(/^[a-zA-Z0-9]+$/))
-				{
-					alert('둥지아이디는 영문과 숫자로 작성해주세요.');
-					frm.id.focus();
-					return false;
-				}
-
-				if (!frm.name.value)
-				{
-					alert('둥지이름 항목이 비었습니다.');
-					frm.name.focus();
-					return false;
-				}
-				
-				if (!frm.listCount.value.match(/^[0-9]+$/))
-				{
-					alert('번호로 써주세요.');
-					frm.listCount.focus();
-					return false;
-				}
-				
-				return true;
-			}
-			</script>
 			<fieldset>
 				<legend class="blind">둥지<?=$titleType?></legend>
 				<dl class="table">
@@ -128,9 +87,12 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				<dl class="table">
 					<dt><label for="thumWidth">썸네일사이즈</label></dt>
 					<dd>
-						<input type="text" name="thumWidth" id="thumWidth" maxlength="4" size="5" value="<?=$thumnailSize[width]?>"/>
-						*
-						<input type="text" name="thumHeight" id="thumHeight" maxlength="4" size="5" value="<?=$thumnailSize[height]?>"/>
+						<p style="margin:0 0 5px">
+							<label>가로 : <input type="text" name="thumWidth" id="thumWidth" maxlength="4" size="5" value="<?=$thumnailSize[width]?>"/></label>
+						</p>
+						<p style="margin:5px 0 0">
+							<label>세로 : <input type="text" name="thumHeight" id="thumHeight" maxlength="4" size="5" value="<?=$thumnailSize[height]?>"/></label>
+						</p>
 					</dd>
 				</dl>
 				<dl class="table">
@@ -149,12 +111,10 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 							$thumType1 = ' checked = "checked"';
 						}
 						?>
-						
-							<label><input type="radio" name="thumType" id="thumType1" value="crop"<?=$thumType1?>/> 자르기</label>
-							<label><input type="radio" name="thumType" id="thumType2" value="resize"<?=$thumType2?>/> 리사이즈</label>
-							<label><input type="radio" name="thumType" id="thumType3" value="resizeWidth"<?=$thumType3?>/> 리사이즈(가로기준)</label>
-							<label><input type="radio" name="thumType" id="thumType4" value="resizeHeight"<?=$thumType4?>/> 리사이즈(세로기준)</label>
-						
+						<label><input type="radio" name="thumType" id="thumType1" value="crop"<?=$thumType1?>/> 자르기</label>
+						<label><input type="radio" name="thumType" id="thumType2" value="resize"<?=$thumType2?>/> 리사이즈</label>
+						<label><input type="radio" name="thumType" id="thumType3" value="resizeWidth"<?=$thumType3?>/> 리사이즈(가로기준)</label>
+						<label><input type="radio" name="thumType" id="thumType4" value="resizeHeight"<?=$thumType4?>/> 리사이즈(세로기준)</label>
 					</dd>
 				</dl>
 				<dl class="table">
@@ -212,3 +172,33 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		</nav>
 	</form>
 </section>
+
+<?
+if ($paramAction != "delete")
+{
+?>
+	<script src="<?=$jQueryAddress?>"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script>
+	jQuery(function($){
+		$.validator.addMethod("alphanumeric", function(value, element) {
+			return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+		});
+		$('#regsterForm').validate({
+			rules : {
+				id : {required : true, minlength : 4, alphanumeric : true}
+				,name : {required: true, minlength: 3}
+				,thumWidth : {required: true, minlength: 2, number: true}
+				,thumHeight : {required: true, minlength: 2, number: true}
+				,listCount : {required: true, number: true}
+			}
+			,messages : {
+				id : {alphanumeric: '알파벳과 숫자만 사용가능합니다.'}
+			}
+		});
+	});
+	</script>
+<?
+}
+?>

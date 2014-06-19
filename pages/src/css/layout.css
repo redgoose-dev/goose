@@ -38,7 +38,7 @@ a { color: #2281d8; }
 .ib { display: inline-block; }
 
 /* Forms */
-input[type=email], input[type=text], input[type=password], input[type=number], input[type=tel], textarea { margin: 2px 3px; padding: 6px 8px; font-size: 13px; color: #333; vertical-align: middle; background: white; border: 1px solid #acacac; box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.2); border-radius: 0; }
+input[type=email], input[type=text], input[type=password], input[type=number], input[type=tel], textarea { margin: 2px 3px; padding: 8px 8px; font-size: 13px; color: #333; vertical-align: middle; background: white; border: 1px solid #acacac; box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.2); border-radius: 0; }
 input[type=email].marginZero, input[type=text].marginZero, input[type=password].marginZero, input[type=number].marginZero, input[type=tel].marginZero, textarea.marginZero { margin: 0; }
 input[type=email].block, input[type=text].block, input[type=password].block, input[type=number].block, input[type=tel].block, textarea.block { width: 100%; margin-left: 0; margin-right: 0; }
 input[type=email][disabled], input[type=email][readonly], input[type=text][disabled], input[type=text][readonly], input[type=password][disabled], input[type=password][readonly], input[type=number][disabled], input[type=number][readonly], input[type=tel][disabled], input[type=tel][readonly], textarea[disabled], textarea[readonly] { background: #ddd; }
@@ -168,12 +168,14 @@ button.ui-button.block { width: 100%; }
 .form input[type=text], .form input[type=tel], .form input[type=email], .form input[type=password], .form textarea { margin: 0; }
 .form select { margin-left: 0; }
 .form fieldset > dl { margin: 15px 0; }
-.form fieldset > dl > dt { margin: 0 0 4px 3px; padding: 0; font-size: 14px; font-weight: 600; }
+.form fieldset > dl > dt { margin: 0 0 4px 3px; padding: 0; font-size: 14px; font-weight: 600; word-break: break-all; }
 .form fieldset > dl > dt:before { content: ''; display: inline-block; width: 5px; height: 10px; margin-right: 5px; background-image: url("../img/ico_arrow1.png"); background-position: 0 45%; background-repeat: no-repeat; background-size: 5px auto; }
 .form fieldset > dl > dd { margin: 3px 0 0 0; font-size: 13px; color: #666666; }
 .form fieldset > dl > dd p { margin: 4px 0 0 0; }
 .form fieldset > dl > dd .error { color: #e80000; }
 .form fieldset > dl > dd label.error { display: block; margin: 4px 0 0 0; }
+.form fieldset .required:before { content: '* '; }
+.form fieldset > legend { font-size: 18px; margin-bottom: 5px; }
 .form .message { color: #666666; font-size: 16px; margin: 0; padding: 30px 0 30px; border-bottom: 1px dashed #ddd; }
 
 /* Settings */
@@ -210,6 +212,7 @@ button.ui-button.block { width: 100%; }
   .index dl.noimg dd { margin-right: 90px; }
   .categories a { font-size: 13px; }
   .form fieldset > dl.table { display: table; width: 100%; margin: 0; border-bottom: 1px solid #ddd; }
+  .form fieldset > dl.table.first { border-top: 1px solid #ddd; }
   .form fieldset > dl.table > dt, .form fieldset > dl.table > dd { display: table-cell; vertical-align: middle; padding: 8px 0; }
-  .form fieldset > dl.table > dt { width: 130px; margin: 0; padding-left: 10px; font-size: 13px; }
+  .form fieldset > dl.table > dt { width: 130px; margin: 0; padding-left: 10px; padding-right: 10px; font-size: 13px; }
   .form fieldset > dl.table > dd { margin: 0; } }

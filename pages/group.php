@@ -64,7 +64,7 @@ else
 		<div class="hgroup">
 			<h1>둥지그룹 <?=$titleType?></h1>
 		</div>
-		<form action="<?=ROOT?>/group/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this); return false;">
+		<form action="<?=ROOT?>/group/<?=$paramAction?>/" method="post" id="regsterForm">
 			<input type="hidden" name="group_srl" value="<?=$group_srl?>"/>
 			<?
 			if ($group_srl)
@@ -79,12 +79,6 @@ else
 			if ($paramAction == 'delete')
 			{
 			?>
-				<script type="text/javascript">
-				function onCheck(frm)
-				{
-					return true;
-				}
-				</script>
 				<fieldset class="delete">
 					<legend class="blind">테이블 그룹<?=$postTitleArray[$type]?></legend>
 					<p class="message">"<?=$group[name]?>"그룹를 삭제하시겠습니까? 삭제된 그룹은 복구할 수 없습니다.</p>
@@ -94,17 +88,6 @@ else
 			else
 			{
 			?>
-				<script type="text/javascript">
-				function onCheck(frm)
-				{
-					if (!frm.name.value)
-					{
-						alert('이름 항목이 비었습니다.');
-						frm.name.focus();
-						return false;
-					}
-				}
-				</script>
 				<fieldset>
 					<legend class="blind">그룹<?=$titleType?></legend>
 					<dl class="table">
@@ -121,6 +104,24 @@ else
 			</nav>
 		</form>
 	</section>
+<?
+}
+
+if ($paramAction != "delete")
+{
+?>
+	<script src="<?=$jQueryAddress?>"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script>
+	jQuery(function($){
+		$('#regsterForm').validate({
+			rules : {
+				name : {required : true, minlength : 3}
+			}
+		});
+	});
+	</script>
 <?
 }
 ?>

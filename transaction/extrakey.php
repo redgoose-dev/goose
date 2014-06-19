@@ -43,7 +43,8 @@ switch($paramAction)
 				'name' => $_POST[name],
 				'info' => $_POST[info],
 				'formType' => $_POST[formType],
-				'defaultValue' => $_POST[defaultValue]
+				'defaultValue' => $_POST[defaultValue],
+				'required' => $_POST[required]
 			)
 		));
 
@@ -61,7 +62,8 @@ switch($paramAction)
 				"name='$_POST[name]'",
 				"info='$_POST[info]'",
 				"formType='$_POST[formType]'",
-				"defaultValue='$_POST[defaultValue]'"
+				"defaultValue='$_POST[defaultValue]'",
+				"required='$_POST[required]'"
 			)
 		));
 

@@ -176,6 +176,7 @@
 			> dt {
 				margin: 0 0 4px 3px; padding: 0;
 				font-size: 14px; font-weight: 600;
+				word-break: break-all;
 				&:before {
 					content: ''; display: inline-block;
 					width: 5px; height: 10px; margin-right: 5px;
@@ -192,6 +193,8 @@
 				label.error {display: block; margin: 4px 0 0 0;}
 			}
 		}
+		.required:before {content: '* ';}
+		> legend {font-size: 18px; margin-bottom: 5px;}
 	}
 	.message {
 		color: $color_blur; font-size: 16px; margin: 0; padding: 30px 0 30px;
@@ -294,8 +297,9 @@
 			> dl.table {
 				display: table; width: 100%; margin: 0;
 				border-bottom: 1px solid #ddd;
+				&.first {border-top: 1px solid #ddd;}
 				> dt, > dd {display: table-cell; vertical-align: middle; padding: 8px 0;}
-				> dt {width: 130px; margin: 0; padding-left: 10px; font-size: 13px;}
+				> dt {width: 130px; margin: 0; padding-left: 10px; padding-right: 10px; font-size: 13px;}
 				> dd {margin: 0;}
 			}
 		}
