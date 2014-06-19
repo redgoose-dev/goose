@@ -3,7 +3,7 @@ if(!defined("GOOSE")){exit();}
 
 //header('Content-Type: text/plain; charset=utf-8');
 
-$root = preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']);
+$root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
 $url = 'http://'.$_SERVER['HTTP_HOST'].$root;
 
 /**
