@@ -47,32 +47,37 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		?>
 			<fieldset>
 				<legend class="blind">둥지<?=$titleType?></legend>
-				<dl class="table">
-					<dt><label for="group_srl">둥지그룹</label></dt>
-					<dd>
-						<select name="group_srl" id="group_srl">
-							<option value="0">선택하세요.</option>
-							<?
-							$group = $spawn->getItems(array(
-								'table' => $tablesName[nestGroups],
-								'order' => 'srl',
-								'sort' => 'asc'
-							));
-							foreach ($group as $k=>$v)
-							{
-								$selected = ($v[srl] == $nest[group_srl]) ? ' selected="selected"' : '';
-								echo "<option value=\"$v[srl]\"$selected>$v[name]</option>";
-							}
-							?>
-						</select>
-					</dd>
-				</dl>
+				<?
+				$group = $spawn->getItems(array(
+					'table' => $tablesName[nestGroups],
+					'order' => 'srl',
+					'sort' => 'asc'
+				));
+
+				if (count($group))
+				{
+				?>
+					<dl class="table">
+						<dt><label for="group_srl">둥지그룹</label></dt>
+						<dd>
+							<select name="group_srl" id="group_srl">
+								<option value="0">선택하세요.</option>
+								<?
+								foreach ($group as $k=>$v)
+								{
+									$selected = ($v[srl] == $nest[group_srl]) ? ' selected="selected"' : '';
+									echo "<option value=\"$v[srl]\"$selected>$v[name]</option>";
+								}
+								?>
+							</select>
+						</dd>
+					</dl>
+				<?
+				}
+				?>
 				<dl class="table">
 					<?
-					if ($nest[id])
-					{
-						$attr = ' value="'.$nest[id].'" readonly';
-					}
+					$attr = ($nest[id]) ? ' value="'.$nest[id].'" readonly' : '';
 					?>
 					<dt><label for="id">아이디</label></dt>
 					<dd>
