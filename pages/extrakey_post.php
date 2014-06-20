@@ -89,7 +89,7 @@ $titleType = getActionType($paramAction);
 					<dt><label for="required">필수항목</label></dt>
 					<dd>
 						<?
-						$check1 = ($extrakey[required] == '0') ? 'checked' : '';
+						$check1 = ($extrakey[required] != '1') ? 'checked' : '';
 						$check2 = ($extrakey[required] == '1') ? 'checked' : '';
 						?>
 						<label>기본값 <input type="radio" name="required" value="0" <?=$check1?>/></label>
@@ -134,7 +134,7 @@ if ($paramAction != "delete")
 		$('#regsterForm').validate({
 			rules : {
 				keyName : {required : true, minlength : 4, alphanumeric : true}
-				,name : {required : true, minlength : 4}
+				,name : {required : true, minlength : 2}
 			}
 			,messages : {
 				keyName : {alphanumeric: '알파벳과 숫자만 사용가능합니다.'}

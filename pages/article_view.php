@@ -31,7 +31,7 @@ if ($article[category_srl])
 
 // get extra vars count
 $extraVarsCount = $spawn->getCount(array(
-	table => $tablesName[extraVars],
+	table => $tablesName[extraVar],
 	where => 'article_srl='.(int)$article[srl]
 ));
 ?>
@@ -45,7 +45,7 @@ $extraVarsCount = $spawn->getCount(array(
 	if ($extraVarsCount > 0)
 	{
 		$extraKeys = $spawn->getItems(array(
-			table => $tablesName[extraKeys],
+			table => $tablesName[extraKey],
 			where => 'nest_srl='.(int)$article[nest_srl],
 			order => 'turn',
 			sort => 'asc',
@@ -54,26 +54,27 @@ $extraVarsCount = $spawn->getCount(array(
 		<!-- Extra var -->
 		<section class="extraContents">
 			<h1>확장변수</h1>
-			<?
-			foreach($extraKeys as $k=>$v)
-			{
-				$extraVar = $spawn->getItem(array(
-					table => $tablesName[extraVars],
-					where => 'article_srl='.(int)$article[srl].' and key_srl='.(int)$v[srl]
-				));
-				if ($extraVar[value])
+			<div class="body">
+				<?
+				foreach($extraKeys as $k=>$v)
 				{
-			?>
-					<li>
+					$extraVar = $spawn->getItem(array(
+						table => $tablesName[extraVar],
+						where => 'article_srl='.(int)$article[srl].' and key_srl='.(int)$v[srl]
+					));
+					if ($extraVar[value])
+					{
+						$extraVar[value] = nl2br($extraVar[value]);
+				?>
 						<dl>
 							<dt><?=$v[name]?></dt>
 							<dd><?=$extraVar[value]?></dd>
 						</dl>
-					</li>
-			<?
+				<?
+					}
 				}
-			}
-			?>
+				?>
+			</div>
 		</section>
 		<!-- // Extra var -->
 	<?

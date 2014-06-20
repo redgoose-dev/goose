@@ -35,27 +35,31 @@ $nestName = '['.$nest[name].'] ';
 $titleType = getActionType($paramAction);
 
 /**
- 확장변수 폼 만들어주는 함수
+ * 확장변수 폼 만들어주는 함수
+ * 
+ * @param Number $n : 폼 타입 (0:input[type=text], 1:textarea, 2:select)
+ * @param String $keyName : key 이름
+ * @param String $keyValue : 기본값
+ * @param String $selectVar : 사용자값 (기본값보다 우선)
+ * @param Number $required : 필수항목 (0:false, 1:true)
+ * @return String $str : 만들어진 폼 일리먼트 문자
  */
-function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="", $required=null)
+function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="", $required=null)
 {
 	$requiredAttr = ($required == 1) ? 'required' : '';
 
-	switch ($n)
+	switch ($type)
 	{
-		// 한줄입력칸 (input[type=text])
 		case 0:
 			$value = ($selectVar) ? $selectVar : $keyValue;
 			$str = "<input type=\"text\" name=\"$keyName\" id=\"$keyName\" value=\"$value\" class=\"block\" $requiredAttr />";
 			break;
 
-		// 여러줄입력칸 (textarea)
 		case 1:
 			$value = ($selectVar) ? $selectVar : $keyValue;
-			$str = "<textarea name=\"$keyName\" id=\"$keyName\" class=\"block\" $requiredAttr>$value</textarea>";
+			$str = "<textarea name=\"$keyName\" id=\"$keyName\" class=\"block\" rows=\"5\" $requiredAttr>$value</textarea>";
 			break;
 
-		// 단일선택 (select)
 		case 2:
 			$arr = explode(",", $keyValue);
 			$str .= "<select name=\"$keyName\" id=\"$keyName\" $requiredAttr>";
@@ -135,7 +139,7 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="", $r
 			}
 		}
 
-		// Extra var
+		// 확장변수
 		if ($nest[useExtraVar] == 1)
 		{
 			$extraCount = $spawn->getCount(array(
@@ -159,10 +163,10 @@ function extraKeyTypePrint($n=NULL, $keyName="", $keyValue="", $selectVar="", $r
 					foreach($items as $k=>$v)
 					{
 						$extVar = ($article[srl]) ? $spawn->getItem(array(
-							'table' => $tablesName[extraVars],
+							'table' => $tablesName[extraVar],
 							'where' => 'article_srl='.$article[srl].' and key_srl='.(int)$v[srl]
 						)) : null;
-						$defaultValue = ($paramAction=='create' or $v[formType]==2) ? $v[defaultValue] : '';
+						$defaultValue = ($paramAction=='create' || $v[formType]==2) ? $v[defaultValue] : '';
 						$requiredClass = ($v[required]) ? 'class="required"' : '';
 						?>
 						<dl class="table<?=($k==0)?' first':''?>">
