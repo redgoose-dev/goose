@@ -5,15 +5,11 @@ switch($paramAction)
 {
 	// create
 	case 'create':
-		if (!$_POST[name])
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name', 'nest_srl'));
+		if ($errorValue)
 		{
-			$util->back('[제목]항목이 비었습니다.');
-			exit;
-		}
-		if (!$_POST[nest_srl])
-		{
-			$util->back('nest_srl값이 없습니다.');
-			exit;
+			$util->back("[$errorValue]값이 없습니다.");
 		}
 
 		$regdate = date("YmdHis");
@@ -38,11 +34,13 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
-		if (!$_POST[name])
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name', 'nest_srl'));
+		if ($errorValue)
 		{
-			$util->back('[제목]항목이 비었습니다.');
-			exit;
+			$util->back("[$errorValue]값이 없습니다.");
 		}
+
 		$spawn->update(array(
 			'table' => $tablesName[categories],
 			'where' => 'srl='.$_POST[category_srl],
@@ -86,23 +84,23 @@ switch($paramAction)
 
 	// sort
 	case 'sort':
-		if ($_POST[srls])
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('srls'));
+		if ($errorValue)
 		{
-			$srls = explode(',', $_POST[srls]);
-			for ($i=0; $i<count($srls); $i++)
-			{
-				$spawn->update(array(
-					'table' => $tablesName[categories],
-					'where' => 'srl='.(int)$srls[$i],
-					'data' => array('turn='.$i)
-				));
-			}
-			$util->redirect(ROOT.'/category/index/'.$_POST[nest_srl].'/');
+			$util->back("[$errorValue]값이 없습니다.");
 		}
-		else
+
+		$srls = explode(',', $_POST[srls]);
+		for ($i=0; $i<count($srls); $i++)
 		{
-			$util->back('srls값이 없습니다.');
+			$spawn->update(array(
+				'table' => $tablesName[categories],
+				'where' => 'srl='.(int)$srls[$i],
+				'data' => array('turn='.$i)
+			));
 		}
+		$util->redirect(ROOT.'/category/index/'.$_POST[nest_srl].'/');
 		break;
 }
 ?>

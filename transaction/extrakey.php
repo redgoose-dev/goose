@@ -1,33 +1,17 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-if ($paramAction == 'create' or $paramAction == 'modify')
-{
-	if (!$_POST[keyName])
-	{
-		$util->back('[확장변수이름]항목이 비었습니다.');
-		exit;
-	}
-	if (!$_POST[name])
-	{
-		$util->back('[입력항목이름]항목이 비었습니다.');
-		exit;
-	}
-}
-
-if ($paramAction == 'modify' or $type == 'delete')
-{
-	if (!$_POST[extra_srl])
-	{
-		$util->back('extrakey값이 없습니다.');
-		exit;
-	}
-}
-
 switch($paramAction)
 {
 	// create
 	case 'create':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('keyName', 'name'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$turn = $spawn->getCount(array(
 			'table' => $tablesName[extraKey],
 			'where' => 'nest_srl='.(int)$_POST[nest_srl]
@@ -54,6 +38,13 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('extra_srl', 'keyName', 'name'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$spawn->update(array(
 			'table' => $tablesName[extraKey],
 			'where' => 'srl='.(int)$_POST[extra_srl],
@@ -73,10 +64,18 @@ switch($paramAction)
 
 	// delete
 	case 'delete':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('extra_srl'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$spawn->delete(array(
 			'table' => $tablesName[extraKey],
 			'where' => 'srl='.(int)$_POST[extra_srl]
 		));
+
 		$spawn->delete(array(
 			'table' => $tablesName[extraVar],
 			'where' => 'key_srl='.(int)$_POST[extra_srl]

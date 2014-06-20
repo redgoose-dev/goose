@@ -1,18 +1,6 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-if (!$_POST[name] and $paramAction!='delete')
-{
-	$util->back('[둥지이름]항목이 비었습니다.');
-	exit;
-}
-
-if (!$_POST[nest_srl] and $paramAction!='create')
-{
-	$util->back('nest_srl값이 없습니다.');
-	exit;
-}
-
 // thumnail size
 $thumnailSize = ($_POST[thumWidth] and $_POST[thumHeight]) ? $_POST[thumWidth].'*'.$_POST[thumHeight] : '100*100';
 
@@ -24,13 +12,15 @@ switch($paramAction)
 	// create
 	case 'create':
 		$regdate = date("YmdHis");
-		
-		// nest id check
-		if (!$_POST[id])
+
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name', 'id'));
+		if ($errorValue)
 		{
-			$util->back('id값이 없습니다.');
-			exit;
+			$util->back("[$errorValue]값이 없습니다.");
 		}
+
+		// 중복 아이디값 확인
 		$cnt = $spawn->getCount(array(
 			table => $tablesName['nests'],
 			where => "id='$_POST[id]'"
@@ -38,7 +28,7 @@ switch($paramAction)
 		if ($cnt > 0)
 		{
 			$util->back('id가 이미 존재합니다.');
-			exit;
+			$util->out();
 		}
 		
 		// insert data
@@ -65,6 +55,13 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name', 'nest_srl'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$result = $spawn->update(array(
 			table => $tablesName['articles'],
 			where => 'nest_srl='.(int)$_POST[nest_srl],
@@ -94,6 +91,13 @@ switch($paramAction)
 
 	// delete
 	case 'delete':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('nest_srl'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$articles = $spawn->getItems(array(
 			table => $tablesName[articles],
 			where => 'nest_srl='.(int)$_POST[nest_srl]

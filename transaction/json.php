@@ -1,33 +1,19 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-/* value check */
-if (!$_POST[srl] and $paramAction != 'create')
-{
-	$util->back('srl값이 없습니다.');
-	$util->out();
-}
-if ($paramAction != 'delete')
-{
-	if (!$_POST[name])
-	{
-		$util->back('name값이 없습니다.');
-		$util->out();
-	}
-	
-	if (!$_POST[json])
-	{
-		$util->back('JSON 데이터가 없습니다.');
-		$util->out();
-	}
-}
-
 $regdate = date("YmdHis");
 
 switch($paramAction)
 {
 	// create
 	case 'create':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name', 'json'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		// insert data
 		$spawn->insert(array(
 			table => $tablesName[jsons],
@@ -45,6 +31,13 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('srl', 'name', 'json'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$spawn->update(array(
 			table => $tablesName[jsons],
 			where => 'srl='.(int)$_POST[srl],
@@ -59,6 +52,13 @@ switch($paramAction)
 
 	// delete
 	case 'delete':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('srl'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$spawn->delete(array(
 			table => $tablesName[jsons],
 			where => 'srl='.(int)$_POST[srl]

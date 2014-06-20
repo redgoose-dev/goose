@@ -51,8 +51,7 @@ switch($paramAction)
 
 	case 'modify':
 		// check value
-		$filters = array('name', 'email', 'level');
-		$errorValue = $util->checkExistValue($_POST, $filters);
+		$errorValue = $util->checkExistValue($_POST, array('name', 'email', 'level'));
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");

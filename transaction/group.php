@@ -5,12 +5,15 @@ switch($paramAction)
 {
 	// create
 	case 'create':
-		if (!$_POST[name])
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name'));
+		if ($errorValue)
 		{
-			$util->back('[제목]항목이 비었습니다.');
-			exit;
+			$util->back("[$errorValue]값이 없습니다.");
 		}
+
 		$regdate = date("YmdHis");
+
 		$spawn->insert(array(
 			table => $tablesName[nestGroups],
 			data => array(
@@ -25,11 +28,13 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
-		if (!$_POST[name])
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name'));
+		if ($errorValue)
 		{
-			$util->back('[제목]항목이 비었습니다.');
-			exit;
+			$util->back("[$errorValue]값이 없습니다.");
 		}
+
 		$spawn->update(array(
 			table => $tablesName[nestGroups],
 			where => 'srl='.$_POST[group_srl],

@@ -1,28 +1,19 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-//header("Content-Type:text/plain");
-
-if ($paramAction != 'delete')
-{
-	if (!$_POST['title'])
-	{
-		$util->back('[제목] 항목이 비었습니다.');
-		exit;
-	}
-	if (!$_POST['content'])
-	{
-		$util->back('[내용] 항목이 비었습니다.');
-		exit;
-	}
-}
-
 $ipAddress = $_SERVER['REMOTE_ADDR'];
 $regdate = date("YmdHis");
 $_POST['title'] = htmlspecialchars($_POST['title']);
 
 
-// upload file db update
+/**
+ * upload file db update
+ * tempFiles 테이블에 있는 임시파일들 목록을 files 테이블에 옮기고, 썸네일으로 사용하는 첨부파일 번호를 리턴한다.
+ * 
+ * @param Number $art_srl : 글을 등록하고 바로 가져온 srl번호
+ * @param Number $thum_srl : 썸네일 srl번호
+ * @return Number $thumnail_srl : 바뀐 썸네일 srl번호
+ */
 function fileUpload($art_srl, $thum_srl)
 {
 	global $spawn, $util, $tablesName;
@@ -63,11 +54,18 @@ function fileUpload($art_srl, $thum_srl)
 	{
 		$thumnail_srl = $thum_srl;
 	}
+
 	return $thumnail_srl;
 }
 
-// upload thumnail
-function uploadThumnail($srl, $imgData)
+/**
+ * upload thumnail
+ * 썸네일 이미지 데이터를 받아서 서버에 올리고, 이미지 경로를 리턴한다.
+ * 
+ * @param String $imgData : base64형식의 이미지 데이터
+ * @return String $thumnailDir : 서버에 업로드한 썸네일 이미지 경로
+ */
+function uploadThumnail($imgData=null)
 {
 	global $dir, $util, $dataThumnailDirectory;
 	if ($imgData)
@@ -85,11 +83,20 @@ function uploadThumnail($srl, $imgData)
 	return $thumnailDir;
 }
 
+
+// act
 switch($paramAction)
 {
 	// create
 	case 'create':
-		$dd = $spawn->insert(array(
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('title', 'content'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
+		$result = $spawn->insert(array(
 			table => $tablesName[articles],
 			data => array(
 				srl => null,
@@ -116,7 +123,7 @@ switch($paramAction)
 		// thumnail image upload
 		if ($thumnail_srl)
 		{
-			$thumnailUrl = uploadThumnail($thumnail_srl, $_POST[thumnail_image]);
+			$thumnailUrl = uploadThumnail($_POST[thumnail_image]);
 			$spawn->update(array(
 				table => $tablesName[articles],
 				where => 'srl='.$article_srl,
@@ -157,6 +164,13 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('title', 'content'));
+		if ($errorValue)
+		{
+			$util->back("[$errorValue]값이 없습니다.");
+		}
+
 		$absoluteThumnailDir = PWD.$dataThumnailDirectory;
 
 		// get article item data
@@ -175,7 +189,7 @@ switch($paramAction)
 			{
 				unlink($absoluteThumnailDir.$article['thumnail_url']);
 			}
-			$thumnailUrl = uploadThumnail($thumnail_srl, $_POST['thumnail_image']);
+			$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
 			$spawn->update(array(
 				'table' => $tablesName['articles'],
 				'where' => 'srl='.(int)$_POST['article_srl'],
