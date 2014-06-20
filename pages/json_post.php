@@ -22,18 +22,12 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 	<div class="hgroup">
 		<h1>JSON <?=$titleType?></h1>
 	</div>
-	<form action="<?=ROOT?>/json/<?=$paramAction?>/" method="post" name="post" onsubmit="return onCheck(this);">
+	<form action="<?=ROOT?>/json/<?=$paramAction?>/" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="srl" value="<?=$json[srl]?>" />
 		<?
 		if ($paramAction == "delete")
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				return true;
-			}
-			</script>
 			<fieldset>
 				<legend class="blind">JSON<?=$titleType?></legend>
 				<p class="message">"<?=$json[name]?>" JSON 데이터를 삭제하시겠습니까? 삭제된 JSON 데이터는 복구할 수 없습니다.</p>
@@ -43,19 +37,6 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		else
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				if (!frm.name.value)
-				{
-					alert('이름 항목이 비었습니다.');
-					frm.name.focus();
-					return false;
-				}
-
-				return true;
-			}
-			</script>
 			<input type="hidden" name="json" />
 			<fieldset>
 				<legend class="blind">JSON<?=$titleType?></legend>
@@ -137,10 +118,18 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 if ($paramAction != "delete")
 {
 ?>
+	<script src="<?=$jQueryAddress?>"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
 	<script>
 	var jsonData = '<?=$json[json]?>';
+
+	jQuery('#regsterForm').validate({
+		rules : {
+			name : {required : true, minlength : 3}
+		}
+	});
 	</script>
-	<script src="<?=$jQueryAddress?>"></script>
 	<script src="<?=ROOT?>/pages/src/pkg/jsonEditor/jquery-sortable.min.js"></script>
 	<script src="<?=ROOT?>/pages/src/pkg/jsonEditor/JSONManager.min.js"></script>
 <?
