@@ -109,7 +109,7 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['categories']."' table";
 	$util->out();
 }
 
@@ -129,7 +129,7 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['extraKey']."' table";
 	$util->out();
 }
 
@@ -139,11 +139,12 @@ $result = $spawn->action("
 		`srl` bigint(11) not null auto_increment,
 		`article_srl` bigint(11) default null,
 		`key_srl` bigint(11) default null,
-		`value` longtext not null
+		`value` longtext not null,
+		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['extraVar']."' table";
 	$util->out();
 }
 
@@ -158,7 +159,7 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['files']."' table";
 	$util->out();
 }
 
@@ -173,7 +174,7 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['jsons']."' table";
 	$util->out();
 }
 
@@ -190,7 +191,7 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['users']."' table";
 	$util->out();
 }
 
@@ -204,7 +205,7 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['nestGroups']."' table";
 	$util->out();
 }
 
@@ -226,7 +227,7 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['nests']."' table";
 	$util->out();
 }
 
@@ -237,11 +238,11 @@ $result = $spawn->action("
 		`loc` varchar(255) default null,
 		`name` varchar(250) default null,
 		`date` varchar(14) default null,
-		PRIMARY KEY (`srl`)
+		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
+	echo "Fail create '".$tablesName['tempFiles']."' table";
 	$util->out();
 }
 
