@@ -244,7 +244,7 @@ switch($paramAction)
 			}
 		}
 
-		// update extravar
+		// update extra value
 		$extraKey = $spawn->getItems(array(
 			field => 'srl,keyName',
 			table => $tablesName['extraKey'],
