@@ -11,7 +11,7 @@ $users = $spawn->getItems(array(
 
 <section>
 	<div class="hgroup">
-		<h1><a href="<?=ROOT?>/users/index/">사용자 목록</a></h1>
+		<h1><a href="<?=ROOT?>/user/index/">사용자 목록</a></h1>
 	</div>
 
 	<?
@@ -23,7 +23,7 @@ $users = $spawn->getItems(array(
 			<?
 			foreach ($users as $k=>$v)
 			{
-				$util->console($v);
+				$level = ($v['level'] == 1) ? '관리자' : '일반';
 			?>
 				<li>
 					<div class="body">
@@ -31,11 +31,11 @@ $users = $spawn->getItems(array(
 						<div class="inf">
 							<span>이메일:<?=$v['email']?></span>
 							<span>등록날짜:<?=$util->convertDate($v['regdate'])?></span>
-							<span>Level:<?=$v['level']?></span>
+							<span>권한:<?=$level?></span>
 						</div>
 						<nav>
-							<a href="<?=ROOT?>/users/modify/<?=$v['srl']?>/">수정</a>
-							<a href="<?=ROOT?>/users/delete/<?=$v['srl']?>/">삭제</a>
+							<a href="<?=ROOT?>/user/modify/<?=$v['srl']?>/">수정</a>
+							<a href="<?=ROOT?>/user/delete/<?=$v['srl']?>/">삭제</a>
 						</nav>
 					</div>
 				</li>
@@ -48,7 +48,7 @@ $users = $spawn->getItems(array(
 	}
 	?>
 	<nav class="btngroup">
-		<span><a href="<?=ROOT?>/users/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=ROOT?>/users/create/" class="ui-button btn-highlight">사용자 등록</a></span>
+		<span><a href="<?=ROOT?>/user/index/" class="ui-button">목록</a></span>
+		<span><a href="<?=ROOT?>/user/create/" class="ui-button btn-highlight">사용자 등록</a></span>
 	</nav>
 </section>

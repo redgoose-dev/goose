@@ -142,7 +142,7 @@ class Spawn extends Database {
 				}
 				else
 				{
-					$result .= ','.$v;
+					$result .= ($v) ? ','.$v : '';
 				}
 			}
 			$result .= " where $get[where]";

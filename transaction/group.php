@@ -5,14 +5,18 @@ switch($paramAction)
 {
 	// create
 	case 'create':
-		if (!$_POST[name])
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name'));
+		if ($errorValue)
 		{
-			$util->back('[제목]항목이 비었습니다.');
-			exit;
+			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
+
 		$regdate = date("YmdHis");
+
 		$spawn->insert(array(
-			table => $tablesName[moduleGroups],
+			table => $tablesName[nestGroups],
 			data => array(
 				srl => null,
 				name => $_POST[name],
@@ -25,13 +29,16 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
-		if (!$_POST[name])
+		// post값 확인
+		$errorValue = $util->checkExistValue($_POST, array('name'));
+		if ($errorValue)
 		{
-			$util->back('[제목]항목이 비었습니다.');
-			exit;
+			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
+
 		$spawn->update(array(
-			table => $tablesName[moduleGroups],
+			table => $tablesName[nestGroups],
 			where => 'srl='.$_POST[group_srl],
 			data => array("name='$_POST[name]'")
 		));
@@ -42,11 +49,11 @@ switch($paramAction)
 	// delete
 	case 'delete':
 		$spawn->delete(array(
-			table => $tablesName[moduleGroups],
+			table => $tablesName[nestGroups],
 			where => 'srl='.$_POST[group_srl]
 		));
 		$spawn->update(array(
-			table => $tablesName[modules],
+			table => $tablesName[nests],
 			where => 'group_srl='.$_POST[group_srl],
 			data => array("group_srl=NULL")
 		));

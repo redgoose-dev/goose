@@ -4,44 +4,44 @@ if(!defined("GOOSE")){exit();}
 $group_srl = (int)$routePapameters['param0'];
 $itemParameter = ($group_srl) ? 'group_srl='.$group_srl : '';
 
-$modulesCount = $spawn->getCount(array('table'=>$tablesName[modules], 'where'=>$itemParameter));
-$modulesIndex = $spawn->getItems(array(
-	'table' => $tablesName[modules],
+$nestsCount = $spawn->getCount(array('table'=>$tablesName[nests], 'where'=>$itemParameter));
+$nestsIndex = $spawn->getItems(array(
+	'table' => $tablesName[nests],
 	'where' => $itemParameter,
 	'order' => 'srl',
 	'sort' => 'desc'
 ));
-$moduleGroupsCount = $spawn->getCount(array('table'=>$tablesName[moduleGroups]));
+$nestGroupsCount = $spawn->getCount(array('table'=>$tablesName[nestGroups]));
 ?>
 
 <section>
 	<div class="hgroup">
-		<h1><a href="<?=ROOT?>/module/index/">Modules</a></h1>
+		<h1><a href="<?=ROOT?>/nest/index/">Nests</a></h1>
 	</div>
 	<?
-	if ($moduleGroupsCount)
+	if ($nestGroupsCount)
 	{
 	?>
 		<!-- groups list -->
 		<nav class="categories">
 			<ul>
 				<?
-				$moduleGroupsIndex = $spawn->getItems(array(
-					'table' => $tablesName[moduleGroups],
+				$nestGroupsIndex = $spawn->getItems(array(
+					'table' => $tablesName[nestGroups],
 					'order' => 'srl',
 					'sort' => 'desc'
 				));
-				foreach ($moduleGroupsIndex as $k=>$v)
+				foreach ($nestGroupsIndex as $k=>$v)
 				{
-					$moduleCount = $spawn->getCount(array(
-						'table' => $tablesName[modules],
+					$nestCount = $spawn->getCount(array(
+						'table' => $tablesName[nests],
 						'where' => 'group_srl='.(int)$v[srl]
 					));
 					$active = ($group_srl == $v[srl]) ? " class='active'" : "";
-					$url = ROOT.'/module/index/'.$v[srl].'/';
+					$url = ROOT.'/nest/index/'.$v[srl].'/';
 					echo "
 						<li $active>
-							<a href=\"$url\">$v[name]($moduleCount)</a>
+							<a href=\"$url\">$v[name]($nestCount)</a>
 						</li>
 					";
 				}
@@ -53,26 +53,26 @@ $moduleGroupsCount = $spawn->getCount(array('table'=>$tablesName[moduleGroups]))
 	}
 	?>
 
-	<!-- modules list -->
+	<!-- nests list -->
 	<ul class="index">
 		<?
-		if ($modulesCount > 0)
+		if ($nestsCount > 0)
 		{
-			foreach ($modulesIndex as $k=>$v)
+			foreach ($nestsIndex as $k=>$v)
 			{
 				$url = ROOT.'/article/index/'.$v[srl].'/';
 				$articleCount = $spawn->getCount(array(
 					'table' => $tablesName[articles],
-					'where' => 'module_srl='.(int)$v[srl]
+					'where' => 'nest_srl='.(int)$v[srl]
 				));
 				$categoryCount = $spawn->getCount(array(
 					'table' => $tablesName[categories],
-					'where' => 'module_srl='.(int)$v[srl]
+					'where' => 'nest_srl='.(int)$v[srl]
 				));
 				$categoryCount = ($categoryCount && $v[useCategory]==1) ? '<span>분류:'.$categoryCount.'</span>' : '';
 				$groupName = $spawn->getItem(array(
 					'field' => 'name',
-					'table' => $tablesName[moduleGroups],
+					'table' => $tablesName[nestGroups],
 					'where' => 'srl='.(int)$v[group_srl]
 				));
 				$groupName = ($groupName[name]) ? "<em>[".$groupName[name]."]</em>" : "";
@@ -91,8 +91,8 @@ $moduleGroupsCount = $spawn->getCount(array('table'=>$tablesName[moduleGroups]))
 							<span>썸네일사이즈:<?=$v[thumnailSize]?></span>
 						</div>
 						<nav>
-							<a href="<?=ROOT?>/module/modify/<?=$v[srl]?>/">수정</a>
-							<a href="<?=ROOT?>/module/delete/<?=$v[srl]?>/">삭제</a>
+							<a href="<?=ROOT?>/nest/modify/<?=$v[srl]?>/">수정</a>
+							<a href="<?=ROOT?>/nest/delete/<?=$v[srl]?>/">삭제</a>
 							<?=$categoryBtn?>
 							<?=$extraVarBtn?>
 						</nav>
@@ -107,12 +107,12 @@ $moduleGroupsCount = $spawn->getCount(array('table'=>$tablesName[moduleGroups]))
 		}
 		?>
 	</ul>
-	<!-- // modules list -->
+	<!-- // nests list -->
 	<!-- bottom buttons -->
 	<nav class="btngroup">
-		<span><a href="<?=ROOT?>/module/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=ROOT?>/group/index/" class="ui-button">모듈그룹</a></span>
-		<span><a href="<?=ROOT?>/module/create/" class="ui-button btn-highlight">모듈만들기</a></span>
+		<span><a href="<?=ROOT?>/nest/index/" class="ui-button">목록</a></span>
+		<span><a href="<?=ROOT?>/group/index/" class="ui-button">둥지그룹</a></span>
+		<span><a href="<?=ROOT?>/nest/create/" class="ui-button btn-highlight">둥지만들기</a></span>
 	</nav>
 	<!-- // bottom buttons -->
 </section>

@@ -1,31 +1,31 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$module_srl = (int)$routePapameters['param0'];
-if ($module_srl)
+$nest_srl = (int)$routePapameters['param0'];
+if ($nest_srl)
 {
-	$module = $spawn->getItem(array(
-		'table' => $tablesName[modules],
-		'where' => 'srl='.$module_srl
+	$nest = $spawn->getItem(array(
+		'table' => $tablesName[nests],
+		'where' => 'srl='.$nest_srl
 	));
 	$categoryCount = $spawn->getCount(array(
 		'table' => $tablesName[categories],
-		'where' => 'module_srl='.(int)$module[srl]
+		'where' => 'nest_srl='.(int)$nest[srl]
 	));
 }
 else
 {
-	$util->back('모듈값이 없습니다.');
+	$util->back('둥지값이 없습니다.');
 	exit;
 }
 ?>
 
 <section>
 	<div class="hgroup">
-		<h1><?=$module[name]?> 분류목록</h1>
+		<h1><?=$nest[name]?> 분류목록</h1>
 	</div>
 	<form action="<?=ROOT?>/category/sort/" method="post" name="listForm" id="listForm" class="hidden">
-		<input type="hidden" name="module_srl" value="<?=$module_srl?>" />
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
 			<legend class="blind">분류목록</legend>
@@ -35,7 +35,7 @@ else
 				{
 					$items = $spawn->getItems(array(
 						'table' => $tablesName[categories],
-						'where' => 'module_srl='.$module_srl,
+						'where' => 'nest_srl='.$nest_srl,
 						'order' => 'turn',
 						'sort' => 'asc'
 					));
@@ -51,8 +51,8 @@ else
 							<div class="body">
 								<strong><?=$v[name]?>(<?=$count?>)</strong>
 								<nav>
-									<a href="<?=ROOT?>/category/modify/<?=$module_srl?>/<?=$v[srl]?>/">수정</a>
-									<a href="<?=ROOT?>/category/delete/<?=$module_srl?>/<?=$v[srl]?>/">삭제</a>
+									<a href="<?=ROOT?>/category/modify/<?=$nest_srl?>/<?=$v[srl]?>/">수정</a>
+									<a href="<?=ROOT?>/category/delete/<?=$nest_srl?>/<?=$v[srl]?>/">삭제</a>
 								</nav>
 							</div>
 						</li>
@@ -69,14 +69,14 @@ else
 			</ul>
 		</fieldset>
 		<nav class="btngroup">
-			<span><a href="<?=ROOT?>/category/create/<?=$module_srl?>/" class="ui-button btn-highlight">분류추가</a></span>
+			<span><a href="<?=ROOT?>/category/create/<?=$nest_srl?>/" class="ui-button btn-highlight">분류추가</a></span>
 			<span><a href="javascript:;" onclick="onSubmit(document.listForm)" class="ui-button">순서변경</a></span>
-			<span><a href="<?=ROOT?>/article/index/<?=$module_srl?>/" class="ui-button">문서목록</a></span>
+			<span><a href="<?=ROOT?>/article/index/<?=$nest_srl?>/" class="ui-button">문서목록</a></span>
 			<?
-			$url = ROOT.'/module/index/';
-			$url .= ($module[group_srl]) ? $module[group_srl].'/' : '';
+			$url = ROOT.'/nest/index/';
+			$url .= ($nest[group_srl]) ? $nest[group_srl].'/' : '';
 			?>
-			<span><a href="<?=$url?>" class="ui-button">모듈목록</a></span>
+			<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
 		</nav>
 	</form>
 </section>

@@ -3,33 +3,32 @@ if(!defined("GOOSE")){exit();}
 
 if ($routePapameters['param1'])
 {
-	$module_srl = (int)$routePapameters['param0'];
+	$nest_srl = (int)$routePapameters['param0'];
 	$category_srl = (int)$routePapameters['param1'];
 }
 else if ($routePapameters['param0'])
 {
-	$module_srl = (int)$routePapameters['param0'];
+	$nest_srl = (int)$routePapameters['param0'];
 }
 else
 {
 	$util->back('값이 없습니다.');
-	exit;
+	$util->out();
 }
 
-$module = $spawn->getItem(array(
+$nest = $spawn->getItem(array(
 	'field' => 'srl,group_srl,name',
-	'table' => $tablesName[modules],
-	'where' => 'srl='.$module_srl
+	'table' => $tablesName[nests],
+	'where' => 'srl='.$nest_srl
 ));
-$moduleName = ($module[name]) ? '['.$module[name].'] ' : null;
+$nestName = ($nest[name]) ? '['.$nest[name].'] ' : null;
 
 if ($paramAction !== 'create')
 {
-
 	if (!$category_srl)
 	{
-		$util->back('category값이 없습니다.');
-		exit;
+		$util->back('category_srl값이 없습니다.');
+		$util->out();
 	}
 	$category = $spawn->getItem(array(
 		'table' => $tablesName[categories],
@@ -42,23 +41,17 @@ $titleType = getActionType($paramAction);
 
 <section class="form">
 	<div class="hgroup">
-		<h1><?=$moduleName?>분류<?=$titleType?></h1>
+		<h1><?=$nestName?>분류<?=$titleType?></h1>
 	</div>
 
-	<form action="<?=ROOT?>/category/<?=$paramAction?>/" method="post" onsubmit="return onCheck(this); return false;">
-		<input type="hidden" name="module_srl" value="<?=$module_srl?>"/>
-		<input type="hidden" name="group_srl" value="<?=$module[group_srl]?>"/>
+	<form action="<?=ROOT?>/category/<?=$paramAction?>/" method="post" id="regsterForm">
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
+		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>"/>
 		<input type="hidden" name="category_srl" value="<?=$category_srl?>"/>
 		<?
 		if ($paramAction == "delete")
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				return true;
-			}
-			</script>
 			<fieldset>
 				<legend class="blind">분류<?=$titleType?></legend>
 				<p class="message">"<?=$category[name]?>"분류를 삭제하시겠습니까? 삭제된 분류는 복구할 수 없습니다.</p>
@@ -68,17 +61,6 @@ $titleType = getActionType($paramAction);
 		else
 		{
 		?>
-			<script type="text/javascript">
-			function onCheck(frm)
-			{
-				if (!frm.name.value)
-				{
-					alert('이름 항목이 비었습니다.');
-					frm.name.focus();
-					return false;
-				}
-			}
-			</script>
 			<fieldset>
 				<legend class="blind">분류<?=$titleType?></legend>
 				<dl class="table">
@@ -95,3 +77,21 @@ $titleType = getActionType($paramAction);
 		</nav>
 	</form>
 </section>
+
+<?
+if ($paramAction != "delete")
+{
+?>
+	<script src="<?=$jQueryAddress?>"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script>
+	jQuery('#regsterForm').validate({
+		rules : {
+			name : {required : true, minlength : 3}
+		}
+	});
+	</script>
+<?
+}
+?>

@@ -13,10 +13,10 @@ $article = $spawn->getItem(array(
 	where => 'srl='.$article_srl
 ));
 
-// get module
-$module = $spawn->getItem(array(
-	table => $tablesName[modules],
-	where => 'srl='.(int)$article[module_srl]
+// get nest
+$nest = $spawn->getItem(array(
+	table => $tablesName[nests],
+	where => 'srl='.(int)$article[nest_srl]
 ));
 
 // get category
@@ -26,12 +26,12 @@ if ($article[category_srl])
 		table => $tablesName[categories],
 		where => 'srl='.(int)$article[category_srl]
 	));
-	$categoryName = ($module[useCategory]) ? "<span class=\"category\">[$category[name]]</span>&nbsp;" : "";
+	$categoryName = ($nest[useCategory]) ? "<span class=\"category\">[$category[name]]</span>&nbsp;" : "";
 }
 
 // get extra vars count
 $extraVarsCount = $spawn->getCount(array(
-	table => $tablesName[extraVars],
+	table => $tablesName[extraVar],
 	where => 'article_srl='.(int)$article[srl]
 ));
 ?>
@@ -45,8 +45,8 @@ $extraVarsCount = $spawn->getCount(array(
 	if ($extraVarsCount > 0)
 	{
 		$extraKeys = $spawn->getItems(array(
-			table => $tablesName[extraKeys],
-			where => 'module_srl='.(int)$article[module_srl],
+			table => $tablesName[extraKey],
+			where => 'nest_srl='.(int)$article[nest_srl],
 			order => 'turn',
 			sort => 'asc',
 		));
@@ -54,26 +54,27 @@ $extraVarsCount = $spawn->getCount(array(
 		<!-- Extra var -->
 		<section class="extraContents">
 			<h1>확장변수</h1>
-			<?
-			foreach($extraKeys as $k=>$v)
-			{
-				$extraVar = $spawn->getItem(array(
-					table => $tablesName[extraVars],
-					where => 'article_srl='.(int)$article[srl].' and key_srl='.(int)$v[srl]
-				));
-				if ($extraVar[value])
+			<div class="body">
+				<?
+				foreach($extraKeys as $k=>$v)
 				{
-			?>
-					<li>
+					$extraVar = $spawn->getItem(array(
+						table => $tablesName[extraVar],
+						where => 'article_srl='.(int)$article[srl].' and key_srl='.(int)$v[srl]
+					));
+					if ($extraVar[value])
+					{
+						$extraVar[value] = nl2br($extraVar[value]);
+				?>
 						<dl>
 							<dt><?=$v[name]?></dt>
 							<dd><?=$extraVar[value]?></dd>
 						</dl>
-					</li>
-			<?
+				<?
+					}
 				}
-			}
-			?>
+				?>
+			</div>
 		</section>
 		<!-- // Extra var -->
 	<?
@@ -96,7 +97,7 @@ $extraVarsCount = $spawn->getCount(array(
 		else
 		{
 			$url = ROOT.'/article/index/';
-			$url .= ($article[module_srl]) ? $article[module_srl].'/' : '';
+			$url .= ($article[nest_srl]) ? $article[nest_srl].'/' : '';
 			$url .= ($article[category_srl]) ? $article[category_srl].'/' : '';
 			$url .= ($_GET[page] > 1) ? '?page='.$_GET[page] : '';
 		}
@@ -104,7 +105,7 @@ $extraVarsCount = $spawn->getCount(array(
 		<span><a href="<?=$url?>" class="ui-button">목록</a></span>
 		<?
 		$url = ROOT.'/article/create/';
-		$url .= ($module[srl]) ? $module[srl].'/' : '';
+		$url .= ($nest[srl]) ? $nest[srl].'/' : '';
 		$url .= ($article[category_srl]) ? $article[category_srl].'/' : '';
 		$url .= ($_GET[m]) ? '?m='.$_GET[m] : '';
 		?>

@@ -40,7 +40,7 @@ class API {
 
 		$tableName = $this->tablesName[$params[table]];
 
-		$where = ($params[module]) ? "and id='".$params[module]."'" : "";
+		$where = ($params[nest]) ? "and id='".$params[nest]."'" : "";
 		$where .= ($params[group]) ? " and group_srl='".$params[group]."'" : "";
 		$where .= ($params[category]) ? " and category_srl='".$params[category]."'" : "";
 		$where .= ($params[search][0] && $params[search][1]) ? " and ".$params[search][0]."='".$params[search][1]."'" : "";

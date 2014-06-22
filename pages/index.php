@@ -23,12 +23,12 @@ $articlesIndex = $spawn->getItems(array(
 		{
 			foreach ($articlesIndex as $k=>$v)
 			{
-				$module = $spawn->getItem(array(
+				$nest = $spawn->getItem(array(
 					field => 'name,useCategory',
-					table => $tablesName[modules],
-					where => 'srl='.$v[module_srl]
+					table => $tablesName[nests],
+					where => 'srl='.$v[nest_srl]
 				));
-				if ($module[useCategory] && $v[category_srl])
+				if ($nest[useCategory] && $v[category_srl])
 				{
 					$categoryName = $spawn->getItem(array(
 						field => 'name',
@@ -46,7 +46,7 @@ $articlesIndex = $spawn->getItems(array(
 							<dl $noimg>
 								$img
 								<dd class=\"body\">
-									<strong><em>[$module[name]]</em> $v[title]</strong>
+									<strong><em>[$nest[name]]</em> $v[title]</strong>
 									<div class=\"inf\">
 										$categoryName
 										<span>작성날짜:".$util->convertDate($v[regdate])."</span>

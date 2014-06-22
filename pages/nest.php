@@ -3,11 +3,11 @@ if(!defined("GOOSE")){exit();}
 
 if ($paramAction == 'index')
 {
-	require(PWD.'/pages/module_index.php');
+	require(PWD.'/pages/nest_index.php');
 }
 else
 {
-	require(PWD.'/pages/module_post.php');
+	require(PWD.'/pages/nest_post.php');
 }
 ?>
 

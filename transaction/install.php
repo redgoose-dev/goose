@@ -3,7 +3,7 @@ if(!defined("GOOSE")){exit();}
 
 //header('Content-Type: text/plain; charset=utf-8');
 
-$root = preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']);
+$root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
 $url = 'http://'.$_SERVER['HTTP_HOST'].$root;
 
 /**
@@ -35,38 +35,6 @@ function checkPost()
 	return true;
 }
 
-/**
- * Create config value
- * 
- * @return String : user.php 내용
- */
-function createConfig()
-{
-	global $root, $url;
-
-	$str = "<?php\n";
-	$str .= "if(!defined(\"GOOSE\")){exit();}\n";
-	$str .= "\n";
-	$str .= "define('ROOT', '$root');\n";
-	$str .= "define('URL', '$url');\n";
-	$str .= "\n";
-	$str .= "\$dbConfig = array('mysql:dbname=".$_POST['dbName'].";host=".$_POST['dbHost']."', '".$_POST['dbId']."', '".$_POST['dbPassword']."');\n";
-	$str .= "\$tablesName = array(\n";
-	$str .= "\t'articles' => '".$_POST['dbPrefix']."articles',\n";
-	$str .= "\t'categories' => '".$_POST['dbPrefix']."categories',\n";
-	$str .= "\t'extraKey' => '".$_POST['dbPrefix']."extraKey',\n";
-	$str .= "\t'extraVar' => '".$_POST['dbPrefix']."extraVar',\n";
-	$str .= "\t'files' => '".$_POST['dbPrefix']."files',\n";
-	$str .= "\t'users' => '".$_POST['dbPrefix']."users',\n";
-	$str .= "\t'moduleGroups' => '".$_POST['dbPrefix']."moduleGroups',\n";
-	$str .= "\t'modules' => '".$_POST['dbPrefix']."modules',\n";
-	$str .= "\t'tempFiles' => '".$_POST['dbPrefix']."tempFiles',\n";
-	$str .= "\t'jsons' => '".$_POST['dbPrefix']."jsons'\n";
-	$str .= ");\n";
-	$str .= "\$api_key = \"".$_POST['apiPrefix']."\";\n";
-	$str .= "?>";
-	return $str;
-}
 
 // 파일 만들기
 if (checkPost() == true)
@@ -78,8 +46,10 @@ if (checkPost() == true)
 	$util->createDirectory(PWD."/data/thumnail", 0777);
 
 	// create user.php
-	$fileResult = $util->fop(PWD.'/data/config/user.php', 'w', createConfig());
-	if ($fileResult != 'success')
+	$_POST['root'] = $root;
+	$_POST['url'] = $url;
+	$_POST['adminLevel'] = 1;
+	if ($util->createUserFile($_POST, PWD.'/data/config/user.php') != 'success')
 	{
 		$util->out();
 	}
@@ -102,12 +72,12 @@ $spawn = new Spawn($dbConfig);
 $spawn->action("set names utf8");
 
 // create db table
-// create table "article"
+// create table "articles"
 $result = $spawn->action("
 	create table `".$tablesName['articles']."` (
 		`srl` bigint(11) not null auto_increment,
 		`group_srl` int(11) default null,
-		`module_srl` bigint(11) default null,
+		`nest_srl` bigint(11) default null,
 		`category_srl` bigint(11) default null,
 		`thumnail_srl` bigint(11) default null,
 		`title` varchar(250) default null,
@@ -130,35 +100,53 @@ if ($result != 'success')
 $result = $spawn->action("
 	create table `".$tablesName['categories']."` (
 		`srl` bigint(11) not null auto_increment,
-		`module_srl` bigint(11) default null,
+		`nest_srl` bigint(11) default null,
 		`turn` int(11) default null,
 		`name` varchar(30) default null,
 		`regdate` varchar(25) default null,
 		primary key (`srl`),
 		unique key `srl` (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['categories']."' table";
+	$util->out();
+}
 
 // create table "extraKey"
 $result = $spawn->action("
 	create table `".$tablesName['extraKey']."` (
 		`srl` bigint(11) not null auto_increment,
-		`module_srl` bigint(11) default null,
+		`nest_srl` bigint(11) default null,
 		`turn` int(11) default null,
 		`keyName` varchar(20) default null,
 		`name` varchar(25) default null,
 		`info` varchar(250) default null,
 		`formType` int(11) default null,
 		`defaultValue` varchar(250) default null,
+		`required` int(1) not null default '0',
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['extraKey']."' table";
+	$util->out();
+}
 
 // create table "extraVar"
 $result = $spawn->action("
 	create table `".$tablesName['extraVar']."` (
+		`srl` bigint(11) not null auto_increment,
 		`article_srl` bigint(11) default null,
 		`key_srl` bigint(11) default null,
-		`value` longtext not null
+		`value` longtext not null,
+		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['extraVar']."' table";
+	$util->out();
+}
 
 // create table "files"
 $result = $spawn->action("
@@ -169,6 +157,11 @@ $result = $spawn->action("
 		`loc` varchar(255) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['files']."' table";
+	$util->out();
+}
 
 // create table "jsons"
 $result = $spawn->action("
@@ -179,6 +172,11 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['jsons']."' table";
+	$util->out();
+}
 
 // create table "users"
 $result = $spawn->action("
@@ -191,19 +189,29 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['users']."' table";
+	$util->out();
+}
 
-// create table "moduleGroups"
+// create table "nestGroups"
 $result = $spawn->action("
-	create table `".$tablesName['moduleGroups']."` (
+	create table `".$tablesName['nestGroups']."` (
 		`srl` bigint(11) not null auto_increment,
 		`name` varchar(250) default null,
 		`regdate` varchar(25) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['nestGroups']."' table";
+	$util->out();
+}
 
-// create table "modules"
+// create table "nests"
 $result = $spawn->action("
-	create table `".$tablesName['modules']."` (
+	create table `".$tablesName['nests']."` (
 		`srl` bigint(11) not null auto_increment,
 		`group_srl` int(11) default null,
 		`id` varchar(20) default null,
@@ -217,6 +225,11 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['nests']."' table";
+	$util->out();
+}
 
 // create table "tempFiles"
 $result = $spawn->action("
@@ -225,8 +238,13 @@ $result = $spawn->action("
 		`loc` varchar(255) default null,
 		`name` varchar(250) default null,
 		`date` varchar(14) default null,
-		PRIMARY KEY (`srl`)
+		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	echo "Fail create '".$tablesName['tempFiles']."' table";
+	$util->out();
+}
 
 
 // insert admin info
@@ -239,10 +257,15 @@ $result = $spawn->action("
 			'".$_POST['name']."',
 			'".$_POST['email']."',
 			'".md5($_POST['password'])."',
-			'9',
+			'1',
 			'".date('YmdHis')."'
 		)
 	");
+if ($result != 'success')
+{
+	echo $result;
+	$util->out();
+}
 
 
 /*

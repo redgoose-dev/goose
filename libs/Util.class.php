@@ -9,6 +9,11 @@ class Util {
 		$this->start_time = array_sum(explode(' ', microtime()));
 	}
 
+	private function typeCheck($obj)
+	{
+		return (is_array($obj)) ? json_encode($obj) : "'" . $obj . "'";
+	}
+
 	// error
 	public function error($code=404)
 	{
@@ -27,11 +32,7 @@ class Util {
 	// console.log
 	public function console($obj)
 	{
-		function typeCheck($obj)
-		{
-			return (is_array($obj)) ? json_encode($obj) : "'" . $obj . "'";
-		}
-		echo "<script type='text/javascript'>console.log(" . typeCheck($obj) . ");</script>";
+		echo "<script type='text/javascript'>console.log(" . $this->typeCheck($obj) . ");</script>";
 	}
 
 	// alert message
@@ -157,6 +158,7 @@ class Util {
 		}
 	}
 
+	// 디렉토리 목록 가져오기
 	public function readDir($str=null)
 	{
 		$result = array();
@@ -172,6 +174,56 @@ class Util {
 			}
 		}
 		return $result;
+	}
+
+	// 배열속에 필수값이 들어있는지 확인
+	public function checkExistValue($target, $required=null)
+	{
+		if ($required)
+		{
+			foreach ($required as $k=>$v)
+			{
+				if (array_key_exists($v, $target) && !$target[$v])
+				{
+					return $v;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Create user file value
+	 * 
+	 * @return String : user.php 내용
+	 */
+	public function createUserFile($post, $dir)
+	{
+		global $root, $url;
+	
+		$str = "<?php\n";
+		$str .= "if(!defined(\"GOOSE\")){exit();}\n";
+		$str .= "\n";
+		$str .= "define('ROOT', '".$post['root']."');\n";
+		$str .= "define('URL', '".$post['url']."');\n";
+		$str .= "\n";
+		$str .= "\$dbConfig = array('mysql:dbname=".$post['dbName'].";host=".$post['dbHost']."', '".$post['dbId']."', '".$post['dbPassword']."');\n";
+		$str .= "\$tablesName = array(\n";
+		$str .= "\t'articles' => '".$post['dbPrefix']."articles',\n";
+		$str .= "\t'categories' => '".$post['dbPrefix']."categories',\n";
+		$str .= "\t'extraKey' => '".$post['dbPrefix']."extraKey',\n";
+		$str .= "\t'extraVar' => '".$post['dbPrefix']."extraVar',\n";
+		$str .= "\t'files' => '".$post['dbPrefix']."files',\n";
+		$str .= "\t'users' => '".$post['dbPrefix']."users',\n";
+		$str .= "\t'nestGroups' => '".$post['dbPrefix']."nestGroups',\n";
+		$str .= "\t'nests' => '".$post['dbPrefix']."nests',\n";
+		$str .= "\t'tempFiles' => '".$post['dbPrefix']."tempFiles',\n";
+		$str .= "\t'jsons' => '".$post['dbPrefix']."jsons'\n";
+		$str .= ");\n";
+		$str .= "\$api_key = \"".$post['apiPrefix']."\";\n";
+		$str .= "?>";
+
+		return $this->fop($dir, 'w', $str);
 	}
 }
 ?>

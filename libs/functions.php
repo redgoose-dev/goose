@@ -20,7 +20,7 @@ function convertParameter()
 	}
 	$output = array(
 		'group' => getParameter('group'),
-		'module' => getParameter('module'),
+		'nest' => getParameter('nest'),
 		'category' => getParameter('category'),
 		'article' => getParameter('article'),
 		'page' => getParameter('page')
