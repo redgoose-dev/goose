@@ -18,6 +18,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		// 중복 아이디값 확인
@@ -60,6 +61,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		$result = $spawn->update(array(
@@ -96,6 +98,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		$articles = $spawn->getItems(array(

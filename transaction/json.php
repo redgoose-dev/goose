@@ -12,6 +12,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		// insert data
@@ -36,6 +37,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		$spawn->update(array(
@@ -57,6 +59,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		$spawn->delete(array(

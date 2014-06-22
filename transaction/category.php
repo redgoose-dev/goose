@@ -10,6 +10,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		$regdate = date("YmdHis");
@@ -39,6 +40,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		$spawn->update(array(
@@ -89,6 +91,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		$srls = explode(',', $_POST[srls]);
