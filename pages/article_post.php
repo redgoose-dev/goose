@@ -34,6 +34,7 @@ else if ($paramAction == 'modify')
 $nestName = '['.$nest[name].'] ';
 $titleType = getActionType($paramAction);
 
+
 /**
  * 확장변수 폼 만들어주는 함수
  * 
@@ -83,7 +84,7 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>
 
-	<form name="writeForm" id="regsterForm" action="<?=ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data">
+	<form name="writeForm" action="<?=ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
@@ -193,14 +194,3 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 		</nav>
 	</form>
 </article>
-
-<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
-<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
-<script>
-jQuery('#regsterForm').validate({
-	rules : {
-		title : {required : true, minlength : 5}
-		,content : {required : true}
-	}
-});
-</script>
