@@ -21,6 +21,7 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 
 		// create date
@@ -55,13 +56,15 @@ switch($paramAction)
 		if ($errorValue)
 		{
 			$util->back("[$errorValue]값이 없습니다.");
+			$util->out();
 		}
 		
 		if ($_SESSION['gooseEmail'] != $_POST['email'])
 		{
-			if ($_SESSION['gooseLevel'] <= $adminLevel)
+			if ($_SESSION['gooseLevel'] < $adminLevel)
 			{
 				$util->back("수정할 수 있는 권한이 없습니다.");
+				$util->out();
 			}
 		}
 
