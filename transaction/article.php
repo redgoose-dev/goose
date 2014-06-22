@@ -203,7 +203,7 @@ switch($paramAction)
 		}
 
 		// update article
-		$dd = $spawn->update(array(
+		$result = $spawn->update(array(
 			table => $tablesName[articles],
 			where => 'srl='.(int)$_POST[article_srl],
 			data => array(
@@ -215,6 +215,34 @@ switch($paramAction)
 				"ipAddress='$ipAddress'"
 			)
 		));
+
+		// 썸네일 이미지는 있고, 첨부파일이 하나도 없을때 썸네일 이미지 삭제
+		if ($article[thumnail_srl])
+		{
+			// get article item data
+			$filesCount = $spawn->getCount(array(
+				table => $tablesName[files],
+				where => 'article_srl='.(int)$_POST[article_srl].' and srl='.(int)$article['thumnail_srl']
+			));
+			if (!$filesCount)
+			{
+				// delete thumnail file
+				if (file_exists($absoluteThumnailDir.$article['thumnail_url']))
+				{
+					unlink($absoluteThumnailDir.$article['thumnail_url']);
+				}
+				// update article db
+				$result = $spawn->update(array(
+					table => $tablesName[articles],
+					where => 'srl='.(int)$_POST[article_srl],
+					data => array(
+						"thumnail_srl='0'",
+						"thumnail_url=''",
+						"thumnail_coords=''"
+					)
+				));
+			}
+		}
 
 		// update extravar
 		$extraKey = $spawn->getItems(array(
