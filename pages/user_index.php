@@ -23,6 +23,7 @@ $users = $spawn->getItems(array(
 			<?
 			foreach ($users as $k=>$v)
 			{
+				$level = ($v['level'] == 1) ? '관리자' : '일반';
 			?>
 				<li>
 					<div class="body">
@@ -30,7 +31,7 @@ $users = $spawn->getItems(array(
 						<div class="inf">
 							<span>이메일:<?=$v['email']?></span>
 							<span>등록날짜:<?=$util->convertDate($v['regdate'])?></span>
-							<span>Level:<?=$v['level']?></span>
+							<span>권한:<?=$level?></span>
 						</div>
 						<nav>
 							<a href="<?=ROOT?>/user/modify/<?=$v['srl']?>/">수정</a>

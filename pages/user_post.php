@@ -59,18 +59,22 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					<dt><label for="pw2">비밀번호 확인</label></dt>
 					<dd><input type="password" name="pw2" id="pw2" size="15" maxlength="20" /></dd>
 				</dl>
+				<?
+				if ($paramAction == "modify")
+				{
+					$level1 = ($user[level] == "1") ? ' checked = "checked"' : '';
+					$level2 = ($user[level] == "9") ? ' checked = "checked"' : '';
+				}
+				else
+				{
+					$level1 = ' checked = "checked"';
+				}
+				?>
 				<dl class="table">
-					<dt><label for="level">레벨</label></dt>
+					<dt><label for="level">권한</label></dt>
 					<dd>
-						<select name="level" id="level">
-							<option value="">선택하세요.</option>
-							<?
-							for ($i=1; $i<10; $i++) {
-								$selected = ($i == $user['level']) ? 'selected' : '';
-								echo "<option value=\"$i\" $selected>$i</option>";
-							}
-							?>
-						</select>
+						<label><input type="radio" name="level" id="level1" value="1"<?=$level1?>/>관리자</label>
+						<label><input type="radio" name="level" id="level2" value="9"<?=$level2?>/>일반</label>
 					</dd>
 				</dl>
 			</fieldset>
