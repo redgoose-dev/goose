@@ -83,7 +83,7 @@ $extraVarsCount = $spawn->getCount(array(
 	
 	<!-- body -->
 	<div class="articleBody">
-		<?=$article[content]?>
+		<?=$article['content']?>
 	</div>
 	<!-- // body -->
 
