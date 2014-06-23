@@ -36,17 +36,18 @@ switch($paramAction)
 		$dd = $spawn->insert(array(
 			table => $tablesName['nests'],
 			data => array(
-				srl => null,
-				group_srl => (int)$_POST['group_srl'],
-				id => $_POST['id'],
-				name => $_POST['name'],
-				thumnailSize => $thumnailSize,
-				thumnailType => $_POST['thumType'],
-				listCount => (int)$listCount,
-				useCategory => (int)$_POST['useCategory'],
-				useExtraVar => (int)$_POST['useExtraVar'],
-				editor => $_POST['editor'],
-				regdate => $regdate
+				'srl' => null,
+				'group_srl' => (int)$_POST['group_srl'],
+				'id' => $_POST['id'],
+				'name' => $_POST['name'],
+				'thumnailSize' => $thumnailSize,
+				'thumnailType' => $_POST['thumType'],
+				'listCount' => (int)$listCount,
+				'useCategory' => (int)$_POST['useCategory'],
+				'useExtraVar' => (int)$_POST['useExtraVar'],
+				'useHtml' => (int)$_POST['useHtml'],
+				'editor' => $_POST['editor'],
+				'regdate' => $regdate
 			)
 		));
 
@@ -66,9 +67,9 @@ switch($paramAction)
 
 		$result = $spawn->update(array(
 			table => $tablesName['articles'],
-			where => 'nest_srl='.(int)$_POST[nest_srl],
+			where => "nest_srl='$_POST[nest_srl]'",
 			data => array(
-				"group_srl=".(int)$_POST[group_srl]
+				"group_srl='$_POST[group_srl]'"
 			)
 		));
 
@@ -76,17 +77,17 @@ switch($paramAction)
 			table => $tablesName[nests],
 			where => 'srl='.(int)$_POST[nest_srl],
 			data => array(
-				"group_srl=$_POST[group_srl]",
+				"group_srl='$_POST[group_srl]'",
 				"name='$_POST[name]'",
 				"thumnailSize='$thumnailSize'",
 				"thumnailType='$_POST[thumType]'",
-				"listCount=$listCount",
-				"useCategory=$_POST[useCategory]",
-				"useExtraVar=$_POST[useExtraVar]",
+				"listCount='$listCount'",
+				"useCategory='$_POST[useCategory]'",
+				"useExtraVar='$_POST[useExtraVar]'",
+				"useHtml='$_POST[useHtml]'",
 				"editor='$_POST[editor]'"
 			)
 		));
-
 		$util->redirect(ROOT.'/nest/index/'.$_POST[group_srl].'/');
 		break;
 

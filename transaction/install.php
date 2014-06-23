@@ -87,6 +87,7 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		`modate` varchar(14) default null,
 		`ipAddress` varchar(15) default null,
+		`useHtml` int(1) not null default '0',
 		primary key (`srl`),
 		unique key `srl` (`srl`)
 	) engine=InnoDB default charset=utf8");
@@ -221,6 +222,7 @@ $result = $spawn->action("
 		`listCount` int(11) default null,
 		`useCategory` int(1) not null default '0',
 		`useExtraVar` int(1) not null default '0',
+		`useHtml` int(1) not null default '0',
 		`editor` varchar(30) default null,
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
