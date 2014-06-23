@@ -111,8 +111,7 @@ switch($paramAction)
 				thumnail_coords => $_POST[thumnail_coords],
 				regdate => $regdate,
 				modate => $regdate,
-				ipAddress => $ipAddress,
-				useHtml => $_POST['useHtml']
+				ipAddress => $ipAddress
 			)
 		));
 
@@ -213,8 +212,7 @@ switch($paramAction)
 				"content='$_POST[content]'",
 				"thumnail_coords='$_POST[thumnail_coords]'",
 				"modate='$regdate'",
-				"ipAddress='$ipAddress'",
-				"useHtml='$_POST[useHtml]'"
+				"ipAddress='$ipAddress'"
 			)
 		));
 
