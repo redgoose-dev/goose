@@ -136,8 +136,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					?>
 					<dt><label for="useCategory">분류사용</label></dt>
 					<dd>
-						<label><input type="radio" name="useCategory" id="useCategory" value="1" <?=$useCategoryYes?>/> 사용</label>
-						<label><input type="radio" name="useCategory" value="0" <?=$useCategoryNo?>/> 사용안함</label>
+						<label><input type="radio" name="useCategory" id="useCategory" value="0" <?=$useCategoryNo?>/> 사용안함</label>
+						<label><input type="radio" name="useCategory" value="1" <?=$useCategoryYes?>/> 사용</label>
 					</dd>
 				</dl>
 				<dl class="table">
@@ -147,8 +147,20 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					?>
 					<dt><label for="useExtraVar">확장변수사용</label></dt>
 					<dd>
-						<label><input type="radio" name="useExtraVar" id="useExtraVar" value="1" <?=$useExtraVarYes?>/> 사용</label>
-						<label><input type="radio" name="useExtraVar" value="0" <?=$useExtraVarNo?>/> 사용안함</label>
+						<label><input type="radio" name="useExtraVar" id="useExtraVar" value="0" <?=$useExtraVarNo?>/> 사용안함</label>
+						<label><input type="radio" name="useExtraVar" value="1" <?=$useExtraVarYes?>/> 사용</label>
+					</dd>
+				</dl>
+				<dl class="table">
+					<?
+					$useHtmlYes = ($nest['useHtml'] == 1) ? ' checked = "checked"' : '';
+					$useHtmlNo = ($nest['useHtml'] != 1) ? ' checked = "checked"' : '';
+					?>
+					<dt><label for="useHtml">HTML사용</label></dt>
+					<dd>
+						<label><input type="radio" name="useHtml" id="useHtml" value="0" <?=$useHtmlNo?>/> 사용안함</label>
+						<label><input type="radio" name="useHtml" value="1" <?=$useHtmlYes?>/> 사용</label>
+						
 					</dd>
 				</dl>
 				<dl class="table">

@@ -111,7 +111,8 @@ switch($paramAction)
 				thumnail_coords => $_POST[thumnail_coords],
 				regdate => $regdate,
 				modate => $regdate,
-				ipAddress => $ipAddress
+				ipAddress => $ipAddress,
+				useHtml => $_POST['useHtml']
 			)
 		));
 
@@ -208,11 +209,12 @@ switch($paramAction)
 			where => 'srl='.(int)$_POST[article_srl],
 			data => array(
 				"category_srl='$_POST[category_srl]'",
-				"title='".$_POST['title']."'",
-				"content='".$_POST['content']."'",
+				"title='$_POST[title]'",
+				"content='$_POST[content]'",
 				"thumnail_coords='$_POST[thumnail_coords]'",
 				"modate='$regdate'",
-				"ipAddress='$ipAddress'"
+				"ipAddress='$ipAddress'",
+				"useHtml='$_POST[useHtml]'"
 			)
 		));
 
