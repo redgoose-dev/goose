@@ -45,7 +45,6 @@ switch($paramAction)
 				'listCount' => (int)$listCount,
 				'useCategory' => (int)$_POST['useCategory'],
 				'useExtraVar' => (int)$_POST['useExtraVar'],
-				'useHtml' => (int)$_POST['useHtml'],
 				'editor' => $_POST['editor'],
 				'regdate' => $regdate
 			)
@@ -84,7 +83,6 @@ switch($paramAction)
 				"listCount='$listCount'",
 				"useCategory='$_POST[useCategory]'",
 				"useExtraVar='$_POST[useExtraVar]'",
-				"useHtml='$_POST[useHtml]'",
 				"editor='$_POST[editor]'"
 			)
 		));

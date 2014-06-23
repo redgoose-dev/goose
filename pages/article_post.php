@@ -123,22 +123,6 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 				<dt><label for="title">제목</label></dt>
 				<dd><input type="text" id="title" name="title" class="block" value="<?=$article[title]?>" /></dd>
 			</dl>
-			<dl class="table">
-				<?
-				$useHtmlNest = ($article['useHtml'] == 0) ? ' checked = "checked"' : '';
-				$useHtmlNo = ($article['useHtml'] == 1) ? ' checked = "checked"' : '';
-				$useHtmlYes = ($article['useHtml'] == 2) ? ' checked = "checked"' : '';
-				?>
-				<dt><label for="useHtml">HTML사용</label></dt>
-				<dd>
-					<label><input type="radio" name="useHtml" id="useHtml" value="0" <?=$useHtmlNest?>/> Nest설정값</label>
-					&nbsp;
-					<label><input type="radio" name="useHtml" value="1" <?=$useHtmlNo?>/> 사용안함</label>
-					&nbsp;
-					<label><input type="radio" name="useHtml" value="2" <?=$useHtmlYes?>/> 사용</label>
-					
-				</dd>
-			</dl>
 		</fieldset>
 
 		<?

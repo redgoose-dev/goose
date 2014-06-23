@@ -152,18 +152,6 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					</dd>
 				</dl>
 				<dl class="table">
-					<?
-					$useHtmlYes = ($nest['useHtml'] == 1) ? ' checked = "checked"' : '';
-					$useHtmlNo = ($nest['useHtml'] != 1) ? ' checked = "checked"' : '';
-					?>
-					<dt><label for="useHtml">HTML사용</label></dt>
-					<dd>
-						<label><input type="radio" name="useHtml" id="useHtml" value="0" <?=$useHtmlNo?>/> 사용안함</label>
-						<label><input type="radio" name="useHtml" value="1" <?=$useHtmlYes?>/> 사용</label>
-						
-					</dd>
-				</dl>
-				<dl class="table">
 					<dt><label for="editor">에디터 선택</label></dt>
 					<dd>
 						<select name="editor" id="editor">
