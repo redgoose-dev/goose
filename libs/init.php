@@ -4,12 +4,17 @@ if(!defined("GOOSE")){exit();}
 // error reporting
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
 {
-	//@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
+	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
 }
 else
 {
-	//@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
+	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
 }
+
+// session check
+$_SESSION['gooseEmail'] = isset($_SESSION['gooseEmail']) ? $_SESSION['gooseEmail'] : false;
+$_SESSION['gooseName'] = isset($_SESSION['gooseName']) ? $_SESSION['gooseName'] : false;
+$_SESSION['gooseLevel'] = isset($_SESSION['gooseLevel']) ? $_SESSION['gooseLevel'] : false;
 
 // init Util class
 require_once(PWD.'/libs/Util.class.php');
@@ -55,8 +60,9 @@ if ($route)
 	$routeTarget = $route->getTarget();
 	$routeMethod = $route->getMethods();
 
-	$paramController = $routePapameters['controller'];
-	$paramAction = $routePapameters['action'];
+	$paramController = (isset($routePapameters['controller'])) ? $routePapameters['controller'] : '';
+	$paramAction = (isset($routePapameters['action'])) ? $routePapameters['action'] : '';
+	$routeTarget['type'] = (isset($routeTarget['type'])) ? $routeTarget['type'] : '';
 
 	switch ($routeTarget['type'])
 	{

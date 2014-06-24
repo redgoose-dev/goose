@@ -1,7 +1,8 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$json_srl = ($routePapameters['param0']) ? (int)$routePapameters['param0'] : null;
+$json = null;
+$json_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : null;
 
 if ($paramAction !== "create" and $json_srl)
 {
@@ -30,7 +31,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		?>
 			<fieldset>
 				<legend class="blind">JSON<?=$titleType?></legend>
-				<p class="message">"<?=$json[name]?>" JSON 데이터를 삭제하시겠습니까? 삭제된 JSON 데이터는 복구할 수 없습니다.</p>
+				<p class="message">"<?=$json['name']?>" JSON 데이터를 삭제하시겠습니까? 삭제된 JSON 데이터는 복구할 수 없습니다.</p>
 			</fieldset>
 		<?
 		}
@@ -42,7 +43,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				<legend class="blind">JSON<?=$titleType?></legend>
 				<dl class="table">
 					<dt><label for="name">이름</label></dt>
-					<dd><input type="text" name="name" id="name" size="22" maxlength="20" value="<?=$json[name]?>"/></dd>
+					<dd><input type="text" name="name" id="name" size="22" maxlength="20" value="<?=$json['name']?>"/></dd>
 				</dl>
 				<dl>
 					<dt><label>JSON DATA</label></dt>

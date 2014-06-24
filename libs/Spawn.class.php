@@ -30,20 +30,21 @@ class Spawn extends Database {
 	**/
 	private function arrayToQuery($getArray)
 	{
-		if (!$getArray[act] || !$getArray[table])
+		if (!$getArray['act'] || !$getArray['table'])
 		{
 			return null;
 		}
 
-		$getArray[where] = preg_replace("/^and|and$/", "", $getArray[where]);
+		$getArray['where'] = (isset($getArray['where'])) ? preg_replace("/^and|and$/", "", $getArray['where']) : '';
+		$getArray['limit'] = (isset($getArray['limit'])) ? $getArray['limit'] : false;
 
-		$str = $getArray[act];
-		$str .= ($getArray[field]) ? ' '.$getArray[field] : ' *';
-		$str .= ' from '.$getArray[table];
-		$str .= ($getArray[where]) ? ' where '.$getArray[where] : '';
-		$str .= ($getArray[order]) ? ' order by '.$getArray[order] : '';
-		$str .= ($getArray[sort]) ? ' '.$getArray[sort] : '';
-		$str .= (is_array($getArray[limit])) ? ' limit '.$getArray[limit][0].', '.$getArray[limit][1] : '';
+		$str = $getArray['act'];
+		$str .= ($getArray['field']) ? ' '.$getArray['field'] : ' *';
+		$str .= ' from '.$getArray['table'];
+		$str .= ($getArray['where']) ? ' where '.$getArray['where'] : '';
+		$str .= (isset($getArray['order'])) ? ' order by '.$getArray['order'] : '';
+		$str .= (isset($getArray['sort'])) ? ' '.$getArray['sort'] : '';
+		$str .= (is_array($getArray['limit'])) ? ' limit '.$getArray['limit'][0].', '.$getArray['limit'][1] : '';
 		return $str;
 	}
 
@@ -199,10 +200,10 @@ class Spawn extends Database {
 	**/
 	public function getItems($data)
 	{
-		$data[act] = 'select';
-		$data[field] = ($data[field]) ? $data[field] : '*';
+		$data['act'] = 'select';
+		$data['field'] = (isset($data['field'])) ? $data['field'] : '*';
 		$query = $this->arrayToQuery($data);
-		if ($data[debug])
+		if (isset($data['debug']))
 		{
 			var_dump($query);
 			return array();
@@ -224,7 +225,7 @@ class Spawn extends Database {
 		$data[act] = 'select';
 		$data[field] = ($data[field]) ? $data[field] : '*';
 		$query = $this->arrayToQuery($data);
-		if ($data[debug])
+		if (isset($data[debug]))
 		{
 			var_dump($query);
 			return null;
@@ -243,10 +244,10 @@ class Spawn extends Database {
 	**/
 	public function getCount($data)
 	{
-		$data[act] = 'select';
-		$data[field] = 'count(*)';
+		$data['act'] = 'select';
+		$data['field'] = 'count(*)';
 		$query = $this->arrayToQuery($data);
-		if ($data[debug])
+		if (isset($data['debug']))
 		{
 			var_dump($query);
 			return null;
