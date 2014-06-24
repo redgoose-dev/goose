@@ -65,6 +65,7 @@ class Util {
 	 */
 	public function convertDate($str="00000000000000")
 	{
+		$result = '';
 		$o = substr($str, 0, 8);
 		$result .= substr($o, 0, 4)."-";
 		$result .= substr($o, 4, 2)."-";

@@ -1,17 +1,17 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$group_srl = (int)$routePapameters['param0'];
+$group_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : null;
 $itemParameter = ($group_srl) ? 'group_srl='.$group_srl : '';
 
-$nestsCount = $spawn->getCount(array('table'=>$tablesName[nests], 'where'=>$itemParameter));
+$nestsCount = $spawn->getCount(array('table'=>$tablesName['nests'], 'where'=>$itemParameter));
 $nestsIndex = $spawn->getItems(array(
-	'table' => $tablesName[nests],
+	'table' => $tablesName['nests'],
 	'where' => $itemParameter,
 	'order' => 'srl',
 	'sort' => 'desc'
 ));
-$nestGroupsCount = $spawn->getCount(array('table'=>$tablesName[nestGroups]));
+$nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 ?>
 
 <section>

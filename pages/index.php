@@ -3,13 +3,13 @@ if(!defined("GOOSE")){exit();}
 
 // get article count
 $articlesCount = $spawn->getCount(array(
-	table => $tablesName[articles]
+	'table' => $tablesName['articles']
 ));
 $articlesIndex = $spawn->getItems(array(
-	table => $tablesName[articles],
-	order => 'srl',
-	sort => 'desc',
-	limit => array(0, 20)
+	'table' => $tablesName['articles'],
+	'order' => 'srl',
+	'sort' => 'desc',
+	'limit' => array(0, 20)
 ));
 ?>
 
@@ -24,16 +24,16 @@ $articlesIndex = $spawn->getItems(array(
 			foreach ($articlesIndex as $k=>$v)
 			{
 				$nest = $spawn->getItem(array(
-					field => 'name,useCategory',
-					table => $tablesName[nests],
-					where => 'srl='.$v[nest_srl]
+					'field' => 'name,useCategory',
+					'table' => $tablesName['nests'],
+					'where' => 'srl='.$v['nest_srl']
 				));
-				if ($nest[useCategory] && $v[category_srl])
+				if ($nest['useCategory'] && $v['category_srl'])
 				{
 					$categoryName = $spawn->getItem(array(
-						field => 'name',
-						table => $tablesName[categories],
-						where => 'srl='.$v[category_srl]
+						'field' => 'name',
+						'table' => $tablesName['categories'],
+						'where' => 'srl='.$v['category_srl']
 					));
 					$categoryName = ($categoryName) ? "<span>분류:$categoryName[name]</span>" : "";
 				}

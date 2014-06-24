@@ -1,9 +1,9 @@
 <?
 if(!defined("GOOSE")){exit();}
 
-$usersCount = $spawn->getCount(array('table'=>$tablesName[users]));
+$usersCount = $spawn->getCount(array('table'=>$tablesName['users']));
 $users = $spawn->getItems(array(
-	'table' => $tablesName[users],
+	'table' => $tablesName['users'],
 	'order' => 'srl',
 	'sort' => 'desc'
 ));

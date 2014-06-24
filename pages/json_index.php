@@ -1,9 +1,9 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$jsonCount = $spawn->getCount(array('table'=>$tablesName[jsons]));
+$jsonCount = $spawn->getCount(array('table'=>$tablesName['jsons']));
 $jsonIndex = $spawn->getItems(array(
-	'table' => $tablesName[jsons],
+	'table' => $tablesName['jsons'],
 	'order' => 'srl',
 	'sort' => 'desc'
 ));
