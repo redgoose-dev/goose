@@ -54,6 +54,6 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
 1. 이제 씁니다.
 
 ##활용 사이트
-* <a href="http://redgoose.me">redgoose gallery</a>
-* <a href="http://redgoose.me/note/">redgoose note</a>
-* <a href="http://artofphoto.co.kr">artofphoto(구버전)</a>
+* <a href="http://redgoose.me" target="_blank">redgoose gallery</a>
+* <a href="http://redgoose.me/note/" target="_blank">redgoose note</a>
+* <a href="http://artofphoto.co.kr" target="_blank">artofphoto(구버전)</a>
