@@ -221,6 +221,7 @@ class Util {
 		$str .= "\t'jsons' => '".$post['dbPrefix']."jsons'\n";
 		$str .= ");\n";
 		$str .= "\$api_key = \"".$post['apiPrefix']."\";\n";
+		$str .= "\$adminLevel = \"".$post['adminLevel']."\";\n";
 		$str .= "?>";
 
 		return $this->fop($dir, 'w', $str);
