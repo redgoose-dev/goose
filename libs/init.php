@@ -1,6 +1,35 @@
 <?
 if(!defined("GOOSE")){exit();}
 
+// error reporting
+if(version_compare(PHP_VERSION, '5.4.0', '<'))
+{
+	//@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
+}
+else
+{
+	//@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
+}
+
+// init Util class
+require_once(PWD.'/libs/Util.class.php');
+$util = new Util();
+
+// check install
+if (!file_exists(PWD."/data/config/user.php"))
+{
+	if ($_SERVER['REQUEST_METHOD'] == 'POST')
+	{
+		require_once(PWD.'/transaction/install.php');
+	}
+	else
+	{
+		require_once(PWD.'/pages/install.php');
+	}
+	$util->out();
+}
+
+
 require_once(PWD.'/data/config/user.php');
 require_once(PWD.'/libs/variable.php');
 require_once(PWD.'/libs/Database.class.php');
