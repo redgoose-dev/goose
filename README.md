@@ -44,7 +44,7 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
 1. `http://localhost/phpmyadmin/` 주소로 들어가 사용자와 데이터베이스를 만듭니다.
 1. Goose를 설치합니다.
 
-### Goose 설치
+###Goose 설치
 1. 파일을 받아서 서버에 압축풉니다. `/www/goose/`
 1. 웹브라우저에서 goose파일을 설치한곳을 주소로 적어서 페이지 이동합니다. `http://domainaddress.com/goose/`
 1. **Install Goose**설치화면이 나옵니다.
@@ -52,3 +52,8 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
 1. 설치하기 버튼을 누르면  alert창에서 "Complete install"라는 메세지가 나오면서 설치완료됩니다.
 1. 로그인화면으로 이동하는데 아까 적었던 관리자 이메일주소와 비밀번호를 입력합니다.
 1. 이제 씁니다.
+
+##활용 사이트
+* <a href="http://redgoose.me">redgoose gallery</a>
+* <a href="http://redgoose.me/note/">redgoose note</a>
+* <a href="http://artofphoto.co.kr">artofphoto(구버전)</a>
