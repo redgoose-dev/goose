@@ -17,6 +17,7 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
 ###AMP(Apache, MySQL, PHP) 설치
 ####Ubuntu
 * Apache
+  1. 처음 설치라면 update부터... `sudo apt-get update`
   1. `sudo apt-get install apache2`
   1. 웹브라우져 주소란에 `http://127.0.0.1:80` 접속 후, It works! 메세지가 나오면 정상
 
@@ -32,7 +33,16 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
   1. `sudo apt-get install libapache2-mod-php5` 아파치와 PHP 연동 모듈 설치
   1. `sudo apt-get install php5-mysql` MySQL과 PHP 연동 모듈 설치
   1. `sudo apt-get install php5-mcrypt` 암호화 모듈 설치
-  - `sudo apt-get install phpmyadmin` MySQL 데이터베이스 웹형 관리 서비스 설치
+  1. `sudo apt-get install phpmyadmin` MySQL 데이터베이스 웹형 관리 서비스 설치
+
+* 참고사항
+  * 만약 페이지를 실행할때  500에러를 본다면 대부분 .htaccess파일쪽에서 원인이라고 볼 수 있습니다.
+
+####Mac
+1. http://www.mamp.info 사이트로 가서 mamp프로그램을 받아서 설치합니다.
+1. php와 mysql을 설정하고 start버튼을 눌러 서버시작합니다.
+1. `http://localhost/phpmyadmin/` 주소로 들어가 사용자와 데이터베이스를 만듭니다.
+1. Goose를 설치합니다.
 
 ### Goose 설치
 1. 파일을 받아서 서버에 압축풉니다. `/www/goose/`
