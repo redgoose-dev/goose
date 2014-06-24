@@ -271,5 +271,5 @@ if ($result != 'success')
 /*
 	Redirect Index
 */
-$util->redirect(ROOT, "Complete install");
+$util->redirect(ROOT."/", "Complete install");
 ?>
