@@ -1,11 +1,6 @@
-Options +FollowSymLinks
 RewriteEngine On
 RewriteCond $1 !\.(js|ico|gif|jpg|jpeg|png|css|swf|mp3|wav|txt|zip|rar)$
-RewriteRule ^(.*)$ index.php [NC,L]
-
-php_flag display_startup_errors on
-php_flag display_errors on
-php_flag log_errors on
+RewriteRule ^(.*)$ index.php [L,NC]
 
 <ifModule mod_expires.c>
 ExpiresActive On
