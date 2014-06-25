@@ -34,6 +34,8 @@ li { margin: 3px 0; }
 
 a { color: #2281d8; }
 
+hr { border: none; height: 1px; clear: both; background: #ccc; }
+
 /* Attributes */
 /* Forms */
 input[type=email], input[type=text], input[type=password], input[type=number], input[type=tel], textarea { margin: 2px 3px; padding: 8px 8px; font-size: 13px; color: #333; vertical-align: middle; background: white; border: 1px solid #acacac; box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.2); border-radius: 0; }
@@ -158,9 +160,7 @@ button.ui-button.block { width: 100%; }
 .categories li.active a { font-weight: bolder; color: #469fc0; text-decoration: underline; }
 
 /* Article body */
-.articleBody { border-bottom: 1px solid #ddd; padding: 0 0 15px; margin: 15px 0; }
-.articleBody p { margin: 5px 0 10px; }
-.articleBody pre { border: 1px dashed #ccc; padding: 12px; background: #fafafa; overflow: auto; -webkit-overflow-scrolling: touch; }
+.articleBody { margin: 20px 0; }
 
 /* extra contents body */
 .extraContents { margin: 15px 0 30px; border-width: 1px; border-style: solid; border-color: #ccc; }

@@ -154,14 +154,7 @@
 
 
 /* Article body */
-.articleBody {
-	border-bottom: 1px solid #ddd; padding: 0 0 15px; margin: 15px 0;
-	p {margin: 5px 0 10px;}
-	pre {
-		border: 1px dashed #ccc; padding: 12px; background: #fafafa; overflow: auto;
-		-webkit-overflow-scrolling: touch;
-	}
-}
+.articleBody {margin: 20px 0;}
 
 /* extra contents body */
 .extraContents {
