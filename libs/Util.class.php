@@ -4,17 +4,33 @@ if(!defined("GOOSE")){exit();}
 class Util {
 	var $start_time;
 
+	// init
 	public function Util()
 	{
 		$this->start_time = array_sum(explode(' ', microtime()));
 	}
 
+	/**
+	 * check type (배열이라면 javascript object나 배열 형태로 변환)
+	 * 
+	 * @anthor : redgoose
+	 * 
+	 * @param * $obj : 데이터
+	 * @return : javascript 형태의 데이터로 리턴
+	*/
 	private function typeCheck($obj)
 	{
 		return (is_array($obj)) ? json_encode($obj) : "'" . $obj . "'";
 	}
 
-	// error
+	/**
+	 * costom error (제대로 사용할지는 미정)
+	 * 
+	 * @anthor : redgoose
+	 * 
+	 * @param Number $code : 에러코드
+	 * @return void
+	*/
 	public function error($code=404)
 	{
 		switch($code)
@@ -29,25 +45,54 @@ class Util {
 		}
 	}
 
-	// console.log
+	/**
+	 * console.log (자바스크립트의 console.log)
+	 * 
+	 * @anthor : redgoose
+	 * 
+	 * @param String $obj : console.log에 표시할 데이터. 문자,번호,배열... 등등 값을 확인할 수 있다.
+	 * @return void
+	*/
 	public function console($obj)
 	{
 		echo "<script type='text/javascript'>console.log(" . $this->typeCheck($obj) . ");</script>";
 	}
 
-	// alert message
-	public function alert($str)
+	/**
+	 * alert message
+	 * 
+	 * @anthor : redgoose
+	 * 
+	 * @param String $msg : alert 메세지
+	 * @return void
+	*/
+	public function alert($msg)
 	{
-		echo "<script type='text/javascript'>if('$str'){alert('$str');}</script>";
+		echo "<script type='text/javascript'>if('$msg'){alert('$msg');}</script>";
 	}
 
-	// go to back
-	public function back($str)
+	/**
+	 * go to back (뒤로가기)
+	 * 
+	 * @anthor : redgoose
+	 * 
+	 * @param String $msg : 뒤로가기 전 alert 메세지
+	 * @return void
+	*/
+	public function back($msg)
 	{
-		echo ("<script type='text/javascript'>if('$str'){alert('$str');};history.back();</script>");
+		echo ("<script type='text/javascript'>if('$msg'){alert('$msg');};history.back();</script>");
 	}
 
-	// redirect url
+	/**
+	 * redirect url (페이지 이동)
+	 * 
+	 * @anthor : redgoose
+	 * 
+	 * @param String $loc : 이동할 페이지 주소
+	 * @param String $msg : 페이지 이동할때 alert으로 나올 메세지
+	 * @return void
+	*/
 	public function redirect($loc=null, $msg=null)
 	{
 		echo "<script type='text/javascript'>";
@@ -159,7 +204,14 @@ class Util {
 		}
 	}
 
-	// 디렉토리 목록 가져오기
+	/**
+	 * 디렉토리 목록 가져오기
+	 * 
+	 * @anchor : redgoose
+	 * 
+	 * @param String $str : 부모 디렉토리 경로
+	 * @return Array $result : 자식 디렉토리 목록 이름의 배열
+	*/
 	public function readDir($str=null)
 	{
 		$result = array();
@@ -177,7 +229,15 @@ class Util {
 		return $result;
 	}
 
-	// 배열속에 필수값이 들어있는지 확인
+	/**
+	 * 배열속에 필수값이 들어있는지 확인
+	 * 
+	 * @anchor : redgoose
+	 * 
+	 * @param Array $target : 확인할 배열
+	 * @param Array $required : 키값이 들어있는 배열
+	 * @return String : $required에 있는 이름이 $target키에 있으면 $required이름 리턴. 없으면 null
+	*/
 	public function checkExistValue($target, $required=null)
 	{
 		if ($required)
@@ -190,18 +250,20 @@ class Util {
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 	/**
 	 * Create user file value
 	 * 
-	 * @return String : user.php 내용
+	 * @param Array $post : post 데이터
+	 * @param String $dir : user파일위치
+	 * @return String : 처리결과
 	 */
 	public function createUserFile($post, $dir)
 	{
 		global $root, $url;
-	
+
 		$str = "<?php\n";
 		$str .= "if(!defined(\"GOOSE\")){exit();}\n";
 		$str .= "\n";
