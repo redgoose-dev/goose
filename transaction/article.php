@@ -136,7 +136,7 @@ switch($paramAction)
 		}
 
 		// 확장변수 데이터 입력
-		if ($_POST[useExtraVar])
+		if ($_POST['useExtraVar'])
 		{
 			$extraKey = $spawn->getItems(array(
 				table => $tablesName[extraKey],
@@ -148,14 +148,17 @@ switch($paramAction)
 			{
 				$keyName = $v[keyName];
 				$value = $_POST['ext_'.$keyName];
-				$spawn->insert(array(
-					table => $tablesName[extraVar],
-					data => array(
-						article_srl => $article_srl,
-						key_srl => $v[srl],
-						value => $value
-					)
-				));
+				if ($value)
+				{
+					$spawn->insert(array(
+						table => $tablesName[extraVar],
+						data => array(
+							article_srl => $article_srl,
+							key_srl => $v[srl],
+							value => $value
+						)
+					));
+				}
 			}
 		}
 
