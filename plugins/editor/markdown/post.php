@@ -1,6 +1,10 @@
 <?php
 if(!defined("GOOSE")){exit();}
+
+$path = ROOT.'/plugins/editor/'.$nest['editor'];
 ?>
+
+<link rel="stylesheet" href="<?=$path?>/css/post.css" />
 
 <fieldset>
 	<dl>
@@ -13,4 +17,25 @@ if(!defined("GOOSE")){exit();}
 			</p>
 		</dd>
 	</dl>
+
+	<dl>
+		<dt><label for="attachfiles">파일첨부</label></dt>
+		<dd>
+			<div id="filesUpload">
+				<input type="file" name="attachfiles[]" id="attachfiles" multiple />
+				<button type="button" role="upload">업로드</button>
+			</div>
+		</dd>
+	</dl>
 </fieldset>
+
+<script src="<?=$jQueryAddress?>"></script>
+<script src="<?=$path?>/js/jquery.form.js"></script>
+<script src="<?=$path?>/js/fileUpload.js"></script>
+<script>
+jQuery(function($){
+	var fileUpload = new FilesUpload(document.getElementById('filesUpload'), {
+		aaa : 'apple'
+	});
+});
+</script>

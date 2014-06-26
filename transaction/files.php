@@ -1,6 +1,9 @@
 <?
 if(!defined("GOOSE")){exit();}
 
+echo 'finish';
+$util->out();
+
 switch($paramAction)
 {
 	// upload
