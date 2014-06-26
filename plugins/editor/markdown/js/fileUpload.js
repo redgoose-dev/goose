@@ -75,8 +75,8 @@ var FilesUpload = function(el, options)
 	/**
 	 * file upload
 	 * 
-	 * 외부 더미폼을 만들고 
-	 * jquery.form 플러그인을 이용하여 파일을 업로드한다.
+	 * 외부 더미폼을 만들고, jquery.form 플러그인을 이용하여 파일을 업로드한다.
+	 * @return Boolean : 
 	*/
 	var upload = function()
 	{
@@ -93,12 +93,15 @@ var FilesUpload = function(el, options)
 
 	/**
 	 * error
+	 * 
+	 * @param String msg : 메세지
 	 */
 	var error = function(msg)
 	{
 		alert(msg);
 	}
 
+	// act
 	init();
 }
 
@@ -108,5 +111,5 @@ var FilesUpload = function(el, options)
 */
 FilesUpload.prototype.defaults = {
 	foo : 'bar'
-	,action : '/sdgksdgsgd/dfgsdg.php'
+	,action : './'
 };

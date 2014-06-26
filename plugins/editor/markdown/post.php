@@ -27,6 +27,29 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 			</div>
 		</dd>
 	</dl>
+	<div class="filesQueue">
+		<figure class="thumnail">
+			.thumnail img
+		</figure>
+		<ul>
+			<li>
+				<div class="body">
+					<p class="title">
+						<span class="name">image_file_name.jpg</span>
+						<span class="size">(235kb)</span>
+						<span class="stat">- Ready</span>
+					</p>
+				</div>
+				<div class="rpogress">
+					<p class="graph"><span></span></p>
+				</div>
+				<nav>
+					<button type="button" role="useThumnail">썸네일 이미지</button>
+					<button type="button" role="delete">삭제</button>
+				</nav>
+			</li>
+		</ul>
+	</div>
 </fieldset>
 
 <script src="<?=$jQueryAddress?>"></script>
@@ -35,7 +58,7 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 <script>
 jQuery(function($){
 	var fileUpload = new FilesUpload(document.getElementById('filesUpload'), {
-		aaa : 'apple'
+		action : '<?=ROOT?>/files/upload/'
 	});
 });
 </script>
