@@ -77,8 +77,6 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 }
 ?>
 
-<script src="<?=$jQueryAddress?>"></script>
-
 <section class="form">
 	<div class="hgroup">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
