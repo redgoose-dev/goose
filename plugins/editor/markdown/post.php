@@ -19,37 +19,44 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 	</dl>
 
 	<dl>
-		<dt><label for="attachfiles">파일첨부</label></dt>
+		<dt><label for="fileUpload">파일첨부</label></dt>
 		<dd>
-			<div id="filesUpload">
-				<input type="file" name="attachfiles[]" id="attachfiles" multiple />
-				<button type="button" role="upload">업로드</button>
-			</div>
+			<input type="file" name="fileUpload[]" id="fileUpload" multiple />
+			<button type="button" id="fileUploadButton">업로드</button>
 		</dd>
 	</dl>
-	<div class="filesQueue">
-		<figure class="thumnail">
-			.thumnail img
-		</figure>
-		<ul>
-			<li>
-				<div class="body">
-					<p class="title">
-						<span class="name">image_file_name.jpg</span>
-						<span class="size">(235kb)</span>
-						<span class="stat">- Ready</span>
-					</p>
-				</div>
-				<div class="rpogress">
-					<p class="graph"><span></span></p>
-				</div>
-				<nav>
-					<button type="button" role="useThumnail">썸네일 이미지</button>
-					<button type="button" role="delete">삭제</button>
-				</nav>
-			</li>
-		</ul>
-	</div>
+	<article>
+		<h1>파일첨부 관리</h1>
+		<div class="filesQueue" id="filesQueue">
+			<figure class="thumnail">
+				.thumnail img
+			</figure>
+			<ul>
+				<li>
+					<div class="body">
+						<p class="title">
+							<span class="name">image_file_name.jpg</span>
+							<span class="size">(235kb)</span>
+							<span class="stat">- Ready</span>
+						</p>
+					</div>
+					<div class="rpogress">
+						<p class="graph"><span></span></p>
+					</div>
+					<nav>
+						<button type="button" rg-action="useThumnail">썸네일 이미지</button>
+						<button type="button" rg-action="delete">삭제</button>
+					</nav>
+				</li>
+			</ul>
+		</div>
+		<nav id="queueController">
+			<button type="button" rg-action="selectAll">모두선택</button>
+			<button type="button" rg-action="insertContents">본문삽입</button>
+			<button type="button" rg-action="deleteSelect">선택삭제</button>
+			<button type="button" rg-action="deleteAll">모두삭제</button>
+		</nav>
+	</article>
 </fieldset>
 
 <script src="<?=$jQueryAddress?>"></script>
@@ -57,8 +64,13 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 <script src="<?=$path?>/js/fileUpload.js"></script>
 <script>
 jQuery(function($){
-	var fileUpload = new FilesUpload(document.getElementById('filesUpload'), {
+	var fileUpload = new FilesUpload($('#fileUpload'), {
 		action : '<?=ROOT?>/files/upload/'
+		,autoUpload : false
+		,uploadButton : $('#fileUploadButton')
+		,input : $('#attachfiles')
+		,queueIndex : $('#filesQueue')
+		,queueController : $('#queueController')
 	});
 });
 </script>

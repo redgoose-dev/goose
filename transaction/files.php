@@ -1,7 +1,8 @@
 <?
 if(!defined("GOOSE")){exit();}
 
-echo 'finish';
+var_dump($_POST);
+var_dump($_FILES);
 $util->out();
 
 switch($paramAction)
