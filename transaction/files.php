@@ -1,7 +1,7 @@
 <?
 if(!defined("GOOSE")){exit();}
 
-var_dump($_POST);
+//var_dump($_POST);
 var_dump($_FILES);
 $util->out();
 

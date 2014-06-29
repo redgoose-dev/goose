@@ -21,7 +21,7 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 	<dl>
 		<dt><label for="fileUpload">파일첨부</label></dt>
 		<dd>
-			<input type="file" name="fileUpload[]" id="fileUpload" multiple />
+			<input type="file" name="fileUpload" id="fileUpload" multiple />
 			<button type="button" id="fileUploadButton">업로드</button>
 		</dd>
 	</dl>
@@ -32,15 +32,14 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 				.thumnail img
 			</figure>
 			<ul>
+<!--
 				<li>
 					<div class="body">
-						<p class="title">
-							<span class="name">image_file_name.jpg</span>
-							<span class="size">(235kb)</span>
-							<span class="stat">- Ready</span>
-						</p>
+						<span class="name">image_file_name.jpg</span>
+						<span class="size">(235kb)</span>
+						<span class="stat">- Ready</span>
 					</div>
-					<div class="rpogress">
+					<div class="progress">
 						<p class="graph"><span></span></p>
 					</div>
 					<nav>
@@ -48,6 +47,7 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 						<button type="button" rg-action="delete">삭제</button>
 					</nav>
 				</li>
+-->
 			</ul>
 		</div>
 		<nav id="queueController">
@@ -59,18 +59,25 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 	</article>
 </fieldset>
 
+<script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
-<script src="<?=$path?>/js/jquery.form.js"></script>
-<script src="<?=$path?>/js/fileUpload.js"></script>
+<script src="<?=$path?>/js/FilesQueue.class.js"></script>
+<script src="<?=$path?>/js/FileUpload.class.js"></script>
+<script src="<?=$path?>/js/UploadInterface.class.js"></script>
 <script>
 jQuery(function($){
-	var fileUpload = new FilesUpload($('#fileUpload'), {
+	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		action : '<?=ROOT?>/files/upload/'
-		,autoUpload : false
-		,uploadButton : $('#fileUploadButton')
-		,input : $('#attachfiles')
-		,queueIndex : $('#filesQueue')
-		,queueController : $('#queueController')
+		,auto : true
+		,$queue : $('#filesQueue')
+		,$controller : $('#queueController')
+		,limit : 3
+		,token : '<?=md5("uPloAD_toKEn" . time());?>'
+	});
+
+	// upload button click event
+	$('#fileUploadButton').on('click', function(){
+		uploadInterface.upload();
 	});
 });
 </script>
