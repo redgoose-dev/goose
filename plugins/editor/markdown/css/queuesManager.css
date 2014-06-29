@@ -1,0 +1,66 @@
+.queuesManager {}
+
+.queuesManager .filesQueue {}
+.queuesManager .filesQueue:after {content: ''; display: block; clear: both;}
+.queuesManager .filesQueue > figure {
+	float: left; width: 160px; height: 160px; margin: 0;
+	background: #eee;
+}
+.queuesManager .filesQueue ul {
+	margin: 0 0 0 170px; height: 160px; padding: 5px; list-style: none;
+	background: #eee;
+	border: 2px solid #bec2c3;
+	overflow: auto; -webkit-overflow-scrolling: touch;
+}
+.queuesManager .filesQueue li {
+	margin: 0 0 1px; padding: 10px; position: relative;
+	background: #fff;
+}
+.queuesManager .filesQueue li.on {border: 2px solid #74b3c9;}
+
+.queuesManager .filesQueue .body {
+	margin-right: 70px;
+	font-size: 12px; color: #333; word-break: break-word;
+}
+.queuesManager .filesQueue .body .name {}
+.queuesManager .filesQueue .body .size {color: #666;}
+.queuesManager .filesQueue .body .size:before {content: '(';}
+.queuesManager .filesQueue .body .size:after {content: ')';}
+.queuesManager .filesQueue .body .status {}
+.queuesManager .filesQueue .body .status:before {content: ' - ';}
+
+.queuesManager .filesQueue nav {
+	position: absolute;
+	right: 10px; top: 50%; height: 30px; margin-top: -15px;
+}
+.queuesManager .filesQueue nav button {
+	display: block; float: left; margin: 0 0 0 1px; padding: 0;
+	width: 30px; height: 30px; cursor: pointer; text-indent: -9999px;
+	background: transparent url('../img/sp-icon@1x.png') 0 0 no-repeat;
+	border: none;
+}
+.queuesManager .filesQueue nav button:first-child {margin-left: 0;}
+.queuesManager .filesQueue nav button[rg-action=useThumnail] {
+	background-position: 10px 10px;
+}
+.queuesManager .filesQueue nav button[rg-action=useThumnail].on {
+	background-position: 10px -10px;
+}
+.queuesManager .filesQueue nav button[rg-action=delete] {
+	background-position: -12px 10px;
+}
+.queuesManager .filesQueue nav button[rg-action=delete].on {
+	background-position: -12px -10px;
+}
+
+.queuesManager .filesQueue .progress {margin-right: 80px;}
+.queuesManager .filesQueue .progress .graph {
+	height: 6px; margin: 8px 0 0;
+	background: #bbbcbd;
+}
+.queuesManager .filesQueue .progress .graph span {
+	display: block; height: 100%; background: #74b3c9;
+}
+
+.queuesManager > nav {margin: 10px 0 0; font-size: 0;}
+.queuesManager > nav > button {margin-right: 1px;}

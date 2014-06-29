@@ -104,9 +104,9 @@ var UploadInterface = function(el, options) {
 	this.uploadComplete = function(response, queue)
 	{
 		queue.status = 'complete';
-		//queue.element.find('div.body > span.size').text(queue.size);
+		queue.element.find('div.body > span.size').text(queue.size + 'kb');
 		queue.element.find('div.body > span.status').text('Complete');
-		//queue.element.find('div.progress').fadeOut(2000);
+		queue.element.find('div.progress').delay(200).fadeOut(400);
 	}
 
 	this.uploadError = function(message, queue)

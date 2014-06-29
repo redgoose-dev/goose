@@ -5,6 +5,7 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 ?>
 
 <link rel="stylesheet" href="<?=$path?>/css/post.css" />
+<link rel="stylesheet" href="<?=$path?>/css/queuesManager.css" />
 
 <fieldset>
 	<dl>
@@ -25,19 +26,19 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 			<button type="button" id="fileUploadButton">업로드</button>
 		</dd>
 	</dl>
-	<article>
-		<h1>파일첨부 관리</h1>
+	<article class="queuesManager">
+		<h1 class="blind">파일첨부 관리</h1>
 		<div class="filesQueue" id="filesQueue">
 			<figure class="thumnail">
 				.thumnail img
 			</figure>
 			<ul>
 <!--
-				<li>
+				<li class="loading">
 					<div class="body">
 						<span class="name">image_file_name.jpg</span>
-						<span class="size">(235kb)</span>
-						<span class="stat">- Ready</span>
+						<span class="size">235kb</span>
+						<span class="stat">Ready</span>
 					</div>
 					<div class="progress">
 						<p class="graph"><span></span></p>
@@ -51,10 +52,10 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 			</ul>
 		</div>
 		<nav id="queueController">
-			<button type="button" rg-action="selectAll">모두선택</button>
-			<button type="button" rg-action="insertContents">본문삽입</button>
-			<button type="button" rg-action="deleteSelect">선택삭제</button>
-			<button type="button" rg-action="deleteAll">모두삭제</button>
+			<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>
+			<button type="button" rg-action="insertContents" class="ui-button btn-small btn-highlight">본문삽입</button>
+			<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>
+			<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>
 		</nav>
 	</article>
 </fieldset>
