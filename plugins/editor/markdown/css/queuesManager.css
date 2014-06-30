@@ -1,37 +1,41 @@
-.queuesManager {}
-
-.queuesManager .filesQueue {}
 .queuesManager .filesQueue:after {content: ''; display: block; clear: both;}
+
 .queuesManager .filesQueue > figure {
-	float: left; width: 160px; height: 160px; margin: 0;
-	background: #eee;
+	float: left; width: 160px; height: 160px; margin: 0; padding: 3px; position: relative;
+	background: #fff; border: 1px solid #ccc;
 }
+.queuesManager .filesQueue > figure:after {
+	content: 'Preview'; display: block; position: absolute; z-index: 1;
+	left: 0; right: 0; top: 50%; margin-top: -8px;
+	text-align: center; font-size: 16px; font-family: Helvetica; font-weight: 600; color: #ccc;
+}
+.queuesManager .filesQueue > figure img {
+	display: block; position: relative; width: 100%; height: 100%; z-index: 2;
+}
+
 .queuesManager .filesQueue ul {
-	margin: 0 0 0 170px; height: 160px; padding: 5px; list-style: none;
-	background: #eee;
-	border: 2px solid #bec2c3;
+	margin: 0 0 0 170px; height: 160px; padding: 8px; list-style: none;
+	border: 1px solid #ccc;
 	overflow: auto; -webkit-overflow-scrolling: touch;
 }
 .queuesManager .filesQueue li {
-	margin: 0 0 1px; padding: 10px; position: relative;
-	background: #fff;
+	margin: 0 0 2px; padding: 8px 12px; position: relative;
+	background: #f3f3f3; border: 2px solid #f3f3f3;
 }
-.queuesManager .filesQueue li.on {border: 2px solid #74b3c9;}
+.queuesManager .filesQueue li.on {border-color: #74b3c9;}
 
 .queuesManager .filesQueue .body {
-	margin-right: 70px;
+	margin-right: 40px;
 	font-size: 12px; color: #333; word-break: break-word;
 }
-.queuesManager .filesQueue .body .name {}
 .queuesManager .filesQueue .body .size {color: #666;}
 .queuesManager .filesQueue .body .size:before {content: '(';}
 .queuesManager .filesQueue .body .size:after {content: ')';}
-.queuesManager .filesQueue .body .status {}
 .queuesManager .filesQueue .body .status:before {content: ' - ';}
 
 .queuesManager .filesQueue nav {
 	position: absolute;
-	right: 10px; top: 50%; height: 30px; margin-top: -15px;
+	right: 8px; top: 50%; height: 30px; margin-top: -15px;
 }
 .queuesManager .filesQueue nav button {
 	display: block; float: left; margin: 0 0 0 1px; padding: 0;
@@ -53,7 +57,7 @@
 	background-position: -12px -10px;
 }
 
-.queuesManager .filesQueue .progress {margin-right: 80px;}
+.queuesManager .filesQueue .progress {margin-right: 40px;}
 .queuesManager .filesQueue .progress .graph {
 	height: 6px; margin: 8px 0 0;
 	background: #bbbcbd;
@@ -64,3 +68,9 @@
 
 .queuesManager > nav {margin: 10px 0 0; font-size: 0;}
 .queuesManager > nav > button {margin-right: 1px;}
+
+/* For desktop */
+@media all and (max-width: 640px) {
+	.queuesManager .filesQueue > figure {width: 80px; height: 80px;}
+	.queuesManager .filesQueue ul {margin-left: 90px; height: 150px;}
+}

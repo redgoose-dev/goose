@@ -29,31 +29,13 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 	<article class="queuesManager">
 		<h1 class="blind">파일첨부 관리</h1>
 		<div class="filesQueue" id="filesQueue">
-			<figure class="thumnail">
-				.thumnail img
-			</figure>
-			<ul>
-<!--
-				<li class="loading">
-					<div class="body">
-						<span class="name">image_file_name.jpg</span>
-						<span class="size">235kb</span>
-						<span class="stat">Ready</span>
-					</div>
-					<div class="progress">
-						<p class="graph"><span></span></p>
-					</div>
-					<nav>
-						<button type="button" rg-action="useThumnail">썸네일 이미지</button>
-						<button type="button" rg-action="delete">삭제</button>
-					</nav>
-				</li>
--->
-			</ul>
+			<figure class="thumnail"></figure>
+			<ul></ul>
 		</div>
 		<nav id="queueController">
-			<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>
 			<button type="button" rg-action="insertContents" class="ui-button btn-small btn-highlight">본문삽입</button>
+			<button type="button" rg-action="useThumnail" class="ui-button btn-small">썸네일설정</button>
+			<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>
 			<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>
 			<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>
 		</nav>
@@ -68,7 +50,8 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 <script>
 jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
-		action : '<?=ROOT?>/files/upload/'
+		uploadAction : '<?=ROOT?>/files/upload/'
+		,removeAction : '<?=ROOT?>/files/remove/'
 		,auto : true
 		,$queue : $('#filesQueue')
 		,$controller : $('#queueController')
