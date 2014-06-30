@@ -22,8 +22,10 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 	<dl>
 		<dt><label for="fileUpload">파일첨부</label></dt>
 		<dd>
-			<input type="file" name="fileUpload" id="fileUpload" multiple />
-			<button type="button" id="fileUploadButton">업로드</button>
+			<div class="box">
+				<input type="file" name="fileUpload" id="fileUpload" multiple />
+				<button type="button" id="fileUploadButton">업로드</button>
+			</div>
 		</dd>
 	</dl>
 	<article class="queuesManager">
@@ -52,7 +54,7 @@ jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		uploadAction : '<?=ROOT?>/files/upload/'
 		,removeAction : '<?=ROOT?>/files/remove/'
-		,auto : true
+		,auto : false
 		,$queue : $('#filesQueue')
 		,$controller : $('#queueController')
 		,limit : 3

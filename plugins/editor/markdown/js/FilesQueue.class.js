@@ -3,6 +3,7 @@ var FilesQueue = function(getParent, $el, options) {
 	var self = this;
 	var parent = getParent;
 	var $preview = $el.children('figure.thumnail');
+	var $index = $el.children('ul');
 
 	this.index = new Object();
 	this.count = 0;
@@ -41,7 +42,7 @@ var FilesQueue = function(getParent, $el, options) {
 		item += '\t\t<p class="graph"><span></span></p>\n';
 		item += '\t</div>\n';
 		item += '\t<nav>\n';
-		item += '\t\t<button type="button" rg-action="delete">삭제</button>\n';
+		item += '\t\t<button type="button" rg-action="delete" class="sp-ico">삭제</button>\n';
 		item += '\t</nav>\n';
 		item += '</li>';
 
@@ -59,6 +60,7 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		// select queue
 		obj.on('click', function(e){
+			var filetype = getFileType($(this).attr('data-name'));
 			$(this).parent().children().removeClass('on');
 			$(this).addClass('on');
 			$preview.html('<img src="' + $(this).attr('data-loc') + '" alt="" />');
@@ -68,11 +70,39 @@ var FilesQueue = function(getParent, $el, options) {
 		// delete queue
 		obj.find('nav > button').on('click', function(e){
 			e.stopPropagation();
-			self.removeQueue(obj.closest('li'));
+			if (confirm('파일을 삭제하시겠습니까?'))
+			{
+				self.removeQueue(obj.closest('li'));
+			}
 		});
 	}
 
-	
+
+	/**
+	 * byte to size convert
+	 * 
+	 * @param {Number} bytes
+	 * @return {String}
+	 */
+	var bytesToSize = function(bytes)
+	{
+		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+		if (bytes == 0) return '0 Byte';
+		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+	};
+
+	/**
+	 * get file type
+	 * 
+	 * @param {} : ...
+	 * @return void
+	 */
+	var getFileType = function(filename)
+	{
+		log(filename)
+	}
+
 
 	/**
 	 * create queue
@@ -116,7 +146,7 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		var action = parent.settings.removeAction;
 		var srls = $queue.map(function(){
-			return $(this).attr('data-srl');
+			return $(this).attr('data-type') + ':' + $(this).attr('data-srl');
 		}).get().join(',');
 
 		if (action)
@@ -124,7 +154,7 @@ var FilesQueue = function(getParent, $el, options) {
 			var ajax = $.ajax({
 				url : action
 				,type : 'post'
-				//,dataType : 'json'
+				,dataType : 'json'
 				,data : {
 					data : srls
 				}
@@ -139,9 +169,7 @@ var FilesQueue = function(getParent, $el, options) {
 					}
 				})
 				.done(function(o){
-					log(o);
-					return false;
-					if (b.status == 'success')
+					if (o.status == 'success')
 					{
 						$queue.fadeOut(400, function(){
 							$(this).remove();
@@ -152,12 +180,53 @@ var FilesQueue = function(getParent, $el, options) {
 		}
 	}
 
-	// select all queue
+	/**
+	 * select all queue
+	 * 
+	 * @return void
+	 */
 	this.selectAllQueue = function()
 	{
-		
+		$index.children('li').addClass('on');
+	}
+
+	/**
+	 * enter infomation in the queue
+	 * 
+	 * @author : redgoose
+	 * @param {DOM} $queue
+	 * @param {Object} opt
+	 * @return void
+	 */
+	this.inputInfomation = function($queue, opt)
+	{
+		$queue.find('div.body > span.size').text(bytesToSize(opt.size));
+		$queue.find('div.body > span.status').text(opt.status);
+		$queue.attr({
+			'data-loc' : opt.dataLoc
+			,'data-srl' : opt.dataSrl
+			,'data-name' : opt.dataName
+			,'data-type' : opt.dataType
+		});
+		if (opt.status == 'complete')
+		{
+			$queue.find('div.progress').delay(200).fadeOut(400);
+		}
+	}
+
+
+	/**
+	 * clear preview
+	 * 프리뷰의 내용을 삭제한다.
+	 * 
+	 * @return void
+	 */
+	this.clearPreview = function()
+	{
+		$preview.html('');
 	}
 
 	// act
 	init();
+
 }

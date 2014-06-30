@@ -67,6 +67,7 @@ var UploadInterface = function(el, options) {
 							if ($lis.length)
 							{
 								self.queue.removeQueue($lis);
+								self.queue.clearPreview();
 							}
 							else
 							{
@@ -106,18 +107,14 @@ var UploadInterface = function(el, options) {
 	}
 
 	/**
-	 * byte to size convert
+	 * reset file input
 	 * 
-	 * @param {Number} bytes
-	 * @return {String}
+	 * @return void
 	 */
-	var bytesToSize = function(bytes)
+	var resetInput = function()
 	{
-		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-		if (bytes == 0) return '0 Byte';
-		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-	};
+		$el.replaceWith( $el = $el.clone( true ) );
+	}
 
 
 	/**
@@ -164,14 +161,19 @@ var UploadInterface = function(el, options) {
 	{
 		var data = JSON.parse(response);
 		queue.status = 'complete';
-		queue.element.find('div.body > span.size').text(bytesToSize(queue.size));
-		queue.element.find('div.body > span.status').text('Complete');
-		queue.element.find('div.progress').delay(200).fadeOut(400);
-		queue.element.attr({
-			'data-loc' : data.filelink
-			,'data-srl' : data.sess_srl
-			,'data-name' : data.filename
+
+		// input infomation in the queue
+		self.queue.inputInfomation(queue.element, {
+			size : queue.size
+			,status : queue.status
+			,dataLoc : data.filelink
+			,dataSrl : data.sess_srl
+			,dataName : data.filename
+			,dataType : 'session'
 		});
+
+		// reset file input
+		resetInput();
 	}
 
 	/**

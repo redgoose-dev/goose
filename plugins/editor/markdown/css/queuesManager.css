@@ -1,3 +1,16 @@
+.queuesManager .sp-ico {
+	background-image: url('../img/sp-icon@1x.png');
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+/* for retina */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+	.queuesManager .sp-ico {
+		background-image: url('../img/sp-icon@2x.png');
+		background-size: 32px 30px;
+	}
+}
+
 .queuesManager .filesQueue:after {content: ''; display: block; clear: both;}
 
 .queuesManager .filesQueue > figure {
@@ -7,7 +20,7 @@
 .queuesManager .filesQueue > figure:after {
 	content: 'Preview'; display: block; position: absolute; z-index: 1;
 	left: 0; right: 0; top: 50%; margin-top: -8px;
-	text-align: center; font-size: 16px; font-family: Helvetica; font-weight: 600; color: #ccc;
+	text-align: center; font-size: 16px; font-family: Helvetica; font-weight: 600; color: #ddd;
 }
 .queuesManager .filesQueue > figure img {
 	display: block; position: relative; width: 100%; height: 100%; z-index: 2;
@@ -40,7 +53,6 @@
 .queuesManager .filesQueue nav button {
 	display: block; float: left; margin: 0 0 0 1px; padding: 0;
 	width: 30px; height: 30px; cursor: pointer; text-indent: -9999px;
-	background: transparent url('../img/sp-icon@1x.png') 0 0 no-repeat;
 	border: none;
 }
 .queuesManager .filesQueue nav button:first-child {margin-left: 0;}
@@ -68,6 +80,7 @@
 
 .queuesManager > nav {margin: 10px 0 0; font-size: 0;}
 .queuesManager > nav > button {margin-right: 1px;}
+
 
 /* For desktop */
 @media all and (max-width: 640px) {
