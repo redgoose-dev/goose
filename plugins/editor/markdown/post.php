@@ -8,7 +8,7 @@ if ($paramAction == 'create')
 	$attachFiles = $spawn->getItems(array(
 		'table' => $tablesName['tempFiles'],
 		'order' => 'srl',
-		'sort' => 'desc'
+		'sort' => 'asc'
 	));
 	$type = 'session';
 }
@@ -19,7 +19,7 @@ else if ($paramAction == 'modify')
 		'table' => $tablesName['files'],
 		'where' => 'article_srl='.$article_srl,
 		'order' => 'srl',
-		'sort' => 'desc'
+		'sort' => 'asc'
 	));
 	$type = 'modify';
 }
@@ -90,7 +90,8 @@ jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		uploadAction : '<?=ROOT?>/files/upload/'
 		,removeAction : '<?=ROOT?>/files/remove/'
-		,auto : false
+		,fileDir : '<?=ROOT?>/data/original/'
+		,auto : true
 		,$queue : $('#filesQueue')
 		,$controller : $('#queueController')
 		,limit : 3

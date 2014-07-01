@@ -120,6 +120,43 @@ var UploadInterface = function(el, options) {
 
 
 	/**
+	 * get file type
+	 * 
+	 * @param {String} filename
+	 * @return {String}
+	 */
+	var getFileType = function(filename)
+	{
+		var type = (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : undefined;
+
+		if (/(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i.test(filename))
+		{
+			return 'image/' + type;
+		}
+		else if (/mp4|mov/gi.test(filename))
+		{
+			return 'video/' + type;
+		}
+		else if (/m4a|mp3/gi.test(filename))
+		{
+			return 'audio/' + type;
+		}
+		else if (/txt/gi.test(filename))
+		{
+			return 'text/' + type;
+		}
+		else if (/pdf/gi.test(filename))
+		{
+			return 'application/' + type;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	/**
 	 * file upload method
 	 */
 	this.upload = function()
@@ -160,10 +197,9 @@ var UploadInterface = function(el, options) {
 	this.uploadComplete = function(response, queue)
 	{
 		var data = JSON.parse(response);
-
 		queue.status = 'complete';
 		queue.srl = data.sess_srl;
-		queue.location = data.filelink;
+		queue.location = data.loc;
 		queue.type = 'session';
 
 		// edit queue
@@ -188,11 +224,27 @@ var UploadInterface = function(el, options) {
 		log(message);
 	}
 
-	// push queue
+	/**
+	 * push queue
+	 * 
+	 * @author : redgoose
+	 * @param {} : ...
+	 * @return void
+	 */
 	this.pushQueue = function(data)
 	{
-		// 여기서부터 작업하기
-		log(data);
+		for (var n = 0; n < data.length; n++)
+		{
+			var key = self.queue.createQueue({
+				name : data[n].filename
+				,size : null
+				,type : getFileType(data[n].filename)
+				,loc : data[n].location
+				,srl : data[n].srl
+				,type2 : data[n].type
+				,status : 'complete'
+			});
+		}
 	}
 
 	// act

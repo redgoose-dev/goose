@@ -11,18 +11,6 @@ var FilesQueue = function(getParent, $el, options) {
 
 
 	/**
-	 * init
-	 * 
-	 * @author : redgoose
-	 * @param : ...
-	 * @return void
-	 */
-	var init = function()
-	{
-		
-	}
-
-	/**
 	 * template
 	 * 
 	 * @author : redgoose
@@ -30,17 +18,20 @@ var FilesQueue = function(getParent, $el, options) {
 	 * @param {String} filename
 	 * @return {DOM} : queue element
 	 */
-	var template = function(key, filename)
+	var template = function(key, filename, status)
 	{
 		var item = '<li key="' + key + '">\n';
 		item += '\t<div class="body">\n';
 		item += '\t\t<span class="name">' + filename + '</span>\n';
-		item += '\t\t<span class="size">0%</span>\n';
-		item += '\t\t<span class="status">Ready</span>\n';
+		item += (status == 'ready') ? '\t\t<span class="size">0%</span>\n' : '';
+		item += '\t\t<span class="status">' + status + '</span>\n';
 		item += '\t</div>\n';
-		item += '\t<div class="progress">\n';
-		item += '\t\t<p class="graph"><span></span></p>\n';
-		item += '\t</div>\n';
+		if (status == 'ready')
+		{
+			item += '\t<div class="progress">\n';
+			item += '\t\t<p class="graph"><span></span></p>\n';
+			item += '\t</div>\n';
+		}
 		item += '\t<nav>\n';
 		item += '\t\t<button type="button" rg-action="delete" class="sp-ico">삭제</button>\n';
 		item += '\t</nav>\n';
@@ -79,21 +70,24 @@ var FilesQueue = function(getParent, $el, options) {
 	 * create queue
 	 * 
 	 * @author : redgoose
-	 * @param {} : ...
-	 * @return void
+	 * @param {Object} file
+	 * @return {String}
 	 */
 	this.createQueue = function(file)
 	{
 		var idx = self.count;
 		var key = 'queue-' + idx;
-		var $dom = template(key, file.name);
+		var $dom = template(key, file.name, file.status);
 
 		self.index[key] = {
 			filename : file.name
 			,filesize : file.size
 			,filetype : file.type
-			,status : 'ready'
+			,status : (file.status) ? file.status : 'ready'
 			,element : $dom
+			,location : file.loc
+			,type : file.type2
+			,srl : file.srl
 		};
 
 		// insert queue
@@ -106,7 +100,13 @@ var FilesQueue = function(getParent, $el, options) {
 		return key;
 	}
 
-	// select queue
+	/**
+	 * select queue
+	 * 
+	 * @author : redgoose
+	 * @param {} : ...
+	 * @return void
+	 */
 	this.selectQueue = function(queue)
 	{
 		if (queue.element.hasClass('on'))
@@ -119,12 +119,9 @@ var FilesQueue = function(getParent, $el, options) {
 			$index.children().removeClass('on');
 			queue.element.addClass('on');
 
-			log(queue.filetype);
-			if (queue.filetype == 'image/png' ||
-				queue.filetype == 'image/jpg' ||
-				queue.filetype == 'image/png')
+			if (/^image/i.test(queue.filetype))
 			{
-				$preview.html('<img src="' + queue.location + '" alt="" />');
+				$preview.html('<img src="' + parent.settings.fileDir + queue.location + '" alt="" />');
 			}
 		}
 	}
@@ -157,7 +154,8 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		var action = parent.settings.removeAction;
 		var srls = $queue.map(function(){
-			return $(this).attr('data-type') + ':' + $(this).attr('data-srl');
+			var item = self.getIndexItem($(this).attr('key'));
+			return item.type + ':' + item.srl;
 		}).get().join(',');
 
 		if (action)
@@ -207,8 +205,5 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		return self.index[key];
 	}
-
-	// act
-	init();
 
 }
