@@ -8,17 +8,21 @@ var UploadInterface = function(el, options) {
 	self.queue = new FilesQueue(this, this.settings.$queue, {});
 
 	/**
-	 * Initializes
+	 * byte to size convert
+	 * 
+	 * @param {Number} bytes
+	 * @return {String}
 	 */
-	var init = function()
+	var bytesToSize = function(bytes)
 	{
-		events();
+		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+		if (bytes == 0) return '0 Byte';
+		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 	}
 
 	/**
 	 * Events init
-	 * 
-	 * @return void
 	 */
 	var events = function()
 	{
@@ -108,8 +112,6 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * reset file input
-	 * 
-	 * @return void
 	 */
 	var resetInput = function()
 	{
@@ -119,8 +121,6 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * file upload method
-	 * 
-	 * @return Boolean
 	 */
 	this.upload = function()
 	{
@@ -160,17 +160,19 @@ var UploadInterface = function(el, options) {
 	this.uploadComplete = function(response, queue)
 	{
 		var data = JSON.parse(response);
-		queue.status = 'complete';
 
-		// input infomation in the queue
-		self.queue.inputInfomation(queue.element, {
-			size : queue.size
-			,status : queue.status
-			,dataLoc : data.filelink
-			,dataSrl : data.sess_srl
-			,dataName : data.filename
-			,dataType : 'session'
-		});
+		queue.status = 'complete';
+		queue.srl = data.sess_srl;
+		queue.location = data.filelink;
+		queue.type = 'session';
+
+		// edit queue
+		queue.element.find('div.body > span.size').text(bytesToSize(queue.filesize));
+		queue.element.find('div.body > span.status').text(queue.status);
+		if (queue.status == 'complete')
+		{
+			queue.element.find('div.progress').delay(200).fadeOut(400);
+		}
 
 		// reset file input
 		resetInput();
@@ -186,8 +188,15 @@ var UploadInterface = function(el, options) {
 		log(message);
 	}
 
+	// push queue
+	this.pushQueue = function(data)
+	{
+		// 여기서부터 작업하기
+		log(data);
+	}
+
 	// act
-	init();
+	events();
 }
 
 

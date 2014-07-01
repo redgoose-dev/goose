@@ -2,6 +2,43 @@
 if(!defined("GOOSE")){exit();}
 
 $path = ROOT.'/plugins/editor/'.$nest['editor'];
+
+if ($paramAction == 'create')
+{
+	$attachFiles = $spawn->getItems(array(
+		'table' => $tablesName['tempFiles'],
+		'order' => 'srl',
+		'sort' => 'desc'
+	));
+	$type = 'session';
+}
+else if ($paramAction == 'modify')
+{
+	// modify
+	$attachFiles = $spawn->getItems(array(
+		'table' => $tablesName['files'],
+		'where' => 'article_srl='.$article_srl,
+		'order' => 'srl',
+		'sort' => 'desc'
+	));
+	$type = 'modify';
+}
+
+if (count($attachFiles))
+{
+	$pushData = array();
+	foreach ($attachFiles as $k=>$v)
+	{
+		$item = array(
+			'srl' => $v['srl']
+			,'location' => $v['loc']
+			,'filename' => $v['name']
+			,'type' => $type
+		);
+		array_push($pushData, $item);
+	}
+	$pushData = json_encode($pushData);
+}
 ?>
 
 <link rel="stylesheet" href="<?=$path?>/css/post.css" />
@@ -18,7 +55,6 @@ $path = ROOT.'/plugins/editor/'.$nest['editor'];
 			</p>
 		</dd>
 	</dl>
-
 	<dl>
 		<dt><label for="fileUpload">파일첨부</label></dt>
 		<dd>
@@ -60,6 +96,13 @@ jQuery(function($){
 		,limit : 3
 		,token : '<?=md5("uPloAD_toKEn" . time());?>'
 	});
+
+	var attachFiles = '<?=$pushData?>';
+	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null;
+	if (attachFilesData)
+	{
+		uploadInterface.pushQueue(attachFilesData);
+	}
 
 	// upload button click event
 	$('#fileUploadButton').on('click', function(){

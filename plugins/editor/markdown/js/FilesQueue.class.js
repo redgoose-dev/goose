@@ -7,7 +7,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	this.index = new Object();
 	this.count = 0;
-	this.active = null;
+	this.active = new Array();
 
 
 	/**
@@ -60,11 +60,8 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		// select queue
 		obj.on('click', function(e){
-			var filetype = getFileType($(this).attr('data-name'));
-			$(this).parent().children().removeClass('on');
-			$(this).addClass('on');
-			$preview.html('<img src="' + $(this).attr('data-loc') + '" alt="" />');
-			self.active = $(this);
+			var item = self.getIndexItem($(this).attr('key'));
+			self.selectQueue(item);
 		});
 
 		// delete queue
@@ -75,32 +72,6 @@ var FilesQueue = function(getParent, $el, options) {
 				self.removeQueue(obj.closest('li'));
 			}
 		});
-	}
-
-
-	/**
-	 * byte to size convert
-	 * 
-	 * @param {Number} bytes
-	 * @return {String}
-	 */
-	var bytesToSize = function(bytes)
-	{
-		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-		if (bytes == 0) return '0 Byte';
-		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-	};
-
-	/**
-	 * get file type
-	 * 
-	 * @param {} : ...
-	 * @return void
-	 */
-	var getFileType = function(filename)
-	{
-		log(filename)
 	}
 
 
@@ -118,9 +89,9 @@ var FilesQueue = function(getParent, $el, options) {
 		var $dom = template(key, file.name);
 
 		self.index[key] = {
-			name : file.name
-			,size : file.size
-			,type : file.type
+			filename : file.name
+			,filesize : file.size
+			,filetype : file.type
 			,status : 'ready'
 			,element : $dom
 		};
@@ -133,6 +104,46 @@ var FilesQueue = function(getParent, $el, options) {
 
 		self.count++;
 		return key;
+	}
+
+	// select queue
+	this.selectQueue = function(queue)
+	{
+		if (queue.element.hasClass('on'))
+		{
+			queue.element.removeClass('on');
+			self.clearPreview();
+		}
+		else
+		{
+			$index.children().removeClass('on');
+			queue.element.addClass('on');
+
+			log(queue.filetype);
+			if (queue.filetype == 'image/png' ||
+				queue.filetype == 'image/jpg' ||
+				queue.filetype == 'image/png')
+			{
+				$preview.html('<img src="' + queue.location + '" alt="" />');
+			}
+		}
+	}
+
+	/**
+	 * select all queue
+	 * 
+	 * @return void
+	 */
+	this.selectAllQueue = function()
+	{
+		if ($index.children('li').hasClass('on'))
+		{
+			$index.children('li').removeClass('on');
+		}
+		else
+		{
+			$index.children('li').addClass('on');
+		}
 	}
 
 	/**
@@ -181,41 +192,6 @@ var FilesQueue = function(getParent, $el, options) {
 	}
 
 	/**
-	 * select all queue
-	 * 
-	 * @return void
-	 */
-	this.selectAllQueue = function()
-	{
-		$index.children('li').addClass('on');
-	}
-
-	/**
-	 * enter infomation in the queue
-	 * 
-	 * @author : redgoose
-	 * @param {DOM} $queue
-	 * @param {Object} opt
-	 * @return void
-	 */
-	this.inputInfomation = function($queue, opt)
-	{
-		$queue.find('div.body > span.size').text(bytesToSize(opt.size));
-		$queue.find('div.body > span.status').text(opt.status);
-		$queue.attr({
-			'data-loc' : opt.dataLoc
-			,'data-srl' : opt.dataSrl
-			,'data-name' : opt.dataName
-			,'data-type' : opt.dataType
-		});
-		if (opt.status == 'complete')
-		{
-			$queue.find('div.progress').delay(200).fadeOut(400);
-		}
-	}
-
-
-	/**
 	 * clear preview
 	 * 프리뷰의 내용을 삭제한다.
 	 * 
@@ -224,6 +200,12 @@ var FilesQueue = function(getParent, $el, options) {
 	this.clearPreview = function()
 	{
 		$preview.html('');
+	}
+
+	// get index item
+	this.getIndexItem = function(key)
+	{
+		return self.index[key];
 	}
 
 	// act
