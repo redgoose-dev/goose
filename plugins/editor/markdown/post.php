@@ -87,19 +87,22 @@ if (count($attachFiles))
 <script src="<?=$path?>/js/UploadInterface.class.js"></script>
 <script>
 jQuery(function($){
-	var uploadInterface = new UploadInterface($('#fileUpload'), {
-		uploadAction : '<?=ROOT?>/files/upload/'
-		,removeAction : '<?=ROOT?>/files/remove/'
-		,fileDir : '<?=ROOT?>/data/original/'
-		,auto : true
-		,$queue : $('#filesQueue')
-		,$controller : $('#queueController')
-		,limit : 3
-		,token : '<?=md5("uPloAD_toKEn" . time());?>'
-	});
+	var
+		uploadInterface = new UploadInterface($('#fileUpload'), {
+			uploadAction : '<?=ROOT?>/files/upload/'
+			,removeAction : '<?=ROOT?>/files/remove/'
+			,fileDir : '<?=ROOT?>/data/original/'
+			,auto : true
+			,$queue : $('#filesQueue')
+			,$controller : $('#queueController')
+			,limit : 3
+			,token : '<?=md5("uPloAD_toKEn" . time());?>'
+			,content : $('#content')
+		})
+		,attachFiles = '<?=$pushData?>'
+		,attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null
+	;
 
-	var attachFiles = '<?=$pushData?>';
-	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null;
 	if (attachFilesData)
 	{
 		uploadInterface.pushQueue(attachFilesData);

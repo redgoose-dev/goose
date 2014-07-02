@@ -22,6 +22,31 @@ var UploadInterface = function(el, options) {
 	}
 
 	/**
+	 * get cursor position
+	 * 
+	 * @param {DOM} $el
+	 * @return {Number}
+	 */
+	var getCursorPosition = function($el)
+	{
+		var el = $el.get(0);
+		var pos = 0;
+		if ('selectionStart' in el)
+		{
+			pos = el.selectionStart;
+		}
+		else if ('selection' in document)
+		{
+			el.focus();
+			var Sel = document.selection.createRange();
+			var SelLength = document.selection.createRange().text.length;
+			Sel.moveStart('character', -el.value.length);
+			pos = Sel.text.length - SelLength;
+		}
+		return pos;
+	}
+
+	/**
 	 * Events init
 	 */
 	var events = function()
@@ -34,7 +59,7 @@ var UploadInterface = function(el, options) {
 				{
 					// insert content
 					case 'insertContents':
-						log('본문삽입');
+						self.insertContent();
 						break;
 
 					// use thumnail
@@ -49,35 +74,12 @@ var UploadInterface = function(el, options) {
 
 					// delete item
 					case 'deleteSelect':
-						if (confirm('선택한 파일을 삭제하시겠습니까?'))
-						{
-							var $lis = self.settings.$queue.find('>ul>li.on');
-							if ($lis.length)
-							{
-								self.queue.removeQueue($lis);
-							}
-							else
-							{
-								alert('선택한 파일이 없습니다.');
-							}
-						}
+						self.deleteQueue();
 						break;
 
 					// delete all item
 					case 'deleteAll':
-						if (confirm('모두 삭제하시겠습니까?'))
-						{
-							var $lis = self.settings.$queue.find('>ul>li');
-							if ($lis.length)
-							{
-								self.queue.removeQueue($lis);
-								self.queue.clearPreview();
-							}
-							else
-							{
-								alert('업로드 되어있는 파일이 없습니다.');
-							}
-						}
+						self.deleteAllQueue();
 						break;
 				}
 			});
@@ -90,6 +92,15 @@ var UploadInterface = function(el, options) {
 				self.upload();
 			});
 		}
+
+		$(window).on('keydown', function(e){
+			if (e.which == 91) {
+				log(e.which);
+			}
+		});
+		$(window).on('keyup', function(e){
+			log('key up');
+		});
 	}
 
 	/**
@@ -117,7 +128,6 @@ var UploadInterface = function(el, options) {
 	{
 		$el.replaceWith( $el = $el.clone( true ) );
 	}
-
 
 	/**
 	 * get file type
@@ -244,6 +254,64 @@ var UploadInterface = function(el, options) {
 				,type2 : data[n].type
 				,status : 'complete'
 			});
+		}
+	}
+
+	// insert content
+	this.insertContent = function()
+	{
+		var keyword = '';
+		var items = self.queue.getItems();
+
+		for (var i=0; i<items.length; i++)
+		{
+			keyword += '<img src="' + self.settings.fileDir + items[i].location + '" alt="" />\n';
+		}
+
+		if (keyword)
+		{
+			var
+				$content = self.settings.content
+				,position = getCursorPosition($content)
+				,content = $content.val()
+				,newContent = content.substr(0, position) + keyword + content.substr(position)
+			;
+			$content.val(newContent);
+		}
+	}
+
+	// delete select queue
+	this.deleteQueue = function()
+	{
+		if (confirm('선택한 파일을 삭제하시겠습니까?'))
+		{
+			var $lis = self.settings.$queue.find('>ul>li.on');
+			if ($lis.length)
+			{
+				self.queue.removeQueue($lis);
+			}
+			else
+			{
+				alert('선택한 파일이 없습니다.');
+			}
+		}
+	}
+
+	// delete all queue
+	this.deleteAllQueue = function()
+	{
+		if (confirm('모두 삭제하시겠습니까?'))
+		{
+			var $lis = self.settings.$queue.find('>ul>li');
+			if ($lis.length)
+			{
+				self.queue.removeQueue($lis);
+				self.queue.clearPreview();
+			}
+			else
+			{
+				alert('업로드 되어있는 파일이 없습니다.');
+			}
 		}
 	}
 

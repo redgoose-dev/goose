@@ -206,4 +206,12 @@ var FilesQueue = function(getParent, $el, options) {
 		return self.index[key];
 	}
 
+	// get items
+	this.getItems = function()
+	{
+		return $index.children('li.on').map(function(o){
+			return self.index[$(this).attr('key')];
+		});
+	}
+
 }
