@@ -79,11 +79,15 @@ if (count($attachFiles))
 		</nav>
 	</article>
 </fieldset>
-
+<?
+$util->console($nest);
+?>
 <script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
+<script src="<?=$path?>/lib/jquery.Jcrop.min.js"></script>
 <script src="<?=$path?>/js/FilesQueue.class.js"></script>
 <script src="<?=$path?>/js/FileUpload.class.js"></script>
+<script src="<?=$path?>/js/Thumnail.class.js"></script>
 <script src="<?=$path?>/js/UploadInterface.class.js"></script>
 <script>
 jQuery(function($){
@@ -98,6 +102,8 @@ jQuery(function($){
 			,limit : 3
 			,token : '<?=md5("uPloAD_toKEn" . time());?>'
 			,content : $('#content')
+			,thumnailType : '<?=$nest['thumnailType']?>'
+			,thumnailSize : '<?=$nest['thumnailSize']?>'
 		})
 		,attachFiles = '<?=$pushData?>'
 		,attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null

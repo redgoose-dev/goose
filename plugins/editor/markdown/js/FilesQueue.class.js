@@ -116,7 +116,10 @@ var FilesQueue = function(getParent, $el, options) {
 		}
 		else
 		{
-			$index.children().removeClass('on');
+			if (!parent.key)
+			{
+				$index.children().removeClass('on');
+			}
 			queue.element.addClass('on');
 
 			if (/^image/i.test(queue.filetype))
@@ -200,13 +203,22 @@ var FilesQueue = function(getParent, $el, options) {
 		$preview.html('');
 	}
 
-	// get index item
+	/**
+	 * get index item
+	 * 
+	 * @param {String} key
+	 * @return {Object}
+	 */
 	this.getIndexItem = function(key)
 	{
 		return self.index[key];
 	}
 
-	// get items
+	/**
+	 * get items
+	 * 
+	 * @return {Array}
+	 */
 	this.getItems = function()
 	{
 		return $index.children('li.on').map(function(o){

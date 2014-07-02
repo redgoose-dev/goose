@@ -6,6 +6,13 @@ var UploadInterface = function(el, options) {
 	self.el = el;
 	self.settings = $.extend({}, this.defaults, options);
 	self.queue = new FilesQueue(this, this.settings.$queue, {});
+	self.key = false;
+
+	var thumnail = new Thumnail(self, {
+		type : self.settings.thumnailType
+		,size : self.settings.thumnailSize.split('*')
+		,quality : 0.8
+	});
 
 	/**
 	 * byte to size convert
@@ -64,12 +71,12 @@ var UploadInterface = function(el, options) {
 
 					// use thumnail
 					case 'useThumnail':
-						log('썸네일 설정');
+						self.createThumnail();
 						break;
 
 					// select all items
 					case 'selectAll':
-						self.queue.selectAllQueue();
+						self.selectAllQueue();
 						break;
 
 					// delete item
@@ -93,13 +100,15 @@ var UploadInterface = function(el, options) {
 			});
 		}
 
+		// keyboard event
 		$(window).on('keydown', function(e){
-			if (e.which == 91) {
-				log(e.which);
+			if (e.which == 91)
+			{
+				self.key = true;
 			}
 		});
 		$(window).on('keyup', function(e){
-			log('key up');
+			self.key = false;
 		});
 	}
 
@@ -278,6 +287,27 @@ var UploadInterface = function(el, options) {
 			;
 			$content.val(newContent);
 		}
+	}
+
+	/**
+	 * create thumnail
+	 * 
+	 * @param {} : ...
+	 * @return void
+	 */
+	this.createThumnail = function()
+	{
+		var item = self.queue.getItems()[0];
+		if (item)
+		{
+			
+		}
+	}
+
+	// selectAllQueue
+	this.selectAllQueue = function()
+	{
+		self.queue.selectAllQueue();
 	}
 
 	// delete select queue
