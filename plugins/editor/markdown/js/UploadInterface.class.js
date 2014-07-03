@@ -181,7 +181,6 @@ var UploadInterface = function(el, options) {
 	this.upload = function()
 	{
 		// limit item check
-
 		var files = $el.get(0).files;
 		for (var n = 0; n < files.length; n++)
 		{
@@ -235,8 +234,6 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * upload error
-	 * 
-	 * @return void
 	 */
 	this.uploadError = function(message, queue)
 	{
@@ -246,8 +243,7 @@ var UploadInterface = function(el, options) {
 	/**
 	 * push queue
 	 * 
-	 * @author : redgoose
-	 * @param {} : ...
+	 * @param {Array} data
 	 * @return void
 	 */
 	this.pushQueue = function(data)
@@ -266,7 +262,9 @@ var UploadInterface = function(el, options) {
 		}
 	}
 
-	// insert content
+	/**
+	 * insert content
+	 */
 	this.insertContent = function()
 	{
 		var keyword = '';
@@ -291,9 +289,6 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * create thumnail
-	 * 
-	 * @param {} : ...
-	 * @return void
 	 */
 	this.createThumnail = function()
 	{
@@ -307,13 +302,17 @@ var UploadInterface = function(el, options) {
 		}
 	}
 
-	// selectAllQueue
+	/**
+	 * select all queue
+	 */
 	this.selectAllQueue = function()
 	{
 		self.queue.selectAllQueue();
 	}
 
-	// delete select queue
+	/**
+	 * delete select queue
+	 */
 	this.deleteQueue = function()
 	{
 		if (confirm('선택한 파일을 삭제하시겠습니까?'))
@@ -330,7 +329,9 @@ var UploadInterface = function(el, options) {
 		}
 	}
 
-	// delete all queue
+	/**
+	 * delete all queue
+	 */
 	this.deleteAllQueue = function()
 	{
 		if (confirm('모두 삭제하시겠습니까?'))

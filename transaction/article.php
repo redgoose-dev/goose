@@ -5,7 +5,6 @@ $ipAddress = $_SERVER['REMOTE_ADDR'];
 $regdate = date("YmdHis");
 $_POST['title'] = htmlspecialchars($_POST['title']);
 
-
 /**
  * upload file db update
  * tempFiles 테이블에 있는 임시파일들 목록을 files 테이블에 옮기고, 썸네일으로 사용하는 첨부파일 번호를 리턴한다.
