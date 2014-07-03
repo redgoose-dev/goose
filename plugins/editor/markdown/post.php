@@ -79,9 +79,7 @@ if (count($attachFiles))
 		</nav>
 	</article>
 </fieldset>
-<?
-$util->console($nest);
-?>
+
 <script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
 <script src="<?=$path?>/lib/jquery.Jcrop.min.js"></script>

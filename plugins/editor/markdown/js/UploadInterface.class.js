@@ -300,7 +300,10 @@ var UploadInterface = function(el, options) {
 		var item = self.queue.getItems()[0];
 		if (item)
 		{
-			
+			if (/^image/i.test(item.filetype))
+			{
+				thumnail.open(item);
+			}
 		}
 	}
 
