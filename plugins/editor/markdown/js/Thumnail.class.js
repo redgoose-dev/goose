@@ -1,3 +1,12 @@
+/**
+ * 열기
+ * 윈도우 엘리먼트 만들기
+ * 이벤트 만들기
+ * 이미지 넣기
+ * jcrop 실행
+ * 
+ */
+
 var Thumnail = function(parent, options) {
 	
 	var
@@ -16,10 +25,6 @@ var Thumnail = function(parent, options) {
 		,coords : null
 	};
 
-	var init = function()
-	{
-		self.settings.ratio = getRatio(self.settings.size[0], self.settings.size[1]);
-	}
 
 	/**
 	 * window template
@@ -59,6 +64,106 @@ var Thumnail = function(parent, options) {
 		return result;
 	}
 
+	// get image ratio
+	var getImageRatio = function($img, type)
+	{
+		var size = new Array();
+		switch(type)
+		{
+			case 'resize':
+				size = [$img.width(), $img.height()];
+				break;
+			case 'resizeWidth':
+				size[0] = parseInt(self.settings.size[0]);
+				size[1] = parseInt(($img.height() / $img.width()) * self.settings.size[0]);
+				break;
+			case 'resizeHeight':
+				size[0] = parseInt(($img.width() / $img.height()) * self.settings.size[1]);
+				size[1] = parseInt(self.settings.size[1]);
+				break;
+			default:
+				size = self.settings.size;
+				break;
+		}
+
+		return getRatio(size[0], size[1]);
+	}
+
+	// get output size
+	var getOutputSize = function($img, type, size)
+	{
+		var w, h;
+		switch(type)
+		{
+			case 'resize':
+				if ($img.width() < $img.height())
+				{
+					w = parseInt(($img.width() / $img.height()) * size[1]);
+					h = parseInt(size[1]);
+				}
+				else
+				{
+					w = parseInt(size[0]);
+					h = parseInt(($img.height() / $img.width()) * size[0]);
+				}
+				break;
+			case 'resizeWidth':
+				w = parseInt(size[0]);
+				h = parseInt(($img.height() / $img.width()) * size[0]);
+				break;
+			case 'resizeHeight':
+				w = parseInt(($img.width() / $img.height()) * size[1]);
+				h = parseInt(size[1]);
+				break;
+			default:
+				w = parseInt(size[0]);
+				h = parseInt(size[1]);
+				break;
+		}
+		return [w, h];
+	}
+
+	// resize preview
+	// o:dom, limit:number, size:number
+	var resizePreview = function(o, limit, size)
+	{
+		if (o.width() > o.height())
+		{
+			o.width(o.width() * size);
+			if (o.width() > limit)
+			{
+				o.width(limit);
+			}
+		}
+		else
+		{
+			o.height(o.height() * size);
+			if (o.height() > limit)
+			{
+				o.height(limit);
+			}
+		}
+	}
+
+	// get select coords
+	function getSelectCoords($img, type, coords)
+	{
+		if (coords)
+		{
+			return coords;
+		}
+		else
+		{
+			if (type == 'crop')
+			{
+				return ($img.width() < $img.height()) ? [0, 0, $img.width(), 0] : [0, 0, 0, $img.height()];
+			}
+			else
+			{
+				return [0, 0, $img.width(), $img.height()];
+			}
+		}
+	}
 
 
 	/**
@@ -74,12 +179,14 @@ var Thumnail = function(parent, options) {
 			self.queue = item;
 			self.$window = template();
 
+			self.data.srl = item.srl;
+			self.data.location = parent.settings.fileDir + item.location;
+
 			var $figure = self.$window.find('figure');
-			var $img = $('<img src="' + parent.settings.fileDir + item.location + '" />')
+			var $img = $('<img src="' + self.data.location + '" />')
 
 			$figure.append($img);
 			$('body').append(self.$window);
-
 			$img.get(0).onload = onloadPreviewImage;
 		}
 	}
@@ -94,8 +201,33 @@ var Thumnail = function(parent, options) {
 	{
 		var $btnCenter = self.$window.find('button[rg-action=center]');
 		var $btnClose = self.$window.find('button[rg-action=close], div.bg');
+		var $img = self.$window.find('figure > img');
 
+		// 비율값 가져오기
+		var ratio = getImageRatio($img, self.settings.type);
 
+		// 아웃풋 사이즈 가져오기
+		outputSize = getOutputSize($img, self.settings.type, self.settings.size);
+
+		// 윈도우 정보에 아웃풋 사이즈 입력
+		self.$window.find('[ar-text=width]').text(outputSize[0]);
+		self.$window.find('[ar-text=height]').text(outputSize[1]);
+
+		// 프리뷰 이미지 적정크기로 줄이기
+		resizePreview($img, maxImageSize, 0.7);
+
+		// 좌표값 가져오기
+		var coords = getSelectCoords($img, self.settings.type, self.data.coords);
+
+		// init Jcrop
+		// 여기서부터...
+		$img.Jcrop({
+			
+		}, function(){
+			
+		});
+
+		// 버튼 이벤트
 		$btnCenter.on('click', function(e){
 			log($(this));
 		});
@@ -103,8 +235,8 @@ var Thumnail = function(parent, options) {
 			self.close();
 		});
 
-		self.getData(self.queue.srl, parent.settings.fileDir + self.queue.location, null);
-		log(self.data);
+		// self.data변수에 정보 입력
+		//self.inputData(self.queue.srl, parent.settings.fileDir + self.queue.location, coords);
 	}
 
 	/**
@@ -117,24 +249,22 @@ var Thumnail = function(parent, options) {
 	{
 		self.$window.remove();
 		self.$window = null;
+		self.queue = null;
 	}
 
 	/**
-	 * get data
+	 * input data
 	 * 
 	 * @param {}
 	 * @return void
 	 */
-	this.getData = function(srl, location, coords)
+	this.inputData = function(srl, location, coords)
 	{
 		self.data.srl = srl;
 		self.data.location = location;
 		self.data.coords = coords;
 	}
 
-
-	// init
-	init();
 }
 
 
@@ -149,7 +279,6 @@ output post
 // default variables
 Thumnail.prototype.defaults = {
 	type : 'crop'
-	,ratio : 1
 	,size : [200,200]
 	,quality : 0.7
 }
