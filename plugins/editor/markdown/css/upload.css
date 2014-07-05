@@ -79,7 +79,7 @@
 }
 
 .queuesManager > nav {margin: 10px 0 0; font-size: 0;}
-.queuesManager > nav > button {margin-right: 1px;}
+.queuesManager > nav > button {margin: 0 1px 1px 0;}
 
 
 /* For desktop */

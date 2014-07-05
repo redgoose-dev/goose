@@ -1,14 +1,5 @@
-/**
- * 열기
- * 윈도우 엘리먼트 만들기
- * 이벤트 만들기
- * 이미지 넣기
- * jcrop 실행
- * 
- */
-
 var Thumnail = function(parent, options) {
-	
+
 	var
 		self = this
 		,windowName = 'thumnailWindow'
@@ -65,7 +56,13 @@ var Thumnail = function(parent, options) {
 		return result;
 	}
 
-	// get image ratio
+	/**
+	 * get image ratio
+	 * 
+	 * @param {DOM} $img
+	 * @param {String} type
+	 * @return {Number}
+	 */
 	var getImageRatio = function($img, type)
 	{
 		var size = new Array();
@@ -86,11 +83,17 @@ var Thumnail = function(parent, options) {
 				size = self.settings.size;
 				break;
 		}
-
 		return getRatio(size[0], size[1]);
 	}
 
-	// get output size
+	/**
+	 * get output size
+	 * 
+	 * @param {DOM} $img
+	 * @param {String} type
+	 * @param {Array} size
+	 * @return {Array}
+	 */
 	var getOutputSize = function($img, type, size)
 	{
 		var w, h;
@@ -124,8 +127,13 @@ var Thumnail = function(parent, options) {
 		return [w, h];
 	}
 
-	// resize preview
-	// o:dom, limit:number, size:number
+	/**
+	 * resize preview
+	 * 
+	 * @param {DOM} o
+	 * @param {Number} limit
+	 * @param {Number} size
+	 */
 	var resizePreview = function(o, limit, size)
 	{
 		if (o.width() > o.height())
@@ -146,7 +154,14 @@ var Thumnail = function(parent, options) {
 		}
 	}
 
-	// get select coords
+	/**
+	 * get select coords
+	 * 
+	 * @param {$img} $img
+	 * @param {type} type
+	 * @param {coords} coords
+	 * @return {Array}
+	 */
 	var getSelectCoords = function($img, type, coords)
 	{
 		if (coords)
@@ -248,9 +263,53 @@ var Thumnail = function(parent, options) {
 	 */
 	var saveParameter = function()
 	{
-		...
+		var form = parent.settings.form;
+		var imageData = getImageData(self.data.location);
+
+		form.thumnail_srl.value = self.data.srl;
+		form.thumnail_coords.value = self.data.coords;
+		//log(form.thumnail_image);
 	}
 
+	/**
+	 * get image data
+	 * 
+	 * @param {String} img
+	 * @return {String}
+	 */
+	var getImageData = function(img)
+	{
+		var $canvas = $('<canvas/>').width(outputSize[0]).height(outputSize[1]);
+		$('body').append($canvas);
+		var
+			context = $canvas.get(0).getContext('2d')
+			,$img = self.$window.find('figure > img')
+			,realSize = [$img.get(0).naturalWidth, $img.get(0).naturalHeight]
+			,coords = self.data.coords
+			,ratio = [realSize[0] / $img.width(), realSize[1] / $img.height()]
+		;
+		log(ratio);
+
+		// draw background
+		context.fillStyle = '#ff0000';
+		context.fillRect(0, 0, 200, 200);
+
+		// draw photo
+/*
+		context.drawImage(
+			$img.get(0)
+			,coords[0] * ratio[0] // x
+			,coords[1] * ratio[1] // y
+			,coords[4] * ratio[0] // x2
+			,coords[5] * ratio[1] // y2
+			,0 // dx
+			,0 // dy
+			,outputSize[0] // dw
+			,outputSize[1] // dh
+		);
+*/
+
+	}
 
 	/**
 	 * open

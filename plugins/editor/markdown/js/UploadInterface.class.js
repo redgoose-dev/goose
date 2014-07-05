@@ -364,7 +364,6 @@ var UploadInterface = function(el, options) {
 		}).join(',');
 
 		self.settings.form.addQueue.value = value;
-		log(self.queue.index);
 	}
 
 	// act
