@@ -16,35 +16,35 @@ $_POST['title'] = htmlspecialchars($_POST['title']);
 function fileUpload($art_srl, $thum_srl)
 {
 	global $spawn, $util, $tablesName;
-	if ($_POST[addQueue])
+	if ($_POST['addQueue'])
 	{
 		$thumnail_srl = null;
-		$queue = explode(',', $_POST[addQueue]);
+		$queue = explode(',', $_POST['addQueue']);
 		foreach($queue as $k=>$v)
 		{
 			if ($v)
 			{
 				$tempFile = $spawn->getItem(array(
-					table => $tablesName[tempFiles],
-					where => 'srl='.(int)$v
+					'table' => $tablesName['tempFiles'],
+					'where' => 'srl='.(int)$v
 				));
 				$spawn->insert(array(
-					table => $tablesName[files],
-					data => array(
-						srl => null,
-						article_srl => $art_srl,
-						name => $tempFile[name],
-						loc => $tempFile[loc]
+					'table' => $tablesName['files'],
+					'data' => array(
+						'srl' => null,
+						'article_srl' => $art_srl,
+						'name' => $tempFile['name'],
+						'loc' => $tempFile['loc']
 					)
 				));
 
-				if ($tempFile[srl] == $thum_srl)
+				if ($tempFile['srl'] == $thum_srl)
 				{
 					$thumnail_srl = $spawn->conn->lastInsertId();
 				}
 				$spawn->delete(array(
-					table => $tablesName[tempFiles],
-					where => 'srl='.(int)$v
+					'table' => $tablesName['tempFiles'],
+					'where' => 'srl='.(int)$v
 				));
 			}
 		}

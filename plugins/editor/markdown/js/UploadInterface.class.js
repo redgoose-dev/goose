@@ -230,6 +230,10 @@ var UploadInterface = function(el, options) {
 
 		// reset file input
 		resetInput();
+
+		// addQueue 갱신
+		self.refreshAddQueue();
+		
 	}
 
 	/**
@@ -260,6 +264,7 @@ var UploadInterface = function(el, options) {
 				,status : 'complete'
 			});
 		}
+		self.refreshAddQueue();
 	}
 
 	/**
@@ -347,6 +352,19 @@ var UploadInterface = function(el, options) {
 				alert('업로드 되어있는 파일이 없습니다.');
 			}
 		}
+	}
+
+	/**
+	 * refresh add queue
+	 */
+	this.refreshAddQueue = function()
+	{
+		var value = $.map(self.queue.index, function(obj, key){
+			return obj.srl;
+		}).join(',');
+
+		self.settings.form.addQueue.value = value;
+		log(self.queue.index);
 	}
 
 	// act

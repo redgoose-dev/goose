@@ -87,3 +87,29 @@
 	.queuesManager .filesQueue > figure {width: 80px; height: 80px;}
 	.queuesManager .filesQueue ul {margin-left: 90px; height: 150px;}
 }
+
+/* thumnail window */
+body.thumnailWindowMode {overflow:hidden;}
+#thumnailWindow {
+	position: fixed; z-index: 99999; overflow: auto;
+	left: 0; right: 0; top: 0; bottom: 0;
+}
+#thumnailWindow .bg {
+	position: fixed; left: 0; right: 0; top: 0; bottom: 0;
+	background: #000; background: rgba(0,0,0,.85);
+}
+#thumnailWindow .wrap {
+	position: absolute; left: 50%; top: 5%;
+	background: #fff;
+}
+#thumnailWindow figure {margin: 0;}
+#thumnailWindow figure img {max-width: none;}
+#thumnailWindow dl {margin: 15px; font-size: 13px;}
+#thumnailWindow dl dt {
+	float: left; margin: 0; width: 70px;
+	font-weight: 600; color: #333;
+}
+#thumnailWindow dl dd {margin: 0 0 0 70px; color: #666;}
+#thumnailWindow dl dd em {font-style: normal;}
+#thumnailWindow nav {margin: 10px 0 24px; text-align: center;}
+#thumnailWindow .jcrop-holder {margin:0 auto;}

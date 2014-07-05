@@ -183,9 +183,13 @@ var FilesQueue = function(getParent, $el, options) {
 				.done(function(o){
 					if (o.status == 'success')
 					{
+						$queue.each(function(){
+							delete self.index[$(this).attr('key')];
+						});
 						$queue.fadeOut(400, function(){
 							$(this).remove();
 						});
+						parent.refreshAddQueue();
 					}
 				})
 			;

@@ -42,7 +42,13 @@ if (count($attachFiles))
 ?>
 
 <link rel="stylesheet" href="<?=$path?>/css/post.css" />
-<link rel="stylesheet" href="<?=$path?>/css/queuesManager.css" />
+<link rel="stylesheet" href="<?=$path?>/css/upload.css" />
+<link rel="stylesheet" href="<?=$path?>/lib/Jcrop/jquery.Jcrop.min.css" />
+
+<input type="hidden" name="thumnail_srl" value="<?=$article[thumnail_srl]?>" />
+<input type="hidden" name="thumnail_coords" value="<?=$article[thumnail_coords]?>" />
+<input type="hidden" name="thumnail_image" value="" />
+<input type="hidden" name="addQueue" value="" />
 
 <fieldset>
 	<dl>
@@ -82,7 +88,7 @@ if (count($attachFiles))
 
 <script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
-<script src="<?=$path?>/lib/jquery.Jcrop.min.js"></script>
+<script src="<?=$path?>/lib/Jcrop/jquery.Jcrop.min.js"></script>
 <script src="<?=$path?>/js/FilesQueue.class.js"></script>
 <script src="<?=$path?>/js/FileUpload.class.js"></script>
 <script src="<?=$path?>/js/Thumnail.class.js"></script>
@@ -102,6 +108,7 @@ jQuery(function($){
 			,content : $('#content')
 			,thumnailType : '<?=$nest['thumnailType']?>'
 			,thumnailSize : '<?=$nest['thumnailSize']?>'
+			,form : document.writeForm
 		})
 		,attachFiles = '<?=$pushData?>'
 		,attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null
