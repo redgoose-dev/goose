@@ -9,46 +9,51 @@ if (!$article_srl)
 }
 
 $article = $spawn->getItem(array(
-	table => $tablesName[articles],
-	where => 'srl='.$article_srl
+	'table' => $tablesName['articles'],
+	'where' => 'srl='.$article_srl
 ));
 
 // get nest
 $nest = $spawn->getItem(array(
-	table => $tablesName[nests],
-	where => 'srl='.(int)$article[nest_srl]
+	'table' => $tablesName['nests'],
+	'where' => 'srl='.(int)$article['nest_srl']
 ));
 
 // get category
-if ($article[category_srl])
+if ($article['category_srl'])
 {
 	$category = $spawn->getItem(array(
-		table => $tablesName[categories],
-		where => 'srl='.(int)$article[category_srl]
+		'table' => $tablesName['categories'],
+		'where' => 'srl='.(int)$article['category_srl']
 	));
-	$categoryName = ($nest[useCategory]) ? "<span class=\"category\">[$category[name]]</span>&nbsp;" : "";
+	$categoryName = ($nest['useCategory']) ? "<span class=\"category\">[$category[name]]</span>&nbsp;" : "";
 }
-
-// get extra vars count
-$extraVarsCount = $spawn->getCount(array(
-	table => $tablesName[extraVar],
-	where => 'article_srl='.(int)$article[srl]
-));
 ?>
 
 <section>
 	<div class="hgroup">
-		<h1><?=$categoryName.$article[title]?></h1>
-		<p><?=$util->convertDate($article[regdate]).'&nbsp;'.$util->convertTime($article[regdate])?></p>
+		<h1><?=$categoryName.$article['title']?></h1>
+		<p><?=$util->convertDate($article['regdate']).'&nbsp;'.$util->convertTime($article['regdate'])?></p>
 	</div>
 	<?
+	// get extra vars count
+	$extraVarsCount = $spawn->getCount(array(
+		'table' => $tablesName['extraVar'],
+		'where' => 'article_srl='.(int)$article['srl']
+	));
+
+	$extraVarCount = $spawn->getCount(array(
+		'table' => $tablesName['extraVar'],
+		'where' => 'article_srl='.(int)$article['srl']
+	));
+	
 	if ($extraVarsCount > 0)
 	{
 		$extraKeys = $spawn->getItems(array(
-			table => $tablesName[extraKey],
-			where => 'nest_srl='.(int)$article[nest_srl],
-			order => 'turn',
-			sort => 'asc',
+			'table' => $tablesName['extraKey'],
+			'where' => 'nest_srl='.(int)$article['nest_srl'],
+			'order' => 'turn',
+			'sort' => 'asc',
 		));
 	?>
 		<!-- Extra var -->
@@ -59,16 +64,16 @@ $extraVarsCount = $spawn->getCount(array(
 				foreach($extraKeys as $k=>$v)
 				{
 					$extraVar = $spawn->getItem(array(
-						table => $tablesName[extraVar],
-						where => 'article_srl='.(int)$article[srl].' and key_srl='.(int)$v[srl]
+						'table' => $tablesName['extraVar'],
+						'where' => 'article_srl='.(int)$article['srl'].' and key_srl='.(int)$v['srl']
 					));
-					if ($extraVar[value])
+					if ($extraVar['value'])
 					{
-						$extraVar[value] = nl2br($extraVar[value]);
+						$extraVar['value'] = nl2br($extraVar['value']);
 				?>
 						<dl>
-							<dt><?=$v[name]?></dt>
-							<dd><?=$extraVar[value]?></dd>
+							<dt><?=$v['name']?></dt>
+							<dd><?=$extraVar['value']?></dd>
 						</dl>
 				<?
 					}
@@ -80,48 +85,65 @@ $extraVarsCount = $spawn->getCount(array(
 	<?
 	}
 	?>
-	
+
 	<!-- body -->
+	<?
+	// Import editor Plugin
+	$editorDir = PWD.'/plugins/editor/';
+	if (file_exists($editorDir.$nest['editor'].'/view.php'))
+	{
+		require_once($editorDir.$nest['editor'].'/view.php');
+	}
+	else
+	{
+		if (file_exists($editorDir.'basic/view.php'))
+		{
+			require_once($editorDir.'basic/view.php');
+		}
+	}
+	?>
 	<div class="articleBody">
 		<?=$article['content']?>
 	</div>
 	<!-- // body -->
 
+	<hr />
+
 	<!-- bottom navigation -->
 	<nav class="btngroup">
 		<?
-		if ($_GET[m])
+		if ($_GET['m'])
 		{
 			$url = ROOT.'/';
 		}
 		else
 		{
 			$url = ROOT.'/article/index/';
-			$url .= ($article[nest_srl]) ? $article[nest_srl].'/' : '';
-			$url .= ($article[category_srl]) ? $article[category_srl].'/' : '';
-			$url .= ($_GET[page] > 1) ? '?page='.$_GET[page] : '';
+			$url .= ($article['nest_srl']) ? $article['nest_srl'].'/' : '';
+			$url .= ($article['category_srl']) ? $article['category_srl'].'/' : '';
+			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 		}
 		?>
 		<span><a href="<?=$url?>" class="ui-button">목록</a></span>
 		<?
 		$url = ROOT.'/article/create/';
-		$url .= ($nest[srl]) ? $nest[srl].'/' : '';
-		$url .= ($article[category_srl]) ? $article[category_srl].'/' : '';
-		$url .= ($_GET[m]) ? '?m='.$_GET[m] : '';
+		$url .= ($nest['srl']) ? $nest['srl'].'/' : '';
+		$url .= ($article['category_srl']) ? $article['category_srl'].'/' : '';
+		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
 		<span><a href="<?=$url?>" class="ui-button">글쓰기</a></span>
 		<?
 		$url = ROOT.'/article/modify/';
 		$url .= ($article_srl) ? $article_srl.'/' : '';
-		$url .= ($_GET[page] > 1) ? '?page='.$_GET[page] : '';
-		$url .= ($_GET[m]) ? '?m='.$_GET[m] : '';
+		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
+		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
 		<span><a href="<?=$url?>" class="ui-button btn-highlight">수정</a></span>
 		<?
 		$url = ROOT.'/article/delete/';
 		$url .= ($article_srl) ? $article_srl.'/' : '';
-		$url .= ($_GET[page] > 1) ? '?page='.$_GET[page] : '';
-		$url .= ($_GET[m]) ? '?m='.$_GET[m] : '';
+		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
+		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
 		<span><a href="<?=$url?>" id="docDelete" class="ui-button">삭제</a></span>
 	</nav>

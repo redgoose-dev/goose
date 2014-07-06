@@ -58,7 +58,7 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 
 		case 1:
 			$value = ($selectVar) ? $selectVar : $keyValue;
-			$str = "<textarea name=\"$keyName\" id=\"$keyName\" class=\"block\" rows=\"5\" $requiredAttr>$value</textarea>";
+			$str = "<textarea name=\"$keyName\" id=\"$keyName\" class=\"block\" rows=\"4\" $requiredAttr>$value</textarea>";
 			break;
 
 		case 2:
@@ -77,22 +77,20 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 }
 ?>
 
-<script src="<?=$jQueryAddress?>"></script>
-
 <section class="form">
 	<div class="hgroup">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>
 
 	<form name="writeForm" action="<?=ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>" />
+		<input type="hidden" name="group_srl" value="<?=$nest['group_srl']?>" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
-		<input type="hidden" name="page" value="<?=$_GET[page]?>" />
+		<input type="hidden" name="page" value="<?=$_GET['page']?>" />
 		<fieldset>
 			<legend class="blind">문서<?=$titleType?></legend>
 			<?
-			if ($nest[useCategory] == 1)
+			if ($nest['useCategory'] == 1)
 			{
 			?>
 				<dl class="table">
@@ -102,14 +100,14 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 							<option value="">분류선택</option>
 							<?
 							$items = $spawn->getItems(array(
-								table => $tablesName[categories],
-								where => 'nest_srl='.$nest[srl],
-								order => 'turn',
-								sort => 'asc'
+								'table' => $tablesName['categories'],
+								'where' => 'nest_srl='.$nest['srl'],
+								'order' => 'turn',
+								'sort' => 'asc'
 							));
 							foreach($items as $k=>$v)
 							{
-								$selected = ($article[category_srl]==$v[srl] or $category_srl==$v[srl]) ? 'selected' : '';
+								$selected = ($article['category_srl']==$v['srl'] or $category_srl==$v['srl']) ? 'selected' : '';
 								echo "<option value=\"$v[srl]\" $selected>$v[name]</option>";
 							}
 							?>
@@ -128,24 +126,24 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 		<?
 		// Import editor Plugin
 		$editorDir = PWD.'/plugins/editor/';
-		if (file_exists($editorDir.$nest['editor'].'/index.php'))
+		if (file_exists($editorDir.$nest['editor'].'/post.php'))
 		{
-			require_once($editorDir.$nest['editor'].'/index.php');
+			require_once($editorDir.$nest['editor'].'/post.php');
 		}
 		else
 		{
-			if (file_exists($editorDir.'basic/index.php'))
+			if (file_exists($editorDir.'basic/post.php'))
 			{
-				require_once($editorDir.'basic/index.php');
+				require_once($editorDir.'basic/post.php');
 			}
 		}
 
 		// 확장변수
-		if ($nest[useExtraVar] == 1)
+		if ($nest['useExtraVar'] == 1)
 		{
 			$extraCount = $spawn->getCount(array(
-				'table' => $tablesName[extraKey],
-				'where' => 'nest_srl='.$nest[srl]
+				'table' => $tablesName['extraKey'],
+				'where' => 'nest_srl='.$nest['srl']
 			));
 			if ($extraCount > 0)
 			{
@@ -156,27 +154,27 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 					<legend>추가 입력항목</legend>
 					<?
 					$items = $spawn->getItems(array(
-						'table' => $tablesName[extraKey],
-						'where' => 'nest_srl='.$nest[srl],
+						'table' => $tablesName['extraKey'],
+						'where' => 'nest_srl='.$nest['srl'],
 						'order' => 'turn',
 						'sort' => 'asc'
 					));
 					foreach($items as $k=>$v)
 					{
-						$extVar = ($article[srl]) ? $spawn->getItem(array(
-							'table' => $tablesName[extraVar],
-							'where' => 'article_srl='.$article[srl].' and key_srl='.(int)$v[srl]
+						$extVar = ($article['srl']) ? $spawn->getItem(array(
+							'table' => $tablesName['extraVar'],
+							'where' => 'article_srl='.$article['srl'].' and key_srl='.(int)$v['srl']
 						)) : null;
-						$defaultValue = ($paramAction=='create' || $v[formType]==2) ? $v[defaultValue] : '';
-						$requiredClass = ($v[required]) ? 'class="required"' : '';
+						$defaultValue = ($paramAction=='create' || $v['formType']==2) ? $v['defaultValue'] : '';
+						$requiredClass = ($v['required']) ? 'class="required"' : '';
 						?>
 						<dl class="table<?=($k==0)?' first':''?>">
 							<dt>
-								<label for="ext_<?=$v[keyName]?>" <?=$requiredClass?>><?=$v[name]?></label>
+								<label for="ext_<?=$v['keyName']?>" <?=$requiredClass?>><?=$v['name']?></label>
 							</dt>
 							<dd>
-								<?=extraKeyTypePrint($v[formType], 'ext_'.$v[keyName], $defaultValue, $extVar[value], $v[required])?>
-								<p><?=$v[info]?></p>
+								<?=extraKeyTypePrint($v['formType'], 'ext_'.$v['keyName'], $defaultValue, $extVar['value'], $v['required'])?>
+								<p><?=$v['info']?></p>
 							</dd>
 						</dl>
 						<?
@@ -193,4 +191,4 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
 		</nav>
 	</form>
-</article>
+</section>

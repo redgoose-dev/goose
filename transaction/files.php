@@ -82,36 +82,35 @@ switch($paramAction)
 
 	// remove
 	case 'remove':
-		$out = '';
-		foreach (explode(',', $_POST[data]) as $k=>$v)
+		foreach (explode(',', $_POST['data']) as $k=>$v)
 		{
 			$item = explode(':', $v);
 			switch ($item[0])
 			{
 				case 'modify':
-					$tableName = $tablesName[files];
+					$tableName = $tablesName['files'];
 					break;
 				case 'session':
-					$tableName = $tablesName[tempFiles];
+					$tableName = $tablesName['tempFiles'];
 					break;
 			}
 			$files = $spawn->getItem(array(
-				field => 'loc,name',
-				table => $tableName,
-				where => 'srl='.$item[1]
+				'field' => 'loc,name',
+				'table' => $tableName,
+				'where' => 'srl='.$item[1]
 			));
-			$loc = PWD.'/data/original/'.$files[loc];
+			$loc = PWD.'/data/original/'.$files['loc'];
 			if (file_exists($loc))
 			{
 				unlink($loc);
 			}
 			$spawn->delete(array(
-				table => $tableName,
-				where => 'srl='.$item[1]
+				'table' => $tableName,
+				'where' => 'srl='.$item[1]
 			));
 		}
 		echo json_encode(array(
-			status => 'success',
+			'status' => 'success',
 		));
 		break;
 }
