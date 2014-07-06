@@ -191,4 +191,4 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
 		</nav>
 	</form>
-</article>
+</section>

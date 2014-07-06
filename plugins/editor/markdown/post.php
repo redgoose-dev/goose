@@ -10,6 +10,7 @@ if ($paramAction == 'create')
 		'order' => 'srl',
 		'sort' => 'asc'
 	));
+	$status = 'complete';
 	$type = 'session';
 }
 else if ($paramAction == 'modify')
@@ -21,6 +22,7 @@ else if ($paramAction == 'modify')
 		'order' => 'srl',
 		'sort' => 'asc'
 	));
+	$status = 'uploaded';
 	$type = 'modify';
 }
 
@@ -33,6 +35,7 @@ if (count($attachFiles))
 			'srl' => $v['srl']
 			,'location' => $v['loc']
 			,'filename' => $v['name']
+			,'status' => $status
 			,'type' => $type
 		);
 		array_push($pushData, $item);
@@ -45,10 +48,10 @@ if (count($attachFiles))
 <link rel="stylesheet" href="<?=$path?>/css/upload.css" />
 <link rel="stylesheet" href="<?=$path?>/lib/Jcrop/jquery.Jcrop.min.css" />
 
-<input type="hidden" name="thumnail_srl" value="<?=$article[thumnail_srl]?>" />
-<input type="hidden" name="thumnail_coords" value="<?=$article[thumnail_coords]?>" />
-<input type="hidden" name="thumnail_image" value="" />
 <input type="hidden" name="addQueue" value="" />
+<input type="hidden" name="thumnail_srl" value="<?=$article['thumnail_srl']?>" />
+<input type="hidden" name="thumnail_coords" value="<?=$article['thumnail_coords']?>" />
+<input type="hidden" name="thumnail_image" value="" />
 
 <fieldset>
 	<dl>
@@ -95,25 +98,24 @@ if (count($attachFiles))
 <script src="<?=$path?>/js/UploadInterface.class.js"></script>
 <script>
 jQuery(function($){
-	var
-		uploadInterface = new UploadInterface($('#fileUpload'), {
-			uploadAction : '<?=ROOT?>/files/upload/'
-			,removeAction : '<?=ROOT?>/files/remove/'
-			,fileDir : '<?=ROOT?>/data/original/'
-			,auto : true
-			,$queue : $('#filesQueue')
-			,$controller : $('#queueController')
-			,limit : 3
-			,token : '<?=md5("uPloAD_toKEn" . time());?>'
-			,content : $('#content')
-			,thumnailType : '<?=$nest['thumnailType']?>'
-			,thumnailSize : '<?=$nest['thumnailSize']?>'
-			,form : document.writeForm
-		})
-		,attachFiles = '<?=$pushData?>'
-		,attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null
-	;
+	var uploadInterface = new UploadInterface($('#fileUpload'), {
+		form : document.writeForm
+		,uploadAction : '<?=ROOT?>/files/upload/'
+		,removeAction : '<?=ROOT?>/files/remove/'
+		,fileDir : '<?=ROOT?>/data/original/'
+		,auto : false
+		,$queue : $('#filesQueue')
+		,$drop : $('#filesQueue>ul')
+		,$controller : $('#queueController')
+		,limit : 3
+		,token : '<?=md5("uPloAD_toKEn" . time());?>'
+		,content : $('#content')
+		,thumnailType : '<?=$nest['thumnailType']?>'
+		,thumnailSize : '<?=$nest['thumnailSize']?>'
+	});
 
+	var attachFiles = '<?=$pushData?>'
+	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null
 	if (attachFilesData)
 	{
 		uploadInterface.pushQueue(attachFilesData);
@@ -122,6 +124,16 @@ jQuery(function($){
 	// upload button click event
 	$('#fileUploadButton').on('click', function(){
 		uploadInterface.upload();
+	});
+
+	// onsubmit event
+	$(document.writeForm).on('submit', function(){
+		if ($('#filesQueue>ul>li').length && !this.thumnail_image.value)
+		{
+			alert('썸네일 이미지를 만들지 않았습니다.');
+			$(this).find('button[rg-action=useThumnail]').focus();
+			return false;
+		}
 	});
 });
 </script>

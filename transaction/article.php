@@ -9,9 +9,9 @@ $_POST['title'] = htmlspecialchars($_POST['title']);
  * upload file db update
  * tempFiles 테이블에 있는 임시파일들 목록을 files 테이블에 옮기고, 썸네일으로 사용하는 첨부파일 번호를 리턴한다.
  * 
- * @param Number $art_srl : 글을 등록하고 바로 가져온 srl번호
- * @param Number $thum_srl : 썸네일 srl번호
- * @return Number $thumnail_srl : 바뀐 썸네일 srl번호
+ * @param {Number} $art_srl : 글을 등록하고 바로 가져온 srl번호
+ * @param {Number} $thum_srl : 썸네일 srl번호
+ * @return {Number} $thumnail_srl : 바뀐 썸네일 srl번호
  */
 function fileUpload($art_srl, $thum_srl)
 {
@@ -49,20 +49,15 @@ function fileUpload($art_srl, $thum_srl)
 			}
 		}
 	}
-	else
-	{
-		$thumnail_srl = $thum_srl;
-	}
-
-	return $thumnail_srl;
+	return ($thumnail_srl) ? $thumnail_srl : $thum_srl;
 }
 
 /**
  * upload thumnail
  * 썸네일 이미지 데이터를 받아서 서버에 올리고, 이미지 경로를 리턴한다.
  * 
- * @param String $imgData : base64형식의 이미지 데이터
- * @return String $thumnailDir : 서버에 업로드한 썸네일 이미지 경로
+ * @param {String} $imgData : base64형식의 이미지 데이터
+ * @return {String} $thumnailDir : 서버에 업로드한 썸네일 이미지 경로
  */
 function uploadThumnail($imgData=null)
 {
@@ -187,13 +182,14 @@ switch($paramAction)
 		$thumnail_srl = fileUpload($_POST['article_srl'], $_POST['thumnail_srl']);
 
 		// upload thumnail image
-		if ($thumnail_srl or $_POST['thumnail_srl'])
+		if ($_POST['thumnail_image'])
 		{
 			if (file_exists($absoluteThumnailDir.$article['thumnail_url']))
 			{
 				unlink($absoluteThumnailDir.$article['thumnail_url']);
 			}
 			$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
+
 			$spawn->update(array(
 				'table' => $tablesName['articles'],
 				'where' => 'srl='.(int)$_POST['article_srl'],
@@ -202,6 +198,7 @@ switch($paramAction)
 					"thumnail_url='$thumnailUrl'"
 				)
 			));
+			$thumnailUploaded = true;
 		}
 
 		// update article
@@ -219,8 +216,9 @@ switch($paramAction)
 		));
 
 		// 썸네일 이미지는 있고, 첨부파일이 하나도 없을때 썸네일 이미지 삭제
-		if ($article[thumnail_srl])
+		if ($article['thumnail_srl'] && !$thumnailUploaded)
 		{
+			var_dump('check');
 			// get article item data
 			$filesCount = $spawn->getCount(array(
 				table => $tablesName[files],

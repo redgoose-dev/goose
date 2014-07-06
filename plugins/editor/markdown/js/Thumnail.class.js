@@ -212,6 +212,7 @@ var Thumnail = function(parent, options) {
 			bgOpacity : .4
 			,setSelect : self.data.coords
 			,aspectRatio : ratio
+			,minSize : [50, 50]
 			,onSelect : function(e) {
 				self.data.coords = [
 					parseInt(e.x)
@@ -264,11 +265,9 @@ var Thumnail = function(parent, options) {
 	var saveParameter = function()
 	{
 		var form = parent.settings.form;
-		var imageData = getImageData(self.data.location);
-
 		form.thumnail_srl.value = self.data.srl;
 		form.thumnail_coords.value = self.data.coords;
-		//log(form.thumnail_image);
+		form.thumnail_image.value = getImageData(self.data.location)
 	}
 
 	/**
@@ -279,23 +278,20 @@ var Thumnail = function(parent, options) {
 	 */
 	var getImageData = function(img)
 	{
-		var $canvas = $('<canvas/>').width(outputSize[0]).height(outputSize[1]);
-		$('body').append($canvas);
 		var
-			context = $canvas.get(0).getContext('2d')
+			$canvas = $('<canvas width="' + outputSize[0] + '" height="' + outputSize[1] + '" />')
+			,context = $canvas.get(0).getContext('2d')
 			,$img = self.$window.find('figure > img')
 			,realSize = [$img.get(0).naturalWidth, $img.get(0).naturalHeight]
 			,coords = self.data.coords
 			,ratio = [realSize[0] / $img.width(), realSize[1] / $img.height()]
 		;
-		log(ratio);
 
 		// draw background
 		context.fillStyle = '#ff0000';
-		context.fillRect(0, 0, 200, 200);
+		context.fillRect(0, 0, outputSize[0], outputSize[1]);
 
 		// draw photo
-/*
 		context.drawImage(
 			$img.get(0)
 			,coords[0] * ratio[0] // x
@@ -307,9 +303,10 @@ var Thumnail = function(parent, options) {
 			,outputSize[0] // dw
 			,outputSize[1] // dh
 		);
-*/
 
+		return $canvas.get(0).toDataURL("image/jpeg", self.settings.quality);
 	}
+
 
 	/**
 	 * open
@@ -326,6 +323,13 @@ var Thumnail = function(parent, options) {
 
 			self.data.srl = item.srl;
 			self.data.location = parent.settings.fileDir + item.location;
+
+			var thumnail_srl = parent.settings.form.thumnail_srl.value;
+			var thumnail_coords = parent.settings.form.thumnail_coords.value;
+			if (thumnail_coords && (thumnail_srl == item.srl))
+			{
+				self.data.coords = JSON.parse('[' + thumnail_coords + ']')
+			}
 
 			var $figure = self.$window.find('figure');
 			var $img = $('<img src="' + self.data.location + '" />')
@@ -344,7 +348,16 @@ var Thumnail = function(parent, options) {
 	 */
 	this.close = function()
 	{
-		saveParameter();
+		var srl = self.data.srl;
+		var thumnail_srl = parent.settings.form.thumnail_srl.value;
+		var coords = self.data.coords.toString();
+		var thumnail_coords = parent.settings.form.thumnail_coords.value;
+
+		if (srl !== thumnail_srl || coords !== thumnail_coords)
+		{
+			saveParameter();
+			parent.queue.updateThumnailClass(self.queue.element);
+		}
 
 		$('body').removeClass('thumnailWindowMode');
 		self.$window.remove();
@@ -356,14 +369,6 @@ var Thumnail = function(parent, options) {
 	}
 
 }
-
-
-/*
-output post
-["thumnail_srl"]=> string(0) ""
-["thumnail_image"]=> string(0) ""
-["thumnail_coords"]=> string(21) "45,39,570,564,525,525"
-*/
 
 
 // default variables

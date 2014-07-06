@@ -31,7 +31,7 @@ var FileUpload = function(parent, action, queue, file)
 	}
 	else
 	{
-		
+		alert('not support browser');
 	}
 
 	/**

@@ -6,6 +6,7 @@ var FilesQueue = function(getParent, $el, options) {
 	var $index = $el.children('ul');
 
 	this.index = new Object();
+	this.addQueueIndex = new Object();
 	this.count = 0;
 	this.active = new Array();
 
@@ -228,6 +229,25 @@ var FilesQueue = function(getParent, $el, options) {
 		return $index.children('li.on').map(function(o){
 			return self.index[$(this).attr('key')];
 		});
+	}
+
+	/**
+	 * get thumnail item
+	 * 
+	 * @return {Array}
+	 */
+	this.getThumnailItem = function()
+	{
+		return self.index[$index.children('li.thumnail').attr('key')];
+	}
+
+	/**
+	 * remove thumnail class
+	 */
+	this.updateThumnailClass = function($item)
+	{
+		$index.children('li.thumnail').removeClass('thumnail');
+		$item.addClass('thumnail');
 	}
 
 }

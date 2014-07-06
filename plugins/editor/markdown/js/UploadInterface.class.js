@@ -110,6 +110,34 @@ var UploadInterface = function(el, options) {
 		$(window).on('keyup', function(e){
 			self.key = false;
 		});
+
+		// drop files event
+		if (self.settings.$drop)
+		{
+			self.settings.$drop.on('dragover', false);
+			self.settings.$drop.on('dragenter', function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				$(this).addClass('drag')
+			});
+			self.settings.$drop.on('dragleave', function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				$(this).removeClass('drag')
+			});
+			self.settings.$drop.on('drop', function(e){
+				if (e.originalEvent.dataTransfer)
+				{
+					if (e.originalEvent.dataTransfer.files.length)
+					{
+						e.preventDefault();
+						e.stopPropagation();
+						$(this).removeClass('drag')
+						self.upload(e.originalEvent.dataTransfer.files);
+					}
+				}
+			});
+		}
 	}
 
 	/**
@@ -174,17 +202,43 @@ var UploadInterface = function(el, options) {
 		}
 	}
 
+	/**
+	 * get object key
+	 * 
+	 * @param {Object} obj
+	 * @return {Array}
+	 */
+	var getObjectKey = function(obj)
+	{
+		var arr = new Array();
+		for (var key in obj)
+		{
+			arr.push(key);
+		}
+		return arr;
+	}
+
 
 	/**
 	 * file upload method
+	 * 
+	 * @param {File} getFiles
 	 */
-	this.upload = function()
+	this.upload = function(getFiles)
 	{
-		// limit item check
-		var files = $el.get(0).files;
-		for (var n = 0; n < files.length; n++)
+		var files = (getFiles) ? getFiles : $el.get(0).files;
+		var count = Object.keys(self.queue.index).length + files.length;
+
+		if (count > self.settings.limit)
 		{
-			addQueueItem(files[n]);
+			alert('파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.');
+		}
+		else
+		{
+			for (var n = 0; n < files.length; n++)
+			{
+				addQueueItem(files[n]);
+			}
 		}
 	}
 
@@ -261,10 +315,20 @@ var UploadInterface = function(el, options) {
 				,loc : data[n].location
 				,srl : data[n].srl
 				,type2 : data[n].type
-				,status : 'complete'
+				,status : data[n].status
 			});
+			if (self.settings.form.thumnail_srl.value == data[n].srl)
+			{
+				self.queue.index[key].element.addClass('thumnail');
+			}
 		}
-		self.refreshAddQueue();
+		if (data.length)
+		{
+			if (data[0].type == 'session')
+			{
+				self.refreshAddQueue();
+			}
+		}
 	}
 
 	/**
@@ -298,6 +362,14 @@ var UploadInterface = function(el, options) {
 	this.createThumnail = function()
 	{
 		var item = self.queue.getItems()[0];
+		if (!item)
+		{
+			item = self.queue.getThumnailItem();
+		}
+		if (!item)
+		{
+			item = self.queue.index[Object.keys(self.queue.index)[0]];
+		}
 		if (item)
 		{
 			if (/^image/i.test(item.filetype))
@@ -360,9 +432,11 @@ var UploadInterface = function(el, options) {
 	this.refreshAddQueue = function()
 	{
 		var value = $.map(self.queue.index, function(obj, key){
-			return obj.srl;
+			if (obj.type !== 'modify')
+			{
+				return obj.srl;
+			}
 		}).join(',');
-
 		self.settings.form.addQueue.value = value;
 	}
 
@@ -375,7 +449,6 @@ var UploadInterface = function(el, options) {
  * Default variables
  */
 UploadInterface.prototype.defaults = {
-	foo : 'bar'
-	,uploadAction : null
+	uploadAction : null
 	,removeAction : null
 };
