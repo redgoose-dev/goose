@@ -146,7 +146,6 @@
 	a {
 		display: block; padding: 3px 8px 3px 5px;
 		font-size:12px; color: $color_blur; text-decoration: none;
-		font-family:'Lucida Grande', 'Helvetica', sans-serif;
 		&:hover {text-decoration:underline;}
 	}
 	li.active a {font-weight:bolder; color:#469fc0; text-decoration:underline;}
@@ -300,5 +299,32 @@
 			> dt, > dd {display: table-cell; vertical-align: middle;}
 			> dt {width: 140px; margin: 0;}
 		}
+	}
+}
+
+.Documents {
+	color: #333; word-break: break-all;
+	> section {
+		margin: 48px 0;
+		&.first {margin-top: 0;}
+		> h1 {margin-bottom: 10px; font-size: 20px;}
+		> h2 {margin-bottom: 5px; font-size: 18px;}
+		> p {margin: 5px 0;}
+		> section {
+			margin: 20px 0;
+			> h1 {margin: 0 0 5px; font-size: 16px;}
+			> p {margin: 5px 0;}
+			.ui-table {margin: 10px 0;}
+		}
+	}
+	ul, ol {
+		margin: 10px 0; padding-left: 20px;
+	}
+	.ui-table {margin: 20px 0;}
+	pre {
+		margin: 10px 0; padding: 8px;
+		font-family: Monaco, Verdana; font-size: 12px; color: #666; white-space: pre-wrap;
+		border: 1px solid #ddd; border-radius: 4px;
+		background: #fafafa;
 	}
 }

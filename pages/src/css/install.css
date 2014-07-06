@@ -16,7 +16,7 @@ form label.first { margin-top: 10px; }
 form label > strong { margin: 0 0 5px 0; font-weight: normal; display: block; font-size: 14px; color: #666; }
 form label > strong:before { content: '- '; }
 form label > span { display: block; }
-form label > span input { margin: 0; padding: 9px 8px; width: 100%; font-size: 14px; color: #666; border: 1px solid #aaa; box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2); }
+form label > span input { margin: 0; padding: 9px 8px; width: 100%; font-size: 14px; color: #333; border: 1px solid #aaa; box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2); }
 form label > span .error { color: #da1313; }
 form label > span > label.error { display: block; margin: 6px 0 0; font-size: 13px; }
 form hr { display: block; margin: 20px 0; height: 1px; background: #ddd; border: none; }
