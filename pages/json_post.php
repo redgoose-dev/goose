@@ -17,7 +17,7 @@ $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 ?>
 
-<link rel="stylesheet" type="text/css" href="<?=ROOT?>/pages/src/pkg/jsonEditor/JSONManager.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?=ROOT?>/pages/src/pkg/JSONEditor/css/JSONEditor.css" media="screen" />
 
 <section class="form JSONPost">
 	<div class="hgroup">
@@ -47,61 +47,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl>
 					<dt><label>JSON DATA</label></dt>
-					<dd id="jsonIndex">
-						<ul>
-							<li type="Object" loc="root" class="on">
-								<dl>
-									<dt>
-										<button type="button" role="control">control</button>
-										<button type="button" role="toggle">toggle</button>
-										<em class="no">0</em><strong data-ph="Object"></strong><span class="type"></span><em class="count">0</em>
-									</dt>
-								</dl>
-								<ul></ul>
-							</li>
-						</ul>
-						<nav id="context">
-							<ul>
-								<li role="Type">
-									<div>
-										<ul>
-											<li role="Object">
-												<button type="button">Object</button>
-											</li>
-											<li role="Array">
-												<button type="button">Array</button>
-											</li>
-											<li role="String">
-												<button type="button">String</button>
-											</li>
-										</ul>
-									</div>
-									<button type="button">Type</button>
-								</li>
-								<li role="Insert">
-									<div>
-										<ul>
-											<li role="Object">
-												<button type="button">Object</button>
-											</li>
-											<li role="Array">
-												<button type="button">Array</button>
-											</li>
-											<li role="String">
-												<button type="button">String</button>
-											</li>
-										</ul>
-									</div>
-									<button type="button">Insert</button>
-								</li>
-								<li role="Duplicate">
-									<button type="button">Duplicate</button>
-								</li>
-								<li role="Remove">
-									<button type="button">Remove</button>
-								</li>
-							</ul>
-						</nav>
+					<dd>
+						<div class="JSONEditor" id="JSONEditor"></div>
 					</dd>
 				</dl>
 			</fieldset>
@@ -122,17 +69,47 @@ if ($paramAction != "delete")
 	<script src="<?=$jQueryAddress?>"></script>
 	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
 	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/JSONEditor/js/jquery-sortable.js"></script>
+	<script src="<?=ROOT?>/pages/src/pkg/JSONEditor/js/JSONEditor.class.js"></script>
 	<script>
-	var jsonData = '<?=$json[json]?>';
+	jQuery(function($){
 
-	jQuery('#regsterForm').validate({
-		rules : {
-			name : {required : true, minlength : 3}
+		var $jsonEditor = $('#JSONEditor');
+		var $form = $('#regsterForm');
+		var jsonData = '<?=$json[json]?>';
+		var jsonEditor = new JSONEditor($jsonEditor);
+
+		// import json
+		try {
+			var json = JSON.parse(jsonData);
 		}
+		catch(e) {
+			var json = new Object();
+		}
+	
+		if (Array.isArray(json))
+		{
+			jsonEditor.typeItem({
+				active : $jsonEditor.find('li[loc=root]'),
+				type : 'Array'
+			});
+		}
+		jsonEditor.importJSON(json);
+	
+		// submit form
+		$form.on('submit', function(){
+			$(this).find('input[name=json]').val(jsonEditor.exportJSON(0));
+		});
+	
+		$form.validate({
+			rules : {
+				name : {required : true, minlength : 3}
+			}
+		});
+
 	});
+
 	</script>
-	<script src="<?=ROOT?>/pages/src/pkg/jsonEditor/jquery-sortable.min.js"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/jsonEditor/JSONManager.min.js"></script>
 <?
 }
 ?>
