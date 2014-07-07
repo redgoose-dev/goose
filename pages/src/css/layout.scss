@@ -77,7 +77,7 @@
 
 
 /* Index */
-.index {
+ul.index {
 	margin: 0; padding: 0; list-style: none;
 	a {text-decoration: none;}
 	li {
@@ -183,7 +183,11 @@
 
 /* Form */
 .form {
-	input[type=text], input[type=tel], input[type=email], input[type=password], textarea {
+	input[type=text],
+	input[type=tel],
+	input[type=email],
+	input[type=password],
+	textarea {
 		margin: 0;
 	}
 	select {margin-left: 0;}
@@ -261,7 +265,7 @@
 		}
 	}
 
-	.index {
+	ul.index {
 		.body {
 			strong {font-size: 16px;}
 		}
