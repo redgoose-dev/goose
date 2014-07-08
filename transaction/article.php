@@ -218,7 +218,6 @@ switch($paramAction)
 		// 썸네일 이미지는 있고, 첨부파일이 하나도 없을때 썸네일 이미지 삭제
 		if ($article['thumnail_srl'] && !$thumnailUploaded)
 		{
-			var_dump('check');
 			// get article item data
 			$filesCount = $spawn->getCount(array(
 				table => $tablesName[files],
