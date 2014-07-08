@@ -44,7 +44,6 @@ if (count($attachFiles))
 }
 ?>
 
-<link rel="stylesheet" href="<?=$path?>/css/post.css" />
 <link rel="stylesheet" href="<?=$path?>/css/upload.css" />
 <link rel="stylesheet" href="<?=$path?>/lib/Jcrop/jquery.Jcrop.min.css" />
 
