@@ -56,7 +56,7 @@ jQuery(function($){
 		,thumnailType : '<?=$nest['thumnailType']?>'
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
 		,$insertTarget : $('#content')
-		,insertComplete : null // function(value){}
+		,insertFunc : null // function(value){}
 	});
 
 	var attachFiles = '<?=$pushData?>';

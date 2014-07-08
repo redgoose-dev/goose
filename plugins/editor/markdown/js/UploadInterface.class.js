@@ -46,7 +46,7 @@ var UploadInterface = function(el, options) {
 	var createControllter = function($nav)
 	{
 		var $dom = '';
-		if (self.settings.$insertTarget || self.settings.insertComplete)
+		if (self.settings.$insertTarget || self.settings.insertFunc)
 		{
 			$dom += '<button type="button" rg-action="insertContents" class="ui-button btn-small btn-highlight">본문삽입</button>';
 		}
@@ -396,9 +396,9 @@ var UploadInterface = function(el, options) {
 
 		if (keyword)
 		{
-			if (self.settings.insertComplete)
+			if (self.settings.insertFunc)
 			{
-				self.settings.insertComplete(keyword);
+				self.settings.insertFunc(keyword);
 			}
 			else if (self.settings.$insertTarget)
 			{
