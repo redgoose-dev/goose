@@ -113,8 +113,8 @@ jQuery(function($){
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
 	});
 
-	var attachFiles = '<?=$pushData?>'
-	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null
+	var attachFiles = '<?=$pushData?>';
+	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null;
 	if (attachFilesData)
 	{
 		uploadInterface.pushQueue(attachFilesData);
