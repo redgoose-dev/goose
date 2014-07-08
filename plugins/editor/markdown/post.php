@@ -2,46 +2,7 @@
 if(!defined("GOOSE")){exit();}
 
 $path = ROOT.'/plugins/editor/'.$nest['editor'];
-
-if ($paramAction == 'create')
-{
-	$attachFiles = $spawn->getItems(array(
-		'table' => $tablesName['tempFiles'],
-		'order' => 'srl',
-		'sort' => 'asc'
-	));
-	$status = 'complete';
-	$type = 'session';
-}
-else if ($paramAction == 'modify')
-{
-	// modify
-	$attachFiles = $spawn->getItems(array(
-		'table' => $tablesName['files'],
-		'where' => 'article_srl='.$article_srl,
-		'order' => 'srl',
-		'sort' => 'asc'
-	));
-	$status = 'uploaded';
-	$type = 'modify';
-}
-
-if (count($attachFiles))
-{
-	$pushData = array();
-	foreach ($attachFiles as $k=>$v)
-	{
-		$item = array(
-			'srl' => $v['srl']
-			,'location' => $v['loc']
-			,'filename' => $v['name']
-			,'status' => $status
-			,'type' => $type
-		);
-		array_push($pushData, $item);
-	}
-	$pushData = json_encode($pushData);
-}
+require('lib/attachFileDatas.php');
 ?>
 
 <link rel="stylesheet" href="<?=$path?>/css/upload.css" />
@@ -72,20 +33,7 @@ if (count($attachFiles))
 			</div>
 		</dd>
 	</dl>
-	<article class="queuesManager">
-		<h1 class="blind">파일첨부 관리</h1>
-		<div class="filesQueue" id="filesQueue">
-			<figure class="thumnail"></figure>
-			<ul></ul>
-		</div>
-		<nav id="queueController">
-			<button type="button" rg-action="insertContents" class="ui-button btn-small btn-highlight">본문삽입</button>
-			<button type="button" rg-action="useThumnail" class="ui-button btn-small">썸네일설정</button>
-			<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>
-			<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>
-			<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>
-		</nav>
-	</article>
+	<div class="queuesManager" id="queuesManager"></div>
 </fieldset>
 
 <script>function log(o){console.log(o);}</script>
@@ -99,18 +47,16 @@ if (count($attachFiles))
 jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		form : document.writeForm
+		,$queue : $('#queuesManager')
 		,uploadAction : '<?=ROOT?>/files/upload/'
 		,removeAction : '<?=ROOT?>/files/remove/'
 		,fileDir : '<?=ROOT?>/data/original/'
 		,auto : false
-		,$queue : $('#filesQueue')
-		,$drop : $('#filesQueue>ul')
-		,$controller : $('#queueController')
 		,limit : 3
-		,token : '<?=md5("uPloAD_toKEn" . time());?>'
-		,content : $('#content')
 		,thumnailType : '<?=$nest['thumnailType']?>'
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
+		,$insertTarget : $('#content')
+		,insertComplete : null // function(value){}
 	});
 
 	var attachFiles = '<?=$pushData?>';
@@ -127,7 +73,8 @@ jQuery(function($){
 
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){
-		if ($('#filesQueue>ul>li').length && !this.thumnail_image.value)
+		var count = Object.keys(uploadInterface.queue.index).length;
+		if (count && !this.thumnail_image.value)
 		{
 			alert('썸네일 이미지를 만들지 않았습니다.');
 			$(this).find('button[rg-action=useThumnail]').focus();

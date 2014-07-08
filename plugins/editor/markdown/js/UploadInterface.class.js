@@ -5,14 +5,57 @@ var UploadInterface = function(el, options) {
 
 	self.el = el;
 	self.settings = $.extend({}, this.defaults, options);
-	self.queue = new FilesQueue(this, this.settings.$queue, {});
 	self.key = false;
+	self.queue = null;
+	self.$queue = null;
+	self.$drop = null;
+	self.$controller = null;
 
 	var thumnail = new Thumnail(self, {
 		type : self.settings.thumnailType
 		,size : self.settings.thumnailSize.split('*')
 		,quality : 0.8
 	});
+
+	/**
+	 * init
+	 */
+	var init = function()
+	{
+		if (self.settings.$queue)
+		{
+			self.$queue = $('<div class="filesQueue"><figure class="thumnail"></figure><ul></ul></div>');
+			self.queue = new FilesQueue(self, self.$queue, {});
+			self.$drop = self.$queue.children('ul');
+			self.$controller = $('<nav id="queueController"></nav>');
+			self.settings.$queue
+				.append(self.$queue)
+				.append(self.$controller)
+			;
+
+			createControllter(self.$controller);
+			events();
+		}
+	}
+
+	/**
+	 * create controller
+	 * 
+	 * @param {DOM} $nav
+	 */
+	var createControllter = function($nav)
+	{
+		var $dom = '';
+		if (self.settings.$insertTarget || self.settings.insertComplete)
+		{
+			$dom += '<button type="button" rg-action="insertContents" class="ui-button btn-small btn-highlight">본문삽입</button>';
+		}
+		$dom += '<button type="button" rg-action="useThumnail" class="ui-button btn-small">썸네일설정</button>';
+		$dom += '<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>';
+		$dom += '<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>';
+		$dom += '<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>';
+		$nav.append($($dom));
+	}
 
 	/**
 	 * byte to size convert
@@ -59,9 +102,9 @@ var UploadInterface = function(el, options) {
 	var events = function()
 	{
 		// controller
-		if (self.settings.$controller)
+		if (self.$controller)
 		{
-			self.settings.$controller.children('button').on('click', function(e){
+			self.$controller.children('button').on('click', function(e){
 				switch($(this).attr('rg-action'))
 				{
 					// insert content
@@ -112,20 +155,20 @@ var UploadInterface = function(el, options) {
 		});
 
 		// drop files event
-		if (self.settings.$drop)
+		if (self.$drop)
 		{
-			self.settings.$drop.on('dragover', false);
-			self.settings.$drop.on('dragenter', function(e){
+			self.$drop.on('dragover', false);
+			self.$drop.on('dragenter', function(e){
 				e.preventDefault();
 				e.stopPropagation();
 				$(this).addClass('drag')
 			});
-			self.settings.$drop.on('dragleave', function(e){
+			self.$drop.on('dragleave', function(e){
 				e.preventDefault();
 				e.stopPropagation();
 				$(this).removeClass('drag')
 			});
-			self.settings.$drop.on('drop', function(e){
+			self.$drop.on('drop', function(e){
 				if (e.originalEvent.dataTransfer)
 				{
 					if (e.originalEvent.dataTransfer.files.length)
@@ -226,19 +269,26 @@ var UploadInterface = function(el, options) {
 	 */
 	this.upload = function(getFiles)
 	{
-		var files = (getFiles) ? getFiles : $el.get(0).files;
-		var count = Object.keys(self.queue.index).length + files.length;
-
-		if (count > self.settings.limit)
+		if (self.$queue)
 		{
-			alert('파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.');
+			var files = (getFiles) ? getFiles : $el.get(0).files;
+			var count = Object.keys(self.queue.index).length + files.length;
+	
+			if (count > self.settings.limit)
+			{
+				alert('파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.');
+			}
+			else
+			{
+				for (var n = 0; n < files.length; n++)
+				{
+					addQueueItem(files[n]);
+				}
+			}
 		}
 		else
 		{
-			for (var n = 0; n < files.length; n++)
-			{
-				addQueueItem(files[n]);
-			}
+			alert('not install queue manager');
 		}
 	}
 
@@ -346,13 +396,18 @@ var UploadInterface = function(el, options) {
 
 		if (keyword)
 		{
-			var
-				$content = self.settings.content
-				,position = getCursorPosition($content)
-				,content = $content.val()
-				,newContent = content.substr(0, position) + keyword + content.substr(position)
-			;
-			$content.val(newContent);
+			if (self.settings.insertComplete)
+			{
+				self.settings.insertComplete(keyword);
+			}
+			else if (self.settings.$insertTarget)
+			{
+				var $content = self.settings.$insertTarget;
+				var position = getCursorPosition($content);
+				var content = $content.val();
+				var newContent = content.substr(0, position) + keyword + content.substr(position);
+				$content.val(newContent);
+			}
 		}
 	}
 
@@ -394,7 +449,7 @@ var UploadInterface = function(el, options) {
 	{
 		if (confirm('선택한 파일을 삭제하시겠습니까?'))
 		{
-			var $lis = self.settings.$queue.find('>ul>li.on');
+			var $lis = self.$queue.find('>ul>li.on');
 			if ($lis.length)
 			{
 				self.queue.removeQueue($lis);
@@ -413,7 +468,7 @@ var UploadInterface = function(el, options) {
 	{
 		if (confirm('모두 삭제하시겠습니까?'))
 		{
-			var $lis = self.settings.$queue.find('>ul>li');
+			var $lis = self.$queue.find('>ul>li');
 			if ($lis.length)
 			{
 				self.queue.removeQueue($lis);
@@ -440,8 +495,9 @@ var UploadInterface = function(el, options) {
 		self.settings.form.addQueue.value = value;
 	}
 
+
 	// act
-	events();
+	init();
 }
 
 
