@@ -53,9 +53,9 @@ button.ui-button.block { width: 100%; }
 
 /* Headding */
 .hgroup { padding: 0; position: relative; border-bottom: 1px solid #ccc; }
-.hgroup > h1 { font-size: 20px; margin: 0 0 8px; }
+.hgroup > h1 { font-size: 20px; margin: 0 0 0px; line-height: 28px; }
 .hgroup > h1 a { color: #111111; text-decoration: none; }
-.hgroup > p { margin: 0 0 4px; font-size: 13px; color: #666666; }
+.hgroup > p { margin: 0 0 4px; font-size: 12px; color: #666666; }
 
 @media all and (min-width: 640px) { .hgroup { padding: 0; }
   .hgroup > h1 { margin-bottom: 5px; } }
@@ -223,4 +223,4 @@ ul.index .empty:hover { background: none; }
 .Documents > section > section .ui-table { margin: 10px 0; }
 .Documents ul, .Documents ol { margin: 10px 0; padding-left: 20px; }
 .Documents .ui-table { margin: 20px 0; }
-.Documents pre { margin: 10px 0; padding: 8px; font-family: Monaco, Verdana; font-size: 12px; color: #666; white-space: pre-wrap; border: 1px solid #ddd; border-radius: 4px; background: #fafafa; }
+.Documents pre { margin: 10px 0; padding: 8px; font-family: Monaco, Verdana; font-size: 12px; color: #333; white-space: pre-wrap; border: 1px solid #ddd; border-radius: 4px; background: #fafafa; }
