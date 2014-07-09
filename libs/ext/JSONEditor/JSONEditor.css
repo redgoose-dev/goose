@@ -1,6 +1,6 @@
 /* sprite images */
-.JSONEditor > div.index li > dl > dt > button, .JSONEditor > .context li[role=Type]:after, .JSONEditor > .context li[role=Insert]:after { display: inline-block; background: url("../img/sp-icon@x1.png") 0 0 no-repeat; }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { .JSONEditor > div.index li > dl > dt > button, .JSONEditor > .context li[role=Type]:after, .JSONEditor > .context li[role=Insert]:after { background-image: url("../img/sp-icon@x2.png"); background-size: 100px 50px; } }
+.JSONEditor > div.index li > dl > dt > button, .JSONEditor > .context li[role=Type]:after, .JSONEditor > .context li[role=Insert]:after { display: inline-block; background: url('sp-icon@x1.png') 0 0 no-repeat; }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { .JSONEditor > div.index li > dl > dt > button, .JSONEditor > .context li[role=Type]:after, .JSONEditor > .context li[role=Insert]:after { background-image: url('sp-icon@x2.png'); background-size: 100px 50px; } }
 
 /* json editor */
 .JSONEditor { /* index */ /* Context */ }

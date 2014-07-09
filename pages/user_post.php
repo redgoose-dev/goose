@@ -93,8 +93,8 @@ if ($paramAction != "delete")
 {
 ?>
 	<script src="<?=$jQueryAddress?>"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script src="<?=ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
 	<script>
 	jQuery(function($){
 		$('#regsterForm').validate({

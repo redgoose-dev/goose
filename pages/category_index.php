@@ -82,7 +82,7 @@ else
 </section>
 
 <script src="<?=$jQueryAddress?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?=ROOT?>/pages/src/pkg/dragsort/jquery.dragsort-0.5.1.min.js"></script>
+<script type="text/javascript" src="<?=ROOT?>/libs/ext/dragsort/jquery.dragsort-0.5.1.min.js"></script>
 <script type="text/javascript">
 jQuery(function($){
 	var objs = new Object();

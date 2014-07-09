@@ -77,9 +77,9 @@ $root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
 	</form>
 </main>
 
-<script src="<?=$root?>/pages/src/pkg/jquery/jquery-1.11.1.min.js"></script>
-<script src="<?=$root?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
-<script src="<?=$root?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+<script src="<?=$root?>/libs/ext/jQuery/jquery-1.11.1.min.js"></script>
+<script src="<?=$root?>/libs/ext/validation/jquery.validate.min.js"></script>
+<script src="<?=$root?>/libs/ext/validation/localization/messages_ko.js"></script>
 <script>
 jQuery(function($){
 	$('#regsterForm').validate({

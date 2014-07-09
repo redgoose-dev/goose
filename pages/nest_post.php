@@ -183,8 +183,8 @@ if ($paramAction != "delete")
 {
 ?>
 	<script src="<?=$jQueryAddress?>"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
+	<script src="<?=ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
 	<script>
 	jQuery(function($){
 		$.validator.addMethod("alphanumeric", function(value, element) {
@@ -193,7 +193,7 @@ if ($paramAction != "delete")
 		$('#regsterForm').validate({
 			rules : {
 				id : {required : true, minlength : 4, alphanumeric : true}
-				,name : {required: true, minlength: 3}
+				,name : {required: true, minlength: 2}
 				,thumWidth : {required: true, minlength: 2, number: true}
 				,thumHeight : {required: true, minlength: 2, number: true}
 				,listCount : {required: true, number: true}

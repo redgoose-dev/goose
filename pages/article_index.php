@@ -55,7 +55,6 @@ if ($articleCount > 0)
 		'limit' => array($paginate->offset, $paginate->size)
 	));
 }
-//var_dump($article);
 ?>
 
 <section>

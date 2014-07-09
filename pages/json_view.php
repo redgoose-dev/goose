@@ -34,15 +34,11 @@ $json = $spawn->getItem(array(
 	</nav>
 </section>
 
-<link type="text/css" rel="stylesheet" href="<?=ROOT?>/pages/src/pkg/snippet/jquery.snippet.min.css"/>
+<link type="text/css" rel="stylesheet" href="<?=ROOT?>/libs/ext/snippet/jquery.snippet.min.css"/>
 <script type="text/javascript" src="<?=$jQueryAddress?>"></script>
-<script type="text/javascript" src="<?=ROOT?>/pages/src/pkg/snippet/jquery.snippet.min.js"></script>
+<script type="text/javascript" src="<?=ROOT?>/libs/ext/snippet/jquery.snippet.min.js"></script>
 <script>
 $(function(){
-	$.browser={};(function(){jQuery.browser.msie=false;
-	$.browser.version=0;if(navigator.userAgent.match(/MSIE ([0-9]+)\./)){
-	$.browser.msie=true;jQuery.browser.version=RegExp.$1;}})();
-
 	$('#jsonData').html(JSON.stringify(JSON.parse('<?=$json[json]?>'), null, 5));
 	$('pre.js').snippet('javascript', {style:'bright', menu:true, showNum:true});
 });

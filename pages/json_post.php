@@ -17,7 +17,7 @@ $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 ?>
 
-<link rel="stylesheet" type="text/css" href="<?=ROOT?>/pages/src/pkg/JSONEditor/css/JSONEditor.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?=ROOT?>/libs/ext/JSONEditor/JSONEditor.css" media="screen" />
 
 <section class="form JSONPost">
 	<div class="hgroup">
@@ -67,10 +67,10 @@ if ($paramAction != "delete")
 {
 ?>
 	<script src="<?=$jQueryAddress?>"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/validation/jquery.validate.min.js"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/validation/localization/messages_ko.js"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/JSONEditor/js/jquery-sortable.js"></script>
-	<script src="<?=ROOT?>/pages/src/pkg/JSONEditor/js/JSONEditor.class.js"></script>
+	<script src="<?=ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
+	<script src="<?=ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
+	<script src="<?=ROOT?>/libs/ext/JSONEditor/jquery-sortable.js"></script>
+	<script src="<?=ROOT?>/libs/ext/JSONEditor/JSONEditor.class.js"></script>
 	<script>
 	jQuery(function($){
 
@@ -78,7 +78,7 @@ if ($paramAction != "delete")
 		var $form = $('#regsterForm');
 		var jsonData = '<?=$json[json]?>';
 		var jsonEditor = new JSONEditor($jsonEditor);
-
+  
 		// import json
 		try {
 			var json = JSON.parse(jsonData);
@@ -108,7 +108,6 @@ if ($paramAction != "delete")
 		});
 
 	});
-
 	</script>
 <?
 }
