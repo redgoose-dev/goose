@@ -2,11 +2,10 @@ var FilesQueue = function(getParent, $el, options) {
 
 	var self = this;
 	var parent = getParent;
-	var $preview = $el.children('figure.thumnail');
-	var $index = $el.children('ul');
 
+	this.$preview = $el.children('figure.thumnail');
+	this.$index = $el.children('ul');
 	this.index = new Object();
-	this.addQueueIndex = new Object();
 	this.count = 0;
 	this.active = new Array();
 
@@ -119,13 +118,13 @@ var FilesQueue = function(getParent, $el, options) {
 		{
 			if (!parent.key)
 			{
-				$index.children().removeClass('on');
+				self.$index.children().removeClass('on');
 			}
 			queue.element.addClass('on');
 
 			if (/^image/i.test(queue.filetype))
 			{
-				$preview.html('<img src="' + parent.settings.fileDir + queue.location + '" alt="" />');
+				self.$preview.html('<img src="' + parent.settings.fileDir + queue.location + '" alt="" />');
 			}
 		}
 	}
@@ -137,13 +136,13 @@ var FilesQueue = function(getParent, $el, options) {
 	 */
 	this.selectAllQueue = function()
 	{
-		if ($index.children('li').hasClass('on'))
+		if (self.$index.children('li').hasClass('on'))
 		{
-			$index.children('li').removeClass('on');
+			self.$index.children('li').removeClass('on');
 		}
 		else
 		{
-			$index.children('li').addClass('on');
+			self.$index.children('li').addClass('on');
 		}
 	}
 
@@ -205,7 +204,7 @@ var FilesQueue = function(getParent, $el, options) {
 	 */
 	this.clearPreview = function()
 	{
-		$preview.html('');
+		self.$preview.html('');
 	}
 
 	/**
@@ -226,7 +225,7 @@ var FilesQueue = function(getParent, $el, options) {
 	 */
 	this.getItems = function()
 	{
-		return $index.children('li.on').map(function(o){
+		return self.$index.children('li.on').map(function(o){
 			return self.index[$(this).attr('key')];
 		});
 	}
@@ -238,7 +237,7 @@ var FilesQueue = function(getParent, $el, options) {
 	 */
 	this.getThumnailItem = function()
 	{
-		return self.index[$index.children('li.thumnail').attr('key')];
+		return self.index[self.$index.children('li.thumnail').attr('key')];
 	}
 
 	/**
@@ -246,7 +245,7 @@ var FilesQueue = function(getParent, $el, options) {
 	 */
 	this.updateThumnailClass = function($item)
 	{
-		$index.children('li.thumnail').removeClass('thumnail');
+		self.$index.children('li.thumnail').removeClass('thumnail');
 		$item.addClass('thumnail');
 	}
 

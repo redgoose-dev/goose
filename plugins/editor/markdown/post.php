@@ -73,11 +73,8 @@ jQuery(function($){
 
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){
-		var count = Object.keys(uploadInterface.queue.index).length;
-		if (count && !this.thumnail_image.value)
+		if (uploadInterface.thumnailImageCheck())
 		{
-			alert('썸네일 이미지를 만들지 않았습니다.');
-			$(this).find('button[rg-action=useThumnail]').focus();
 			return false;
 		}
 	});

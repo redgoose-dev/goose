@@ -223,19 +223,19 @@ var UploadInterface = function(el, options) {
 		{
 			return 'image/' + type;
 		}
-		else if (/mp4|mov/gi.test(filename))
+		else if (/(\.mp4|\.mov)/gi.test(filename))
 		{
 			return 'video/' + type;
 		}
-		else if (/m4a|mp3/gi.test(filename))
+		else if (/(\.m4a|\.mp3)/gi.test(filename))
 		{
 			return 'audio/' + type;
 		}
-		else if (/txt/gi.test(filename))
+		else if (/(\.txt)/i.test(filename))
 		{
 			return 'text/' + type;
 		}
-		else if (/pdf/gi.test(filename))
+		else if (/(\.pdf|\.zip)/i.test(filename))
 		{
 			return 'application/' + type;
 		}
@@ -416,21 +416,40 @@ var UploadInterface = function(el, options) {
 	 */
 	this.createThumnail = function()
 	{
-		var item = self.queue.getItems()[0];
+		var item = null;
+
+		// 선택된 큐중에 이미지인 큐가 나오면 item변수로 넣기
+		var items = self.queue.getItems(); // 선택된 큐
+		for (var i=0; i<items.length; i++)
+		{
+			if (/^image/i.test(items[i].filetype))
+			{
+				item = items[i];
+				break;
+			}
+		}
+
+		// 썸네일로 지정되어있는 큐라면 item변수에 넣기
 		if (!item)
 		{
 			item = self.queue.getThumnailItem();
 		}
+
+		// 조건없이 순서대로 찾아서 이미지인 큐가 나오면 item변수로 넣기
 		if (!item)
 		{
-			item = self.queue.index[Object.keys(self.queue.index)[0]];
+			for (var key in self.queue.index)
+			{
+				if (/^image/i.test(self.queue.index[key].filetype))
+				{
+					item = self.queue.index[key];
+					break;
+				}
+			}
 		}
 		if (item)
 		{
-			if (/^image/i.test(item.filetype))
-			{
-				thumnail.open(item);
-			}
+			thumnail.open(item);
 		}
 	}
 
@@ -493,6 +512,43 @@ var UploadInterface = function(el, options) {
 			}
 		}).join(',');
 		self.settings.form.addQueue.value = value;
+	}
+
+	/**
+	 * thumnail image exist check
+	 * 
+	 * @return {Boolean} : 첨부파일중에 이미지가 있으면 true를 반환
+	 */
+	this.thumnailImageCheck = function()
+	{
+		var $items = self.queue.$index.children();
+		if ($items.filter('.thumnail').length)
+		{
+			return false;
+		}
+		else
+		{
+			var existImage = false;
+			$items.each(function(){
+				var index = self.queue.getIndexItem($(this).attr('key'));
+				if (/^image/i.test(index.filetype))
+				{
+					existImage = true;
+					return false;
+				}
+			});
+
+			if (existImage && !self.settings.form.thumnail_image.value)
+			{
+				alert('썸네일 이미지를 만들지 않았습니다.');
+				self.$controller.children('[rg-action=useThumnail]').focus();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 
