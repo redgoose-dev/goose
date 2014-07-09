@@ -30,21 +30,25 @@
 		<h1>Install</h1>
 		<p>
 			Goose 프로그램은 별도의 인스톨 프로그램은 없습니다. 그래서 DB세팅과 파일설치를 수동으로 해야합니다.<br/>
-			인스톨에 관한 자세한 내용은 이 화면을 보기전의 단계이기 때문에 Goose 프로그램 경로안에 install.txt파일을 참고해주세요.
+			인스톨에 관한 자세한 내용은 <a href="https://github.com/RedgooseDev/goose" target="_blank">https://github.com/RedgooseDev/goose</a> 페이지를 참고해주세요.
 		</p>
 	</section>
 	
 	<section id="HelpAdmin">
-		<h1>Admin</h1>
+		<h1>Menu</h1>
 		<p>
 			Goose 프로그램 관리 프로그램을 통해서 홈페이지에 사용되는 데이터를 관리할 수 있는 공간입니다. 이 데이터를 사용하여 외부 웹 프로그램에서 데이터를 출력할 수 있습니다.<br/>
 			이 프로그램 관리자는 다음과 같은 주요 메뉴가 있습니다.
 		</p>
 		<ul>
 			<li>
-				<strong>nests</strong><br/>
+				<strong>Nests</strong><br/>
 				이 메뉴는 사이트 앱의 데이터를 보관하고 관리하는 공간으로 하나의 게시물이나 포스트의 집합이라고 할 수 있습니다.<br/>
 				nestGroup > nest > article 구조로 구성되어 있으며 article 테이블이 포스팅 데이터가 들어갑니다.
+			</li>
+			<li>
+				<strong>User</strong><br />
+				회원목록입니다. 필요성을 느끼지 못하여 아직 제대로된 개발은 하지 않았지만 기초적인 컨텐츠는 마련해 두었습니다.
 			</li>
 			<li>
 				<strong>JSON</strong><br/>
@@ -61,8 +65,10 @@
 		<h1>Goose Database</h1>
 		<p>
 			이 프로그램은 mysql 데이터베이스를 사용하고 있습니다.<br/>
+			db 테이블 이름은 설치할 때 지정하는 prefix 문자와 합쳐진 형태입니다. 예) "GOOSE_" + "nests"<br/>
 			db 테이블 이름변경이 생길 수 있기 때문에 이름 관리를 /goose/config/variable.php 파일의 $tablesName변수에서 관리하고 있습니다.<br/>
 			api를 활용하기 위하여 꼭 참고해야하는 부분입니다.<br/>
+			<br/>
 			Goose 프로그램의 db 테이블의 자세한 설명은 다음과 같습니다.
 		</p>
 		<section>
@@ -129,7 +135,7 @@
 						<td>등록일</td>
 					</tr>
 					<tr>
-						<th>update</th>
+						<th>modate</th>
 						<td class="center nowrap">number</td>
 						<td>수정일</td>
 					</tr>
@@ -314,6 +320,11 @@
 						<td>확장변수 기능을 사용할지에 대한 여부 (1|0)</td>
 					</tr>
 					<tr>
+						<th>editor</th>
+						<td class="center nowrap">string</td>
+						<td>에디터 플러그인</td>
+					</tr>
+					<tr>
 						<th>regdate</th>
 						<td class="center nowrap">number</td>
 						<td>등록날짜</td>
@@ -443,92 +454,7 @@ echo $util->out(true);
 				</tbody>
 			</table>
 		</section>
-		<section>
-			<h1>Database.class.php</h1>
-			<p>
-				이 클래스는 mysql 데이터베이스를 접속하고, 데이터를 가져오거나 입력, 수정, 삭제같은 행동을 할 수 있는 메서드를 제공합니다.<br/>
-				메서드들은 <a href="http://kr1.php.net/manual/en/book.pdo.php" target="_blank">PDO</a>클래스를 이용하여 sql접근합니다.<br/>
-				주력으로 사용하는 DB 데이터 호출은 Spawn클래스로 사용하기 때문에 간단히 설명은 간소화 하겠습니다.
-			</p>
-<pre>
-require_once('/goose/config/db.config.php');
-$db = new Database($dbConfig);
-</pre>
-			<table class="ui-table">
-				<caption>Database 클래스 메서드 기능설명</caption>
-				<thead>
-					<tr>
-						<th scope="col">메서드</th>
-						<th scope="col">설명</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th>Database</th>
-						<td>
-							생성자 메서드<br/>
-							위의 예제는 클래스 생성자로 db를 접속하고 $db변수로 반환합니다.
-<pre style="margin-bottom:0">
-$db = new Database(
-	array(
-		'mysql:dbname=DB_USERNAME;host=localhost',
-		'DB_USERNAME',
-		'DB_PASSWORD'
-	)
-);
-</pre>
-						</td>
-					</tr>
-					<tr>
-						<th>disconnect</th>
-						<td>
-							db 접속종료
-							<pre style="margin-bottom:0">$db->disconnect();</pre>
-						</td>
-					</tr>
-					<tr>
-						<th>count</th>
-						<td>
-							요청한 아이템 총 갯수를 반환해줍니다.
-<pre style="margin-bottom:0">
-$result = $db->count("select count(*) from TABLE_NAME where KEY=VALUE");
-// $result : 10
-</pre>
-						</td>
-					</tr>
-					<tr>
-						<th>action</th>
-						<td>
-							insert, update, delete 같은 명령 실행에 사용되는 메서드입니다.
-<pre style="margin-bottom:0">
-$result = $db->delete("delete from TABLE_NAME where KEY=VALUE");
-// $result : success
-</pre>
-						</td>
-					</tr>
-					<tr>
-						<th>getMultiData</th>
-						<td>
-							다수의 아이템을 가져옵니다.
-<pre style="margin-bottom:0">
-$result = $db->getMultiData("select * from TABLE_NAME");
-// $result : array()
-</pre>
-						</td>
-					</tr>
-					<tr>
-						<th>getSingleData</th>
-						<td>
-							하나의 아이템을 가져옵니다.
-<pre style="margin-bottom:0">
-$result = $db->getSingleData("select * from TABLE_NAME where KEY=VALUE");
-// $result : array()
-</pre>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>
+
 		<section>
 			<h1>Spawn.class.php</h1>
 			<p>
@@ -539,7 +465,7 @@ $result = $db->getSingleData("select * from TABLE_NAME where KEY=VALUE");
 require_once('/goose/libs/Database.class.php');
 require_once('/goose/libs/Spawn.class.php');
 
-$spawn = new Spawn(DB_INFOMATION_ARRAY);
+$spawn = new Spawn(array('mysql:dbname=DBNAME;host=localhost', 'USERID', 'PASSWORD'));
 </pre>
 			<p>아래 메서드 도표에서 확인할 수 있겠지만 대부분 메서드의 인자값은 배열 데이터를 필요로 합니다.</p>
 			<table class="ui-table">
@@ -555,7 +481,11 @@ $spawn = new Spawn(DB_INFOMATION_ARRAY);
 						<th>Spawn</th>
 						<td>
 							클래스 생성자 메서드
-							<pre style="margin-bottom:0">$spawn = new Spawn(DB_INFOMATION_ARRAY);</pre>
+<pre style="margin-bottom:0">
+$spawn = new Spawn(
+	array('mysql:dbname=DBNAME;host=localhost', 'USERID', 'PASSWORD')
+);
+</pre>
 						</td>
 					</tr>
 					<tr>
@@ -571,8 +501,8 @@ $spawn = new Spawn(DB_INFOMATION_ARRAY);
 							sql 쿼리문으로 출력해줍니다.
 <pre style="margin-bottom:0">
 $result = $spawn->getQuery(array(
-	table => 'TABLE_NAME',
-	act => 'select'
+	'table' => 'TABLE_NAME',
+	'act' => 'select'
 ));
 // $result : select * from TABLE_NAME
 </pre>
@@ -584,8 +514,8 @@ $result = $spawn->getQuery(array(
 							데이터를 입력합니다. DB테이블 필드를 확인하고 사용하세요.
 <pre style="margin-bottom:0">
 $result = $spawn->insert(array(
-	table => 'TABLE_NAME',
-	data => array(
+	'table' => 'TABLE_NAME',
+	'data' => array(
 		"KEY=VALUE",
 		...
 	)
@@ -600,9 +530,9 @@ $result = $spawn->insert(array(
 							데이터를 수정합니다. DB테이블 필드를 확인하고 사용하세요.
 <pre style="margin-bottom:0">
 $result = $spawn->update(array(
-	table => 'TABLE_NAME',
-	where => 'KEY=VALUE',
-	data => array(
+	'table' => 'TABLE_NAME',
+	'where' => 'KEY=VALUE',
+	'data' => array(
 		"KEY=VALUE",
 		...
 	)
@@ -617,8 +547,8 @@ $result = $spawn->update(array(
 							데이터를 삭제합니다. DB테이블 필드를 확인하고 사용하세요.
 <pre style="margin-bottom:0">
 $result = $spawn->delete(array(
-	table => 'TABLE_NAME',
-	where => 'KEY=VALUE'
+	'table' => 'TABLE_NAME',
+	'where' => 'KEY=VALUE'
 ));
 // $result : success
 </pre>
@@ -644,8 +574,8 @@ $result = $spawn->getItems(array(
 							하나의 데이터를 가져옵니다.
 <pre style="margin-bottom:0">
 $result = $spawn->getItem(array(
-	table => 'TABLE_NAME',
-	where => 'KEY=VALUE'
+	'table' => 'TABLE_NAME',
+	'where' => 'KEY=VALUE'
 ));
 </pre>
 						</td>
@@ -656,8 +586,8 @@ $result = $spawn->getItem(array(
 							데이터의 갯수를 가져옵니다.
 <pre style="margin-bottom:0">
 $result = $spawn->getCount(array(
-	table => 'TABLE_NAME',
-	where => 'KEY=VALUE'
+	'table' => 'TABLE_NAME',
+	'where' => 'KEY=VALUE'
 ));
 </pre>
 						</td>
@@ -667,11 +597,11 @@ $result = $spawn->getCount(array(
 		</section>
 		<section>
 			<h1>Router.class.php</h1>
-			<p>이 클래스는 웹 어플리케이션을 접근하는 주소를 컨트롤하는 역할을 합니다. 자세한 내용은 준비중입니다.</p>
+			<p>이 클래스는 웹 어플리케이션을 접근하는 주소를 컨트롤하는 역할을 합니다.</p>
 		</section>
 		<section>
 			<h1>Paginate.class.php</h1>
-			<p>이 클래스는 페이지에 따른 데이터 갯수를 잘라 가져오거나 페이지 네비게이션을 만들어줍니다. 자세한 내용은 준비중입니다.</p>
+			<p>이 클래스는 페이지에 따른 데이터 갯수를 잘라 가져오거나 페이지 네비게이션을 만들어줍니다.</p>
 		</section>
 	</section>
 
@@ -683,7 +613,7 @@ $result = $spawn->getCount(array(
 		</p>
 		<section>
 			<h1>GOOSE값 정의</h1>
-			<p>goose 프로그램 대부분의 파일에서 GOOSE값이 있는지 확인하는 파일이 많습니다. 그래서 아래와 같이 상수값을 정의합니다.</p>
+			<p>goose 프로그램은 파일 단독으로 실행되는것을 막기 위하여 GOOSE 상수값 확인을 합니다. 그래서 index파일에 아래와 같이 상수값을 정의합니다.</p>
 			<pre>define('GOOSE', true);</pre>
 		</section>
 		<section>
