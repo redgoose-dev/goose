@@ -1,12 +1,12 @@
 .queuesManager .sp-ico {
-	background-image: url('../img/sp-icon@1x.png');
+	background-image: url('sp-icon@1x.png');
 	background-repeat: no-repeat;
 	background-color: transparent;
 }
 /* for retina */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
 	.queuesManager .sp-ico {
-		background-image: url('../img/sp-icon@2x.png');
+		background-image: url('sp-icon@2x.png');
 		background-size: 32px 30px;
 	}
 }

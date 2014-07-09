@@ -2,11 +2,12 @@
 if(!defined("GOOSE")){exit();}
 
 $path = ROOT.'/plugins/editor/'.$nest['editor'];
-require('lib/attachFileDatas.php');
+$extPath = ROOT.'/libs/ext';
+require('attachFileDatas.php');
 ?>
 
-<link rel="stylesheet" href="<?=$path?>/css/upload.css" />
-<link rel="stylesheet" href="<?=$path?>/lib/Jcrop/jquery.Jcrop.min.css" />
+<link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
+<link rel="stylesheet" href="<?=$extPath?>/Jcrop/jquery.Jcrop.min.css" />
 
 <input type="hidden" name="addQueue" value="" />
 <input type="hidden" name="thumnail_srl" value="<?=$article['thumnail_srl']?>" />
@@ -38,11 +39,11 @@ require('lib/attachFileDatas.php');
 
 <script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
-<script src="<?=$path?>/lib/Jcrop/jquery.Jcrop.min.js"></script>
-<script src="<?=$path?>/js/FilesQueue.class.js"></script>
-<script src="<?=$path?>/js/FileUpload.class.js"></script>
-<script src="<?=$path?>/js/Thumnail.class.js"></script>
-<script src="<?=$path?>/js/UploadInterface.class.js"></script>
+<script src="<?=$extPath?>/Jcrop/jquery.Jcrop.min.js"></script>
+<script src="<?=$extPath?>/UploadInterface/FilesQueue.class.js"></script>
+<script src="<?=$extPath?>/UploadInterface/FileUpload.class.js"></script>
+<script src="<?=$extPath?>/UploadInterface/Thumnail.class.js"></script>
+<script src="<?=$extPath?>/UploadInterface/UploadInterface.class.js"></script>
 <script>
 jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
