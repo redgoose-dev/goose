@@ -192,7 +192,7 @@ if ($paramAction != "delete")
 		});
 		$('#regsterForm').validate({
 			rules : {
-				id : {required : true, minlength : 4, alphanumeric : true}
+				id : {required : true, minlength : 3, alphanumeric : true}
 				,name : {required: true, minlength: 2}
 				,thumWidth : {required: true, minlength: 2, number: true}
 				,thumHeight : {required: true, minlength: 2, number: true}
