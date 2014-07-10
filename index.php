@@ -7,6 +7,4 @@ define('GOOSE', true);
 define('PWD', dirname(__FILE__));
 
 require_once(PWD.'/libs/init.php');
-
-// xxxxxxxxxx
 ?>
