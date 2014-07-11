@@ -1,6 +1,6 @@
 .markdown-body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 15px; color: #000; line-height: 1.7; word-break: break-word;
+	font-size: 14px; color: #000; line-height: 1.42857143; word-break: break-word;
 }
 .markdown-body > *:first-child {
 	margin-top: 0 !important;
@@ -8,7 +8,7 @@
 
 .markdown-body pre,
 .markdown-body code {
-	font-size: 0.85em;
+	font-size: 13px;
 	font-family: 'Consolas', 'Inconsolata', 'Courier', 'monospace';
 }
 .markdown-body code {
@@ -17,7 +17,7 @@
 	border: 1px solid #EAEAEA; border-radius: 3px;
 	background-color: #F8F8F8;
 }
-.markdown-body pre {font-size: 1em; line-height: 1.2em;}
+.markdown-body pre {font-size: 1em; line-height: 1.5;}
 .markdown-body pre code {
 	padding: 0.5em 0.7em; overflow: auto;
 	display: block !important;
@@ -26,7 +26,7 @@
 }
 
 .markdown-body p {
-	margin: 1.2em 0;
+	margin: 0.7em 0;
 }
 
 .markdown-body table,
@@ -36,7 +36,7 @@
 .markdown-body q,
 .markdown-body ul,
 .markdown-body ol {
-	margin: 1.2em 0;
+	margin: 1em 0;
 }
 
 .markdown-body ul,
@@ -53,7 +53,7 @@
 }
 
 .markdown-body li > pre {
-	margin: .3em 0;
+	margin: .5em 0;
 }
 
 .markdown-body dl {padding: 0;}
@@ -80,7 +80,7 @@
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-	margin: 1.3em 0 1em; padding: 0; font-weight: 600;
+	margin: 1.3em 0 .5em; padding: 0; font-weight: 600;
 }
 .markdown-body h1 {font-size: 2.5em; border-bottom: 1px solid #ddd;}
 .markdown-body h2 {font-size: 2em; border-bottom: 1px solid #eee;}
