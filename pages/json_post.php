@@ -89,10 +89,7 @@ if ($paramAction != "delete")
 	
 		if (Array.isArray(json))
 		{
-			jsonEditor.typeItem({
-				active : $jsonEditor.find('li[loc=root]'),
-				type : 'Array'
-			});
+			jsonEditor.typeItem($jsonEditor.find('li[loc=root]'), 'Array');
 		}
 		jsonEditor.importJSON(json);
 	
