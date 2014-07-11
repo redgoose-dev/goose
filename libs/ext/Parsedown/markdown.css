@@ -52,6 +52,10 @@
 	margin: 0; padding-left: 1em;
 }
 
+.markdown-body li > pre {
+	margin: .3em 0;
+}
+
 .markdown-body dl {padding: 0;}
 .markdown-body dl dt {font-size: 1em; font-weight: bold; font-style: italic;}
 .markdown-body dl dd {margin: 0 0 1em; padding: 0 1em;}
