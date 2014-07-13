@@ -156,8 +156,8 @@ switch($paramAction)
 			}
 		}
 
-		$n = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
-		$util->redirect(ROOT.'/article/index/'.$_POST[nest_srl].'/'.$n);
+		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
+		$util->redirect(ROOT.'/article/index/'.$_POST[nest_srl].'/'.$addUrl);
 		break;
 
 	// modify
@@ -285,14 +285,15 @@ switch($paramAction)
 				else
 				{
 					$spawn->delete(array(
-						table => $tablesName[extraVar],
-						where => 'article_srl='.$_POST[article_srl].' and key_srl='.$v[srl]
+						'table' => $tablesName[extraVar],
+						'where' => 'article_srl='.$_POST[article_srl].' and key_srl='.$v[srl]
 					));
 				}
 			}
 		}
 
-		$util->redirect(ROOT.'/article/view/'.$_POST[article_srl].'/');
+		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
+		$util->redirect(ROOT.'/article/view/'.$_POST[article_srl].'/'.(($params) ? '?'.$params : ''));
 		break;
 
 	// delete
@@ -340,9 +341,11 @@ switch($paramAction)
 			where => 'article_srl='.(int)$_POST[article_srl]
 		));
 
-		$url = ROOT.'/article/index/';
-		$url .= ($_POST[nest_srl]) ? $_POST[nest_srl].'/' : '';
-		$url .= ($_POST[category_srl]) ? $_POST[category_srl].'/' : '';
+		$addUrl = ($_POST[nest_srl]) ? $_POST[nest_srl].'/' : '';
+		$addUrl .= ($_POST[category_srl]) ? $_POST[category_srl].'/' : '';
+		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
+		$util->redirect(ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
+
 		$util->redirect($url);
 		break;
 }
