@@ -43,7 +43,7 @@ if ($articleCount > 0)
 
 	$paginateParameter = array('keyword'=>$_GET[keyword]);
 	$_GET[page] = ($_GET[page] > 1) ? $_GET[page] : 1;
-	$paginate = new Paginate($articleCount, $_GET[page], $paginateParameter, 20, 5);
+	$paginate = new Paginate($articleCount, $_GET[page], $paginateParameter, $nest[listCount], 5);
 	$no = $paginate->no;
 
 	$article = $spawn->getItems(array(
