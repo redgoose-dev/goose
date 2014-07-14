@@ -122,7 +122,7 @@ var FilesQueue = function(getParent, $el, options) {
 			}
 			queue.element.addClass('on');
 
-			if (/^image/i.test(queue.filetype))
+			if (/^image/i.test(queue.filetype) && self.$preview.length)
 			{
 				self.$preview.html('<img src="' + parent.settings.fileDir + queue.location + '" alt="" />');
 			}
