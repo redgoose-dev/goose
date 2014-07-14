@@ -3,6 +3,7 @@ if(!defined("GOOSE")){exit();}
 
 $path = ROOT.'/plugins/editor/'.$nest['editor'];
 $extPath = ROOT.'/libs/ext';
+require('attachFileDatas.php');
 ?>
 
 <link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
@@ -32,7 +33,7 @@ $extPath = ROOT.'/libs/ext';
 <script src="<?=$extPath?>/UploadInterface/FilesQueue.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/FileUpload.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/Thumnail.class.js"></script>
-<script src="<?=$extPath?>/UploadInterface/UploadInterface.class.js"></script>
+<script src="<?=$path?>/js/UploadInterface.class.js"></script>
 <script>
 jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
@@ -54,6 +55,7 @@ jQuery(function($){
 	if (attachFilesData)
 	{
 		uploadInterface.pushQueue(attachFilesData);
+		// importJSON 메서드를 만들어서 json으로된 첨부파일 목록을 가져와서 목록을 만든다.
 	}
 
 	// upload button click event
@@ -65,6 +67,12 @@ jQuery(function($){
 	$(document.writeForm).on('submit', function(){
 		if (uploadInterface.thumnailImageCheck())
 		{
+			// 첨부파일 목록을 json으로 바꿔서 content로 집어넣기
+			/*
+			uploadInterface.exportJSON({
+				target : $('#content')
+			});
+			*/
 			return false;
 		}
 	});
