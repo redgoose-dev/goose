@@ -25,7 +25,7 @@ var UploadInterface = function(el, options) {
 	{
 		if (self.settings.$queue)
 		{
-			self.$queue = $('<div class="filesQueue"><figure class="thumnail"></figure><ul></ul></div>');
+			self.$queue = $('<div class="filesQueue"><ul></ul></div>');
 			self.queue = new FilesQueue(self, self.$queue, {});
 			self.$drop = self.$queue.children('ul');
 			self.$controller = $('<nav id="queueController"></nav>');
@@ -47,11 +47,7 @@ var UploadInterface = function(el, options) {
 	var createControllter = function($nav)
 	{
 		var $dom = '';
-		if (self.settings.$insertTarget || self.settings.insertFunc)
-		{
-			$dom += '<button type="button" rg-action="insertContents" class="ui-button btn-small btn-highlight">본문삽입</button>';
-		}
-		$dom += '<button type="button" rg-action="useThumnail" class="ui-button btn-small">썸네일설정</button>';
+		$dom += '<button type="button" rg-action="useThumnail" class="ui-button btn-small btn-highlight">썸네일설정</button>';
 		$dom += '<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>';
 		$dom += '<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>';
 		$dom += '<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>';
@@ -72,30 +68,6 @@ var UploadInterface = function(el, options) {
 		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 	}
 
-	/**
-	 * get cursor position
-	 * 
-	 * @param {DOM} $el
-	 * @return {Number}
-	 */
-	var getCursorPosition = function($el)
-	{
-		var el = $el.get(0);
-		var pos = 0;
-		if ('selectionStart' in el)
-		{
-			pos = el.selectionStart;
-		}
-		else if ('selection' in document)
-		{
-			el.focus();
-			var Sel = document.selection.createRange();
-			var SelLength = document.selection.createRange().text.length;
-			Sel.moveStart('character', -el.value.length);
-			pos = Sel.text.length - SelLength;
-		}
-		return pos;
-	}
 
 	/**
 	 * Events init
@@ -108,11 +80,6 @@ var UploadInterface = function(el, options) {
 			self.$controller.children('button').on('click', function(e){
 				switch($(this).attr('rg-action'))
 				{
-					// insert content
-					case 'insertContents':
-						self.insertContent();
-						break;
-
 					// use thumnail
 					case 'useThumnail':
 						self.createThumnail();
@@ -326,19 +293,17 @@ var UploadInterface = function(el, options) {
 		queue.type = 'session';
 
 		// edit queue
-		queue.element.find('div.body > span.size').text(bytesToSize(queue.filesize));
-		queue.element.find('div.body > span.status').text(queue.status);
-		if (queue.status == 'complete')
-		{
-			queue.element.find('div.progress').delay(200).fadeOut(400);
-		}
+		queue.element.find('span.size').text(bytesToSize(queue.filesize));
+		queue.element.find('span.status').text(queue.status);
+		queue.element.children('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
+
+		queue.element.find('div.progress').delay(200).fadeOut(400);
 
 		// reset file input
 		resetInput();
 
 		// addQueue 갱신
 		self.refreshAddQueue();
-		
 	}
 
 	/**
@@ -382,35 +347,7 @@ var UploadInterface = function(el, options) {
 		}
 	}
 
-	/**
-	 * insert content
-	 */
-	this.insertContent = function()
-	{
-		var keyword = '';
-		var items = self.queue.getItems();
 
-		for (var i=0; i<items.length; i++)
-		{
-			keyword += '<img src="' + self.settings.fileDir + items[i].location + '" alt="" />\n';
-		}
-
-		if (keyword)
-		{
-			if (self.settings.insertFunc)
-			{
-				self.settings.insertFunc(keyword);
-			}
-			else if (self.settings.$insertTarget)
-			{
-				var $content = self.settings.$insertTarget;
-				var position = getCursorPosition($content);
-				var content = $content.val();
-				var newContent = content.substr(0, position) + keyword + content.substr(position);
-				$content.val(newContent);
-			}
-		}
-	}
 
 	/**
 	 * create thumnail
@@ -492,7 +429,6 @@ var UploadInterface = function(el, options) {
 			if ($lis.length)
 			{
 				self.queue.removeQueue($lis);
-				self.queue.clearPreview();
 			}
 			else
 			{

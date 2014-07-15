@@ -1,0 +1,114 @@
+.queuesManager .sp-ico {
+	/* background-image: url('sp-icon@1x.png'); */
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+/* for retina */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+	.queuesManager .sp-ico {
+		/* background-image: url('sp-icon@2x.png'); */
+		background-size: 32px 30px;
+	}
+}
+
+.queuesManager .filesQueue:after {content: ''; display: block; clear: both;}
+
+.queuesManager .filesQueue ul {
+	position: relative; margin: 0; padding: 0 15px; list-style: none; min-height: 240px;
+	border: 1px solid #ccc;
+}
+.queuesManager .filesQueue ul.drag {border: 2px dashed #74b3c9;}
+.queuesManager .filesQueue ul.drag:before {
+	position: absolute; content: ''; z-index: 999; left: 0; top: 0; bottom: 0; right: 0;
+}
+.queuesManager .filesQueue li {
+	margin: 15px 0; padding: 10px; position: relative;
+	background: #fff; border: 2px solid #eee;
+}
+.queuesManager .filesQueue li:after {content: ''; display: block; clear: both;}
+.queuesManager .filesQueue li.on {border-color: #74b3c9;}
+.queuesManager .filesQueue li.thumnail {background: #e7f8fc;}
+
+.queuesManager .filesQueue figure {
+	margin: 0; float: left; width: 150px;
+}
+
+.queuesManager .filesQueue .body {
+	margin-left: 170px;
+	font-size: 12px; color: #333; word-break: break-word;
+}
+.queuesManager .filesQueue .body .title {margin: 0; padding: 0 0 10px;}
+.queuesManager .filesQueue .body .title .size {color: #666;}
+.queuesManager .filesQueue .body .title .size:before {content: '(';}
+.queuesManager .filesQueue .body .title .size:after {content: ')';}
+.queuesManager .filesQueue .body .title .status:before {content: ' - ';}
+
+.queuesManager .filesQueue .form {background: #eee; padding: 10px;}
+
+.queuesManager .filesQueue nav {
+	position: absolute;
+	right: 2px; top: 50%; height: 30px; margin-top: -15px;
+}
+.queuesManager .filesQueue nav button {
+	display: block; float: left; margin: 0 0 0 1px; padding: 0;
+	width: 30px; height: 30px; cursor: pointer; text-indent: -9999px;
+	border: none;
+}
+.queuesManager .filesQueue nav button:first-child {margin-left: 0;}
+.queuesManager .filesQueue nav button[rg-action=useThumnail] {
+	background-position: 10px 10px;
+}
+.queuesManager .filesQueue nav button[rg-action=useThumnail].on {
+	background-position: 10px -10px;
+}
+.queuesManager .filesQueue nav button[rg-action=delete] {
+	background-position: -12px 10px;
+}
+.queuesManager .filesQueue nav button[rg-action=delete].on {
+	background-position: -12px -10px;
+}
+
+.queuesManager .filesQueue .progress {margin-right: 40px;}
+.queuesManager .filesQueue .progress .graph {
+	height: 6px; margin: 8px 0 0;
+	background: #bbbcbd;
+}
+.queuesManager .filesQueue .progress .graph span {
+	display: block; height: 100%; background: #74b3c9;
+}
+
+.queuesManager > nav {margin: 10px 0 0; font-size: 0;}
+.queuesManager > nav > button {margin: 0 1px 1px 0;}
+
+
+/* For desktop */
+@media all and (max-width: 640px) {
+	.queuesManager .filesQueue > figure {width: 80px; height: 80px;}
+	.queuesManager .filesQueue ul {margin-left: 90px; height: 150px;}
+}
+
+/* thumnail window */
+body.thumnailWindowMode {overflow:hidden;}
+#thumnailWindow {
+	position: fixed; z-index: 99999; overflow: auto;
+	left: 0; right: 0; top: 0; bottom: 0;
+}
+#thumnailWindow .bg {
+	position: fixed; left: 0; right: 0; top: 0; bottom: 0;
+	background: #000; background: rgba(0,0,0,.85);
+}
+#thumnailWindow .wrap {
+	position: absolute; left: 50%; top: 5%;
+	background: #fff;
+}
+#thumnailWindow figure {margin: 0;}
+#thumnailWindow figure img {max-width: none;}
+#thumnailWindow dl {margin: 15px; font-size: 13px;}
+#thumnailWindow dl dt {
+	float: left; margin: 0; width: 70px;
+	font-weight: 600; color: #333;
+}
+#thumnailWindow dl dd {margin: 0 0 0 70px; color: #666;}
+#thumnailWindow dl dd em {font-style: normal;}
+#thumnailWindow nav {margin: 10px 0 24px; text-align: center;}
+#thumnailWindow .jcrop-holder {margin:0 auto;}

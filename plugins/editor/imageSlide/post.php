@@ -6,7 +6,7 @@ $extPath = ROOT.'/libs/ext';
 require('attachFileDatas.php');
 ?>
 
-<link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
+<link rel="stylesheet" href="<?=$path?>/css/UploadInterface.css" />
 <link rel="stylesheet" href="<?=$extPath?>/Jcrop/jquery.Jcrop.min.css" />
 
 <input type="hidden" name="addQueue" value="" />
@@ -30,7 +30,7 @@ require('attachFileDatas.php');
 <script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
 <script src="<?=$extPath?>/Jcrop/jquery.Jcrop.min.js"></script>
-<script src="<?=$extPath?>/UploadInterface/FilesQueue.class.js"></script>
+<script src="<?=$path?>/js/FilesQueue.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/FileUpload.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/Thumnail.class.js"></script>
 <script src="<?=$path?>/js/UploadInterface.class.js"></script>
@@ -43,11 +43,15 @@ jQuery(function($){
 		,removeAction : '<?=ROOT?>/files/remove/'
 		,fileDir : '<?=ROOT?>/data/original/'
 		,auto : false
-		,limit : 3
+		,limit : 30
 		,thumnailType : '<?=$nest['thumnailType']?>'
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
-		,$insertTarget : $('#content')
-		,insertFunc : null // function(value){}
+		,queueType : 'list' // list | gallery
+		,queueForm : [
+			{ label : 'Subject', name : 'subject', type : 'text', size : 15 }
+			,{ label : 'Content', name : 'content', type : 'textarea', rows : 3 }
+			,{ label : 'URL', name : 'url', type : 'text', size : 20 }
+		]
 	});
 
 	var attachFiles = '<?=$pushData?>';
@@ -76,10 +80,15 @@ jQuery(function($){
 			return false;
 		}
 	});
+
+	$('button[role-action=ExportJSON]').on('click', function(){
+		log($(this));
+	});
 });
 </script>
 
 
 
 <hr />
-<textarea name="content" id="content" rows="10" class="block"><?=$article[content]?></textarea>
+<p><button type="button" role-action="ExportJSON" class="ui-button btn-small btn-highlight">Export JAON</button></p>
+<p><textarea name="content" id="content" rows="10" class="block"><?=$article[content]?></textarea></p>
