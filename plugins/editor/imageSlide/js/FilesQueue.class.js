@@ -3,7 +3,6 @@ var FilesQueue = function(getParent, $el, options) {
 	var self = this;
 	var parent = getParent;
 
-	this.$preview = $el.children('figure.thumnail');
 	this.$index = $el.children('ul');
 	this.index = new Object();
 	this.count = 0;
@@ -16,25 +15,58 @@ var FilesQueue = function(getParent, $el, options) {
 	 * @author : redgoose
 	 * @param {String} key
 	 * @param {String} filename
+	 * @param {String} status
+	 * @param {String} src
+	 * @param {String} type
+	 * @param {String} formData
 	 * @return {DOM} : queue element
 	 */
-	var template = function(key, filename, status)
+	var template = function(key, filename, status, src, type, formData)
 	{
-		var item = '<li key="' + key + '">\n';
-		item += '\t<div class="body">\n';
-		item += '\t\t<span class="name">' + filename + '</span>\n';
-		item += (status == 'ready') ? '\t\t<span class="size">0%</span>\n' : '';
-		item += '\t\t<span class="status">' + status + '</span>\n';
-		item += '\t</div>\n';
+		function form(data)
+		{
+			var str = '';
+			str += '<div class="form">';
+			for (var i=0; i<data.length; i++)
+			{
+				str += '<label>';
+				str += '<strong>' + data[i].label + '</strong>';
+				if (data[i].type == 'text')
+				{
+					str += '<input type="text" name="' + data[i].name + '" size="' + data[i].size + '" value="" />';
+				}
+				else if (data[i].type == 'textarea')
+				{
+					str += '<textarea name="" name="' + data[i].name + '" class="block" rows="' + data[i].rows + '"></textarea>';
+				}
+				str += '';
+				str += '</label>';
+			}
+			str += '</div>';
+			return str;
+		}
+
+		var item = '<li key="' + key + '" type="' + type + '">';
+		item += '<figure>';
+		item += (src) ? '<img src="' + parent.settings.fileDir + src + '" alt="" />' : '';
+		item += '</figure>';
+		item += '<div class="body">';
+		item += '<p class="title">';
+		item += '<strong>' + filename + '</strong>';
+		item += (status == 'ready') ? '<span class="size">0%</span>' : '';
+		item += '<span class="status">' + status + '</span>';
+		item += '</p>';
+		item += (formData) ? form(formData) : '';
 		if (status == 'ready')
 		{
-			item += '\t<div class="progress">\n';
-			item += '\t\t<p class="graph"><span></span></p>\n';
-			item += '\t</div>\n';
+			item += '<div class="progress">';
+			item += '<p class="graph"><span></span></p>';
+			item += '</div>';
 		}
-		item += '\t<nav>\n';
-		item += '\t\t<button type="button" rg-action="delete" class="sp-ico">삭제</button>\n';
-		item += '\t</nav>\n';
+		item += '<nav>';
+		item += '<button type="button" rg-action="delete" class="sp-ico">삭제</button>';
+		item += '</nav>';
+		item += '</div>';
 		item += '</li>';
 
 		return $(item);
@@ -77,7 +109,14 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		var idx = self.count;
 		var key = 'queue-' + idx;
-		var $dom = template(key, file.name, file.status);
+		var $dom = template(
+			key
+			,file.name
+			,(file.status) ? file.status : 'ready'
+			,file.loc
+			,parent.settings.queueType
+			,parent.settings.queueForm
+		);
 
 		self.index[key] = {
 			filename : file.name
@@ -112,7 +151,6 @@ var FilesQueue = function(getParent, $el, options) {
 		if (queue.element.hasClass('on'))
 		{
 			queue.element.removeClass('on');
-			self.clearPreview();
 		}
 		else
 		{
@@ -121,11 +159,6 @@ var FilesQueue = function(getParent, $el, options) {
 				self.$index.children().removeClass('on');
 			}
 			queue.element.addClass('on');
-
-			if (/^image/i.test(queue.filetype) && self.$preview.length)
-			{
-				self.$preview.html('<img src="' + parent.settings.fileDir + queue.location + '" alt="" />');
-			}
 		}
 	}
 
@@ -196,16 +229,6 @@ var FilesQueue = function(getParent, $el, options) {
 		}
 	}
 
-	/**
-	 * clear preview
-	 * 프리뷰의 내용을 삭제한다.
-	 * 
-	 * @return void
-	 */
-	this.clearPreview = function()
-	{
-		self.$preview.html('');
-	}
 
 	/**
 	 * get index item

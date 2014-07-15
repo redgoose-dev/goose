@@ -1,12 +1,12 @@
 .queuesManager .sp-ico {
-	background-image: url('sp-icon@1x.png');
+	/* background-image: url('sp-icon@1x.png'); */
 	background-repeat: no-repeat;
 	background-color: transparent;
 }
 /* for retina */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
 	.queuesManager .sp-ico {
-		background-image: url('sp-icon@2x.png');
+		/* background-image: url('sp-icon@2x.png'); */
 		background-size: 32px 30px;
 	}
 }
@@ -14,29 +14,36 @@
 .queuesManager .filesQueue:after {content: ''; display: block; clear: both;}
 
 .queuesManager .filesQueue ul {
-	position: relative; margin: 0; height: 160px; padding: 8px; list-style: none;
-	border: 2px solid #ccc;
-	overflow: auto; -webkit-overflow-scrolling: touch;
+	position: relative; margin: 0; padding: 0 15px; list-style: none; min-height: 240px;
+	border: 1px solid #ccc;
 }
 .queuesManager .filesQueue ul.drag {border: 2px dashed #74b3c9;}
 .queuesManager .filesQueue ul.drag:before {
 	position: absolute; content: ''; z-index: 999; left: 0; top: 0; bottom: 0; right: 0;
 }
 .queuesManager .filesQueue li {
-	margin: 0 0 2px; padding: 6px 12px; position: relative;
-	background: #f3f3f3; border: 2px solid #f3f3f3;
+	margin: 15px 0; padding: 10px; position: relative;
+	background: #fff; border: 2px solid #eee;
 }
+.queuesManager .filesQueue li:after {content: ''; display: block; clear: both;}
 .queuesManager .filesQueue li.on {border-color: #74b3c9;}
 .queuesManager .filesQueue li.thumnail {background: #e7f8fc;}
 
+.queuesManager .filesQueue figure {
+	margin: 0; float: left; width: 150px;
+}
+
 .queuesManager .filesQueue .body {
-	margin-right: 40px;
+	margin-left: 170px;
 	font-size: 12px; color: #333; word-break: break-word;
 }
-.queuesManager .filesQueue .body .size {color: #666;}
-.queuesManager .filesQueue .body .size:before {content: '(';}
-.queuesManager .filesQueue .body .size:after {content: ')';}
-.queuesManager .filesQueue .body .status:before {content: ' - ';}
+.queuesManager .filesQueue .body .title {margin: 0; padding: 0 0 10px;}
+.queuesManager .filesQueue .body .title .size {color: #666;}
+.queuesManager .filesQueue .body .title .size:before {content: '(';}
+.queuesManager .filesQueue .body .title .size:after {content: ')';}
+.queuesManager .filesQueue .body .title .status:before {content: ' - ';}
+
+.queuesManager .filesQueue .form {background: #eee; padding: 10px;}
 
 .queuesManager .filesQueue nav {
 	position: absolute;
