@@ -203,7 +203,7 @@ var UploadInterface = function(el, options) {
 		{
 			return 'text/' + type;
 		}
-		else if (/(\.pdf|\.zip)/i.test(filename))
+		else if (/(\.pdf|\.zip|\.psd)/i.test(filename))
 		{
 			return 'application/' + type;
 		}
@@ -295,8 +295,14 @@ var UploadInterface = function(el, options) {
 		// edit queue
 		queue.element.find('span.size').text(bytesToSize(queue.filesize));
 		queue.element.find('span.status').text(queue.status);
-		queue.element.children('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
 
+		// append image
+		if (/^image/i.test(queue.filetype))
+		{
+			queue.element.find('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
+		}
+
+		// hide progress
 		queue.element.find('div.progress').delay(200).fadeOut(400);
 
 		// reset file input

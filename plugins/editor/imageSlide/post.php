@@ -48,9 +48,8 @@ jQuery(function($){
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
 		,queueType : 'list' // list | gallery
 		,queueForm : [
-			{ label : 'Subject', name : 'subject', type : 'text', size : 15 }
-			,{ label : 'Content', name : 'content', type : 'textarea', rows : 3 }
-			,{ label : 'URL', name : 'url', type : 'text', size : 20 }
+			{ label : 'Subject', name : 'subject', value : 'sdgsdg' }
+			,{ label : 'Content', name : 'content', value : '' }
 		]
 	});
 
