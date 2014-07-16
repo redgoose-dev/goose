@@ -17,11 +17,10 @@ var FilesQueue = function(getParent, $el, options) {
 	 * @param {String} filename
 	 * @param {String} status
 	 * @param {String} src
-	 * @param {String} type
 	 * @param {String} formData
 	 * @return {DOM} : queue element
 	 */
-	var template = function(key, filename, status, src, type, formData)
+	var template = function(key, filename, status, src, formData)
 	{
 		function form(data)
 		{
@@ -38,7 +37,7 @@ var FilesQueue = function(getParent, $el, options) {
 			return str;
 		}
 
-		var item = '<li key="' + key + '" type="' + type + '">';
+		var item = '<li key="' + key + '">';
 		item += '<div>';
 		if (status == 'ready')
 		{
@@ -81,9 +80,8 @@ var FilesQueue = function(getParent, $el, options) {
 			self.selectQueue(item);
 		});
 
-		// edit queue
-		obj.find('button[rg-action=edit]').on('click', function(e){
-			log('edit queue');
+		obj.find('[contenteditable]').on('click', function(e){
+			e.stopPropagation();
 		});
 
 		// delete queue
@@ -108,12 +106,20 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		var idx = self.count;
 		var key = 'queue-' + idx;
+
+		if (file.form)
+		{
+			for (var n=0; n<file.form.length; n++)
+			{
+				parent.settings.queueForm[n].value = file.form[n].value;
+			}
+		}
+
 		var $dom = template(
 			key
 			,file.name
 			,(file.status) ? file.status : 'ready'
 			,(/^image/i.test(file.type)) ? file.loc : null
-			,parent.settings.queueType
 			,parent.settings.queueForm
 		);
 

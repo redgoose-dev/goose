@@ -13,6 +13,7 @@ require('attachFileDatas.php');
 <input type="hidden" name="thumnail_srl" value="<?=$article['thumnail_srl']?>" />
 <input type="hidden" name="thumnail_coords" value="<?=$article['thumnail_coords']?>" />
 <input type="hidden" name="thumnail_image" value="" />
+<input type="hidden" name="content" value="<?=$article['content']?>"/>
 
 <fieldset>
 	<dl>
@@ -36,8 +37,9 @@ require('attachFileDatas.php');
 <script src="<?=$path?>/js/UploadInterface.class.js"></script>
 <script>
 jQuery(function($){
+	var $form = $(document.writeForm);
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
-		form : document.writeForm
+		form : $form.get(0)
 		,$queue : $('#queuesManager')
 		,uploadAction : '<?=ROOT?>/files/upload/'
 		,removeAction : '<?=ROOT?>/files/remove/'
@@ -46,19 +48,40 @@ jQuery(function($){
 		,limit : 30
 		,thumnailType : '<?=$nest['thumnailType']?>'
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
-		,queueType : 'list' // list | gallery
 		,queueForm : [
-			{ label : 'Subject', name : 'subject', value : 'sdgsdg' }
+			{ label : 'Subject', name : 'subject', value : '' }
 			,{ label : 'Content', name : 'content', value : '' }
 		]
 	});
 
+	// push data
 	var attachFiles = '<?=$pushData?>';
-	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null;
-	if (attachFilesData)
+	attachFiles = (attachFiles) ? JSON.parse(attachFiles) : null;
+	var contentData = $form.find('input[name=content]').val();
+	contentData = (contentData) ? JSON.parse(decodeURIComponent(contentData)) : null;
+
+	if (attachFiles)
 	{
-		uploadInterface.pushQueue(attachFilesData);
-		// importJSON 메서드를 만들어서 json으로된 첨부파일 목록을 가져와서 목록을 만든다.
+		if (contentData)
+		{
+			// srl값이 일치하지 않아 srl값 매칭
+			for (var n=0; n<contentData.length; n++)
+			{
+				for (var nn=0; nn<attachFiles.length; nn++)
+				{
+					if (contentData[n].location == attachFiles[nn].location)
+					{
+						contentData[n].srl = attachFiles[nn].srl;
+						break;
+					}
+				}
+			}
+			uploadInterface.pushQueue(contentData);
+		}
+		else
+		{
+			uploadInterface.pushQueue(attachFiles);
+		}
 	}
 
 	// upload button click event
@@ -68,20 +91,18 @@ jQuery(function($){
 
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){
-		if (uploadInterface.thumnailImageCheck())
+		var error = uploadInterface.thumnailImageCheck();
+		if (error)
 		{
-			// 첨부파일 목록을 json으로 바꿔서 content로 집어넣기
-			/*
-			uploadInterface.exportJSON({
-				target : $('#content')
-			});
-			*/
 			return false;
 		}
+		var json = uploadInterface.exportJSON();
+		$form.find('input[name=content]').val(json);
 	});
 
 	$('button[role-action=ExportJSON]').on('click', function(){
-		log($(this));
+		var json = uploadInterface.exportJSON();
+		$form.find('input[name=content]').val(json);
 	});
 });
 </script>
@@ -90,4 +111,3 @@ jQuery(function($){
 
 <hr />
 <p><button type="button" role-action="ExportJSON" class="ui-button btn-small btn-highlight">Export JAON</button></p>
-<p><textarea name="content" id="content" rows="10" class="block"><?=$article[content]?></textarea></p>

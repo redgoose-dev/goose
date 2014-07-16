@@ -1,16 +1,14 @@
 <?
 $path = ROOT.'/plugins/editor/'.$nest['editor'];
 
-$article['content'] = htmlspecialchars($article['content']);
-$article['content'] = nl2br($article['content']);
+$article['content'] = urldecode($article['content']);
+$article['content'] = json_decode($article['content']);
 
-$article['content'] = str_replace('[[', '<', $article['content']);
-$article['content'] = str_replace(']]', '>', $article['content']);
+$util->console($article['content']);
 ?>
 
-<style>
-.articleBody {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 14px; color: #333; line-height: 1.42857143;
-}
-</style>
+<div class="articleBody">
+	<?
+	var_dump($article['content']);
+	?>
+</div>

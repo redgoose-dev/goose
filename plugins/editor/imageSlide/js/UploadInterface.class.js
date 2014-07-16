@@ -323,7 +323,8 @@ var UploadInterface = function(el, options) {
 	/**
 	 * push queue
 	 * 
-	 * @param {Array} data
+	 * @param {Array} data : attach files data
+	 * @param {Array} conData : contents data
 	 * @return void
 	 */
 	this.pushQueue = function(data)
@@ -338,6 +339,7 @@ var UploadInterface = function(el, options) {
 				,srl : data[n].srl
 				,type2 : data[n].type
 				,status : data[n].status
+				,form : data[n].form
 			});
 			if (self.settings.form.thumnail_srl.value == data[n].srl)
 			{
@@ -492,6 +494,37 @@ var UploadInterface = function(el, options) {
 				return false;
 			}
 		}
+	}
+
+
+	/**
+	 * Export JSON
+	 * 
+	 * @return {String} str
+	 */
+	this.exportJSON = function()
+	{
+		var data = new Array();
+		self.queue.$index.children().each(function(){
+			var queue = self.queue.index[$(this).attr('key')];
+			var item = {
+				filename : queue.filename
+				,location : queue.location
+				,status : 'uploaded'
+				,type : 'modify'
+				,form : new Array()
+			};
+			$(this).find('div.form > p').each(function(){
+				var item2 = {
+					key : $(this).children('strong').text()
+					,value : $(this).children('span').text()
+				};
+				item.form.push(item2);
+			});
+			data.push(item);
+		});
+		log(data)
+		return encodeURIComponent(JSON.stringify(data));
 	}
 
 
