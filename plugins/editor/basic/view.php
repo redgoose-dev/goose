@@ -14,3 +14,7 @@ $article['content'] = str_replace(']]', '>', $article['content']);
 	font-size: 14px; color: #333; line-height: 1.42857143;
 }
 </style>
+
+<div class="articleBody">
+	<?=$article['content']?>
+</div>
