@@ -106,12 +106,23 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		var idx = self.count;
 		var key = 'queue-' + idx;
+		var form = parent.settings.queueForm;
 
-		if (file.form)
+		if (form)
 		{
-			for (var n=0; n<file.form.length; n++)
+			if (file.form)
 			{
-				parent.settings.queueForm[n].value = file.form[n].value;
+				for (var n=0; n<file.form.length; n++)
+				{
+					form[n].value = file.form[n].value;
+				}
+			}
+			else
+			{
+				for (var n=0; n<form.length; n++)
+				{
+					form[n].value = '';
+				}
 			}
 		}
 
@@ -120,7 +131,7 @@ var FilesQueue = function(getParent, $el, options) {
 			,file.name
 			,(file.status) ? file.status : 'ready'
 			,(/^image/i.test(file.type)) ? file.loc : null
-			,parent.settings.queueForm
+			,form
 		);
 
 		self.index[key] = {

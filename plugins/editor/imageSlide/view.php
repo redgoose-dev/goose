@@ -21,12 +21,15 @@ $article['content'] = json_decode($article['content']);
 						<?
 						foreach ($v->form as $k2=>$v2)
 						{
+							if($v2->value)
+							{
 						?>
-							<p>
-								<strong><?=$v2->key?></strong>
-								<span><?=$v2->value?></span>
-							</p>
+								<p>
+									<strong><?=$v2->key?></strong>
+									<span><?=$v2->value?></span>
+								</p>
 						<?
+							}
 						}
 						?>
 					</div>

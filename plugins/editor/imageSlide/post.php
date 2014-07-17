@@ -21,7 +21,6 @@ require('attachFileDatas.php');
 		<dd>
 			<div class="box">
 				<input type="file" name="fileUpload" id="fileUpload" multiple />
-				<button type="button" id="fileUploadButton">업로드</button>
 			</div>
 		</dd>
 	</dl>
@@ -31,6 +30,7 @@ require('attachFileDatas.php');
 <script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
 <script src="<?=$extPath?>/Jcrop/jquery.Jcrop.min.js"></script>
+<script src="<?=$extPath?>/dragsort/jquery.dragsort-0.5.1.min.js"></script>
 <script src="<?=$path?>/js/FilesQueue.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/FileUpload.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/Thumnail.class.js"></script>
@@ -44,7 +44,7 @@ jQuery(function($){
 		,uploadAction : '<?=ROOT?>/files/upload/'
 		,removeAction : '<?=ROOT?>/files/remove/'
 		,fileDir : '<?=ROOT?>/data/original/'
-		,auto : false
+		,auto : true
 		,limit : 30
 		,thumnailType : '<?=$nest['thumnailType']?>'
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
@@ -84,11 +84,6 @@ jQuery(function($){
 		}
 	}
 
-	// upload button click event
-	$('#fileUploadButton').on('click', function(){
-		uploadInterface.upload();
-	});
-
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){
 		var error = uploadInterface.thumnailImageCheck();
@@ -99,15 +94,5 @@ jQuery(function($){
 		var json = uploadInterface.exportJSON();
 		$form.find('input[name=content]').val(json);
 	});
-
-	$('button[role-action=ExportJSON]').on('click', function(){
-		var json = uploadInterface.exportJSON();
-		$form.find('input[name=content]').val(json);
-	});
 });
 </script>
-
-
-
-<hr />
-<p><button type="button" role-action="ExportJSON" class="ui-button btn-small btn-highlight">Export JAON</button></p>

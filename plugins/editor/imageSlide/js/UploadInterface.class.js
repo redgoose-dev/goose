@@ -68,7 +68,6 @@ var UploadInterface = function(el, options) {
 		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 	}
 
-
 	/**
 	 * Events init
 	 */
@@ -149,6 +148,17 @@ var UploadInterface = function(el, options) {
 				}
 			});
 		}
+
+		// Drag event
+		self.queue.$index.dragsort({
+			dragSelector : 'li'
+			,dragSelectorExclude : 'span[contenteditable], button'
+			,dragBetween: true
+			,placeHolderTemplate: '<li class="placeHolder"><div></div></li>'
+			,dragEnd: function() {
+				
+			}
+		})
 	}
 
 	/**
@@ -355,8 +365,6 @@ var UploadInterface = function(el, options) {
 		}
 	}
 
-
-
 	/**
 	 * create thumnail
 	 */
@@ -496,7 +504,6 @@ var UploadInterface = function(el, options) {
 		}
 	}
 
-
 	/**
 	 * Export JSON
 	 * 
@@ -523,7 +530,6 @@ var UploadInterface = function(el, options) {
 			});
 			data.push(item);
 		});
-		log(data)
 		return encodeURIComponent(JSON.stringify(data));
 	}
 

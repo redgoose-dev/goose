@@ -1,17 +1,17 @@
 .articleBody {}
 .articleBody ul {margin: 0; padding: 0; list-style: none;}
 .articleBody ul:after {content: ''; display: block; clear: both;}
-.articleBody li {margin: 0; float: left; width: 100%;}
+.articleBody li {margin: 0; float: left; width: auto;}
 .articleBody .wrap {border: 3px solid #ccc; margin: 0 5px 10px; padding: 10px;}
 .articleBody figure {margin: 0;}
-.articleBody figure img {display: block; margin: 0 auto; height: 180px; width: auto; max-width: none;}
-.articleBody .body {margin: 8px 0 0; padding: 10px 0 0; border-top: 1px dashed #ccc;}
+.articleBody figure img {display: block; margin: 0 auto;}
+.articleBody .body {margin: 0;}
 .articleBody .body h3 {
 	margin: 0 0 5px; display: none;
 	font-size: 14px; color: #333;
 	white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.articleBody .body p {margin: 0;}
+.articleBody .body p {margin: 10px 0;}
 .articleBody .body strong,
 .articleBody .body span {font-size: 13px;}
 .articleBody .body strong {display: block; font-size: 12px;}
@@ -19,5 +19,21 @@
 
 
 @media all and (min-width:640px) {
-	.articleBody li {width: auto;}
+	.articleBody li {width: 50%;}
+	.articleBody li:nth-child(2n+1) {clear: both;}
+}
+@media all and (min-width:1024px) {
+	.articleBody li {width: 25%;}
+	.articleBody li:nth-child(2n+1) {clear: none;}
+	.articleBody li:nth-child(4n+1) {clear: both;}
+}
+@media all and (min-width:1440px) {
+	.articleBody li {width: 16.66%;}
+	.articleBody li:nth-child(4n+1) {clear: none;}
+	.articleBody li:nth-child(6n+1) {clear: both;}
+}
+@media all and (min-width:2100px) {
+	.articleBody li {width: 12.5%;}
+	.articleBody li:nth-child(6n+1) {clear: none;}
+	.articleBody li:nth-child(8n+1) {clear: both;}
 }
