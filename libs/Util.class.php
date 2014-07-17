@@ -11,7 +11,7 @@ class Util {
 	}
 
 	/**
-	 * check type (배열이라면 javascript object나 배열 형태로 변환)
+	 * check type (배열이나 객체를 javascript object나 배열 형태로 변환)
 	 * 
 	 * @anthor : redgoose
 	 * 
@@ -20,7 +20,18 @@ class Util {
 	*/
 	private function typeCheck($obj)
 	{
-		return (is_array($obj)) ? json_encode($obj) : "'" . $obj . "'";
+		if (is_object($obj))
+		{
+			return json_encode(get_object_vars($obj));
+		}
+		else if (is_array($obj))
+		{
+			return json_encode($obj);
+		}
+		else
+		{
+			return "'" . $obj . "'";
+		}
 	}
 
 	/**

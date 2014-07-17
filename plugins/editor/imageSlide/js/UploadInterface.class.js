@@ -68,7 +68,6 @@ var UploadInterface = function(el, options) {
 		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 	}
 
-
 	/**
 	 * Events init
 	 */
@@ -149,6 +148,17 @@ var UploadInterface = function(el, options) {
 				}
 			});
 		}
+
+		// Drag event
+		self.queue.$index.dragsort({
+			dragSelector : 'li'
+			,dragSelectorExclude : 'span[contenteditable], button'
+			,dragBetween: true
+			,placeHolderTemplate: '<li class="placeHolder"><div></div></li>'
+			,dragEnd: function() {
+				
+			}
+		})
 	}
 
 	/**
@@ -203,7 +213,7 @@ var UploadInterface = function(el, options) {
 		{
 			return 'text/' + type;
 		}
-		else if (/(\.pdf|\.zip)/i.test(filename))
+		else if (/(\.pdf|\.zip|\.psd)/i.test(filename))
 		{
 			return 'application/' + type;
 		}
@@ -295,8 +305,14 @@ var UploadInterface = function(el, options) {
 		// edit queue
 		queue.element.find('span.size').text(bytesToSize(queue.filesize));
 		queue.element.find('span.status').text(queue.status);
-		queue.element.children('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
 
+		// append image
+		if (/^image/i.test(queue.filetype))
+		{
+			queue.element.find('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
+		}
+
+		// hide progress
 		queue.element.find('div.progress').delay(200).fadeOut(400);
 
 		// reset file input
@@ -317,7 +333,8 @@ var UploadInterface = function(el, options) {
 	/**
 	 * push queue
 	 * 
-	 * @param {Array} data
+	 * @param {Array} data : attach files data
+	 * @param {Array} conData : contents data
 	 * @return void
 	 */
 	this.pushQueue = function(data)
@@ -332,6 +349,7 @@ var UploadInterface = function(el, options) {
 				,srl : data[n].srl
 				,type2 : data[n].type
 				,status : data[n].status
+				,form : data[n].form
 			});
 			if (self.settings.form.thumnail_srl.value == data[n].srl)
 			{
@@ -346,8 +364,6 @@ var UploadInterface = function(el, options) {
 			}
 		}
 	}
-
-
 
 	/**
 	 * create thumnail
@@ -486,6 +502,35 @@ var UploadInterface = function(el, options) {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Export JSON
+	 * 
+	 * @return {String} str
+	 */
+	this.exportJSON = function()
+	{
+		var data = new Array();
+		self.queue.$index.children().each(function(){
+			var queue = self.queue.index[$(this).attr('key')];
+			var item = {
+				filename : queue.filename
+				,location : queue.location
+				,status : 'uploaded'
+				,type : 'modify'
+				,form : new Array()
+			};
+			$(this).find('div.form > p').each(function(){
+				var item2 = {
+					key : $(this).children('strong').text()
+					,value : $(this).children('span').text()
+				};
+				item.form.push(item2);
+			});
+			data.push(item);
+		});
+		return encodeURIComponent(JSON.stringify(data));
 	}
 
 

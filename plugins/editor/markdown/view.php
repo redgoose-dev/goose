@@ -8,3 +8,7 @@ $article['content'] = '<div class="markdown-body">'.$Parsedown->text($article['c
 ?>
 
 <link rel="stylesheet" href="<?=ROOT?>/libs/ext/Parsedown/markdown.css" />
+
+<div class="articleBody">
+	<?=$article['content']?>
+</div>

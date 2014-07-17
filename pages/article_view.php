@@ -102,9 +102,6 @@ if ($article['category_srl'])
 		}
 	}
 	?>
-	<div class="articleBody">
-		<?=$article['content']?>
-	</div>
 	<!-- // body -->
 
 	<hr />

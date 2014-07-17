@@ -17,11 +17,10 @@ var FilesQueue = function(getParent, $el, options) {
 	 * @param {String} filename
 	 * @param {String} status
 	 * @param {String} src
-	 * @param {String} type
 	 * @param {String} formData
 	 * @return {DOM} : queue element
 	 */
-	var template = function(key, filename, status, src, type, formData)
+	var template = function(key, filename, status, src, formData)
 	{
 		function form(data)
 		{
@@ -29,26 +28,25 @@ var FilesQueue = function(getParent, $el, options) {
 			str += '<div class="form">';
 			for (var i=0; i<data.length; i++)
 			{
-				str += '<label>';
+				str += '<p>';
 				str += '<strong>' + data[i].label + '</strong>';
-				if (data[i].type == 'text')
-				{
-					str += '<input type="text" name="' + data[i].name + '" size="' + data[i].size + '" value="" />';
-				}
-				else if (data[i].type == 'textarea')
-				{
-					str += '<textarea name="" name="' + data[i].name + '" class="block" rows="' + data[i].rows + '"></textarea>';
-				}
-				str += '';
-				str += '</label>';
+				str += '<span contenteditable="true" spellcheck="false" name="' + data[i].name + '">' + data[i].value + '</span>';
+				str += '</p>';
 			}
 			str += '</div>';
 			return str;
 		}
 
-		var item = '<li key="' + key + '" type="' + type + '">';
+		var item = '<li key="' + key + '">';
+		item += '<div>';
+		if (status == 'ready')
+		{
+			item += '<div class="progress">';
+			item += '<p class="graph"><span></span></p>';
+			item += '</div>';
+		}
 		item += '<figure>';
-		item += (src) ? '<img src="' + parent.settings.fileDir + src + '" alt="" />' : '';
+		item += (src) ? '<img src="' + parent.settings.fileDir + src + '" alt="' + filename + '" />' : '';
 		item += '</figure>';
 		item += '<div class="body">';
 		item += '<p class="title">';
@@ -57,12 +55,7 @@ var FilesQueue = function(getParent, $el, options) {
 		item += '<span class="status">' + status + '</span>';
 		item += '</p>';
 		item += (formData) ? form(formData) : '';
-		if (status == 'ready')
-		{
-			item += '<div class="progress">';
-			item += '<p class="graph"><span></span></p>';
-			item += '</div>';
-		}
+		item += '</div>';
 		item += '<nav>';
 		item += '<button type="button" rg-action="delete" class="sp-ico">삭제</button>';
 		item += '</nav>';
@@ -87,8 +80,12 @@ var FilesQueue = function(getParent, $el, options) {
 			self.selectQueue(item);
 		});
 
+		obj.find('[contenteditable]').on('click', function(e){
+			e.stopPropagation();
+		});
+
 		// delete queue
-		obj.find('nav > button').on('click', function(e){
+		obj.find('button[rg-action=delete]').on('click', function(e){
 			e.stopPropagation();
 			if (confirm('파일을 삭제하시겠습니까?'))
 			{
@@ -109,13 +106,32 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		var idx = self.count;
 		var key = 'queue-' + idx;
+		var form = parent.settings.queueForm;
+
+		if (form)
+		{
+			if (file.form)
+			{
+				for (var n=0; n<file.form.length; n++)
+				{
+					form[n].value = file.form[n].value;
+				}
+			}
+			else
+			{
+				for (var n=0; n<form.length; n++)
+				{
+					form[n].value = '';
+				}
+			}
+		}
+
 		var $dom = template(
 			key
 			,file.name
 			,(file.status) ? file.status : 'ready'
-			,file.loc
-			,parent.settings.queueType
-			,parent.settings.queueForm
+			,(/^image/i.test(file.type)) ? file.loc : null
+			,form
 		);
 
 		self.index[key] = {
