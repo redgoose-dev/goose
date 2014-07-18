@@ -7,12 +7,12 @@ switch ($paramAction)
 		$pw = md5($_POST['password']);
 		
 		$auth = $spawn->getItem(array(
-			field => '*',
-			table => $tablesName[users],
-			where => "email='".$_POST['email']."'"
+			'field' => '*',
+			'table' => $tablesName['users'],
+			'where' => "email='".$_POST['email']."'"
 		));
 
-		if ($auth[pw] == $pw)
+		if ($auth['pw'] == $pw)
 		{
 			if ($auth['level'] > $adminLevel)
 			{

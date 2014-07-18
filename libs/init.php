@@ -1,15 +1,8 @@
 <?
 if(!defined("GOOSE")){exit();}
 
-// error reporting
-if(version_compare(PHP_VERSION, '5.4.0', '<'))
-{
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
-}
-else
-{
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
-}
+// skip error reporting
+@error_reporting(E_ALL ^ E_NOTICE);
 
 // session check
 $_SESSION['gooseEmail'] = isset($_SESSION['gooseEmail']) ? $_SESSION['gooseEmail'] : false;
@@ -67,7 +60,7 @@ if ($route)
 	switch ($routeTarget['type'])
 	{
 		case "api":
-			$file = PWD.'/api/'. $routePapameters[type] .'.php';
+			$file = PWD.'/api/'. $routePapameters['type'] .'.php';
 			if (is_file($file))
 			{
 				require($file);

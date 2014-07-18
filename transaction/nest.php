@@ -2,10 +2,10 @@
 if(!defined("GOOSE")){exit();}
 
 // thumnail size
-$thumnailSize = ($_POST[thumWidth] and $_POST[thumHeight]) ? $_POST[thumWidth].'*'.$_POST[thumHeight] : '100*100';
+$thumnailSize = ($_POST['thumWidth'] and $_POST['thumHeight']) ? $_POST['thumWidth'].'*'.$_POST['thumHeight'] : '100*100';
 
 // list count
-$listCount = ($_POST[listCount]) ? $_POST[listCount] : 12;
+$listCount = ($_POST['listCount']) ? $_POST['listCount'] : 12;
 
 switch($paramAction)
 {
@@ -23,8 +23,8 @@ switch($paramAction)
 
 		// 중복 아이디값 확인
 		$cnt = $spawn->getCount(array(
-			table => $tablesName['nests'],
-			where => "id='$_POST[id]'"
+			'table' => $tablesName['nests'],
+			'where' => "id='$_POST[id]'"
 		));
 		if ($cnt > 0)
 		{
@@ -34,8 +34,8 @@ switch($paramAction)
 		
 		// insert data
 		$dd = $spawn->insert(array(
-			table => $tablesName['nests'],
-			data => array(
+			'table' => $tablesName['nests'],
+			'data' => array(
 				'srl' => null,
 				'group_srl' => (int)$_POST['group_srl'],
 				'id' => $_POST['id'],
@@ -65,17 +65,17 @@ switch($paramAction)
 		}
 
 		$result = $spawn->update(array(
-			table => $tablesName['articles'],
-			where => "nest_srl='$_POST[nest_srl]'",
-			data => array(
+			'table' => $tablesName['articles'],
+			'where' => "nest_srl='$_POST[nest_srl]'",
+			'data' => array(
 				"group_srl='$_POST[group_srl]'"
 			)
 		));
 
 		$result = $spawn->update(array(
-			table => $tablesName[nests],
-			where => 'srl='.(int)$_POST[nest_srl],
-			data => array(
+			'table' => $tablesName['nests'],
+			'where' => 'srl='.(int)$_POST['nest_srl'],
+			'data' => array(
 				"group_srl='$_POST[group_srl]'",
 				"name='$_POST[name]'",
 				"thumnailSize='$thumnailSize'",
@@ -86,7 +86,7 @@ switch($paramAction)
 				"editor='$_POST[editor]'"
 			)
 		));
-		$util->redirect(ROOT.'/nest/index/'.$_POST[group_srl].'/');
+		$util->redirect(ROOT.'/nest/index/'.$_POST['group_srl'].'/');
 		break;
 
 
@@ -101,17 +101,17 @@ switch($paramAction)
 		}
 
 		$articles = $spawn->getItems(array(
-			table => $tablesName[articles],
-			where => 'nest_srl='.(int)$_POST[nest_srl]
+			'table' => $tablesName['articles'],
+			'where' => 'nest_srl='.(int)$_POST['nest_srl']
 		));
 
 		foreach ($articles as $k=>$v)
 		{
 			// get file index
 			$files = $spawn->getItems(array(
-				field => 'loc',
-				table => $tablesName[files],
-				where => 'article_srl='.(int)$v[srl]
+				'field' => 'loc',
+				'table' => $tablesName['files'],
+				'where' => 'article_srl='.(int)$v['srl']
 			));
 
 			// delete original files
@@ -119,45 +119,45 @@ switch($paramAction)
 			{
 				foreach ($files as $k2=>$v2)
 				{
-					if (file_exists(PWD.$dataOriginalDirectory.$v2[loc]))
+					if (file_exists(PWD.$dataOriginalDirectory.$v2['loc']))
 					{
-						unlink(PWD.$dataOriginalDirectory.$v2[loc]);
+						unlink(PWD.$dataOriginalDirectory.$v2['loc']);
 					}
 				}
 			}
 
 			// delete thumnail image
-			if ($v[thumnail_url] and file_exists(PWD.$dataThumnailDirectory.$v[thumnail_url]))
+			if ($v['thumnail_url'] and file_exists(PWD.$dataThumnailDirectory.$v['thumnail_url']))
 			{
-				unlink(PWD.$dataThumnailDirectory.$v[thumnail_url]);
+				unlink(PWD.$dataThumnailDirectory.$v['thumnail_url']);
 			}
 
 			// delete db files
 			$spawn->delete(array(
-				table => $tablesName[files],
-				where => 'article_srl='.(int)$v[srl]
+				'table' => $tablesName['files'],
+				'where' => 'article_srl='.(int)$v['srl']
 			));
 			// delete db extravar
 			$spawn->delete(array(
-				table => $tablesName[extraVars],
-				where => 'article_srl='.(int)$v[srl]
+				'table' => $tablesName['extraVars'],
+				'where' => 'article_srl='.(int)$v['srl']
 			));
 		}
 		$spawn->delete(array(
-			table => $tablesName[categories],
-			where => 'nest_srl='.(int)$_POST[nest_srl]
+			'table' => $tablesName['categories'],
+			'where' => 'nest_srl='.(int)$_POST['nest_srl']
 		));
 		$spawn->delete(array(
-			table => $tablesName[extraKeys],
-			where => 'nest_srl='.(int)$_POST[nest_srl]
+			'table' => $tablesName['extraKeys'],
+			'where' => 'nest_srl='.(int)$_POST['nest_srl']
 		));
 		$spawn->delete(array(
-			table => $tablesName[articles],
-			where => 'nest_srl='.(int)$_POST[nest_srl]
+			'table' => $tablesName['articles'],
+			'where' => 'nest_srl='.(int)$_POST['nest_srl']
 		));
 		$spawn->delete(array(
-			table => $tablesName[nests],
-			where => 'srl='.(int)$_POST[nest_srl]
+			'table' => $tablesName['nests'],
+			'where' => 'srl='.(int)$_POST['nest_srl']
 		));
 
 		$util->redirect(ROOT.'/nest/index/');

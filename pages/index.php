@@ -23,6 +23,7 @@ $articlesIndex = $spawn->getItems(array(
 		{
 			foreach ($articlesIndex as $k=>$v)
 			{
+				$categoryName = null;
 				$nest = $spawn->getItem(array(
 					'field' => 'name,useCategory',
 					'table' => $tablesName['nests'],
@@ -37,9 +38,9 @@ $articlesIndex = $spawn->getItems(array(
 					));
 					$categoryName = ($categoryName) ? "<span>분류:$categoryName[name]</span>" : "";
 				}
-				$url = ROOT.'/article/view/'.$v[srl].'/?m=1';
-				$img = ($v[thumnail_url]) ? "<dt><img src=\"".ROOT."/data/thumnail/$v[thumnail_url]\" alt=\"$v[title]\" /></dt>" : "";
-				$noimg = ($v[thumnail_url]) ? "class=\"noimg\"" : "";
+				$url = ROOT.'/article/view/'.$v['srl'].'/?m=1';
+				$img = ($v['thumnail_url']) ? "<dt><img src=\"".ROOT."/data/thumnail/$v[thumnail_url]\" alt=\"$v[title]\" /></dt>" : "";
+				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
 				echo "
 					<li>
 						<a href=\"$url\">
@@ -49,7 +50,7 @@ $articlesIndex = $spawn->getItems(array(
 									<strong><em>[$nest[name]]</em> $v[title]</strong>
 									<div class=\"inf\">
 										$categoryName
-										<span>작성날짜:".$util->convertDate($v[regdate])."</span>
+										<span>작성날짜:".$util->convertDate($v['regdate'])."</span>
 									</div>
 								</dd>
 							</dl>

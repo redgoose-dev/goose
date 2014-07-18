@@ -7,7 +7,7 @@ $json_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'
 if ($paramAction !== "create" and $json_srl)
 {
 	$json = $spawn->getItem(array(
-		'table' => $tablesName[jsons],
+		'table' => $tablesName['jsons'],
 		'where' => 'srl='.$json_srl
 	));
 }
@@ -24,7 +24,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		<h1>JSON <?=$titleType?></h1>
 	</div>
 	<form action="<?=ROOT?>/json/<?=$paramAction?>/" method="post" name="post" id="regsterForm">
-		<input type="hidden" name="srl" value="<?=$json[srl]?>" />
+		<input type="hidden" name="srl" value="<?=$json['srl']?>" />
 		<?
 		if ($paramAction == "delete")
 		{
@@ -76,7 +76,7 @@ if ($paramAction != "delete")
 
 		var $jsonEditor = $('#JSONEditor');
 		var $form = $('#regsterForm');
-		var jsonData = '<?=$json[json]?>';
+		var jsonData = '<?=$json['json']?>';
 		var jsonEditor = new JSONEditor($jsonEditor);
   
 		// import json

@@ -7,8 +7,8 @@ function checkExistEmail()
 	global $spawn, $util, $tablesName;
 
 	$cnt = $spawn->getCount(array(
-		table => $tablesName['users'],
-		where => "email='".$_POST['email']."'"
+		'table' => $tablesName['users'],
+		'where' => "email='".$_POST['email']."'"
 	));
 	return ($cnt > 0) ? true : false;
 }
@@ -36,14 +36,14 @@ switch($paramAction)
 
 		// insert data
 		$result = $spawn->insert(array(
-			table => $tablesName['users'],
-			data => array(
-				srl => null,
-				name => $_POST['name'],
-				email => $_POST['email'],
-				pw => md5($_POST['pw']),
-				level => (int)$_POST['level'],
-				regdate => $regdate
+			'table' => $tablesName['users'],
+			'data' => array(
+				'srl' => null,
+				'name' => $_POST['name'],
+				'email' => $_POST['email'],
+				'pw' => md5($_POST['pw']),
+				'level' => (int)$_POST['level'],
+				'regdate' => $regdate
 			)
 		));
 
@@ -70,9 +70,9 @@ switch($paramAction)
 
 		// update db
 		$result = $spawn->update(array(
-			table => $tablesName['users'],
-			where => 'srl='.(int)$_POST['user_srl'],
-			data => array(
+			'table' => $tablesName['users'],
+			'where' => 'srl='.(int)$_POST['user_srl'],
+			'data' => array(
 				"name='".$_POST['name']."'",
 				"level='".$_POST['level']."'",
 				($_POST['pw']) ? "pw='".md5($_POST['pw'])."'" : null

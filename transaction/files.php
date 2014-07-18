@@ -58,12 +58,12 @@ switch($paramAction)
 
 		// insert db
 		$spawn->insert(array(
-			table => $tablesName[tempFiles],
-			data => array(
-				srl => null,
-				loc => $fileRelativeDir,
-				name => $originalFileName,
-				date => $regdate
+			'table' => $tablesName['tempFiles'],
+			'data' => array(
+				'srl' => null,
+				'loc' => $fileRelativeDir,
+				'name' => $originalFileName,
+				'date' => $regdate
 			)
 		));
 
@@ -71,10 +71,10 @@ switch($paramAction)
 
 		// result print
 		$result = array(
-			filelink => $dir_relative.$fileRelativeDir,
-			loc => $fileRelativeDir,
-			filename => $originalFileName,
-			sess_srl => $sess_srl
+			'filelink' => $dir_relative.$fileRelativeDir,
+			'loc' => $fileRelativeDir,
+			'filename' => $originalFileName,
+			'sess_srl' => $sess_srl
 		);
 		echo stripslashes(json_encode($result));
 		break;

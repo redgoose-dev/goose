@@ -1,11 +1,13 @@
 <?
 if(!defined("GOOSE")){exit();}
 
-$user_srl = ($routePapameters['param0']) ? (int)$routePapameters['param0'] : null;
+$user = null;
+$user_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : null;
+
 if ($paramAction !== "create" && $user_srl)
 {
 	$user = $spawn->getItem(array(
-		'table' => $tablesName[users],
+		'table' => $tablesName['users'],
 		'where' => 'srl='.$user_srl
 	));
 	if (($_SESSION['gooseEmail'] != $user['email']) && ($_SESSION['gooseLevel'] < 1))
@@ -24,14 +26,14 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		<h1>사용자 <?=$titleType?></h1>
 	</div>
 	<form action="<?=ROOT?>/user/<?=$paramAction?>/" method="post" id="regsterForm">
-		<input type="hidden" name="user_srl" value="<?=$user[srl]?>" />
+		<input type="hidden" name="user_srl" value="<?=$user['srl']?>" />
 		<?
 		if ($paramAction == "delete")
 		{
 		?>
 			<fieldset>
 				<legend class="blind">사용자 <?=$titleType?></legend>
-				<p class="message">"<?=$user[name]?>"사용자를 삭제하시겠습니까? 삭제된 사용자는 복구할 수 없습니다.</p>
+				<p class="message">"<?=$user['name']?>"사용자를 삭제하시겠습니까? 삭제된 사용자는 복구할 수 없습니다.</p>
 			</fieldset>
 		<?
 		}
@@ -60,10 +62,12 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					<dd><input type="password" name="pw2" id="pw2" size="15" maxlength="20" /></dd>
 				</dl>
 				<?
+				$level1 = null;
+				$level2 = null;
 				if ($paramAction == "modify")
 				{
-					$level1 = ($user[level] == "1") ? ' checked = "checked"' : '';
-					$level2 = ($user[level] == "9") ? ' checked = "checked"' : '';
+					$level1 = ($user['level'] == "1") ? ' checked = "checked"' : '';
+					$level2 = ($user['level'] == "9") ? ' checked = "checked"' : '';
 				}
 				else
 				{

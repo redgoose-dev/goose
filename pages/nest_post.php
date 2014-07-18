@@ -1,14 +1,14 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$nest_srl = ($routePapameters['param0']) ? (int)$routePapameters['param0'] : null;
+$nest_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : null;
 if ($paramAction !== "create" and $nest_srl)
 {
 	$nest = $spawn->getItem(array(
-		'table' => $tablesName[nests],
+		'table' => $tablesName['nests'],
 		'where' => 'srl='.$nest_srl
 	));
-	$thumnailSize = explode("*", $nest[thumnailSize]);
+	$thumnailSize = explode("*", $nest['thumnailSize']);
 }
 
 if ($thumnailSize[1])
@@ -20,7 +20,7 @@ else
 	$thumnailSize = array('width'=>100, 'height'=>100);
 }
 
-$listCount = ($nest[listCount]) ? $nest[listCount] : 12;
+$listCount = ($nest['listCount']) ? $nest['listCount'] : 12;
 $titleType = ($paramAction == 'create') ? '만들기' : '';
 $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
@@ -38,7 +38,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 		?>
 			<fieldset>
 				<legend class="blind">둥지<?=$titleType?></legend>
-				<p class="message">"<?=$nest[name]?>"둥지를 삭제하시겠습니까? 삭제된 둥지는 복구할 수 없습니다.</p>
+				<p class="message">"<?=$nest['name']?>"둥지를 삭제하시겠습니까? 삭제된 둥지는 복구할 수 없습니다.</p>
 			</fieldset>
 		<?
 		}
@@ -49,7 +49,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				<legend class="blind">둥지<?=$titleType?></legend>
 				<?
 				$group = $spawn->getItems(array(
-					'table' => $tablesName[nestGroups],
+					'table' => $tablesName['nestGroups'],
 					'order' => 'srl',
 					'sort' => 'asc'
 				));
@@ -65,7 +65,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 								<?
 								foreach ($group as $k=>$v)
 								{
-									$selected = ($v[srl] == $nest[group_srl]) ? ' selected="selected"' : '';
+									$selected = ($v['srl'] == $nest['group_srl']) ? ' selected="selected"' : '';
 									echo "<option value=\"$v[srl]\"$selected>$v[name]</option>";
 								}
 								?>
@@ -77,7 +77,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				?>
 				<dl class="table">
 					<?
-					$attr = ($nest[id]) ? ' value="'.$nest[id].'" readonly' : '';
+					$attr = ($nest['id']) ? ' value="'.$nest['id'].'" readonly' : '';
 					?>
 					<dt><label for="id">아이디</label></dt>
 					<dd>
@@ -87,16 +87,16 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<dt><label for="name">둥지이름</label></dt>
-					<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$nest[name]?>"/></dd>
+					<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$nest['name']?>"/></dd>
 				</dl>
 				<dl class="table">
 					<dt><label for="thumWidth">썸네일사이즈</label></dt>
 					<dd>
 						<p style="margin:0 0 5px">
-							<label>가로 : <input type="text" name="thumWidth" id="thumWidth" maxlength="4" size="5" value="<?=$thumnailSize[width]?>"/></label>
+							<label>가로 : <input type="text" name="thumWidth" id="thumWidth" maxlength="4" size="5" value="<?=$thumnailSize['width']?>"/></label>
 						</p>
 						<p style="margin:5px 0 0">
-							<label>세로 : <input type="text" name="thumHeight" id="thumHeight" maxlength="4" size="5" value="<?=$thumnailSize[height]?>"/></label>
+							<label>세로 : <input type="text" name="thumHeight" id="thumHeight" maxlength="4" size="5" value="<?=$thumnailSize['height']?>"/></label>
 						</p>
 					</dd>
 				</dl>
@@ -106,10 +106,10 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 						<?
 						if ($paramAction == "modify")
 						{
-							$thumType1 = ($nest[thumnailType] == "crop") ? ' checked = "checked"' : '';
-							$thumType2 = ($nest[thumnailType] == "resize") ? ' checked = "checked"' : '';
-							$thumType3 = ($nest[thumnailType] == "resizeWidth") ? ' checked = "checked"' : '';
-							$thumType4 = ($nest[thumnailType] == "resizeHeight") ? ' checked = "checked"' : '';
+							$thumType1 = ($nest['thumnailType'] == "crop") ? ' checked = "checked"' : '';
+							$thumType2 = ($nest['thumnailType'] == "resize") ? ' checked = "checked"' : '';
+							$thumType3 = ($nest['thumnailType'] == "resizeWidth") ? ' checked = "checked"' : '';
+							$thumType4 = ($nest['thumnailType'] == "resizeHeight") ? ' checked = "checked"' : '';
 						}
 						else
 						{
@@ -131,8 +131,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<?
-					$useCategoryYes = ($nest[useCategory] == 1) ? ' checked = "checked"' : '';
-					$useCategoryNo = ($nest[useCategory] != 1) ? ' checked = "checked"' : '';
+					$useCategoryYes = ($nest['useCategory'] == 1) ? ' checked = "checked"' : '';
+					$useCategoryNo = ($nest['useCategory'] != 1) ? ' checked = "checked"' : '';
 					?>
 					<dt><label for="useCategory">분류사용</label></dt>
 					<dd>
@@ -142,8 +142,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<?
-					$useExtraVarYes = ($nest[useExtraVar] == 1) ? ' checked = "checked"' : '';
-					$useExtraVarNo = ($nest[useExtraVar] != 1) ? ' checked = "checked"' : '';
+					$useExtraVarYes = ($nest['useExtraVar'] == 1) ? ' checked = "checked"' : '';
+					$useExtraVarNo = ($nest['useExtraVar'] != 1) ? ' checked = "checked"' : '';
 					?>
 					<dt><label for="useExtraVar">확장변수사용</label></dt>
 					<dd>

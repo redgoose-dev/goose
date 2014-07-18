@@ -17,12 +17,12 @@ switch($paramAction)
 
 		// insert data
 		$spawn->insert(array(
-			table => $tablesName[jsons],
-			data => array(
-				srl => null,
-				name => $_POST[name],
-				json => $_POST[json],
-				regdate => $regdate
+			'table' => $tablesName['jsons'],
+			'data' => array(
+				'srl' => null,
+				'name' => $_POST['name'],
+				'json' => $_POST['json'],
+				'regdate' => $regdate
 			)
 		));
 
@@ -41,15 +41,16 @@ switch($paramAction)
 		}
 
 		$spawn->update(array(
-			table => $tablesName[jsons],
-			where => 'srl='.(int)$_POST[srl],
-			data => array(
+			'table' => $tablesName['jsons'],
+			'where' => 'srl='.(int)$_POST['srl'],
+			'data' => array(
 				"name='$_POST[name]'",
 				"json='$_POST[json]'",
 				"regdate=$regdate",
-			), debug => false
+			)
+			,'debug' => false
 		));
-		$util->redirect(ROOT.'/json/view/'.$_POST[srl].'/');
+		$util->redirect(ROOT.'/json/view/'.$_POST['srl'].'/');
 		break;
 
 	// delete
@@ -63,8 +64,8 @@ switch($paramAction)
 		}
 
 		$spawn->delete(array(
-			table => $tablesName[jsons],
-			where => 'srl='.(int)$_POST[srl]
+			'table' => $tablesName['jsons'],
+			'where' => 'srl='.(int)$_POST['srl']
 		));
 		$util->redirect(ROOT.'/json/index/');
 		break;
