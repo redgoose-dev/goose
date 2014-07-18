@@ -16,11 +16,11 @@ switch($paramAction)
 		$regdate = date("YmdHis");
 
 		$spawn->insert(array(
-			table => $tablesName[nestGroups],
-			data => array(
-				srl => null,
-				name => $_POST[name],
-				regdate => $regdate
+			'table' => $tablesName['nestGroups'],
+			'data' => array(
+				'srl' => null,
+				'name' => $_POST['name'],
+				'regdate' => $regdate
 			)
 		));
 		$util->redirect(ROOT.'/group/index/');
@@ -38,9 +38,9 @@ switch($paramAction)
 		}
 
 		$spawn->update(array(
-			table => $tablesName[nestGroups],
-			where => 'srl='.$_POST[group_srl],
-			data => array("name='$_POST[name]'")
+			'table' => $tablesName['nestGroups'],
+			'where' => 'srl='.$_POST['group_srl'],
+			'data' => array("name='$_POST[name]'")
 		));
 		$util->redirect(ROOT.'/group/index/');
 		break;
@@ -49,13 +49,13 @@ switch($paramAction)
 	// delete
 	case 'delete':
 		$spawn->delete(array(
-			table => $tablesName[nestGroups],
-			where => 'srl='.$_POST[group_srl]
+			'table' => $tablesName['nestGroups'],
+			'where' => 'srl='.$_POST['group_srl']
 		));
 		$spawn->update(array(
-			table => $tablesName[nests],
-			where => 'group_srl='.$_POST[group_srl],
-			data => array("group_srl=NULL")
+			'table' => $tablesName['nests'],
+			'where' => 'group_srl='.$_POST['group_srl'],
+			'data' => array("group_srl=NULL")
 		));
 		$util->redirect(ROOT.'/group/index/');
 		break;

@@ -5,7 +5,7 @@ class Paginate {
 	var $total, $page, $size, $scale;
 	var $start_page, $page_max, $offset, $block, $tails;
 
-	public function Paginate($total, $page, $arr="", $size="10", $scale="10")
+	public function Paginate($total, $page, $arr="", $size="10", $scale="10", $start_page="1")
 	{
 		if (!$size) { $size = 12; }
 		$this->total = $total; //게시물 전체개수
@@ -18,17 +18,19 @@ class Paginate {
 		$this->block = floor(($page-1) / $scale); //페이지를 10개씩보여준다면 1~10페이지까지는 0블럭..
 		$this->no = $this->total - $this->offset; //목록에서 번호나열할때 필요.. (하단 사용법을보세요..)
 
+		$tails = '';
 		if (is_array($arr)) {
 			while (list($key,$val)=each($arr))
 			{
 				$tails .= ($val) ? "$key=$val&" : "";
 			}
 		}
-		$this->tails = substr("$tails", 0, -1);
+		$this->tails = substr($tails, 0, -1);
 	}
 
 	public function createNavigation()
 	{
+		$op = null;
 		if($this->total > $this->size) {
 			$op = "<div class='paginate'>\n";
 			if($this->block > 0) {

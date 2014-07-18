@@ -77,11 +77,11 @@ class Spawn extends Database {
 	// insert
 	public function insert($get)
 	{
-		if ($get[table] and $get[data])
+		if ($get['table'] and $get['data'])
 		{
 			$result = "insert into $get[table] (";
 			$sw = true;
-			foreach ($get[data] as $k=>$v)
+			foreach ($get['data'] as $k=>$v)
 			{
 				if ($sw == true)
 				{
@@ -95,7 +95,7 @@ class Spawn extends Database {
 			}
 			$result .= ') values (';
 			$sw = true;
-			foreach ($get[data] as $k=>$v)
+			foreach ($get['data'] as $k=>$v)
 			{
 				//$v = ($v) ? '\''.$v.'\'' : 'null';
 				$v = '\''.$v.'\'';
@@ -112,7 +112,7 @@ class Spawn extends Database {
 			$result .= ')';
 		}
 
-		if ($get[debug])
+		if ($get['debug'])
 		{
 			return $result;
 		}
@@ -130,11 +130,11 @@ class Spawn extends Database {
 	**/
 	public function update($get)
 	{
-		if ($get[table] and $get[data] and $get[where])
+		if ($get['table'] and $get['data'] and $get['where'])
 		{
 			$result = "update $get[table] set ";
 			$sw = true;
-			foreach ($get[data] as $k=>$v)
+			foreach ($get['data'] as $k=>$v)
 			{
 				if ($sw)
 				{
@@ -148,7 +148,7 @@ class Spawn extends Database {
 			}
 			$result .= " where $get[where]";
 		}
-		if ($get[debug])
+		if ($get['debug'])
 		{
 			return $result;
 		}
@@ -166,12 +166,12 @@ class Spawn extends Database {
 	**/
 	public function delete($get)
 	{
-		if ($get[table] and $get[where])
+		if ($get['table'] and $get['where'])
 		{
 			$result = "delete from $get[table] where $get[where]";
 		}
 
-		if ($get[debug])
+		if ($get['debug'])
 		{
 			return $result;
 		}
@@ -222,10 +222,10 @@ class Spawn extends Database {
 	**/
 	public function getItem($data)
 	{
-		$data[act] = 'select';
-		$data[field] = ($data[field]) ? $data[field] : '*';
+		$data['act'] = 'select';
+		$data['field'] = (isset($data['field'])) ? $data['field'] : '*';
 		$query = $this->arrayToQuery($data);
-		if (isset($data[debug]))
+		if (isset($data['debug']))
 		{
 			var_dump($query);
 			return null;

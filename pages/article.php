@@ -23,7 +23,7 @@ if ($paramAction == 'create' or $paramAction == 'modify')
 	if ($paramAction=='create')
 	{
 		$nest_srl = $routePapameters['param0'];
-		$category_srl = $routePapameters['param1'];
+		$category_srl = (isset($routePapameters['param1'])) ? $routePapameters['param1'] : null;
 	}
 	else
 	{

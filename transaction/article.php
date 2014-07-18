@@ -92,20 +92,20 @@ switch($paramAction)
 		}
 
 		$result = $spawn->insert(array(
-			table => $tablesName[articles],
-			data => array(
-				srl => null,
-				group_srl => $_POST[group_srl],
-				nest_srl => $_POST[nest_srl],
-				category_srl => $_POST[category_srl],
-				thumnail_srl => null,
-				title => $_POST[title],
-				content => $_POST[content],
-				thumnail_url => null,
-				thumnail_coords => $_POST[thumnail_coords],
-				regdate => $regdate,
-				modate => $regdate,
-				ipAddress => $ipAddress
+			'table' => $tablesName['articles'],
+			'data' => array(
+				'srl' => null,
+				'group_srl' => $_POST['group_srl'],
+				'nest_srl' => $_POST['nest_srl'],
+				'category_srl' => $_POST['category_srl'],
+				'thumnail_srl' => null,
+				'title' => $_POST['title'],
+				'content' => $_POST['content'],
+				'thumnail_url' => null,
+				'thumnail_coords' => $_POST['thumnail_coords'],
+				'regdate' => $regdate,
+				'modate' => $regdate,
+				'ipAddress' => $ipAddress
 			)
 		));
 
@@ -113,16 +113,16 @@ switch($paramAction)
 		$article_srl = $spawn->conn->lastInsertId();
 
 		// files upload
-		$thumnail_srl = fileUpload($article_srl, $_POST[thumnail_srl]);
+		$thumnail_srl = fileUpload($article_srl, $_POST['thumnail_srl']);
 
 		// thumnail image upload
 		if ($thumnail_srl)
 		{
-			$thumnailUrl = uploadThumnail($_POST[thumnail_image]);
+			$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
 			$spawn->update(array(
-				table => $tablesName[articles],
-				where => 'srl='.$article_srl,
-				data => array(
+				'table' => $tablesName['articles'],
+				'where' => 'srl='.$article_srl,
+				'data' => array(
 					"thumnail_srl='$thumnail_srl'",
 					"thumnail_url='$thumnailUrl'"
 				)
@@ -133,23 +133,23 @@ switch($paramAction)
 		if ($_POST['useExtraVar'])
 		{
 			$extraKey = $spawn->getItems(array(
-				table => $tablesName[extraKey],
-				where => 'nest_srl='.(int)$_POST[nest_srl],
-				order => 'turn',
-				sort => 'asc'
+				'table' => $tablesName['extraKey'],
+				'where' => 'nest_srl='.(int)$_POST['nest_srl'],
+				'order' => 'turn',
+				'sort' => 'asc'
 			));
 			foreach ($extraKey as $k=>$v)
 			{
-				$keyName = $v[keyName];
+				$keyName = $v['keyName'];
 				$value = $_POST['ext_'.$keyName];
 				if ($value)
 				{
 					$spawn->insert(array(
-						table => $tablesName[extraVar],
-						data => array(
-							article_srl => $article_srl,
-							key_srl => $v[srl],
-							value => $value
+						'table' => $tablesName['extraVar'],
+						'data' => array(
+							'article_srl' => $article_srl,
+							'key_srl' => $v['srl'],
+							'value' => $value
 						)
 					));
 				}
@@ -157,7 +157,7 @@ switch($paramAction)
 		}
 
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
-		$util->redirect(ROOT.'/article/index/'.$_POST[nest_srl].'/'.$addUrl);
+		$util->redirect(ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
 		break;
 
 	// modify
@@ -174,8 +174,8 @@ switch($paramAction)
 
 		// get article item data
 		$article = $spawn->getItem(array(
-			table => $tablesName[articles],
-			where => 'srl='.(int)$_POST[article_srl]
+			'table' => $tablesName['articles'],
+			'where' => 'srl='.(int)$_POST['article_srl']
 		));
 
 		// upload files
@@ -203,9 +203,9 @@ switch($paramAction)
 
 		// update article
 		$result = $spawn->update(array(
-			table => $tablesName[articles],
-			where => 'srl='.(int)$_POST[article_srl],
-			data => array(
+			'table' => $tablesName['articles'],
+			'where' => 'srl='.(int)$_POST['article_srl'],
+			'data' => array(
 				"category_srl='$_POST[category_srl]'",
 				"title='$_POST[title]'",
 				"content='$_POST[content]'",
@@ -220,8 +220,8 @@ switch($paramAction)
 		{
 			// get article item data
 			$filesCount = $spawn->getCount(array(
-				table => $tablesName[files],
-				where => 'article_srl='.(int)$_POST[article_srl].' and srl='.(int)$article['thumnail_srl']
+				'table' => $tablesName['files'],
+				'where' => 'article_srl='.(int)$_POST['article_srl'].' and srl='.(int)$article['thumnail_srl']
 			));
 			if (!$filesCount)
 			{
@@ -232,9 +232,9 @@ switch($paramAction)
 				}
 				// update article db
 				$result = $spawn->update(array(
-					table => $tablesName[articles],
-					where => 'srl='.(int)$_POST[article_srl],
-					data => array(
+					'table' => $tablesName['articles'],
+					'where' => 'srl='.(int)$_POST['article_srl'],
+					'data' => array(
 						"thumnail_srl='0'",
 						"thumnail_url=''",
 						"thumnail_coords=''"
@@ -245,18 +245,18 @@ switch($paramAction)
 
 		// update extra value
 		$extraKey = $spawn->getItems(array(
-			field => 'srl,keyName',
-			table => $tablesName['extraKey'],
-			where => 'nest_srl='.(int)$_POST[nest_srl],
-			order => 'turn',
-			sort => 'asc'
+			'field' => 'srl,keyName',
+			'table' => $tablesName['extraKey'],
+			'where' => 'nest_srl='.(int)$_POST['nest_srl'],
+			'order' => 'turn',
+			'sort' => 'asc'
 		));
 
 		foreach ($extraKey as $k=>$v)
 		{
 			$extraVarCount = $spawn->getCount(array(
-				table => $tablesName[extraVar],
-				where => 'article_srl='.(int)$_POST[article_srl].' and key_srl='.$v[srl]
+				'table' => $tablesName['extraVar'],
+				'where' => 'article_srl='.(int)$_POST['article_srl'].' and key_srl='.$v['srl']
 			));
 			$keyName = $v['keyName'];
 			$value = $_POST['ext_'.$keyName];
@@ -264,11 +264,11 @@ switch($paramAction)
 			if ($extraVarCount==0 and $value)
 			{
 				$spawn->insert(array(
-					table => $tablesName['extraVar'],
-					data => array(
-						article_srl => $_POST['article_srl'],
-						key_srl => $v['srl'],
-						value => $value
+					'table' => $tablesName['extraVar'],
+					'data' => array(
+						'article_srl' => $_POST['article_srl'],
+						'key_srl' => $v['srl'],
+						'value' => $value
 					)
 				));
 			}
@@ -277,54 +277,54 @@ switch($paramAction)
 				if ($value)
 				{
 					$spawn->update(array(
-						table => $tablesName[extraVar],
-						where => 'key_srl='.$v[srl],
-						data => array("value='$value'")
+						'table' => $tablesName['extraVar'],
+						'where' => 'key_srl='.$v['srl'],
+						'data' => array("value='$value'")
 					));
 				}
 				else
 				{
 					$spawn->delete(array(
-						'table' => $tablesName[extraVar],
-						'where' => 'article_srl='.$_POST[article_srl].' and key_srl='.$v[srl]
+						'table' => $tablesName['extraVar'],
+						'where' => 'article_srl='.$_POST['article_srl'].' and key_srl='.$v['srl']
 					));
 				}
 			}
 		}
 
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
-		$util->redirect(ROOT.'/article/view/'.$_POST[article_srl].'/'.(($params) ? '?'.$params : ''));
+		$util->redirect(ROOT.'/article/view/'.$_POST['article_srl'].'/'.(($params) ? '?'.$params : ''));
 		break;
 
 	// delete
 	case 'delete':
 		// get article item data
 		$article = $spawn->getItem(array(
-			table => $tablesName[articles],
-			where => 'srl='.(int)$_POST[article_srl]
+			'table' => $tablesName['articles'],
+			'where' => 'srl='.(int)$_POST['article_srl']
 		));
 
 		// delete thumnail image
-		if ($article[thumnail_url] and file_exists(PWD.$dataThumnailDirectory.$article[thumnail_url]))
+		if ($article['thumnail_url'] and file_exists(PWD.$dataThumnailDirectory.$article['thumnail_url']))
 		{
-			unlink(PWD.$dataThumnailDirectory.$article[thumnail_url]);
+			unlink(PWD.$dataThumnailDirectory.$article['thumnail_url']);
 		}
 
 		// delete original files
 		$files = $spawn->getItems(array(
-			table => $tablesName[files],
-			where => 'article_srl='.$article[srl]
+			'table' => $tablesName['files'],
+			'where' => 'article_srl='.$article['srl']
 		));
 		if (count($files))
 		{
 			foreach ($files as $k=>$v)
 			{
-				if (file_exists(PWD.$dataOriginalDirectory.$v[loc]))
+				if (file_exists(PWD.$dataOriginalDirectory.$v['loc']))
 				{
-					unlink(PWD.$dataOriginalDirectory.$v[loc]);
+					unlink(PWD.$dataOriginalDirectory.$v['loc']);
 					$spawn->delete(array(
-						table => $tablesName[files],
-						where => 'srl='.$v[srl]
+						'table' => $tablesName['files'],
+						'where' => 'srl='.$v['srl']
 					));
 				}
 			}
@@ -332,17 +332,17 @@ switch($paramAction)
 
 		// delete article
 		$spawn->delete(array(
-			table => $tablesName[articles],
-			where => 'srl='.(int)$_POST[article_srl]
+			'table' => $tablesName['articles'],
+			'where' => 'srl='.(int)$_POST['article_srl']
 		));
 		// delete extravar item
 		$spawn->delete(array(
-			table => $tablesName[extraVar],
-			where => 'article_srl='.(int)$_POST[article_srl]
+			'table' => $tablesName['extraVar'],
+			'where' => 'article_srl='.(int)$_POST['article_srl']
 		));
 
-		$addUrl = ($_POST[nest_srl]) ? $_POST[nest_srl].'/' : '';
-		$addUrl .= ($_POST[category_srl]) ? $_POST[category_srl].'/' : '';
+		$addUrl = ($_POST['nest_srl']) ? $_POST['nest_srl'].'/' : '';
+		$addUrl .= ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
 		$util->redirect(ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
 

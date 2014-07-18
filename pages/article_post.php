@@ -1,6 +1,10 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+$article = null;
+$article_srl = null;
+$_GET['page'] = (isset($_GET['page'])) ? $_GET['page'] : null;
+
 if ($paramAction == 'create')
 {
 	if (!$nest_srl)
@@ -9,7 +13,7 @@ if ($paramAction == 'create')
 		exit;
 	}
 	$nest = $spawn->getItem(array(
-		'table' => $tablesName[nests],
+		'table' => $tablesName['nests'],
 		'where' => 'srl='.$nest_srl
 	));
 }
@@ -21,17 +25,17 @@ else if ($paramAction == 'modify')
 		exit;
 	}
 	$article = $spawn->getItem(array(
-		'table' => $tablesName[articles],
+		'table' => $tablesName['articles'],
 		'where' => 'srl='.$article_srl
 	));
 	$nest = $spawn->getItem(array(
-		'table' => $tablesName[nests],
-		'where' => 'srl='.$article[nest_srl]
+		'table' => $tablesName['nests'],
+		'where' => 'srl='.$article['nest_srl']
 	));
-	$nest_srl = $article[nest_srl];
+	$nest_srl = $article['nest_srl'];
 }
 
-$nestName = '['.$nest[name].'] ';
+$nestName = '['.$nest['name'].'] ';
 $titleType = getActionType($paramAction);
 
 
@@ -119,7 +123,7 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 			?>
 			<dl class="table">
 				<dt><label for="title">제목</label></dt>
-				<dd><input type="text" id="title" name="title" class="block" value="<?=$article[title]?>" /></dd>
+				<dd><input type="text" id="title" name="title" class="block" value="<?=$article['title']?>" /></dd>
 			</dl>
 		</fieldset>
 

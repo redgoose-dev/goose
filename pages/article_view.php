@@ -2,6 +2,9 @@
 if(!defined("GOOSE")){exit();}
 
 $article_srl = (int)$routePapameters['param0'];
+$categoryName = null;
+$_GET['page'] = (isset($_GET['page'])) ? $_GET['page'] : null;
+$_GET['m'] = (isset($_GET['m'])) ? $_GET['m'] : null;
 
 if (!$article_srl)
 {

@@ -60,39 +60,39 @@ $nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 		{
 			foreach ($nestsIndex as $k=>$v)
 			{
-				$url = ROOT.'/article/index/'.$v[srl].'/';
+				$url = ROOT.'/article/index/'.$v['srl'].'/';
 				$articleCount = $spawn->getCount(array(
-					'table' => $tablesName[articles],
-					'where' => 'nest_srl='.(int)$v[srl]
+					'table' => $tablesName['articles'],
+					'where' => 'nest_srl='.(int)$v['srl']
 				));
 				$categoryCount = $spawn->getCount(array(
-					'table' => $tablesName[categories],
-					'where' => 'nest_srl='.(int)$v[srl]
+					'table' => $tablesName['categories'],
+					'where' => 'nest_srl='.(int)$v['srl']
 				));
-				$categoryCount = ($categoryCount && $v[useCategory]==1) ? '<span>분류:'.$categoryCount.'</span>' : '';
+				$categoryCount = ($categoryCount && $v['useCategory']==1) ? '<span>분류:'.$categoryCount.'</span>' : '';
 				$groupName = $spawn->getItem(array(
 					'field' => 'name',
-					'table' => $tablesName[nestGroups],
-					'where' => 'srl='.(int)$v[group_srl]
+					'table' => $tablesName['nestGroups'],
+					'where' => 'srl='.(int)$v['group_srl']
 				));
-				$groupName = ($groupName[name]) ? "<em>[".$groupName[name]."]</em>" : "";
-				$categoryBtn = ($v[useCategory] == 1) ? '<a href="'.ROOT.'/category/index/'.$v[srl].'/">분류설정</a>' : '';
-				$extraVarBtn = ($v[useExtraVar] == 1) ? '<a href="'.ROOT.'/extrakey/index/'.$v[srl].'/">확장변수설정</a>' : '';
+				$groupName = ($groupName['name']) ? "<em>[".$groupName['name']."]</em>" : "";
+				$categoryBtn = ($v['useCategory'] == 1) ? '<a href="'.ROOT.'/category/index/'.$v['srl'].'/">분류설정</a>' : '';
+				$extraVarBtn = ($v['useExtraVar'] == 1) ? '<a href="'.ROOT.'/extrakey/index/'.$v['srl'].'/">확장변수설정</a>' : '';
 		?>
 				<li>
 					<div class="body">
 						<a href="<?=$url?>">
-							<strong><?=$groupName?> <?=$v[name]?>(<?=$articleCount?>)</strong>
+							<strong><?=$groupName?> <?=$v['name']?>(<?=$articleCount?>)</strong>
 						</a>
 						<div class="inf">
-							<span>아이디:<?=$v[id]?></span>
-							<span>날짜:<?=$util->convertDate($v[regdate])?></span>
+							<span>아이디:<?=$v['id']?></span>
+							<span>날짜:<?=$util->convertDate($v['regdate'])?></span>
 							<?=$categoryCount?>
-							<span>썸네일사이즈:<?=$v[thumnailSize]?></span>
+							<span>썸네일사이즈:<?=$v['thumnailSize']?></span>
 						</div>
 						<nav>
-							<a href="<?=ROOT?>/nest/modify/<?=$v[srl]?>/">수정</a>
-							<a href="<?=ROOT?>/nest/delete/<?=$v[srl]?>/">삭제</a>
+							<a href="<?=ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
+							<a href="<?=ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
 							<?=$categoryBtn?>
 							<?=$extraVarBtn?>
 						</nav>

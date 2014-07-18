@@ -1,8 +1,10 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+$pushData = null;
 $path = ROOT.'/plugins/editor/'.$nest['editor'];
 $extPath = ROOT.'/libs/ext';
+
 require('attachFileDatas.php');
 ?>
 
