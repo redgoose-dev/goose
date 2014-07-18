@@ -17,7 +17,7 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
 
 Demo
 =====
-[http://redgoose.me/goose/demo](http://redgoose.me/goose/demo)
+<a href="http://redgoose.me/goose/demo" target="_blank">http://redgoose.me/goose/demo</a>
 
 
 설치
