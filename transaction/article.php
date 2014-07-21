@@ -278,7 +278,7 @@ switch($paramAction)
 				{
 					$spawn->update(array(
 						'table' => $tablesName['extraVar'],
-						'where' => 'key_srl='.$v['srl'],
+						'where' => 'article_srl='.$_POST['article_srl'],
 						'data' => array("value='$value'")
 					));
 				}
