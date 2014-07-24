@@ -28,8 +28,13 @@ switch($q['act'])
 {
 	case "index":
 		$data = $api->getIndexItem(array(
-			'field' => $_GET['field']
-			,'table' => $_GET['table']
+			'table' => $_GET['table']
+			,'field' => $_GET['field']
+			,'page' => $_GET['page']
+			,'limit' => $_GET['limit']
+			,'order' => $_GET['order']
+			,'sort' => $_GET['sort']
+
 			,'where' => array(
 				'srl' => $_GET['srl']
 				,'id' => $_GET['nest_id']
@@ -40,22 +45,17 @@ switch($q['act'])
 				,'article_srl' => $_GET['article_srl']
 				,'key_srl' => $_GET['key_srl']
 			)
-/*
-			'search' => array($_GET[searchField], $_GET[searchKeyword]),
-*/
-			,'page' => $_GET[page]
-			,'limit' => $_GET[limit]
-			
-			,'order' => $_GET[order]
-			,'sort' => $_GET[sort]
+			,'search_key' => $_GET['search_key']
+			,'search_value' => $_GET['search_value']
 		));
 		break;
 
 	case "single":
 		$data = $api->getSingleItem(array(
-			'table' => $_GET[table],
-			'key' => $_GET[key],
-			'value' => $_GET[value]
+			'table' => $_GET['table']
+			,'key' => $_GET['key']
+			,'value' => $_GET['value']
+			,'where' => $_GET['where']
 		));
 		break;
 

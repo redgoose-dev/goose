@@ -17,6 +17,60 @@ class API {
 		$this->apikey = $opt['apikey'];
 	}
 
+	// create where string
+	private function createWhereString($where)
+	{
+		$str = '';
+		foreach ($where as $k=>$v)
+		{
+			if ($v)
+			{
+				$str .= " and $k='$v'";
+			}
+		}
+		return preg_replace("/^ and /", "", $str);
+	}
+
+	// check table name
+	private function checkTableName($params)
+	{
+		if (!$params['table'])
+		{
+			return "\"table\" value does not exist.";
+		}
+		if (!$this->tablesName[$params['table']])
+		{
+			return "\"table\" match error";
+		}
+		return false;
+	}
+
+	// array to xml
+	private function array_to_xml($student_info, &$xml_student_info)
+	{
+		foreach($student_info as $key => $value)
+		{
+			if (is_array($value))
+			{
+				if(!is_numeric($key))
+				{
+					$subnode = $xml_student_info->addChild("$key");
+					$this->array_to_xml($value, $subnode);
+				}
+				else
+				{
+					$subnode = $xml_student_info->addChild("item$key");
+					$this->array_to_xml($value, $subnode);
+				}
+			}
+			else
+			{
+				$xml_student_info->addChild("$key", htmlspecialchars("$value"));
+			}
+		}
+	}
+
+
 	// api key auth
 	public function auth($key)
 	{
@@ -34,16 +88,17 @@ class API {
 		$error = $this->checkTableName($params);
 		if ($error)
 		{
-			$this->result[error] = $error;
+			$this->result['error'] = $error;
 			return $this->result;
 		}
 
-		$tableName = $this->tablesName[$params[table]];
+		$tableName = $this->tablesName[$params['table']];
 
-		$where = ($params[nest]) ? "and id='".$params[nest]."'" : "";
-		$where .= ($params[group]) ? " and group_srl='".$params[group]."'" : "";
-		$where .= ($params[category]) ? " and category_srl='".$params[category]."'" : "";
-		$where .= ($params[search][0] && $params[search][1]) ? " and ".$params[search][0]."='".$params[search][1]."'" : "";
+		$where = $this->createWhereString($params['where']);
+		if ($params['search_key'] && $params['search_value'])
+		{
+			$where .= "$params[search_key] like '%$params[search_value]%'";
+		}
 
 		// get item count
 		$itemCount = $this->spawn->getCount(array(
@@ -55,27 +110,22 @@ class API {
 		{
 			require_once(PWD.'/libs/Paginate.class.php');
 
-			$params[page] = ($params[page] > 1) ? $params[page] : 1;
-			$params[limit] = ($params[limit]) ? $params[limit] : 15;
-			$params[field] = ($params[field]) ? $params[field] : "*";
-			$params[order] = ($params[order]) ? $params[order] : "srl";
-			$params[sort] = ($params[sort]) ? $params[sort] : "desc";
+			// 기본값 설정
+			$params['page'] = ($params['page'] > 1) ? $params['page'] : 1;
+			$params['limit'] = ($params['limit']) ? $params['limit'] : 15;
+			$params['field'] = ($params['field']) ? $params['field'] : "*";
+			$params['order'] = ($params['order']) ? $params['order'] : "srl";
+			$params['sort'] = ($params['sort']) ? $params['sort'] : "desc";
 
-			$paginate = new Paginate(
-				$itemCount,
-				$params[page],
-				array(),
-				$params[limit],
-				1
-			);
+			$paginate = new Paginate($itemCount, $params['page'], array(), $params['limit'], 1);
 
 			$this->result = $this->spawn->getItems(array(
-				field => $params[field],
-				table => $tableName,
-				where => $where,
-				order => $params[order],
-				sort => $params[sort],
-				limit => array($paginate->offset, $paginate->size)
+				'field' => $params['field'],
+				'table' => $tableName,
+				'where' => $where,
+				'order' => $params['order'],
+				'sort' => $params['sort'],
+				'limit' => array($paginate->offset, $paginate->size)
 			));
 		}
 
@@ -139,45 +189,6 @@ class API {
 
 		header($header);
 		print_r($result);
-	}
-
-	// check table name
-	private function checkTableName($params)
-	{
-		if (!$params['table'])
-		{
-			return "\"table\" value does not exist.";
-		}
-		if (!$this->tablesName[$params['table']])
-		{
-			return "\"table\" match error";
-		}
-		return false;
-	}
-
-	// array to xml
-	private function array_to_xml($student_info, &$xml_student_info)
-	{
-		foreach($student_info as $key => $value)
-		{
-			if (is_array($value))
-			{
-				if(!is_numeric($key))
-				{
-					$subnode = $xml_student_info->addChild("$key");
-					$this->array_to_xml($value, $subnode);
-				}
-				else
-				{
-					$subnode = $xml_student_info->addChild("item$key");
-					$this->array_to_xml($value, $subnode);
-				}
-			}
-			else
-			{
-				$xml_student_info->addChild("$key", htmlspecialchars("$value"));
-			}
-		}
 	}
 }
 ?>
