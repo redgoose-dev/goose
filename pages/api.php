@@ -26,7 +26,7 @@
 	<section>
 		<h1>API Key</h1>
 		<p>
-			key값은 /goose/config/variable.php 파일의 $api_key 값을 암호화한 아래의 값을 사용하여 인증합니다.
+			apikey값은 /{goose}/data/config/user.php 파일의 $api_key 값을 암호화한 아래의 값을 사용하여 인증합니다.
 			<input type="text" value="<?=md5($api_key)?>" class="block" readonly />
 		</p>
 	</section>
@@ -38,7 +38,7 @@
 			<strong>http://xxx.com/goose/api/item?apikey=XXX&table=nests&act=index&output=json</strong><br/>
 		</p>
 		<table class="ui-table">
-			<caption>요청 파라메터 (request parameter)</caption>
+			<caption>필수 파라메터 (Required parameters). 요청시 꼭 넣어줘야하는 값입니다.</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">키</th>
@@ -57,7 +57,7 @@
 					<td class="nowrap center">string</td>
 					<td>
 						Database 테이블 이름입니다.<br/>
-						자세한 내용과 테이블 값을 확인하려면 <a href="#" target="_blank">이곳</a>을 참고하시길 바랍니다.
+						자세한 내용과 테이블 값을 확인하려면 <a href="<?=ROOT?>/help/#HelpDatabase" target="_blank">이곳</a>을 참고하시길 바랍니다.
 					</td>
 				</tr>
 				<tr>
@@ -73,14 +73,108 @@
 					<th class="nowrap">output</th>
 					<td class="nowrap center">string</td>
 					<td>
-						데이터 출력방식을 정합니다.<br/>
+						데이터 출력방식을 정합니다. 값이 없으면 'html'로 출력됩니다.<br/>
 						값 : json|xml|html
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<table class="ui-table">
-			<caption>"&act=index" 값으로 정할때 필요한 파라메터</caption>
+			<caption>"&act=index" 값으로 정할때 테이블에 따라 사용되는 파라메터</caption>
+			<thead>
+				<tr>
+					<th scope="col" width="12%">테이블</th>
+					<th scope="col" width="12%">키</th>
+					<th scope="col" width="12%">타입</th>
+					<th scope="col">설명</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th class="nowrap" rowspan="5">articles</th>
+					<td class="nowrap center">srl</td>
+					<td class="nowrap center">number</td>
+					<td>article 고유번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">group_srl</td>
+					<td class="nowrap center">number</td>
+					<td>둥지 그룹번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">nest_srl</td>
+					<td class="nowrap center">number</td>
+					<td>둥지 고유번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">category_srl</td>
+					<td class="nowrap center">number</td>
+					<td>분류 고유번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">thumnail_srl</td>
+					<td class="nowrap center">number</td>
+					<td>썸네일 이미지가 되는 files 테이블 srl값</td>
+				</tr>
+
+				<tr>
+					<th class="nowrap" rowspan="2">categories</th>
+					<td class="nowrap center">srl</td>
+					<td class="nowrap center">number</td>
+					<td>분류 고유번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">nest_srl</td>
+					<td class="nowrap center">number</td>
+					<td>둥지 고유번호</td>
+				</tr>
+
+				<tr>
+					<th class="nowrap" rowspan="2">files</th>
+					<td class="nowrap center">srl</td>
+					<td class="nowrap center">number</td>
+					<td>첨부파일 고유번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">article_srl</td>
+					<td class="nowrap center">number</td>
+					<td>article 고유번호</td>
+				</tr>
+
+				<tr>
+					<th class="nowrap">nestGroups</th>
+					<td class="nowrap center">srl</td>
+					<td class="nowrap center">number</td>
+					<td>둥지그룹 고유번호</td>
+				</tr>
+
+				<tr>
+					<th class="nowrap" rowspan="3">nests</th>
+					<td class="nowrap center">srl</td>
+					<td class="nowrap center">number</td>
+					<td>둥지 고유번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">group_srl</td>
+					<td class="nowrap center">number</td>
+					<td>둥지 그룹번호</td>
+				</tr>
+				<tr>
+					<td class="nowrap center">id</td>
+					<td class="nowrap center">string</td>
+					<td>둥지 ID값</td>
+				</tr>
+
+				<tr>
+					<th class="nowrap">jsons</th>
+					<td class="nowrap center">srl</td>
+					<td class="nowrap center">number</td>
+					<td>jsons 고유번호</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="ui-table">
+			<caption>"&act=index" 값으로 정할때 테이블 구분없이 공통으로 사용되는 파라메터</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">키</th>
@@ -89,29 +183,6 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th class="nowrap">field</th>
-					<td class="nowrap center">string</td>
-					<td>
-						출력할 테이블 필드를 지정합니다.<br/>
-						예) srl, title
-					</td>
-				</tr>
-				<tr>
-					<th class="nowrap">mod</th>
-					<td class="nowrap center">number</td>
-					<td>nest ID</td>
-				</tr>
-				<tr>
-					<th class="nowrap">group</th>
-					<td class="nowrap center">number</td>
-					<td>group 번호</td>
-				</tr>
-				<tr>
-					<th class="nowrap">category</th>
-					<td class="nowrap center">number</td>
-					<td>category 번호</td>
-				</tr>
 				<tr>
 					<th class="nowrap">order</th>
 					<td class="nowrap center">string</td>
@@ -136,14 +207,17 @@
 					<td>페이지 번호</td>
 				</tr>
 				<tr>
-					<th class="nowrap">searchField</th>
+					<th class="nowrap">search_key</th>
 					<td class="nowrap center">string</td>
 					<td>키워드 검색 필드</td>
 				</tr>
 				<tr>
-					<th class="nowrap">searchKeyword</th>
-					<td class="nowrap center">string<br/>number</td>
-					<td>키워드 검색 값</td>
+					<th class="nowrap">search_value</th>
+					<td class="nowrap center">string</td>
+					<td>
+						키워드 검색 값. 키워드 검색필드값과 같이 필요합니다.
+						<pre style="margin:3px 0 0">search_key like '%search_value%'</pre>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -158,14 +232,35 @@
 			</thead>
 			<tbody>
 				<tr>
+					<th class="nowrap">field</th>
+					<td class="nowrap center">string</td>
+					<td>
+						출력할 테이블 필드를 지정합니다.<br/>
+						예) srl,title,regdate
+					</td>
+				</tr>
+				<tr>
 					<th class="nowrap">key</th>
 					<td class="nowrap center">string</td>
-					<td>table field</td>
+					<td>필드이름</td>
 				</tr>
 				<tr>
 					<th class="nowrap">value</th>
 					<td class="nowrap center">string<br/>number</td>
-					<td>value</td>
+					<td>key값에 대한 값. <em>(key=value)</em></td>
+				</tr>
+				<tr>
+					<th class="nowrap">search_key</th>
+					<td class="nowrap center">string</td>
+					<td>키워드 검색 필드</td>
+				</tr>
+				<tr>
+					<th class="nowrap">search_value</th>
+					<td class="nowrap center">string</td>
+					<td>
+						키워드 검색 값. 키워드 검색필드값과 같이 필요합니다.
+						<pre style="margin:3px 0 0">search_key like '%search_value%'</pre>
+					</td>
 				</tr>
 			</tbody>
 		</table>

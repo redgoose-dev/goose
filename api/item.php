@@ -37,12 +37,12 @@ switch($q['act'])
 
 			,'where' => array(
 				'srl' => $_GET['srl']
-				,'id' => $_GET['nest_id']
+				,'id' => $_GET['id']
 				,'group_srl' => $_GET['group_srl']
 				,'nest_srl' => $_GET['nest_srl']
+				,'article_srl' => $_GET['article_srl']
 				,'category_srl' => $_GET['category_srl']
 				,'thumnail_srl' => $_GET['thumnail_srl']
-				,'article_srl' => $_GET['article_srl']
 				,'key_srl' => $_GET['key_srl']
 			)
 			,'search_key' => $_GET['search_key']
