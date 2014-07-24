@@ -66,7 +66,7 @@
 		<p>
 			이 프로그램은 mysql 데이터베이스를 사용하고 있습니다.<br/>
 			db 테이블 이름은 설치할 때 지정하는 prefix 문자와 합쳐진 형태입니다. 예) "GOOSE_" + "nests"<br/>
-			db 테이블 이름변경이 생길 수 있기 때문에 이름 관리를 /goose/config/variable.php 파일의 $tablesName변수에서 관리하고 있습니다.<br/>
+			db 테이블 이름변경이 생길 수 있기 때문에 이름 관리를 /{goose}/data/config/user.php 파일의 $tablesName변수에서 관리하고 있습니다.<br/>
 			api를 활용하기 위하여 꼭 참고해야하는 부분입니다.<br/>
 			<br/>
 			Goose 프로그램의 db 테이블의 자세한 설명은 다음과 같습니다.
@@ -506,6 +506,13 @@ $result = $spawn->getQuery(array(
 ));
 // $result : select * from TABLE_NAME
 </pre>
+						</td>
+					</tr>
+					<tr>
+						<th>action</th>
+						<td>
+							순수 sql쿼리문으로 실행합니다.
+							<pre style="margin-bottom:0">$result = $spawn->action('select * from nests');</pre>
 						</td>
 					</tr>
 					<tr>
