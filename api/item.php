@@ -53,9 +53,11 @@ switch($q['act'])
 	case "single":
 		$data = $api->getSingleItem(array(
 			'table' => $_GET['table']
+			,'field' => $_GET['field']
 			,'key' => $_GET['key']
 			,'value' => $_GET['value']
-			,'where' => $_GET['where']
+			,'search_key' => $_GET['search_key']
+			,'search_value' => $_GET['search_value']
 		));
 		break;
 

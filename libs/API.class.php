@@ -143,21 +143,31 @@ class API {
 			return $this->result;
 		}
 
-		if (!$params['key'])
-		{
-			$this->result['error'] = "\"key\" parameter does not exist.";
-			return $this->result;
-		}
+		$params['field'] = ($params['field']) ? $params['field'] : "*";
 
-		if (!$params['value'])
+		$where = '';
+		if ($params['key'] && $params['value'])
 		{
-			$this->result['error'] = "\"value\" parameter does not exist.";
+			$where .= $params['key'].'='.$params['value'].' and ';
+		}
+		if ($params['search_key'] && $params['search_value'])
+		{
+			$where .= "$params[search_key] like '%$params[search_value]%'";
+		}
+		if ($where)
+		{
+			$where = preg_replace("/^ and | and $/", "", $where);
+		}
+		else
+		{
+			$this->result['error'] = "It is not possible to search.";
 			return $this->result;
 		}
 
 		$this->result = $this->spawn->getItem(array(
-			'table' => $this->tablesName[$params['table']],
-			'where' => $params['key'].'='.$params['value']
+			'table' => $this->tablesName[$params['table']]
+			,'field' => $params['field']
+			,'where' => $where
 		));
 
 		return $this->result;
