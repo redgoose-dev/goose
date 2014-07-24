@@ -11,10 +11,10 @@ class API {
 	// init
 	public function API($opt)
 	{
-		$this->util = $opt[util];
-		$this->spawn = $opt[spawn];
-		$this->tablesName = $opt[tablesName];
-		$this->apikey = $opt[apikey];
+		$this->util = $opt['util'];
+		$this->spawn = $opt['spawn'];
+		$this->tablesName = $opt['tablesName'];
+		$this->apikey = $opt['apikey'];
 	}
 
 	// api key auth
@@ -89,25 +89,25 @@ class API {
 		$error = $this->checkTableName($params);
 		if ($error)
 		{
-			$this->result[error] = $error;
+			$this->result['error'] = $error;
 			return $this->result;
 		}
 
-		if (!$params[key])
+		if (!$params['key'])
 		{
-			$this->result[error] = "\"key\" parameter does not exist.";
+			$this->result['error'] = "\"key\" parameter does not exist.";
 			return $this->result;
 		}
 
-		if (!$params[value])
+		if (!$params['value'])
 		{
-			$this->result[error] = "\"value\" parameter does not exist.";
+			$this->result['error'] = "\"value\" parameter does not exist.";
 			return $this->result;
 		}
 
 		$this->result = $this->spawn->getItem(array(
-			table => $this->tablesName[$params[table]],
-			where => $params[key].'='.$params[value]
+			'table' => $this->tablesName[$params['table']],
+			'where' => $params['key'].'='.$params['value']
 		));
 
 		return $this->result;
@@ -144,11 +144,11 @@ class API {
 	// check table name
 	private function checkTableName($params)
 	{
-		if (!$params[table])
+		if (!$params['table'])
 		{
 			return "\"table\" value does not exist.";
 		}
-		if (!$this->tablesName[$params[table]])
+		if (!$this->tablesName[$params['table']])
 		{
 			return "\"table\" match error";
 		}
