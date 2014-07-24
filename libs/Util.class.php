@@ -264,6 +264,28 @@ class Util {
 		return null;
 	}
 
+	/*
+	 * 랜덤 문자열이나 숫자 만들기
+	 * 
+	 * @Param {Number} $length : 문자길이
+	 * @Param {String} $type : 출력타입(text, number, special). 값이 없으면 모든타입 출력
+	 * @return {String}
+	 */
+	public function generateRandomString($length, $type=null)
+	{
+		$str = '';
+		$str .= ($type != 'text' && $type != 'special') ? '0123456789' : '';
+		$str .= ($type != 'number' && $type != 'special') ? 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' : '';
+		$str .= ($type != 'text' && $type != 'number') ? '-=~!@#$%^&*_+,./<>?;:|' : '';
+		$result = '';
+		$n = $length;
+		while ($n--)
+		{
+			$result .= $str[mt_rand(0, strlen($str))]; 
+		}
+		return $result;
+	}
+
 	/**
 	 * Create user file value
 	 * 
