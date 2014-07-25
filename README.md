@@ -15,6 +15,11 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
 * MYSQL 5.5
 
 
+Demo
+=====
+[http://redgoose.me/goose/demo](http://redgoose.me/goose/demo)
+
+
 설치
 =====
 ##AMP(Apache, MySQL, PHP) 설치
