@@ -9,15 +9,16 @@ if (!$json_srl)
 }
 
 $json = $spawn->getItem(array(
-	table => $tablesName[jsons],
-	where => 'srl='.$json_srl
+	'table' => $tablesName['jsons']
+	,'where' => 'srl='.$json_srl
 ));
+$json['json'] = urlencode($json['json']);
 ?>
 
 <section>
 	<div class="hgroup">
-		<h1><?=$json[srl]?>. <?=$json[name]?></h1>
-		<p><?=$util->convertDate($json[regdate]).'&nbsp;'.$util->convertTime($json[regdate])?></p>
+		<h1><?=$json['srl']?>. <?=$json['name']?></h1>
+		<p><?=$util->convertDate($json['regdate']).'&nbsp;'.$util->convertTime($json['regdate'])?></p>
 	</div>
 
 	<!-- body -->
@@ -29,8 +30,8 @@ $json = $spawn->getItem(array(
 	<!-- bottom navigation -->
 	<nav class="btngroup">
 		<span><a href="<?=ROOT?>/json/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=ROOT?>/json/modify/<?=$json[srl]?>/" class="ui-button btn-highlight">수정</a></span>
-		<span><a href="<?=ROOT?>/json/delete/<?=$json[srl]?>/" class="ui-button">삭제</a></span>
+		<span><a href="<?=ROOT?>/json/modify/<?=$json['srl']?>/" class="ui-button btn-highlight">수정</a></span>
+		<span><a href="<?=ROOT?>/json/delete/<?=$json['srl']?>/" class="ui-button">삭제</a></span>
 	</nav>
 </section>
 
@@ -39,7 +40,10 @@ $json = $spawn->getItem(array(
 <script type="text/javascript" src="<?=ROOT?>/libs/ext/snippet/jquery.snippet.min.js"></script>
 <script>
 $(function(){
-	$('#jsonData').html(JSON.stringify(JSON.parse('<?=$json[json]?>'), null, 5));
+	var json = '<?=$json['json']?>';
+	json = (json) ? JSON.parse(decodeURIComponent(json)) : '';
+
+	$('#jsonData').html(JSON.stringify(json, null, 5));
 	$('pre.js').snippet('javascript', {style:'bright', menu:true, showNum:true});
 });
 </script>
