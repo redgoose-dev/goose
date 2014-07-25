@@ -300,7 +300,7 @@ class Util {
 		$str = "<?php\n";
 		$str .= "if(!defined(\"GOOSE\")){exit();}\n";
 		$str .= "\n";
-		$str .= "define('ROOT', '".$post['root']."');\n";
+		$str .= "define('GOOSE_ROOT', '".$post['root']."');\n";
 		$str .= "define('URL', '".$post['url']."');\n";
 		$str .= "\n";
 		$str .= "\$dbConfig = array('mysql:dbname=".$post['dbName'].";host=".$post['dbHost']."', '".$post['dbId']."', '".$post['dbPassword']."');\n";

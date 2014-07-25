@@ -33,7 +33,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
 		break;
 
 
@@ -60,7 +60,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
 		break;
 
 
@@ -103,7 +103,7 @@ switch($paramAction)
 			$n++;
 		}
 
-		$util->redirect(ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
 		break;
 
 
@@ -121,7 +121,7 @@ switch($paramAction)
 				));
 			}
 
-			$util->redirect(ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
+			$util->redirect(GOOSE_ROOT.'/extrakey/index/'.$_POST['nest_srl'].'/');
 		}
 		break;
 }

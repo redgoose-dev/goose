@@ -85,7 +85,7 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>
 
-	<form name="writeForm" action="<?=ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data">
+	<form name="writeForm" action="<?=GOOSE_ROOT?>/article/<?=$paramAction?>/" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="group_srl" value="<?=$nest['group_srl']?>" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />

@@ -27,7 +27,7 @@ switch($paramAction)
 		));
 
 		// go to index
-		$util->redirect(ROOT.'/json/index/');
+		$util->redirect(GOOSE_ROOT.'/json/index/');
 		break;
 
 	// modify
@@ -50,7 +50,7 @@ switch($paramAction)
 			)
 			,'debug' => false
 		));
-		$util->redirect(ROOT.'/json/view/'.$_POST['srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/json/view/'.$_POST['srl'].'/');
 		break;
 
 	// delete
@@ -67,7 +67,7 @@ switch($paramAction)
 			'table' => $tablesName['jsons'],
 			'where' => 'srl='.(int)$_POST['srl']
 		));
-		$util->redirect(ROOT.'/json/index/');
+		$util->redirect(GOOSE_ROOT.'/json/index/');
 		break;
 }
 ?>

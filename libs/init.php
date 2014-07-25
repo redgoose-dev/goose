@@ -47,7 +47,7 @@ $router = new Router();
 $spawn = new Spawn($dbConfig);
 
 // route setting
-$router->setBasePath(ROOT);
+$router->setBasePath(GOOSE_ROOT);
 require_once(PWD.'/libs/route.maps.php');
 $route = $router->matchCurrentRequest();
 

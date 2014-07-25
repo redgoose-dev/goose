@@ -29,7 +29,7 @@ switch($paramAction)
 				'regdate' => $regdate
 			)
 		));
-		$util->redirect(ROOT.'/category/index/'.$_POST['nest_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/category/index/'.$_POST['nest_srl'].'/');
 		break;
 
 
@@ -48,7 +48,7 @@ switch($paramAction)
 			'where' => 'srl='.$_POST['category_srl'],
 			'data' => array("name='$_POST[name]'")
 		));
-		$util->redirect(ROOT.'/category/index/'.$_POST['nest_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/category/index/'.$_POST['nest_srl'].'/');
 		break;
 
 
@@ -80,7 +80,7 @@ switch($paramAction)
 			));
 			$n++;
 		}
-		$util->redirect(ROOT.'/category/index/'.$_POST['nest_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/category/index/'.$_POST['nest_srl'].'/');
 		break;
 
 
@@ -103,7 +103,7 @@ switch($paramAction)
 				'data' => array('turn='.$i)
 			));
 		}
-		$util->redirect(ROOT.'/category/index/'.$_POST['nest_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/category/index/'.$_POST['nest_srl'].'/');
 		break;
 }
 ?>

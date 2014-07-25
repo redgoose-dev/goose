@@ -24,7 +24,7 @@ else
 	<div class="hgroup">
 		<h1><?=$nest[name]?> 분류목록</h1>
 	</div>
-	<form action="<?=ROOT?>/category/sort/" method="post" name="listForm" id="listForm" class="hidden">
+	<form action="<?=GOOSE_ROOT?>/category/sort/" method="post" name="listForm" id="listForm" class="hidden">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
@@ -51,8 +51,8 @@ else
 							<div class="body">
 								<strong><?=$v[name]?>(<?=$count?>)</strong>
 								<nav>
-									<a href="<?=ROOT?>/category/modify/<?=$nest_srl?>/<?=$v[srl]?>/">수정</a>
-									<a href="<?=ROOT?>/category/delete/<?=$nest_srl?>/<?=$v[srl]?>/">삭제</a>
+									<a href="<?=GOOSE_ROOT?>/category/modify/<?=$nest_srl?>/<?=$v[srl]?>/">수정</a>
+									<a href="<?=GOOSE_ROOT?>/category/delete/<?=$nest_srl?>/<?=$v[srl]?>/">삭제</a>
 								</nav>
 							</div>
 						</li>
@@ -69,11 +69,11 @@ else
 			</ul>
 		</fieldset>
 		<nav class="btngroup">
-			<span><a href="<?=ROOT?>/category/create/<?=$nest_srl?>/" class="ui-button btn-highlight">분류추가</a></span>
+			<span><a href="<?=GOOSE_ROOT?>/category/create/<?=$nest_srl?>/" class="ui-button btn-highlight">분류추가</a></span>
 			<span><a href="javascript:;" onclick="onSubmit(document.listForm)" class="ui-button">순서변경</a></span>
-			<span><a href="<?=ROOT?>/article/index/<?=$nest_srl?>/" class="ui-button">문서목록</a></span>
+			<span><a href="<?=GOOSE_ROOT?>/article/index/<?=$nest_srl?>/" class="ui-button">문서목록</a></span>
 			<?
-			$url = ROOT.'/nest/index/';
+			$url = GOOSE_ROOT.'/nest/index/';
 			$url .= ($nest[group_srl]) ? $nest[group_srl].'/' : '';
 			?>
 			<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
@@ -82,7 +82,7 @@ else
 </section>
 
 <script src="<?=$jQueryAddress?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?=ROOT?>/libs/ext/dragsort/jquery.dragsort-0.5.1.min.js"></script>
+<script type="text/javascript" src="<?=GOOSE_ROOT?>/libs/ext/dragsort/jquery.dragsort-0.5.1.min.js"></script>
 <script type="text/javascript">
 jQuery(function($){
 	var objs = new Object();

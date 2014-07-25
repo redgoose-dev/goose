@@ -30,7 +30,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 	<div class="hgroup">
 		<h1>둥지<?=$titleType?></h1>
 	</div>
-	<form action="<?=ROOT?>/nest/<?=$paramAction?>/" method="post" id="regsterForm">
+	<form action="<?=GOOSE_ROOT?>/nest/<?=$paramAction?>/" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<?
 		if ($paramAction == "delete")
@@ -183,8 +183,8 @@ if ($paramAction != "delete")
 {
 ?>
 	<script src="<?=$jQueryAddress?>"></script>
-	<script src="<?=ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
-	<script src="<?=ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
 	<script>
 	jQuery(function($){
 		$.validator.addMethod("alphanumeric", function(value, element) {

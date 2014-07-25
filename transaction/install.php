@@ -288,6 +288,6 @@ else
 */
 if (!$error)
 {
-	$util->redirect(ROOT."/", "Complete install");
+	$util->redirect(GOOSE_ROOT."/", "Complete install");
 }
 ?>

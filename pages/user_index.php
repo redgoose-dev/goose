@@ -11,7 +11,7 @@ $users = $spawn->getItems(array(
 
 <section>
 	<div class="hgroup">
-		<h1><a href="<?=ROOT?>/user/index/">사용자 목록</a></h1>
+		<h1><a href="<?=GOOSE_ROOT?>/user/index/">사용자 목록</a></h1>
 	</div>
 
 	<?
@@ -34,8 +34,8 @@ $users = $spawn->getItems(array(
 							<span>권한:<?=$level?></span>
 						</div>
 						<nav>
-							<a href="<?=ROOT?>/user/modify/<?=$v['srl']?>/">수정</a>
-							<a href="<?=ROOT?>/user/delete/<?=$v['srl']?>/">삭제</a>
+							<a href="<?=GOOSE_ROOT?>/user/modify/<?=$v['srl']?>/">수정</a>
+							<a href="<?=GOOSE_ROOT?>/user/delete/<?=$v['srl']?>/">삭제</a>
 						</nav>
 					</div>
 				</li>
@@ -48,7 +48,7 @@ $users = $spawn->getItems(array(
 	}
 	?>
 	<nav class="btngroup">
-		<span><a href="<?=ROOT?>/user/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=ROOT?>/user/create/" class="ui-button btn-highlight">사용자 등록</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/user/index/" class="ui-button">목록</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/user/create/" class="ui-button btn-highlight">사용자 등록</a></span>
 	</nav>
 </section>

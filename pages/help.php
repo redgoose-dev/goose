@@ -56,7 +56,7 @@
 			</li>
 			<li>
 				<strong>API</strong><br/>
-				goose 프로그램은 외부 프로그램을 위한 api를 제공합니다. 자세한 내용은 <a href="<?=ROOT?>/api/">Goose API 안내</a>에서 참고하세요.
+				goose 프로그램은 외부 프로그램을 위한 api를 제공합니다. 자세한 내용은 <a href="<?=GOOSE_ROOT?>/api/">Goose API 안내</a>에서 참고하세요.
 			</li>
 		</ul>
 	</section>

@@ -47,7 +47,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/user/index/');
+		$util->redirect(GOOSE_ROOT.'/user/index/');
 		break;
 
 	case 'modify':
@@ -79,7 +79,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/user/index/');
+		$util->redirect(GOOSE_ROOT.'/user/index/');
 		break;
 
 	case 'delete':
@@ -88,7 +88,7 @@ switch($paramAction)
 			'where' => 'srl='.$_POST['user_srl']
 		));
 
-		$util->redirect(ROOT.'/user/index/');
+		$util->redirect(GOOSE_ROOT.'/user/index/');
 		break;
 }
 ?>
