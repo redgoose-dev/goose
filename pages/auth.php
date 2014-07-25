@@ -1,5 +1,8 @@
 <?php
 if(!defined("GOOSE")){exit();}
+
+$userEmail = (isset($userEmail)) ? $userEmail : '';
+$userPassword = (isset($userPassword)) ? $userPassword : '';
 ?>
 
 <section class="auth">
@@ -12,11 +15,11 @@ if(!defined("GOOSE")){exit();}
 			<legend class="blind">로그인 인증</legend>
 			<label>
 				<span>- 이메일주소</span>
-				<input type="email" name="email" maxlength="40" placeholder="이메일 주소" class="block" />
+				<input type="email" name="email" maxlength="40" placeholder="이메일 주소" class="block" value="<?=$userEmail?>" />
 			</label>
 			<label>
 				<span>- 비밀번호</span>
-				<input type="password" name="password" maxlength="20" placeholder="비밀번호 입력" class="block"/>
+				<input type="password" name="password" maxlength="20" placeholder="비밀번호 입력" class="block" value="<?=$userPassword?>" />
 			</label>
 		</fieldset>
 		<div class="btngroup">
