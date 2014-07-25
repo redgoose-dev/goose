@@ -2,7 +2,6 @@
 if(!defined("GOOSE")){exit();}
 
 $article = null;
-$article_srl = null;
 $_GET['page'] = (isset($_GET['page'])) ? $_GET['page'] : null;
 
 if ($paramAction == 'create')

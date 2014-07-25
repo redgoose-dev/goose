@@ -1,5 +1,6 @@
 <?
 $root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
+$apikeyPrefix = '__' . $util->generateRandomString(15) . '__';
 ?>
 
 <!doctype html>
@@ -68,7 +69,7 @@ $root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
 			<legend>API</legend>
 			<label class="first">
 				<strong>API KEY prefix</strong>
-				<span><input type="text" name="apiPrefix" id="apiPrefix" size="28" maxlength="20" value="__@_goOsE_*__" /></span>
+				<span><input type="text" name="apiPrefix" id="apiPrefix" size="28" maxlength="20" value="<?=$apikeyPrefix?>" /></span>
 			</label>
 		</fieldset>
 		<nav>
