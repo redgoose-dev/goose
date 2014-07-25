@@ -18,13 +18,13 @@ $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 ?>
 
-<link rel="stylesheet" type="text/css" href="<?=ROOT?>/libs/ext/JSONEditor/JSONEditor.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/JSONEditor.css" media="screen" />
 
 <section class="form JSONPost">
 	<div class="hgroup">
 		<h1>JSON <?=$titleType?></h1>
 	</div>
-	<form action="<?=ROOT?>/json/<?=$paramAction?>/" method="post" name="post" id="regsterForm">
+	<form action="<?=GOOSE_ROOT?>/json/<?=$paramAction?>/" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="srl" value="<?=$json['srl']?>" />
 		<?
 		if ($paramAction == "delete")
@@ -68,10 +68,10 @@ if ($paramAction != "delete")
 {
 ?>
 	<script src="<?=$jQueryAddress?>"></script>
-	<script src="<?=ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
-	<script src="<?=ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
-	<script src="<?=ROOT?>/libs/ext/JSONEditor/jquery-sortable.js"></script>
-	<script src="<?=ROOT?>/libs/ext/JSONEditor/JSONEditor.class.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/jquery-sortable.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/JSONEditor.class.js"></script>
 	<script>
 	jQuery(function($){
 

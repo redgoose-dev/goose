@@ -23,7 +23,7 @@ switch($paramAction)
 				'regdate' => $regdate
 			)
 		));
-		$util->redirect(ROOT.'/group/index/');
+		$util->redirect(GOOSE_ROOT.'/group/index/');
 		break;
 
 
@@ -42,7 +42,7 @@ switch($paramAction)
 			'where' => 'srl='.$_POST['group_srl'],
 			'data' => array("name='$_POST[name]'")
 		));
-		$util->redirect(ROOT.'/group/index/');
+		$util->redirect(GOOSE_ROOT.'/group/index/');
 		break;
 
 
@@ -57,7 +57,7 @@ switch($paramAction)
 			'where' => 'group_srl='.$_POST['group_srl'],
 			'data' => array("group_srl=NULL")
 		));
-		$util->redirect(ROOT.'/group/index/');
+		$util->redirect(GOOSE_ROOT.'/group/index/');
 		break;
 }
 ?>

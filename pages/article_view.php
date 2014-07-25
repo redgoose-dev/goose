@@ -114,11 +114,11 @@ if ($article['category_srl'])
 		<?
 		if ($_GET['m'])
 		{
-			$url = ROOT.'/';
+			$url = GOOSE_ROOT.'/';
 		}
 		else
 		{
-			$url = ROOT.'/article/index/';
+			$url = GOOSE_ROOT.'/article/index/';
 			$url .= ($article['nest_srl']) ? $article['nest_srl'].'/' : '';
 			$url .= ($article['category_srl']) ? $article['category_srl'].'/' : '';
 			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
@@ -126,21 +126,21 @@ if ($article['category_srl'])
 		?>
 		<span><a href="<?=$url?>" class="ui-button">목록</a></span>
 		<?
-		$url = ROOT.'/article/create/';
+		$url = GOOSE_ROOT.'/article/create/';
 		$url .= ($nest['srl']) ? $nest['srl'].'/' : '';
 		$url .= ($article['category_srl']) ? $article['category_srl'].'/' : '';
 		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
 		<span><a href="<?=$url?>" class="ui-button">글쓰기</a></span>
 		<?
-		$url = ROOT.'/article/modify/';
+		$url = GOOSE_ROOT.'/article/modify/';
 		$url .= ($article_srl) ? $article_srl.'/' : '';
 		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
 		<span><a href="<?=$url?>" class="ui-button btn-highlight">수정</a></span>
 		<?
-		$url = ROOT.'/article/delete/';
+		$url = GOOSE_ROOT.'/article/delete/';
 		$url .= ($article_srl) ? $article_srl.'/' : '';
 		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';

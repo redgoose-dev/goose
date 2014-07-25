@@ -6,7 +6,7 @@ if(!defined("GOOSE")){exit();}
 	<div class="hgroup">
 		<h1>관리자 인증</h1>
 	</div>
-	<form action="<?=ROOT?>/auth/login/" method="post">
+	<form action="<?=GOOSE_ROOT?>/auth/login/" method="post">
 		<input type="hidden" name="redir" value="<?=$_SERVER['REQUEST_URI']?>"/>
 		<fieldset>
 			<legend class="blind">로그인 인증</legend>

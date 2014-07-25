@@ -157,7 +157,7 @@ switch($paramAction)
 		}
 
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
-		$util->redirect(ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
+		$util->redirect(GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
 		break;
 
 	// modify
@@ -293,7 +293,7 @@ switch($paramAction)
 		}
 
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
-		$util->redirect(ROOT.'/article/view/'.$_POST['article_srl'].'/'.(($params) ? '?'.$params : ''));
+		$util->redirect(GOOSE_ROOT.'/article/view/'.$_POST['article_srl'].'/'.(($params) ? '?'.$params : ''));
 		break;
 
 	// delete
@@ -344,7 +344,7 @@ switch($paramAction)
 		$addUrl = ($_POST['nest_srl']) ? $_POST['nest_srl'].'/' : '';
 		$addUrl .= ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
-		$util->redirect(ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
+		$util->redirect(GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
 
 		$util->redirect($url);
 		break;

@@ -29,15 +29,15 @@ $json['json'] = urlencode($json['json']);
 
 	<!-- bottom navigation -->
 	<nav class="btngroup">
-		<span><a href="<?=ROOT?>/json/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=ROOT?>/json/modify/<?=$json['srl']?>/" class="ui-button btn-highlight">수정</a></span>
-		<span><a href="<?=ROOT?>/json/delete/<?=$json['srl']?>/" class="ui-button">삭제</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/json/index/" class="ui-button">목록</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/json/modify/<?=$json['srl']?>/" class="ui-button btn-highlight">수정</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/json/delete/<?=$json['srl']?>/" class="ui-button">삭제</a></span>
 	</nav>
 </section>
 
-<link type="text/css" rel="stylesheet" href="<?=ROOT?>/libs/ext/snippet/jquery.snippet.min.css"/>
+<link type="text/css" rel="stylesheet" href="<?=GOOSE_ROOT?>/libs/ext/snippet/jquery.snippet.min.css"/>
 <script type="text/javascript" src="<?=$jQueryAddress?>"></script>
-<script type="text/javascript" src="<?=ROOT?>/libs/ext/snippet/jquery.snippet.min.js"></script>
+<script type="text/javascript" src="<?=GOOSE_ROOT?>/libs/ext/snippet/jquery.snippet.min.js"></script>
 <script>
 $(function(){
 	var json = '<?=$json['json']?>';

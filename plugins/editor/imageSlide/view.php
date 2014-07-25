@@ -1,5 +1,5 @@
 <?
-$path = ROOT.'/plugins/editor/'.$nest['editor'];
+$path = GOOSE_ROOT.'/plugins/editor/'.$nest['editor'];
 
 $article['content'] = urldecode($article['content']);
 $article['content'] = json_decode($article['content']);
@@ -15,7 +15,7 @@ $article['content'] = json_decode($article['content']);
 		?>
 			<li>
 				<div class="wrap">
-					<figure><img src="<?=ROOT?>/data/original/<?=$v->location?>" alt="" /></figure>
+					<figure><img src="<?=GOOSE_ROOT?>/data/original/<?=$v->location?>" alt="" /></figure>
 					<div class="body">
 						<h3><?=$v->filename?></h3>
 						<?

@@ -27,7 +27,7 @@ $titleType = getActionType($paramAction);
 	<div class="hgroup">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>
-	<form name="writeForm" action="<?=ROOT?>/article/delete/" method="post">
+	<form name="writeForm" action="<?=GOOSE_ROOT?>/article/delete/" method="post">
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
 		<input type="hidden" name="nest_srl" value="<?=$article[nest_srl]?>" />
 		<input type="hidden" name="category_srl" value="<?=$article[category_srl]?>" />

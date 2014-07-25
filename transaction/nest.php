@@ -50,7 +50,7 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(ROOT.'/nest/index/');
+		$util->redirect(GOOSE_ROOT.'/nest/index/');
 		break;
 
 
@@ -86,7 +86,7 @@ switch($paramAction)
 				"editor='$_POST[editor]'"
 			)
 		));
-		$util->redirect(ROOT.'/nest/index/'.$_POST['group_srl'].'/');
+		$util->redirect(GOOSE_ROOT.'/nest/index/'.$_POST['group_srl'].'/');
 		break;
 
 
@@ -160,6 +160,6 @@ switch($paramAction)
 			'where' => 'srl='.(int)$_POST['nest_srl']
 		));
 
-		$util->redirect(ROOT.'/nest/index/');
+		$util->redirect(GOOSE_ROOT.'/nest/index/');
 		break;
 }

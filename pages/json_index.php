@@ -11,7 +11,7 @@ $jsonIndex = $spawn->getItems(array(
 
 <section>
 	<div class="hgroup">
-		<h1><a href="<?=ROOT?>/json/index/">JSON index</a></h1>
+		<h1><a href="<?=GOOSE_ROOT?>/json/index/">JSON index</a></h1>
 	</div>
 
 	<!-- json index -->
@@ -24,15 +24,15 @@ $jsonIndex = $spawn->getItems(array(
 			?>
 				<li>
 					<div class="body">
-						<a href="<?=ROOT?>/json/view/<?=$v[srl]?>/">
+						<a href="<?=GOOSE_ROOT?>/json/view/<?=$v[srl]?>/">
 							<strong><?=$v[srl]?>. <?=$v[name]?></strong>
 						</a>
 						<div class="inf">
 							<span>등록일 : <?=$util->convertDate($v[regdate])?></span>
 						</div>
 						<nav>
-							<a href="<?=ROOT?>/json/modify/<?=$v[srl]?>/">수정</a>
-							<a href="<?=ROOT?>/json/delete/<?=$v[srl]?>/">삭제</a>
+							<a href="<?=GOOSE_ROOT?>/json/modify/<?=$v[srl]?>/">수정</a>
+							<a href="<?=GOOSE_ROOT?>/json/delete/<?=$v[srl]?>/">삭제</a>
 						</nav>
 					</div>
 				</li>
@@ -50,7 +50,7 @@ $jsonIndex = $spawn->getItems(array(
 	<!-- json index -->
 
 	<nav class="btngroup">
-		<span><a href="<?=ROOT?>/json/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=ROOT?>/json/create/" class="ui-button btn-highlight">JSON만들기</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/json/index/" class="ui-button">목록</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/json/create/" class="ui-button btn-highlight">JSON만들기</a></span>
 	</nav>
 </section>

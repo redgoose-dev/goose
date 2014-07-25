@@ -9,12 +9,19 @@ $_SESSION['gooseEmail'] = isset($_SESSION['gooseEmail']) ? $_SESSION['gooseEmail
 $_SESSION['gooseName'] = isset($_SESSION['gooseName']) ? $_SESSION['gooseName'] : false;
 $_SESSION['gooseLevel'] = isset($_SESSION['gooseLevel']) ? $_SESSION['gooseLevel'] : false;
 
+// load variable
+require_once(PWD.'/libs/variable.php');
+
 // init Util class
 require_once(PWD.'/libs/Util.class.php');
 $util = new Util();
 
 // check install
-if (!file_exists(PWD."/data/config/user.php"))
+if (file_exists(PWD."/data/config/user.php"))
+{
+	require_once(PWD.'/data/config/user.php');
+}
+else
 {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
@@ -27,9 +34,7 @@ if (!file_exists(PWD."/data/config/user.php"))
 	$util->out();
 }
 
-
-require_once(PWD.'/data/config/user.php');
-require_once(PWD.'/libs/variable.php');
+// load library files
 require_once(PWD.'/libs/Database.class.php');
 require_once(PWD.'/libs/Spawn.class.php');
 require_once(PWD.'/libs/Router.class.php');
@@ -42,7 +47,7 @@ $router = new Router();
 $spawn = new Spawn($dbConfig);
 
 // route setting
-$router->setBasePath(ROOT);
+$router->setBasePath(GOOSE_ROOT);
 require_once(PWD.'/libs/route.maps.php');
 $route = $router->matchCurrentRequest();
 

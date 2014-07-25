@@ -57,7 +57,7 @@
 					<td class="nowrap center">string</td>
 					<td>
 						Database 테이블 이름입니다.<br/>
-						자세한 내용과 테이블 값을 확인하려면 <a href="<?=ROOT?>/help/#HelpDatabase" target="_blank">이곳</a>을 참고하시길 바랍니다.
+						자세한 내용과 테이블 값을 확인하려면 <a href="<?=GOOSE_ROOT?>/help/#HelpDatabase" target="_blank">이곳</a>을 참고하시길 바랍니다.
 					</td>
 				</tr>
 				<tr>

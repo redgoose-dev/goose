@@ -30,8 +30,8 @@ if ($paramAction == 'index')
 						<div class="body">
 							<strong><?=$v[srl]?> - <?=$v[name]?>(<?=$nestCount?>)</strong>
 							<nav>
-								<a href="<?=ROOT?>/group/modify/<?=$v[srl]?>/">수정</a>
-								<a href="<?=ROOT?>/group/delete/<?=$v[srl]?>/">삭제</a>
+								<a href="<?=GOOSE_ROOT?>/group/modify/<?=$v[srl]?>/">수정</a>
+								<a href="<?=GOOSE_ROOT?>/group/delete/<?=$v[srl]?>/">삭제</a>
 							</nav>
 						</div>
 					</li>
@@ -45,8 +45,8 @@ if ($paramAction == 'index')
 			?>
 		</ul>
 		<nav class="btngroup">
-			<span><a href="<?=ROOT?>/group/create/" class="ui-button btn-highlight">그룹추가</a></span>
-			<span><a href="<?=ROOT?>/nest/index/" class="ui-button">둥지목록</a></span>
+			<span><a href="<?=GOOSE_ROOT?>/group/create/" class="ui-button btn-highlight">그룹추가</a></span>
+			<span><a href="<?=GOOSE_ROOT?>/nest/index/" class="ui-button">둥지목록</a></span>
 		</nav>
 	</section>
 <?
@@ -64,7 +64,7 @@ else
 		<div class="hgroup">
 			<h1>둥지그룹 <?=$titleType?></h1>
 		</div>
-		<form action="<?=ROOT?>/group/<?=$paramAction?>/" method="post" id="regsterForm">
+		<form action="<?=GOOSE_ROOT?>/group/<?=$paramAction?>/" method="post" id="regsterForm">
 			<input type="hidden" name="group_srl" value="<?=$group_srl?>"/>
 			<?
 			if ($group_srl)
@@ -111,8 +111,8 @@ if ($paramAction != "delete")
 {
 ?>
 	<script src="<?=$jQueryAddress?>"></script>
-	<script src="<?=ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
-	<script src="<?=ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
 	<script>
 	jQuery(function($){
 		$('#regsterForm').validate({

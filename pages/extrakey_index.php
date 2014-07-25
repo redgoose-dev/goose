@@ -20,7 +20,7 @@ else
 	<div class="hgroup">
 		<h1><?=$tableName?> 확장변수 목록</h1>
 	</div>
-	<form action="<?=ROOT?>/extrakey/sort/" method="post" name="listForm" id="listForm">
+	<form action="<?=GOOSE_ROOT?>/extrakey/sort/" method="post" name="listForm" id="listForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
@@ -46,8 +46,8 @@ else
 								<?=($v[info]) ? "<p>설명 : $v[info]</p>" : ""?>
 							</div>
 							<nav>
-								<a href="<?=ROOT?>/extrakey/modify/<?=$v[nest_srl]?>/<?=$v[srl]?>/">수정</a>
-								<a href="<?=ROOT?>/extrakey/delete/<?=$v[nest_srl]?>/<?=$v[srl]?>/">삭제</a>
+								<a href="<?=GOOSE_ROOT?>/extrakey/modify/<?=$v[nest_srl]?>/<?=$v[srl]?>/">수정</a>
+								<a href="<?=GOOSE_ROOT?>/extrakey/delete/<?=$v[nest_srl]?>/<?=$v[srl]?>/">삭제</a>
 							</nav>
 						</div>
 					</li>
@@ -58,15 +58,15 @@ else
 			</ul>
 		</fieldset>
 		<div class="btngroup">
-			<span><a href="<?=ROOT?>/extrakey/create/<?=$nest_srl?>/" class="ui-button btn-highlight">확장변수추가</a></span>
+			<span><a href="<?=GOOSE_ROOT?>/extrakey/create/<?=$nest_srl?>/" class="ui-button btn-highlight">확장변수추가</a></span>
 			<span><a href="javascript:onSubmit(document.listForm);" class="ui-button">순서변경</a></span>
-			<span><a href="<?=ROOT?>/nest/index/<?=$nest[group_srl]?>/" class="ui-button">둥지목록</a></span>
+			<span><a href="<?=GOOSE_ROOT?>/nest/index/<?=$nest[group_srl]?>/" class="ui-button">둥지목록</a></span>
 		</div>
 	</form>
 </section>
 
 <script src="<?=$jQueryAddress?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?=ROOT?>/libs/ext/dragsort/jquery.dragsort-0.5.1.min.js"></script>
+<script type="text/javascript" src="<?=GOOSE_ROOT?>/libs/ext/dragsort/jquery.dragsort-0.5.1.min.js"></script>
 <script type="text/javascript">
 jQuery(function($){
 	var objs = new Object();

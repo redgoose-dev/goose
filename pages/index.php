@@ -38,8 +38,8 @@ $articlesIndex = $spawn->getItems(array(
 					));
 					$categoryName = ($categoryName) ? "<span>분류:$categoryName[name]</span>" : "";
 				}
-				$url = ROOT.'/article/view/'.$v['srl'].'/?m=1';
-				$img = ($v['thumnail_url']) ? "<dt><img src=\"".ROOT."/data/thumnail/$v[thumnail_url]\" alt=\"$v[title]\" /></dt>" : "";
+				$url = GOOSE_ROOT.'/article/view/'.$v['srl'].'/?m=1';
+				$img = ($v['thumnail_url']) ? "<dt><img src=\"".GOOSE_ROOT."/data/thumnail/$v[thumnail_url]\" alt=\"$v[title]\" /></dt>" : "";
 				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
 				echo "
 					<li>

@@ -16,7 +16,7 @@ $nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 
 <section>
 	<div class="hgroup">
-		<h1><a href="<?=ROOT?>/nest/index/">Nests</a></h1>
+		<h1><a href="<?=GOOSE_ROOT?>/nest/index/">Nests</a></h1>
 	</div>
 	<?
 	if ($nestGroupsCount)
@@ -38,7 +38,7 @@ $nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 						'where' => 'group_srl='.(int)$v[srl]
 					));
 					$active = ($group_srl == $v[srl]) ? " class='active'" : "";
-					$url = ROOT.'/nest/index/'.$v[srl].'/';
+					$url = GOOSE_ROOT.'/nest/index/'.$v[srl].'/';
 					echo "
 						<li $active>
 							<a href=\"$url\">$v[name]($nestCount)</a>
@@ -60,7 +60,7 @@ $nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 		{
 			foreach ($nestsIndex as $k=>$v)
 			{
-				$url = ROOT.'/article/index/'.$v['srl'].'/';
+				$url = GOOSE_ROOT.'/article/index/'.$v['srl'].'/';
 				$articleCount = $spawn->getCount(array(
 					'table' => $tablesName['articles'],
 					'where' => 'nest_srl='.(int)$v['srl']
@@ -76,8 +76,8 @@ $nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 					'where' => 'srl='.(int)$v['group_srl']
 				));
 				$groupName = ($groupName['name']) ? "<em>[".$groupName['name']."]</em>" : "";
-				$categoryBtn = ($v['useCategory'] == 1) ? '<a href="'.ROOT.'/category/index/'.$v['srl'].'/">분류설정</a>' : '';
-				$extraVarBtn = ($v['useExtraVar'] == 1) ? '<a href="'.ROOT.'/extrakey/index/'.$v['srl'].'/">확장변수설정</a>' : '';
+				$categoryBtn = ($v['useCategory'] == 1) ? '<a href="'.GOOSE_ROOT.'/category/index/'.$v['srl'].'/">분류설정</a>' : '';
+				$extraVarBtn = ($v['useExtraVar'] == 1) ? '<a href="'.GOOSE_ROOT.'/extrakey/index/'.$v['srl'].'/">확장변수설정</a>' : '';
 		?>
 				<li>
 					<div class="body">
@@ -91,8 +91,8 @@ $nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 							<span>썸네일사이즈:<?=$v['thumnailSize']?></span>
 						</div>
 						<nav>
-							<a href="<?=ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
-							<a href="<?=ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
+							<a href="<?=GOOSE_ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
+							<a href="<?=GOOSE_ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
 							<?=$categoryBtn?>
 							<?=$extraVarBtn?>
 						</nav>
@@ -110,9 +110,9 @@ $nestGroupsCount = $spawn->getCount(array('table'=>$tablesName['nestGroups']));
 	<!-- // nests list -->
 	<!-- bottom buttons -->
 	<nav class="btngroup">
-		<span><a href="<?=ROOT?>/nest/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=ROOT?>/group/index/" class="ui-button">둥지그룹</a></span>
-		<span><a href="<?=ROOT?>/nest/create/" class="ui-button btn-highlight">둥지만들기</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/nest/index/" class="ui-button">목록</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/group/index/" class="ui-button">둥지그룹</a></span>
+		<span><a href="<?=GOOSE_ROOT?>/nest/create/" class="ui-button btn-highlight">둥지만들기</a></span>
 	</nav>
 	<!-- // bottom buttons -->
 </section>

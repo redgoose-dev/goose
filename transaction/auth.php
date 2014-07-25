@@ -36,7 +36,7 @@ switch ($paramAction)
 		session_unset("gooseEmail");
 		session_unset("gooseName");
 		session_unset("gooseLevel");
-		$util->redirect(ROOT."/");
+		$util->redirect(GOOSE_ROOT."/");
 		break;
 }
 ?>

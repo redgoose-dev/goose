@@ -1,8 +1,8 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$path = ROOT.'/plugins/editor/'.$nest['editor'];
-$extPath = ROOT.'/libs/ext';
+$path = GOOSE_ROOT.'/plugins/editor/'.$nest['editor'];
+$extPath = GOOSE_ROOT.'/libs/ext';
 require('attachFileDatas.php');
 ?>
 
@@ -49,9 +49,9 @@ jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		form : document.writeForm
 		,$queue : $('#queuesManager')
-		,uploadAction : '<?=ROOT?>/files/upload/'
-		,removeAction : '<?=ROOT?>/files/remove/'
-		,fileDir : '<?=ROOT?>/data/original/'
+		,uploadAction : '<?=GOOSE_ROOT?>/files/upload/'
+		,removeAction : '<?=GOOSE_ROOT?>/files/remove/'
+		,fileDir : '<?=GOOSE_ROOT?>/data/original/'
 		,auto : false
 		,limit : 3
 		,thumnailType : '<?=$nest['thumnailType']?>'
