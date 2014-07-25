@@ -1,10 +1,9 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-//header('Content-Type: text/plain; charset=utf-8');
-
 $root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
 $url = 'http://'.$_SERVER['HTTP_HOST'].$root;
+$error = false;
 
 /**
  * Check $_POST
@@ -51,6 +50,7 @@ if (checkPost() == true)
 	$_POST['adminLevel'] = 1;
 	if ($util->createUserFile($_POST, PWD.'/data/config/user.php') != 'success')
 	{
+		echo '<p>Failed to create the file user.php</p>';
 		$util->out();
 	}
 }
@@ -92,8 +92,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['articles']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['articles']."' table</p>";
 }
 
 // create table "categories"
@@ -109,8 +109,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['categories']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['categories']."' table</p>";
 }
 
 // create table "extraKey"
@@ -129,8 +129,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['extraKey']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['extraKey']."' table</p>";
 }
 
 // create table "extraVar"
@@ -144,8 +144,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['extraVar']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['extraVar']."' table</p>";
 }
 
 // create table "files"
@@ -159,8 +159,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['files']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['files']."' table</p>";
 }
 
 // create table "jsons"
@@ -174,8 +174,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['jsons']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['jsons']."' table</p>";
 }
 
 // create table "users"
@@ -191,8 +191,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['users']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['users']."' table</p>";
 }
 
 // create table "nestGroups"
@@ -205,8 +205,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['nestGroups']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['nestGroups']."' table</p>";
 }
 
 // create table "nests"
@@ -227,8 +227,8 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['nests']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['nests']."' table</p>";
 }
 
 // create table "tempFiles"
@@ -242,34 +242,52 @@ $result = $spawn->action("
 	) engine=InnoDB default charset=utf8");
 if ($result != 'success')
 {
-	echo "Fail create '".$tablesName['tempFiles']."' table";
-	$util->out();
+	$error = true;
+	echo "<p>Fail create '".$tablesName['tempFiles']."' table</p>";
 }
 
 
 // insert admin info
-$result = $spawn->action("
-	insert into `".$tablesName['users']."`
-		(`srl`, `name`, `email`, `pw`, `level`, `regdate`)
-	values
-		(
-			null,
-			'".$_POST['name']."',
-			'".$_POST['email']."',
-			'".md5($_POST['password'])."',
-			'1',
-			'".date('YmdHis')."'
-		)
-	");
-if ($result != 'success')
+$userCount = $spawn->getCount(array(
+	'table' => $tablesName['users']
+	,'where' => 'email="' . $_POST['email'] . '"'
+));
+if ($userCount)
 {
-	echo $result;
-	$util->out();
+	$error = true;
+	echo '<p>Exist admin user</p>';
+}
+else
+{
+	$result = $spawn->action("
+		insert into `".$tablesName['users']."`
+			(`srl`, `name`, `email`, `pw`, `level`, `regdate`)
+		values
+			(
+				null,
+				'".$_POST['name']."',
+				'".$_POST['email']."',
+				'".md5($_POST['password'])."',
+				'1',
+				'".date('YmdHis')."'
+			)
+	");
+	if ($result == 'success')
+	{
+		echo 'Add admin user';
+	}
+	else
+	{
+		echo '<p>'.$result.'</p>';
+	}
 }
 
 
 /*
 	Redirect Index
 */
-$util->redirect(ROOT."/", "Complete install");
+if (!$error)
+{
+	$util->redirect(ROOT."/", "Complete install");
+}
 ?>
