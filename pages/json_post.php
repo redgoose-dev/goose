@@ -10,6 +10,7 @@ if ($paramAction !== "create" and $json_srl)
 		'table' => $tablesName['jsons'],
 		'where' => 'srl='.$json_srl
 	));
+	$json['json'] = urlencode($json['json']);
 }
 
 $titleType = ($paramAction == 'create') ? '만들기' : '';
@@ -81,7 +82,7 @@ if ($paramAction != "delete")
   
 		// import json
 		try {
-			var json = JSON.parse(jsonData);
+			var json = JSON.parse(decodeURIComponent(jsonData));
 		}
 		catch(e) {
 			var json = new Object();
