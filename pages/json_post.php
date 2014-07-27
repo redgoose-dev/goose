@@ -18,7 +18,7 @@ $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 ?>
 
-<link rel="stylesheet" type="text/css" href="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/JSONEditor.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/css/JSONEditor.css" media="screen" />
 
 <section class="form JSONPost">
 	<div class="hgroup">
@@ -70,8 +70,8 @@ if ($paramAction != "delete")
 	<script src="<?=$jQueryAddress?>"></script>
 	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/jquery.validate.min.js"></script>
 	<script src="<?=GOOSE_ROOT?>/libs/ext/validation/localization/messages_ko.js"></script>
-	<script src="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/jquery-sortable.js"></script>
-	<script src="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/JSONEditor.class.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/js/jquery-sortable.js"></script>
+	<script src="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/js/JSONEditor.class.js"></script>
 	<script>
 	jQuery(function($){
 
