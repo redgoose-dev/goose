@@ -41,7 +41,7 @@ $json['json'] = urlencode($json['json']);
 <script>
 $(function(){
 	var json = '<?=$json['json']?>';
-	json = (json) ? JSON.parse(decodeURIComponent(json)) : '';
+	json = (json) ? JSON.parse(decodeURIComponent(json.replace(/\+/g, '%20'))) : '';
 
 	$('#jsonData').html(JSON.stringify(json, null, 5));
 	$('pre.js').snippet('javascript', {style:'bright', menu:true, showNum:true});
