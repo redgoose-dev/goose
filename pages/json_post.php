@@ -74,37 +74,35 @@ if ($paramAction != "delete")
 	<script src="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/js/JSONEditor.class.js"></script>
 	<script>
 	jQuery(function($){
-
 		var $jsonEditor = $('#JSONEditor');
 		var $form = $('#regsterForm');
 		var jsonData = '<?=$json['json']?>';
 		var jsonEditor = new JSONEditor($jsonEditor);
-  
+
 		// import json
 		try {
-			var json = JSON.parse(decodeURIComponent(jsonData));
+			var json = JSON.parse(decodeURIComponent(jsonData.replace(/\+/g, '%20')));
 		}
 		catch(e) {
 			var json = new Object();
 		}
-	
 		if (Array.isArray(json))
 		{
 			jsonEditor.typeItem($jsonEditor.find('li[loc=root]'), 'Array');
 		}
 		jsonEditor.importJSON(json);
-	
+
 		// submit form
 		$form.on('submit', function(){
 			$(this).find('input[name=json]').val(jsonEditor.exportJSON(0));
 		});
-	
+
+		// value validate
 		$form.validate({
 			rules : {
 				name : {required : true, minlength : 3}
 			}
 		});
-
 	});
 	</script>
 <?
