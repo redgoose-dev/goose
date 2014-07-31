@@ -105,6 +105,7 @@ switch($paramAction)
 				'thumnail_coords' => $_POST['thumnail_coords'],
 				'regdate' => $regdate,
 				'modate' => $regdate,
+				'hit' => 0,
 				'ipAddress' => $ipAddress
 			)
 		));

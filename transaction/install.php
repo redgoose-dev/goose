@@ -86,6 +86,7 @@ $result = $spawn->action("
 		`thumnail_coords` varchar(30) default null,
 		`regdate` varchar(14) default null,
 		`modate` varchar(14) default null,
+		`hit` int(11) not null default 0,
 		`ipAddress` varchar(15) default null,
 		primary key (`srl`),
 		unique key `srl` (`srl`)
