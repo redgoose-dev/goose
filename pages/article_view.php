@@ -36,7 +36,10 @@ if ($article['category_srl'])
 <section>
 	<div class="hgroup">
 		<h1><?=$categoryName.$article['title']?></h1>
-		<p><?=$util->convertDate($article['regdate']).'&nbsp;'.$util->convertTime($article['regdate'])?></p>
+		<p>
+			<span><?=$util->convertDate($article['regdate']).'&nbsp;'.$util->convertTime($article['regdate'])?></span>
+			<span>HIT:<?=$article['hit']?></span>
+		</p>
 	</div>
 	<?
 	// get extra vars count

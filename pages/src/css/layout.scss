@@ -252,6 +252,14 @@ ul.index {
 		margin: 15px $margin_side 20px;
 		.hgroup {
 			h1 {font-size:24px;}
+			p {
+				span {
+					&:before {
+						content: '| '; padding-left: 3px; padding-right: 3px; color: #999;
+					}
+					&:first-child:before {display: none;}
+				}
+			}
 		}
 	}
 

@@ -196,6 +196,8 @@ ul.index .empty:hover { background: none; }
   #header nav li a { font-size: 14px; padding: 0; }
   #container { margin: 15px 12px 20px; }
   #container .hgroup h1 { font-size: 24px; }
+  #container .hgroup p span:before { content: '| '; padding-left: 3px; padding-right: 3px; color: #999; }
+  #container .hgroup p span:first-child:before { display: none; }
   #footer { text-align: right; }
   .auth fieldset, .auth nav { padding: 0; }
   ul.index .body strong { font-size: 16px; }
