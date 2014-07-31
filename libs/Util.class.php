@@ -47,7 +47,14 @@ class Util {
 		switch($code)
 		{
 			case 404:
-				echo "page not found : 404";
+				if (is_file(PWD.'/pages/404.html'))
+				{
+					require(PWD.'/pages/404.html');
+				}
+				else
+				{
+					echo "page not found : 404";
+				}
 				break;
 
 			default:
