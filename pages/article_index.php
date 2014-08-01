@@ -118,6 +118,7 @@ if ($articleCount > 0)
 								<strong><?=$v['title']?></strong>
 								<div class="inf">
 									<?=$categoryName?>
+									<span>조회수:<?=$v['hit']?></span>
 									<span>작성날짜:<?=$util->convertDate($v['regdate'])?></span>
 								</div>
 							</dd>
