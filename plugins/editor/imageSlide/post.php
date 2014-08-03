@@ -60,7 +60,11 @@ jQuery(function($){
 	var attachFiles = '<?=$pushData?>';
 	attachFiles = (attachFiles) ? JSON.parse(attachFiles) : null;
 	var contentData = $form.find('input[name=content]').val();
-	contentData = (contentData) ? JSON.parse(decodeURIComponent(contentData)) : null;
+	try {
+		contentData = (contentData) ? JSON.parse(decodeURIComponent(contentData)) : null;
+	} catch(e) {
+		contentData = null;
+	}
 
 	if (attachFiles)
 	{
