@@ -53,7 +53,7 @@ jQuery(function($){
 		,removeAction : '<?=GOOSE_ROOT?>/files/remove/'
 		,fileDir : '<?=GOOSE_ROOT?>/data/original/'
 		,auto : false
-		,limit : 3
+		,limit : 5
 		,thumnailType : '<?=$nest['thumnailType']?>'
 		,thumnailSize : '<?=$nest['thumnailSize']?>'
 		,$insertTarget : $('#content')

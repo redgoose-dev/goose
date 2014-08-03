@@ -3,14 +3,15 @@ var UploadInterface = function(el, options) {
 	var self = this;
 	var $el = $(el);
 
-	self.el = el;
-	self.settings = $.extend({}, this.defaults, options);
-	self.key = false;
-	self.queue = null;
-	self.$queue = null;
-	self.$drop = null;
-	self.$controller = null;
-	self.json = new Object();
+	this.el = el;
+	this.settings = $.extend({}, this.defaults, options);
+	this.key = false;
+	this.queue = null;
+	this.$queue = null;
+	this.$drop = null;
+	this.$controller = null;
+	this.json = new Object();
+	this.readyFiles = new Array();
 
 	var thumnail = new Thumnail(self, {
 		type : self.settings.thumnailType
@@ -252,7 +253,7 @@ var UploadInterface = function(el, options) {
 			var files = (getFiles) ? getFiles : $el.get(0).files;
 			var count = Object.keys(self.queue.index).length + files.length;
 	
-			if (count > self.settings.limit)
+			if (self.settings.limit && (count > self.settings.limit))
 			{
 				alert('파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.');
 			}
@@ -260,8 +261,9 @@ var UploadInterface = function(el, options) {
 			{
 				for (var n = 0; n < files.length; n++)
 				{
-					addQueueItem(files[n]);
+					self.readyFiles.push(files[n]);
 				}
+				addQueueItem(self.readyFiles[0]);
 			}
 		}
 		else
@@ -320,6 +322,13 @@ var UploadInterface = function(el, options) {
 
 		// addQueue 갱신
 		self.refreshAddQueue();
+
+		// 다음파일 업로드하기
+		self.readyFiles.splice(0, 1);
+		if (self.readyFiles.length)
+		{
+			addQueueItem(self.readyFiles[0]);
+		}
 	}
 
 	/**
