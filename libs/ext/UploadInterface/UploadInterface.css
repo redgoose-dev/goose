@@ -80,7 +80,7 @@
 	background: #bbbcbd;
 }
 .queuesManager .filesQueue .progress .graph span {
-	display: block; height: 100%; background: #74b3c9;
+	display: block; width: 0%; height: 100%; background: #74b3c9;
 }
 
 .queuesManager > nav {margin: 10px 0 0; font-size: 0;}

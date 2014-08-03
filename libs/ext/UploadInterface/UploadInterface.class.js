@@ -10,7 +10,7 @@ var UploadInterface = function(el, options) {
 	this.$queue = null;
 	this.$drop = null;
 	this.$controller = null;
-	this.readyFiles = new Array();
+	this.readyItem = new Array();
 
 	var thumnail = new Thumnail(self, {
 		type : self.settings.thumnailType
@@ -185,20 +185,17 @@ var UploadInterface = function(el, options) {
 	}
 
 	/**
-	 * add queue item
+	 * File upload
 	 * 
-	 * @author : redgoose
-	 * @param {File} file : 파일하나
-	 * @return void
+	 * @Param {Object} item
 	 */
-	var addQueueItem = function(file)
+	var fileUpload = function(item)
 	{
-		var key = self.queue.createQueue(file);
-		var fileUpload = new FileUpload(
+		var up = new FileUpload(
 			self
 			,self.settings.uploadAction
-			,self.queue.index[key]
-			,file
+			,self.queue.index[item.key]
+			,item.file
 		);
 	}
 
@@ -283,9 +280,12 @@ var UploadInterface = function(el, options) {
 			{
 				for (var n = 0; n < files.length; n++)
 				{
-					self.readyFiles.push(files[n]);
+					self.readyItem.push({
+						key : self.queue.createQueue(files[n])
+						,file : files[n]
+					});
 				}
-				addQueueItem(self.readyFiles[0]);
+				fileUpload(self.readyItem[0]);
 			}
 		}
 		else
@@ -341,10 +341,10 @@ var UploadInterface = function(el, options) {
 		self.refreshAddQueue();
 
 		// 다음파일 업로드하기
-		self.readyFiles.splice(0, 1);
-		if (self.readyFiles.length)
+		self.readyItem.splice(0, 1);
+		if (self.readyItem.length)
 		{
-			addQueueItem(self.readyFiles[0]);
+			fileUpload(self.readyItem[0]);
 		}
 	}
 

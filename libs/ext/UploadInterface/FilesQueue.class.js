@@ -77,13 +77,14 @@ var FilesQueue = function(getParent, $el, options) {
 	{
 		var idx = self.count;
 		var key = 'queue-' + idx;
-		var $dom = template(key, file.name, file.status);
+		var status = (file.status) ? file.status : 'ready';
+		var $dom = template(key, file.name, status);
 
 		self.index[key] = {
 			filename : file.name
 			,filesize : file.size
 			,filetype : file.type
-			,status : (file.status) ? file.status : 'ready'
+			,status : status
 			,element : $dom
 			,location : file.loc
 			,type : file.type2
