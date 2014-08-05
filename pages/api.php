@@ -84,7 +84,7 @@
 			<thead>
 				<tr>
 					<th scope="col" width="12%">테이블</th>
-					<th scope="col" width="12%">키</th>
+					<th scope="col" width="12%">필드</th>
 					<th scope="col" width="12%">타입</th>
 					<th scope="col">설명</th>
 				</tr>
@@ -264,5 +264,13 @@
 				</tr>
 			</tbody>
 		</table>
+	</section>
+
+	<section>
+		<h1>출력 허용필드</h1>
+		<p>
+			API를 통하여 원하지 않는 내용이나 비밀번호를 출력할 수 있는 위험성이 있기 때문에 <code>/{goose}/api/allowApiData.php</code>파일에서 어떤 db 테이블에서 어떤 필드를 출력할것인지에 대하여 컨트롤 할 수 있습니다.<br/>
+			<code>allowApiData.php</code>파일에서의 배열 목록은 출력을 허용하는 필드의 목록입니다.
+		</p>
 	</section>
 </section>

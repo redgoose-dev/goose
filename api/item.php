@@ -1,18 +1,29 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-require_once(PWD.'/libs/API.class.php');
+require_once 'api/API.class.php';
+require_once 'api/allowApiData.php';
 
 $q = (count($_POST)) ? $_POST : $_GET;
 $optputType = ($q['output']) ? $q['output'] : "html";
+$data = array();
 
 // api class init
 $api = new API(array(
-	'util' => $util,
-	'tablesName' => $tablesName,
-	'spawn' => $spawn,
-	'apikey' => $api_key
+	'util' => $util
+	,'tablesName' => $tablesName
+	,'spawn' => $spawn
+	,'apikey' => $api_key
+	,'allow' => ((isset($allowApiData)) ? $allowApiData : null)
 ));
+
+// check allowApiData
+if (!isset($api->allow))
+{
+	$data['error'] = 'Empty allowApiData';
+	echo $api->out($data, $optputType);
+	$util->out();
+}
 
 // api key auth
 $auth_result = $api->auth($q['apikey']);
@@ -67,6 +78,8 @@ switch($q['act'])
 		);
 		break;
 }
+
+$data = ($data) ? $data : array();
 
 echo $api->out($data, $optputType);
 $util->out();

@@ -15,6 +15,7 @@ class API {
 		$this->spawn = $opt['spawn'];
 		$this->tablesName = $opt['tablesName'];
 		$this->apikey = $opt['apikey'];
+		$this->allow = $opt['allow'];
 	}
 
 	// create where string
@@ -70,6 +71,38 @@ class API {
 		}
 	}
 
+	// check allow field
+	private function allowField($table=null, $fields=null)
+	{
+		$result = null;
+		if ($fields)
+		{
+			$fields = explode(',', $fields);
+			if ($this->allow[$table])
+			{
+				foreach ($fields as $k=>$v)
+				{
+					if (in_array($v, $this->allow[$table]))
+					{
+						$result .= ($k == 0) ? $v : ','.$v;
+					}
+				}
+			}
+		}
+		else
+		{
+			if ($this->allow[$table])
+			{
+				foreach ($this->allow[$table] as $k=>$v)
+				{
+					$result .= ($k == 0) ? $v : ','.$v;
+				}
+			}
+		}
+		$result = ($result) ? $result : ' ';
+		return $result;
+	}
+
 
 	// api key auth
 	public function auth($key)
@@ -113,7 +146,7 @@ class API {
 			// 기본값 설정
 			$params['page'] = ($params['page'] > 1) ? $params['page'] : 1;
 			$params['limit'] = ($params['limit']) ? $params['limit'] : 15;
-			$params['field'] = ($params['field']) ? $params['field'] : "*";
+			$params['field'] = $this->allowField($params['table'], $params['field']);
 			$params['order'] = ($params['order']) ? $params['order'] : "srl";
 			$params['sort'] = ($params['sort']) ? $params['sort'] : "desc";
 
@@ -143,7 +176,7 @@ class API {
 			return $this->result;
 		}
 
-		$params['field'] = ($params['field']) ? $params['field'] : "*";
+		$params['field'] = $this->allowField($params['table'], $params['field']);
 
 		$where = '';
 		if ($params['key'] && $params['value'])
