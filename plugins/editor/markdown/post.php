@@ -35,6 +35,10 @@ require('attachFileDatas.php');
 		</dd>
 	</dl>
 	<div class="queuesManager" id="queuesManager"></div>
+	<dl class="table">
+		<dt><label for="tag">태그</label></dt>
+		<dd><input type="text" id="tag" name="tag" class="block" value="" role-action="tagWindow" /></dd>
+	</dl>
 </fieldset>
 
 <script>function log(o){console.log(o);}</script>
