@@ -7,7 +7,6 @@ $category_srl = (isset($routePapameters['param1'])) ? (int)$routePapameters['par
 if ($nest_srl)
 {
 	$nest = $spawn->getItem(array(
-		'field' => 'srl,group_srl,name,useCategory,listCount,thumnailSize',
 		'table' => $tablesName['nests'],
 		'where' => 'srl='.$nest_srl
 	));
@@ -94,47 +93,60 @@ if ($articleCount > 0)
 	?>
 
 	<!-- index -->
-	<ul class="index">
-		<?
-		if ($articleCount > 0)
-		{
-			foreach ($article as $k=>$v)
+	<?
+	// Import editor Plugin
+	$editorDir = PWD.'/plugins/editor/';
+	if (file_exists($editorDir.$nest['editor'].'/index.php'))
+	{
+		require_once($editorDir.$nest['editor'].'/index.php');
+	}
+	else
+	{
+	?>
+		<ul class="index">
+			<?
+			if ($articleCount > 0)
 			{
-				$url = GOOSE_ROOT.'/article/view/'.$v['srl'].'/';
-				$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
-				$categoryName = ($v['category_srl']) ? $spawn->getItem(array(
-					'table' => $tablesName['categories'],
-					'where' => 'srl='.$v['category_srl']
-				)) : '';
-				$categoryName = (isset($categoryName['name'])) ? '<span>분류:'.$categoryName['name'].'</span> ' : '';
-				$img = ($v['thumnail_url']) ? '<dt><img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/></dt>' : '';
-				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
-		?>
-				<li>
-					<a href="<?=$url?>">
-						<dl <?=$noimg?>>
-							<?=$img?>
-							<dd class="body">
-								<strong><?=$v['title']?></strong>
-								<div class="inf">
-									<?=$categoryName?>
-									<span>조회수:<?=$v['hit']?></span>
-									<span>작성날짜:<?=$util->convertDate($v['regdate'])?></span>
-								</div>
-							</dd>
-						</dl>
-					</a>
-				</li>
-		<?
-				$no = $no - 1;
+				foreach ($article as $k=>$v)
+				{
+					$url = GOOSE_ROOT.'/article/view/'.$v['srl'].'/';
+					$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
+					$categoryName = ($v['category_srl']) ? $spawn->getItem(array(
+						'table' => $tablesName['categories'],
+						'where' => 'srl='.$v['category_srl']
+					)) : '';
+					$categoryName = (isset($categoryName['name'])) ? '<span>분류:'.$categoryName['name'].'</span> ' : '';
+					$img = ($v['thumnail_url']) ? '<dt><img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/></dt>' : '';
+					$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
+			?>
+					<li>
+						<a href="<?=$url?>">
+							<dl <?=$noimg?>>
+								<?=$img?>
+								<dd class="body">
+									<strong><?=$v['title']?></strong>
+									<div class="inf">
+										<?=$categoryName?>
+										<span>조회수:<?=$v['hit']?></span>
+										<span>작성날짜:<?=$util->convertDate($v['regdate'])?></span>
+									</div>
+								</dd>
+							</dl>
+						</a>
+					</li>
+			<?
+					$no = $no - 1;
+				}
 			}
-		}
-		else
-		{
-			echo "<li class=\"empty\">데이터가 없습니다.</li>";
-		}
-		?>
-	</ul>
+			else
+			{
+				echo "<li class=\"empty\">데이터가 없습니다.</li>";
+			}
+			?>
+		</ul>
+	<?
+	}
+	?>
 	<!-- // index -->
 
 	<!-- bottom navigation -->
