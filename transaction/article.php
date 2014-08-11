@@ -105,6 +105,7 @@ switch($paramAction)
 				'thumnail_coords' => $_POST['thumnail_coords'],
 				'regdate' => $regdate,
 				'modate' => $regdate,
+				'json' => $_POST['json'],
 				'hit' => 0,
 				'ipAddress' => $ipAddress
 			)
@@ -212,6 +213,7 @@ switch($paramAction)
 				"content='$_POST[content]'",
 				"thumnail_coords='$_POST[thumnail_coords]'",
 				"modate='$regdate'",
+				"json='$_POST[json]'",
 				"ipAddress='$ipAddress'"
 			)
 		));

@@ -131,13 +131,23 @@
 					</tr>
 					<tr>
 						<th>regdate</th>
-						<td class="center nowrap">number</td>
+						<td class="center nowrap">string</td>
 						<td>등록일</td>
 					</tr>
 					<tr>
 						<th>modate</th>
-						<td class="center nowrap">number</td>
+						<td class="center nowrap">string</td>
 						<td>수정일</td>
+					</tr>
+					<tr>
+						<th>hit</th>
+						<td class="center nowrap">number</td>
+						<td>조회수</td>
+					</tr>
+					<tr>
+						<th>json</th>
+						<td class="center nowrap">string</td>
+						<td>추가변수에 대한 json데이터</td>
 					</tr>
 					<tr>
 						<th>ipAddress</th>
@@ -182,7 +192,7 @@
 					</tr>
 					<tr>
 						<th>regdate</th>
-						<td class="center nowrap">number</td>
+						<td class="center nowrap">string</td>
 						<td>등록날짜</td>
 					</tr>
 				</tbody>
@@ -252,7 +262,7 @@
 					</tr>
 					<tr>
 						<th>regdate</th>
-						<td class="center nowrap">number</td>
+						<td class="center nowrap">string</td>
 						<td>등록날짜</td>
 					</tr>
 				</tbody>
@@ -325,8 +335,13 @@
 						<td>에디터 플러그인</td>
 					</tr>
 					<tr>
+						<th>json</th>
+						<td class="center nowrap">string</td>
+						<td>추가변수에 대한 json데이터</td>
+					</tr>
+					<tr>
 						<th>regdate</th>
-						<td class="center nowrap">number</td>
+						<td class="center nowrap">string</td>
 						<td>등록날짜</td>
 					</tr>
 				</tbody>
@@ -362,7 +377,7 @@
 					</tr>
 					<tr>
 						<th>regdate</th>
-						<td class="center nowrap">number</td>
+						<td class="center nowrap">string</td>
 						<td>등록날짜</td>
 					</tr>
 				</tbody>
