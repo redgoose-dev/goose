@@ -7,7 +7,7 @@ require('attachFileDatas.php');
 ?>
 
 <link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
-<link rel="stylesheet" href="<?=$extPath?>/TagWindow/TagWindow.css" />
+<link rel="stylesheet" href="<?=$extPath?>/TagManager/TagManager.css" />
 <link rel="stylesheet" href="<?=$extPath?>/Jcrop/jquery.Jcrop.min.css" />
 
 <input type="hidden" name="addQueue" value="" />
@@ -38,7 +38,7 @@ require('attachFileDatas.php');
 	<div class="queuesManager" id="queuesManager"></div>
 	<dl class="table">
 		<dt><label for="tag">태그</label></dt>
-		<dd><input type="text" id="tag" name="tag" class="block" value="" /></dd>
+		<dd><input type="text" name="tag" id="tag" /></dd>
 	</dl>
 </fieldset>
 
@@ -49,7 +49,7 @@ require('attachFileDatas.php');
 <script src="<?=$extPath?>/UploadInterface/FileUpload.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/Thumnail.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/UploadInterface.class.js"></script>
-<script src="<?=$extPath?>/TagWindow/TagWindow.class.js"></script>
+<script src="<?=$extPath?>/TagManager/TagManager.class.js"></script>
 <script>
 jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
@@ -79,10 +79,7 @@ jQuery(function($){
 	});
 
 	// Tag window
-	var tagWindow = new TagWindow({
-		
-	});
-	tagWindow.form($('#tag'));
+	var tagManager = new TagManager($('#tag'));
 
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){
@@ -90,6 +87,7 @@ jQuery(function($){
 		{
 			return false;
 		}
+		return false;
 	});
 });
 </script>
