@@ -178,7 +178,7 @@ ul.index .empty:hover { background: none; }
 .form fieldset > dl > dt { margin: 0 0 4px 3px; padding: 0; font-size: 14px; font-weight: 600; word-break: break-all; }
 .form fieldset > dl > dt:before { content: ''; display: inline-block; width: 5px; height: 10px; margin-right: 5px; background-image: url("../img/ico_arrow1.png"); background-position: 0 45%; background-repeat: no-repeat; background-size: 5px auto; }
 .form fieldset > dl > dd { margin: 3px 0 0 0; font-size: 13px; color: #666666; }
-.form fieldset > dl > dd p { margin: 4px 0 0 0; }
+.form fieldset > dl > dd > p { margin: 4px 0 0 0; }
 .form fieldset > dl > dd .error { color: #e80000; }
 .form fieldset > dl > dd label.error { display: block; margin: 4px 0 0 0; }
 .form fieldset .required:before { content: '* '; }

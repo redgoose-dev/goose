@@ -1,0 +1,34 @@
+.tagList {
+	margin: 8px 0 0 0;
+}
+.tagList:after {content: ''; display: block; clear: both;}
+.tagList p {
+	float: left; margin: 0 1px 0 0; padding: 4px 8px; position: relative;
+	background: #e7eced;
+}
+.tagList span {
+	color: #555; padding-right: 18px;
+}
+.tagList button {
+	position: absolute; right: 6px; top: 50%;
+	width: 16px; height: 16px; margin-top: -8px;
+	background: transparent;
+	border: none; text-indent: -9999px; cursor: pointer;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+}
+.tagList button:before,
+.tagList button:after {
+	content: ''; position: absolute; left: 50%; top: 50%;
+	background: #999;
+}
+.tagList button:before {
+	width: 8px; margin-left: -4px;
+	height: 2px; margin-top: -1px;
+}
+.tagList button:after {
+	width: 2px; margin-left: -1px;
+	height: 8px; margin-top: -4px;
+}

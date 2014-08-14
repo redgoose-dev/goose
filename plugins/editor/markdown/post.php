@@ -38,7 +38,11 @@ require('attachFileDatas.php');
 	<div class="queuesManager" id="queuesManager"></div>
 	<dl class="table">
 		<dt><label for="tag">태그</label></dt>
-		<dd><input type="text" name="tag" id="tag" /></dd>
+		<dd>
+			<input type="text" name="tag" id="tag" />
+			<button type="button" class="ui-button btn-small" role-action="addTag">추가</button>
+			<div class="tagList" id="tags"></div>
+		</dd>
 	</dl>
 </fieldset>
 
@@ -78,8 +82,13 @@ jQuery(function($){
 		uploadInterface.upload();
 	});
 
-	// Tag window
-	var tagManager = new TagManager($('#tag'));
+	// tag manager
+	var importTag = ['하하', '호호', '히히'];
+	var tagManager = new TagManager($('#tag'), $('#tags'));
+	$('[role-action=addTag]').on('click', function(){
+		tagManager.add(tagManager.$input.val());
+	});
+	tagManager.import(importTag);
 
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){

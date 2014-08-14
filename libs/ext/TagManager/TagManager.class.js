@@ -8,9 +8,12 @@
 	5. submit 이벤트가 발생하면 태그모록에서의 태그들을 모아서 문자변수로 합치고 json값으로 변형시켜 <input type="hidden" name="json" /> 항목에다 삽입
 */
 
-var TagManager = function($el)
+var TagManager = function($el, $tags)
 {
 	var self = this;
+
+	this.$input = $el;
+	this.tags = new Array();
 
 	// events
 	var events = function()
@@ -18,11 +21,68 @@ var TagManager = function($el)
 		$el.keyup(function(e){
 			if (e.keyCode == 13)
 			{
-				log($(this).val())
-				log('add tag');
+				self.add($(this).val());
 				return false;
 			}
 		});
+	}
+
+	// tag template
+	var tagTemplate = function(keyword)
+	{
+		var str = '<p>';
+		str += '<span>' + keyword + '</span>';
+		str += '<button type="button" role-action="removeTag" title="remove tag">remove</button>';
+		str += '</p>';
+		return $(str);
+	}
+
+	// add tag
+	this.add = function(keyword)
+	{
+		if (keyword)
+		{
+			if (self.tags.indexOf(keyword) < 0)
+			{
+				self.tags.push(keyword);
+				var $tag = tagTemplate(keyword);
+				$tag.children('button').on('click', function(){
+					self.remove($tag);
+				});
+				$tags.append($tag);
+				$el.val('');
+			}
+			else
+			{
+				$el.focus();
+			}
+		}
+	}
+
+	// remove tag
+	this.remove = function($tag)
+	{
+		$tag.each(function(){
+			var text = $(this).children('span').text();
+			var position = self.tags.indexOf(text);
+			self.tags.splice(position, 1);
+			$tag.remove();
+		});
+	}
+
+	// import
+	this.import = function(keywords)
+	{
+		for (var i=0; i<keywords.length; i++)
+		{
+			self.add(keywords[i]);
+		}
+	}
+
+	// export
+	this.export = function()
+	{
+		
 	}
 
 	// action

@@ -209,7 +209,7 @@ ul.index {
 			}
 			> dd {
 				margin: 3px 0 0 0; font-size: 13px; color: $color_blur;
-				p {margin: 4px 0 0 0;}
+				> p {margin: 4px 0 0 0;}
 				.error {color: #e80000;}
 				label.error {display: block; margin: 4px 0 0 0;}
 			}
