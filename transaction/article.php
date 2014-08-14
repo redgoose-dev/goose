@@ -5,6 +5,14 @@ $ipAddress = $_SERVER['REMOTE_ADDR'];
 $regdate = date("YmdHis");
 $_POST['title'] = htmlspecialchars($_POST['title']);
 
+$nest = $spawn->getItem(array(
+	'table' => $tablesName['nests']
+	,'where' => 'srl='.$_POST['nest_srl']
+));
+
+$editorDir = PWD.'/plugins/editor/'.$nest['editor'];
+
+
 /**
  * upload file db update
  * tempFiles 테이블에 있는 임시파일들 목록을 files 테이블에 옮기고, 썸네일으로 사용하는 첨부파일 번호를 리턴한다.
@@ -83,6 +91,7 @@ switch($paramAction)
 {
 	// create
 	case 'create':
+/* 태그 처리작업을 위한 주석
 		// post값 확인
 		$errorValue = $util->checkExistValue($_POST, array('title', 'content'));
 		if ($errorValue)
@@ -157,6 +166,13 @@ switch($paramAction)
 				}
 			}
 		}
+*/
+
+		if (file_exists($editorDir.'/transaction_article.php'))
+		{
+			require_once($editorDir.'/transaction_article.php');
+		}
+		break;
 
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$util->redirect(GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
