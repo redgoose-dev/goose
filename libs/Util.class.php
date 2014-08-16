@@ -212,7 +212,7 @@ class Util {
 
 		if ($method == 'r')
 		{
-			$result = fread($file, filesize($dir));
+			$result = fread($file, (filesize($dir) > 1) ? filesize($dir) : 10);
 			fclose($file);
 			return $result;
 		}
