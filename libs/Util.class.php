@@ -203,7 +203,7 @@ class Util {
 	 */
 	public function fop($dir=null, $method=null, $str=null, $permission=null)
 	{
-		if (!file_exists($dir))
+		if (!file_exists($dir) && $method != 'w')
 		{
 			return false;
 		}
