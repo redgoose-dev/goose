@@ -203,10 +203,16 @@ class Util {
 	 */
 	public function fop($dir=null, $method=null, $str=null, $permission=null)
 	{
+		if (!file_exists($dir))
+		{
+			return false;
+		}
+
 		$file = fopen($dir, $method) or die('file open fail');
+
 		if ($method == 'r')
 		{
-			$result = fread($file, 1000000);
+			$result = fread($file, filesize($dir));
 			fclose($file);
 			return $result;
 		}
