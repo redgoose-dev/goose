@@ -198,7 +198,7 @@ class Util {
 	 * @param String $dir : 파일경로
 	 * @param String $method : 조작방식(a:기존 데이터 추가, w:새로작성, r:내용읽기)
 	 * @param String $str : 추가하거나 수정할 내용
-	 * @param Number $permission : 퍼미션. ex)777
+	 * @param Number $permission : 퍼미션. ex)0777
 	 * @return String : $method값이 'r'이면 파일내용이 출력되고, 'w'나 'a'이면 처리 결과값이 출력된다.
 	 */
 	public function fop($dir=null, $method=null, $str=null, $permission=null)
