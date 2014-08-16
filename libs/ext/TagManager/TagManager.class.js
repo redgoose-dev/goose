@@ -15,10 +15,12 @@ var TagManager = function($el, $tags)
 	this.$input = $el;
 	this.tags = new Array();
 
-	// events
+	/**
+	 * events
+	 */
 	var events = function()
 	{
-		$el.keyup(function(e){
+		$el.on('keypress', function(e){
 			if (e.keyCode == 13)
 			{
 				self.add($(this).val());
@@ -27,7 +29,12 @@ var TagManager = function($el, $tags)
 		});
 	}
 
-	// tag template
+	/**
+	 * tag template
+	 * 
+	 * @Param {String} keyword
+	 * @Return {Object}
+	 */
 	var tagTemplate = function(keyword)
 	{
 		var str = '<p>';
@@ -37,10 +44,16 @@ var TagManager = function($el, $tags)
 		return $(str);
 	}
 
-	// add tag
+	/**
+	 * add tag
+	 * 
+	 * @Param {String} keyword
+	 */
 	this.add = function(keyword)
 	{
-		if (keyword)
+		keyword = keyword.replace(/[^a-zA-Z0-9가-힣]|/g, '');
+
+		if (keyword.replace(/[^a-zA-Z0-9가-힣]|/g, ''))
 		{
 			if (self.tags.indexOf(keyword) < 0)
 			{
@@ -54,12 +67,17 @@ var TagManager = function($el, $tags)
 			}
 			else
 			{
+				alert('중복된 키워드가 있습니다.');
 				$el.focus();
 			}
 		}
 	}
 
-	// remove tag
+	/**
+	 * remove tag
+	 * 
+	 * @Param {Object} $tag
+	 */
 	this.remove = function($tag)
 	{
 		$tag.each(function(){
@@ -70,7 +88,11 @@ var TagManager = function($el, $tags)
 		});
 	}
 
-	// import
+	/**
+	 * import tag
+	 * 
+	 * @Param {Array} keywords
+	 */
 	this.import = function(keywords)
 	{
 		for (var i=0; i<keywords.length; i++)
@@ -79,10 +101,20 @@ var TagManager = function($el, $tags)
 		}
 	}
 
-	// export
+	/**
+	 * export tag
+	 * 
+	 * @Return {Array}
+	 */
 	this.export = function()
 	{
-		
+		return self.tags;
+	}
+
+	
+	this.allTags = function($wrap)
+	{
+		log('all tags');
 	}
 
 	// action

@@ -91,7 +91,6 @@ switch($paramAction)
 {
 	// create
 	case 'create':
-/* 태그 처리작업을 위한 주석
 		// post값 확인
 		$errorValue = $util->checkExistValue($_POST, array('title', 'content'));
 		if ($errorValue)
@@ -166,7 +165,6 @@ switch($paramAction)
 				}
 			}
 		}
-*/
 
 		if (file_exists($editorDir.'/transaction_article.php'))
 		{
@@ -311,6 +309,11 @@ switch($paramAction)
 			}
 		}
 
+		if (file_exists($editorDir.'/transaction_article.php'))
+		{
+			require_once($editorDir.'/transaction_article.php');
+		}
+
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
 		$util->redirect(GOOSE_ROOT.'/article/view/'.$_POST['article_srl'].'/'.(($params) ? '?'.$params : ''));
 		break;
@@ -360,12 +363,15 @@ switch($paramAction)
 			'where' => 'article_srl='.(int)$_POST['article_srl']
 		));
 
+		if (file_exists($editorDir.'/transaction_article.php'))
+		{
+			require_once($editorDir.'/transaction_article.php');
+		}
+
 		$addUrl = ($_POST['nest_srl']) ? $_POST['nest_srl'].'/' : '';
 		$addUrl .= ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
 		$util->redirect(GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
-
-		$util->redirect($url);
 		break;
 }
 ?>

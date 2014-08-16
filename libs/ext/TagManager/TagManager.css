@@ -3,7 +3,7 @@
 }
 .tagList:after {content: ''; display: block; clear: both;}
 .tagList p {
-	float: left; margin: 0 1px 0 0; padding: 4px 8px; position: relative;
+	float: left; margin: 0 1px 1px 0; padding: 4px 8px; position: relative;
 	background: #e7eced;
 }
 .tagList span {
@@ -32,3 +32,23 @@
 	width: 2px; margin-left: -1px;
 	height: 8px; margin-top: -4px;
 }
+
+.tagIndexWrap {display: inline-block;}
+.tagIndexWrap .list {position: relative;}
+.tagIndexWrap .list > ul {
+	margin: 0; padding: 8px 5px; list-style: none; display: none;
+	position: absolute; left: 0; bottom: 0; width: 200px;
+	background: white;
+	border: 1px solid #ccc;
+	box-shadow: 1px 1px 3px rgba(0,0,0,.3);
+}
+.tagIndexWrap .list > ul > li {
+	float: left; padding: 5px 10px; margin: 0; width: 50%;
+	font-size: 12px; font-family: 'Helvetica';
+	cursor: pointer;
+}
+.tagIndexWrap .list > ul > li > span {}
+.tagIndexWrap .list > ul > li > em {font-style: normal;}
+.tagIndexWrap .list > ul > li > em:before {content: '(';}
+.tagIndexWrap .list > ul > li > em:after {content: ')';}
+.tagIndexWrap.on .list > ul {display: block;}

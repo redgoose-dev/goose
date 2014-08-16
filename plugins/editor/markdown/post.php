@@ -1,9 +1,17 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$path = GOOSE_ROOT.'/plugins/editor/'.$nest['editor'];
+$path = '/plugins/editor/'.$nest['editor'];
 $extPath = GOOSE_ROOT.'/libs/ext';
 require('attachFileDatas.php');
+$allTagsData = null;
+
+if (file_exists(PWD.$path.'/tags.user.txt'))
+{
+	$allTagsData = $util->fop(PWD.$path.'/tags.user.txt', 'r');
+}
+
+// $article['json']
 ?>
 
 <link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
@@ -14,6 +22,7 @@ require('attachFileDatas.php');
 <input type="hidden" name="thumnail_srl" value="<?=$article['thumnail_srl']?>" />
 <input type="hidden" name="thumnail_coords" value="<?=$article['thumnail_coords']?>" />
 <input type="hidden" name="thumnail_image" value="" />
+<input type="hidden" name="json" />
 
 <fieldset>
 	<dl>
@@ -41,6 +50,27 @@ require('attachFileDatas.php');
 		<dd>
 			<input type="text" name="tag" id="tag" />
 			<button type="button" class="ui-button btn-small" role-action="addTag">추가</button>
+			<?
+			if ($allTagsData)
+			{
+				$allTagsData = json_decode($allTagsData);
+			?>
+				<div class="tagIndexWrap" id="allTagsIndex">
+					<div class="list">
+						<ul>
+							<?
+							foreach ($allTagsData as $k=>$v)
+							{
+								echo "<li><span>$v->name</span><em>$v->count</em></li>";
+							}
+							?>
+						</ul>
+					</div>
+					<button type="button" class="ui-button btn-small">모든태그</button>
+				</div>
+			<?
+			}
+			?>
 			<div class="tagList" id="tags"></div>
 		</dd>
 	</dl>
@@ -83,20 +113,34 @@ jQuery(function($){
 	});
 
 	// tag manager
-	var importTag = ['하하', '호호', '히히'];
 	var tagManager = new TagManager($('#tag'), $('#tags'));
 	$('[role-action=addTag]').on('click', function(){
 		tagManager.add(tagManager.$input.val());
 	});
-	tagManager.import(importTag);
+	// all tags init
+	tagManager.allTags($('#allTagsIndex'));
+
+/*
+	// importTag
+	// $article['json']->tags
+	// tagManager.import(tags);
+*/
 
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){
+		var json = new Object();
+
+		// thumnail image check
 		if (uploadInterface.thumnailImageCheck())
 		{
 			return false;
 		}
-		return false;
+
+		// export tag data
+		json.tag = tagManager.export();
+
+		// json object to hidden string
+		$(this).find('input[name=json]').val(JSON.stringify(json));
 	});
 });
 </script>
