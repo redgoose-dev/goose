@@ -129,13 +129,13 @@ button.ui-button.block { width: 100%; }
 /* Index */
 ul.index { margin: 0; padding: 0; list-style: none; }
 ul.index > li { margin: 0; border-bottom: 1px dashed #d6d6d6; }
+ul.index > li em { font-style: normal; }
 ul.index > li > a { display: block; padding: 10px 0; text-decoration: none; }
 ul.index > li > a > dl { margin: 0; }
 ul.index > li > a > dl > dt { float: right; padding: 0; margin: -3px 0; }
 ul.index > li > a > dl > dt > img { display: block; max-width: 60px; }
 ul.index > li > a > dl > dd { margin: 0; }
 ul.index > li > a > dl > dd.body > strong { color: #b68250; font-size: 14px; }
-ul.index > li > a > dl > dd.body > strong > em { font-style: normal; }
 ul.index > li > a > dl > dd.body > .inf { font-size: 13px; color: #666; }
 ul.index > li > a > dl > dd.body > .inf > span:after { content: ','; }
 ul.index > li > a > dl > dd.body > .inf > span:last-child:after { content: ''; }
