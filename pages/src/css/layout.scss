@@ -79,45 +79,59 @@
 /* Index */
 ul.index {
 	margin: 0; padding: 0; list-style: none;
-	a {text-decoration: none;}
-	li {
+	> li {
 		margin: 0;
 		border-bottom:1px dashed #d6d6d6;
-		> a {display: block; padding: 10px 0;}
+		> a {
+			display: block; padding: 10px 0; text-decoration: none;
+			> dl {
+				margin: 0;
+				@extend %clear;
+				> dt {
+					float: right; padding: 0; margin: -3px 0;
+					> img {display: block; max-width: 60px;}
+				}
+				> dd {
+					margin: 0;
+					&.body {
+						> strong {
+							color:#b68250; font-size: 14px;
+							> em {font-style: normal;}
+						}
+						> .inf {
+							font-size:13px; color:#666;
+							> span {
+								&:after {content: ',';}
+								&:last-child:after {content: '';}
+							}
+							> p {margin: 0;}
+						}
+					}
+				}
+				&.noimg {
+					> dd {margin-right: 70px;}
+				}
+			}
+		}
 		> .body {
 			@extend %clear;
 			padding: 10px 0;
-			> a {display: block; padding: 0;}
-		}
-		&:hover {
-			/* background: #f9f9f9; */
+			> a {
+				display: block; padding: 0; text-decoration: none;
+				> strong {color:#b68250; font-size: 16px;}
+			}
+			> strong {color:#b68250; font-size: 16px;}
+			> .inf {
+				font-size: 13px; color: #666;
+				> span {
+					&:after {content: ',';}
+					&:last-child:after {content: '';}
+				}
+			}
 		}
 		&.placeHolder {background: #e4f5fa;}
 	}
-	dl {
-		margin: 0;
-		@extend %clear;
-		dt {
-			float: right; padding: 0; margin: -3px 0;
-			img {display: block; max-width: 60px;}
-		}
-		dd {margin: 0;}
-		&.noimg {
-			dd {margin-right: 70px;}
-		}
-	}
-	.body {
-		strong {color:#b68250; font-size: 14px;}
-		em {font-style: normal;}
-	}
-	.inf {
-		font-size:13px; color:#666;
-		span {
-			&:after {content: ',';}
-			&:last-child:after {content: '';}
-		}
-		p {margin: 0;}
-	}
+
 	nav {
 		float: right; margin-top: 10px;
 		a {
@@ -251,8 +265,8 @@ ul.index {
 	#container {
 		margin: 15px $margin_side 20px;
 		.hgroup {
-			h1 {font-size:24px;}
-			p {
+			> h1 {font-size: 24px;}
+			> p {
 				span {
 					&:before {
 						content: '| '; padding-left: 3px; padding-right: 3px; color: #999;
@@ -260,6 +274,7 @@ ul.index {
 					&:first-child:before {display: none;}
 				}
 			}
+			&.detail > h1 {font-size: 16px; margin-bottom: 0;}
 		}
 	}
 
