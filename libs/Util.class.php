@@ -335,5 +335,23 @@ class Util {
 
 		return $this->fop($dir, 'w', $str);
 	}
+
+	/**
+	 * Array to Array
+	 * 특정 배열키를 지정한 값을 새로운 배열로 만든다.
+	 * 
+	 * @Param {Array} $originalArray : 원본배열
+	 * @Param {String} $key : 추출할 배열의 키
+	 * @Return {Array} : 추출한 값들의 배열
+	 */
+	public function arrayToArray($originalArray=array(), $key=null)
+	{
+		$resultArray = array();
+		foreach ($originalArray as $k=>$v)
+		{
+			array_push($resultArray, $v[$key]);
+		}
+		return $resultArray;
+	}
 }
 ?>
