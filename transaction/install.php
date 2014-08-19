@@ -87,6 +87,7 @@ $result = $spawn->action("
 		`regdate` varchar(14) default null,
 		`modate` varchar(14) default null,
 		`hit` int(11) not null default 0,
+		`json` text default null,
 		`ipAddress` varchar(15) default null,
 		primary key (`srl`),
 		unique key `srl` (`srl`)
@@ -223,6 +224,7 @@ $result = $spawn->action("
 		`useCategory` int(1) not null default '0',
 		`useExtraVar` int(1) not null default '0',
 		`editor` varchar(30) default null,
+		`json` text default null,
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");

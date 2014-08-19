@@ -46,6 +46,7 @@ switch($paramAction)
 				'useCategory' => (int)$_POST['useCategory'],
 				'useExtraVar' => (int)$_POST['useExtraVar'],
 				'editor' => $_POST['editor'],
+				'json' => $_POST['json'],
 				'regdate' => $regdate
 			)
 		));
@@ -83,7 +84,8 @@ switch($paramAction)
 				"listCount='$listCount'",
 				"useCategory='$_POST[useCategory]'",
 				"useExtraVar='$_POST[useExtraVar]'",
-				"editor='$_POST[editor]'"
+				"editor='$_POST[editor]'",
+				"json='$_POST[json]'"
 			)
 		));
 		$util->redirect(GOOSE_ROOT.'/nest/index/'.$_POST['group_srl'].'/');

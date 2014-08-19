@@ -1,7 +1,7 @@
 /* Variables */
 /* mixin */
 /* placeholder */
-#header nav ul:after, ul.index li > .body:after, ul.index dl:after, .categories ul:after { content: ''; display: block; clear: both; }
+#header nav ul:after, ul.index > li > a > dl:after, ul.index > li > .body:after, .categories ul:after { content: ''; display: block; clear: both; }
 
 #header nav ul, .categories ul { margin: 0; padding: 0; list-style: none; }
 
@@ -53,7 +53,7 @@ button.ui-button.block { width: 100%; }
 
 /* Headding */
 .hgroup { padding: 0; position: relative; border-bottom: 1px solid #ccc; }
-.hgroup > h1 { font-size: 20px; margin: 0 0 0px; line-height: 28px; }
+.hgroup > h1 { font-size: 20px; margin: 0; line-height: 28px; }
 .hgroup > h1 a { color: #111111; text-decoration: none; }
 .hgroup > p { margin: 0 0 4px; font-size: 12px; color: #666666; }
 
@@ -128,24 +128,27 @@ button.ui-button.block { width: 100%; }
 
 /* Index */
 ul.index { margin: 0; padding: 0; list-style: none; }
-ul.index a { text-decoration: none; }
-ul.index li { margin: 0; border-bottom: 1px dashed #d6d6d6; }
-ul.index li > a { display: block; padding: 10px 0; }
-ul.index li > .body { padding: 10px 0; }
-ul.index li > .body > a { display: block; padding: 0; }
-ul.index li:hover { /* background: #f9f9f9; */ }
-ul.index li.placeHolder { background: #e4f5fa; }
-ul.index dl { margin: 0; }
-ul.index dl dt { float: right; padding: 0; margin: -3px 0; }
-ul.index dl dt img { display: block; max-width: 60px; }
-ul.index dl dd { margin: 0; }
-ul.index dl.noimg dd { margin-right: 70px; }
-ul.index .body strong { color: #b68250; font-size: 14px; }
-ul.index .body em { font-style: normal; }
-ul.index .inf { font-size: 13px; color: #666; }
-ul.index .inf span:after { content: ','; }
-ul.index .inf span:last-child:after { content: ''; }
-ul.index .inf p { margin: 0; }
+ul.index > li { margin: 0; border-bottom: 1px dashed #d6d6d6; }
+ul.index > li > a { display: block; padding: 10px 0; text-decoration: none; }
+ul.index > li > a > dl { margin: 0; }
+ul.index > li > a > dl > dt { float: right; padding: 0; margin: -3px 0; }
+ul.index > li > a > dl > dt > img { display: block; max-width: 60px; }
+ul.index > li > a > dl > dd { margin: 0; }
+ul.index > li > a > dl > dd.body > strong { color: #b68250; font-size: 14px; }
+ul.index > li > a > dl > dd.body > strong > em { font-style: normal; }
+ul.index > li > a > dl > dd.body > .inf { font-size: 13px; color: #666; }
+ul.index > li > a > dl > dd.body > .inf > span:after { content: ','; }
+ul.index > li > a > dl > dd.body > .inf > span:last-child:after { content: ''; }
+ul.index > li > a > dl > dd.body > .inf > p { margin: 0; }
+ul.index > li > a > dl.noimg > dd { margin-right: 70px; }
+ul.index > li > .body { padding: 10px 0; }
+ul.index > li > .body > a { display: block; padding: 0; text-decoration: none; }
+ul.index > li > .body > a > strong { color: #b68250; font-size: 16px; }
+ul.index > li > .body > strong { color: #b68250; font-size: 16px; }
+ul.index > li > .body > .inf { font-size: 13px; color: #666; }
+ul.index > li > .body > .inf > span:after { content: ','; }
+ul.index > li > .body > .inf > span:last-child:after { content: ''; }
+ul.index > li.placeHolder { background: #e4f5fa; }
 ul.index nav { float: right; margin-top: 10px; }
 ul.index nav a { display: inline-block; padding: 3px 5px; font-size: 13px; font-weight: 600; color: #666666; text-decoration: none; }
 ul.index nav a.highlight { color: #333333; }
@@ -178,7 +181,7 @@ ul.index .empty:hover { background: none; }
 .form fieldset > dl > dt { margin: 0 0 4px 3px; padding: 0; font-size: 14px; font-weight: 600; word-break: break-all; }
 .form fieldset > dl > dt:before { content: ''; display: inline-block; width: 5px; height: 10px; margin-right: 5px; background-image: url("../img/ico_arrow1.png"); background-position: 0 45%; background-repeat: no-repeat; background-size: 5px auto; }
 .form fieldset > dl > dd { margin: 3px 0 0 0; font-size: 13px; color: #666666; }
-.form fieldset > dl > dd p { margin: 4px 0 0 0; }
+.form fieldset > dl > dd > p { margin: 4px 0 0 0; }
 .form fieldset > dl > dd .error { color: #e80000; }
 .form fieldset > dl > dd label.error { display: block; margin: 4px 0 0 0; }
 .form fieldset .required:before { content: '* '; }
@@ -195,9 +198,10 @@ ul.index .empty:hover { background: none; }
   #header nav li { float: left; margin-right: 15px; width: auto; }
   #header nav li a { font-size: 14px; padding: 0; }
   #container { margin: 15px 12px 20px; }
-  #container .hgroup h1 { font-size: 24px; }
-  #container .hgroup p span:before { content: '| '; padding-left: 3px; padding-right: 3px; color: #999; }
-  #container .hgroup p span:first-child:before { display: none; }
+  #container .hgroup > h1 { font-size: 24px; }
+  #container .hgroup > p span:before { content: '| '; padding-left: 3px; padding-right: 3px; color: #999; }
+  #container .hgroup > p span:first-child:before { display: none; }
+  #container .hgroup.detail > h1 { font-size: 16px; margin-bottom: 0; }
   #footer { text-align: right; }
   .auth fieldset, .auth nav { padding: 0; }
   ul.index .body strong { font-size: 16px; }

@@ -1,0 +1,53 @@
+.tagList {margin: 8px 0 0 0;}
+.tagList:after {content: ''; display: block; clear: both;}
+.tagList p {
+	float: left; margin: 0 3px 2px 0; padding: 4px 8px; position: relative;
+	font-size: 11px;
+	background: #eaf4f8; border-radius: 1em;
+}
+.tagList span {color: #555; padding-right: 15px;}
+.tagList button {
+	position: absolute; right: 6px; top: 50%;
+	width: 16px; height: 16px; margin-top: -8px;
+	background: transparent;
+	border: none; text-indent: -9999px; cursor: pointer;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+}
+.tagList button:before,
+.tagList button:after {
+	content: ''; position: absolute; left: 50%; top: 50%;
+	background: #999;
+}
+.tagList button:before {
+	width: 8px; margin-left: -4px;
+	height: 2px; margin-top: -1px;
+}
+.tagList button:after {
+	width: 2px; margin-left: -1px;
+	height: 8px; margin-top: -4px;
+}
+
+.tagIndexWrap {display: inline-block;}
+.tagIndexWrap .list {position: relative;}
+.tagIndexWrap .list > ul {
+	margin: 0; padding: 8px 5px; list-style: none; display: none;
+	position: absolute; left: 0; bottom: 0; width: 200px;
+	background: white;
+	border: 1px solid #ccc;
+	box-shadow: 1px 1px 3px rgba(0,0,0,.3);
+}
+.tagIndexWrap .list > ul > li {
+	float: left; padding: 5px 10px; margin: 0; width: 50%;
+	font-size: 12px; font-family: 'Helvetica';
+	cursor: pointer;
+}
+.tagIndexWrap .list > ul > li:hover {text-decoration: underline;}
+.tagIndexWrap .list > ul > li > span {}
+.tagIndexWrap .list > ul > li > em {font-style: normal;}
+.tagIndexWrap .list > ul > li > em:before {content: '(';}
+.tagIndexWrap .list > ul > li > em:after {content: ')';}
+.tagIndexWrap .list > ul > li.on {color: #aaa;}
+.tagIndexWrap.on .list > ul {display: block;}

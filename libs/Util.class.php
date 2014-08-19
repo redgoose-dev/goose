@@ -198,15 +198,21 @@ class Util {
 	 * @param String $dir : 파일경로
 	 * @param String $method : 조작방식(a:기존 데이터 추가, w:새로작성, r:내용읽기)
 	 * @param String $str : 추가하거나 수정할 내용
-	 * @param Number $permission : 퍼미션. ex)777
+	 * @param Number $permission : 퍼미션. ex)0777
 	 * @return String : $method값이 'r'이면 파일내용이 출력되고, 'w'나 'a'이면 처리 결과값이 출력된다.
 	 */
 	public function fop($dir=null, $method=null, $str=null, $permission=null)
 	{
+		if (!file_exists($dir) && $method != 'w')
+		{
+			return false;
+		}
+
 		$file = fopen($dir, $method) or die('file open fail');
+
 		if ($method == 'r')
 		{
-			$result = fread($file, 1000000);
+			$result = fread($file, (filesize($dir) > 1) ? filesize($dir) : 10);
 			fclose($file);
 			return $result;
 		}
@@ -328,6 +334,24 @@ class Util {
 		$str .= "?>";
 
 		return $this->fop($dir, 'w', $str);
+	}
+
+	/**
+	 * Array to Array
+	 * 특정 배열키를 지정한 값을 새로운 배열로 만든다.
+	 * 
+	 * @Param {Array} $originalArray : 원본배열
+	 * @Param {String} $key : 추출할 배열의 키
+	 * @Return {Array} : 추출한 값들의 배열
+	 */
+	public function arrayToArray($originalArray=array(), $key=null)
+	{
+		$resultArray = array();
+		foreach ($originalArray as $k=>$v)
+		{
+			array_push($resultArray, $v[$key]);
+		}
+		return $resultArray;
 	}
 }
 ?>

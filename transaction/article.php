@@ -5,6 +5,14 @@ $ipAddress = $_SERVER['REMOTE_ADDR'];
 $regdate = date("YmdHis");
 $_POST['title'] = htmlspecialchars($_POST['title']);
 
+$nest = $spawn->getItem(array(
+	'table' => $tablesName['nests']
+	,'where' => 'srl='.$_POST['nest_srl']
+));
+
+$editorDir = PWD.'/plugins/editor/'.$nest['editor'];
+
+
 /**
  * upload file db update
  * tempFiles 테이블에 있는 임시파일들 목록을 files 테이블에 옮기고, 썸네일으로 사용하는 첨부파일 번호를 리턴한다.
@@ -105,6 +113,7 @@ switch($paramAction)
 				'thumnail_coords' => $_POST['thumnail_coords'],
 				'regdate' => $regdate,
 				'modate' => $regdate,
+				'json' => $_POST['json'],
 				'hit' => 0,
 				'ipAddress' => $ipAddress
 			)
@@ -155,6 +164,11 @@ switch($paramAction)
 					));
 				}
 			}
+		}
+
+		if (file_exists($editorDir.'/transaction_article.php'))
+		{
+			require_once($editorDir.'/transaction_article.php');
 		}
 
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
@@ -212,6 +226,7 @@ switch($paramAction)
 				"content='$_POST[content]'",
 				"thumnail_coords='$_POST[thumnail_coords]'",
 				"modate='$regdate'",
+				"json='$_POST[json]'",
 				"ipAddress='$ipAddress'"
 			)
 		));
@@ -293,6 +308,11 @@ switch($paramAction)
 			}
 		}
 
+		if (file_exists($editorDir.'/transaction_article.php'))
+		{
+			require_once($editorDir.'/transaction_article.php');
+		}
+
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
 		$util->redirect(GOOSE_ROOT.'/article/view/'.$_POST['article_srl'].'/'.(($params) ? '?'.$params : ''));
 		break;
@@ -342,12 +362,15 @@ switch($paramAction)
 			'where' => 'article_srl='.(int)$_POST['article_srl']
 		));
 
+		if (file_exists($editorDir.'/transaction_article.php'))
+		{
+			require_once($editorDir.'/transaction_article.php');
+		}
+
 		$addUrl = ($_POST['nest_srl']) ? $_POST['nest_srl'].'/' : '';
 		$addUrl .= ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
 		$util->redirect(GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
-
-		$util->redirect($url);
 		break;
 }
 ?>
