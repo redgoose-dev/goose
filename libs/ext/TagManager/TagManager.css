@@ -1,14 +1,11 @@
-.tagList {
-	margin: 8px 0 0 0;
-}
+.tagList {margin: 8px 0 0 0;}
 .tagList:after {content: ''; display: block; clear: both;}
 .tagList p {
-	float: left; margin: 0 1px 1px 0; padding: 4px 8px; position: relative;
-	background: #e7eced;
+	float: left; margin: 0 3px 2px 0; padding: 4px 8px; position: relative;
+	font-size: 11px;
+	background: #eaf4f8; border-radius: 1em;
 }
-.tagList span {
-	color: #555; padding-right: 18px;
-}
+.tagList span {color: #555; padding-right: 15px;}
 .tagList button {
 	position: absolute; right: 6px; top: 50%;
 	width: 16px; height: 16px; margin-top: -8px;
@@ -47,8 +44,10 @@
 	font-size: 12px; font-family: 'Helvetica';
 	cursor: pointer;
 }
+.tagIndexWrap .list > ul > li:hover {text-decoration: underline;}
 .tagIndexWrap .list > ul > li > span {}
 .tagIndexWrap .list > ul > li > em {font-style: normal;}
 .tagIndexWrap .list > ul > li > em:before {content: '(';}
 .tagIndexWrap .list > ul > li > em:after {content: ')';}
+.tagIndexWrap .list > ul > li.on {color: #aaa;}
 .tagIndexWrap.on .list > ul {display: block;}

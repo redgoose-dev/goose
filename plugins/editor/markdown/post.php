@@ -3,15 +3,22 @@ if(!defined("GOOSE")){exit();}
 
 $path = '/plugins/editor/'.$nest['editor'];
 $extPath = GOOSE_ROOT.'/libs/ext';
+$tagPath = PWD.'/data/config/tags.user.txt';
 require('attachFileDatas.php');
-$allTagsData = null;
 
-if (file_exists(PWD.$path.'/tags.user.txt'))
+// all tags
+if (file_exists($tagPath))
 {
-	$allTagsData = $util->fop(PWD.$path.'/tags.user.txt', 'r');
+	$allTagsData = $util->fop($tagPath, 'r');
 }
 
-// $article['json']
+// article tags
+if (isset($article['json']))
+{
+	$articleJson = json_decode($article['json'], true);
+	$articleTags = $articleJson['tag'];
+	$articleTagsString = json_encode($articleTags);
+}
 ?>
 
 <link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
@@ -50,25 +57,29 @@ if (file_exists(PWD.$path.'/tags.user.txt'))
 		<dd>
 			<input type="text" name="tag" id="tag" />
 			<button type="button" class="ui-button btn-small" role-action="addTag">추가</button>
+			<button type="button" class="ui-button btn-small" role-action="removeAllTags">모두삭제</button>
 			<?
-			if ($allTagsData)
+			if (isset($allTagsData))
 			{
 				$allTagsData = json_decode($allTagsData);
+				if (count($allTagsData))
+				{
 			?>
-				<div class="tagIndexWrap" id="allTagsIndex">
-					<div class="list">
-						<ul>
-							<?
-							foreach ($allTagsData as $k=>$v)
-							{
-								echo "<li><span>$v->name</span><em>$v->count</em></li>";
-							}
-							?>
-						</ul>
+					<div class="tagIndexWrap" id="allTagsIndex">
+						<div class="list">
+							<ul>
+								<?
+								foreach ($allTagsData as $k=>$v)
+								{
+									echo "<li><span>$v->name</span><em>$v->count</em></li>";
+								}
+								?>
+							</ul>
+						</div>
+						<button type="button" class="ui-button btn-small">모든태그</button>
 					</div>
-					<button type="button" class="ui-button btn-small">모든태그</button>
-				</div>
 			<?
+				}
 			}
 			?>
 			<div class="tagList" id="tags"></div>
@@ -114,17 +125,23 @@ jQuery(function($){
 
 	// tag manager
 	var tagManager = new TagManager($('#tag'), $('#tags'));
+	// add tag
 	$('[role-action=addTag]').on('click', function(){
 		tagManager.add(tagManager.$input.val());
 	});
+	// remove all tags
+	$('[role-action=removeAllTags]').on('click', function(){
+		if (confirm('모든 태그를 삭제하시겠습니까?'))
+		{
+			tagManager.remove($('#tags > p'));
+		}
+	});
+	// importTags
+	var articleTags = '<?=$articleTagsString?>';
+	articleTags = (articleTags) ? JSON.parse(articleTags) : '';
+	tagManager.import(articleTags);
 	// all tags init
-	tagManager.allTags($('#allTagsIndex'));
-
-/*
-	// importTag
-	// $article['json']->tags
-	// tagManager.import(tags);
-*/
+	tagManager.allTagsInit($('#allTagsIndex'));
 
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){

@@ -170,7 +170,6 @@ switch($paramAction)
 		{
 			require_once($editorDir.'/transaction_article.php');
 		}
-		break;
 
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$util->redirect(GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
