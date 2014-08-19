@@ -34,7 +34,7 @@ if ($article['category_srl'])
 ?>
 
 <section>
-	<div class="hgroup">
+	<div class="hgroup detail">
 		<h1><?=$categoryName.$article['title']?></h1>
 		<p>
 			<span><?=$util->convertDate($article['regdate']).'&nbsp;'.$util->convertTime($article['regdate'])?></span>
