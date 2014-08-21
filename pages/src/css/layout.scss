@@ -79,6 +79,7 @@
 /* Index */
 ul.index {
 	margin: 0; padding: 0; list-style: none;
+	em {font-style: normal;}
 	> li {
 		margin: 0;
 		border-bottom:1px dashed #d6d6d6;
@@ -94,10 +95,7 @@ ul.index {
 				> dd {
 					margin: 0;
 					&.body {
-						> strong {
-							color:#b68250; font-size: 14px;
-							> em {font-style: normal;}
-						}
+						> strong {color:#b68250; font-size: 14px;}
 						> .inf {
 							font-size:13px; color:#666;
 							> span {

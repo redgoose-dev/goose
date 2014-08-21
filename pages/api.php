@@ -27,7 +27,7 @@
 		<h1>API Key</h1>
 		<p>
 			apikey값은 /{goose}/data/config/user.php 파일의 $api_key 값을 암호화한 아래의 값을 사용하여 인증합니다.
-			<input type="text" value="<?=md5($api_key)?>" class="block" readonly />
+			<input type="text" value="<?=md5($goose->api_key)?>" class="block" readonly />
 		</p>
 	</section>
 

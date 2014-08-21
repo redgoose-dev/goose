@@ -1,9 +1,9 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$jsonCount = $spawn->getCount(array('table'=>$tablesName['jsons']));
-$jsonIndex = $spawn->getItems(array(
-	'table' => $tablesName['jsons'],
+$jsonCount = $goose->spawn->getCount(array('table'=>'jsons'));
+$jsonIndex = $goose->spawn->getItems(array(
+	'table' => 'jsons',
 	'order' => 'srl',
 	'sort' => 'desc'
 ));
@@ -24,15 +24,15 @@ $jsonIndex = $spawn->getItems(array(
 			?>
 				<li>
 					<div class="body">
-						<a href="<?=GOOSE_ROOT?>/json/view/<?=$v[srl]?>/">
-							<strong><?=$v[srl]?>. <?=$v[name]?></strong>
+						<a href="<?=GOOSE_ROOT?>/json/view/<?=$v['srl']?>/">
+							<strong><?=$v['srl']?>. <?=$v['name']?></strong>
 						</a>
 						<div class="inf">
-							<span>등록일 : <?=$util->convertDate($v[regdate])?></span>
+							<span>등록일 : <?=$goose->util->convertDate($v['regdate'])?></span>
 						</div>
 						<nav>
-							<a href="<?=GOOSE_ROOT?>/json/modify/<?=$v[srl]?>/">수정</a>
-							<a href="<?=GOOSE_ROOT?>/json/delete/<?=$v[srl]?>/">삭제</a>
+							<a href="<?=GOOSE_ROOT?>/json/modify/<?=$v['srl']?>/">수정</a>
+							<a href="<?=GOOSE_ROOT?>/json/delete/<?=$v['srl']?>/">삭제</a>
 						</nav>
 					</div>
 				</li>

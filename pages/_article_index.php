@@ -1,8 +1,10 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+/*
 $nest_srl = (int)$routePapameters['param0'];
 $category_srl = (isset($routePapameters['param1'])) ? (int)$routePapameters['param1'] : null;
+*/
 
 if ($nest_srl)
 {

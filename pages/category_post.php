@@ -12,26 +12,26 @@ else if ($routePapameters['param0'])
 }
 else
 {
-	$util->back('값이 없습니다.');
-	$util->out();
+	$goose->util->back('값이 없습니다.');
+	$goose->util->out();
 }
 
-$nest = $spawn->getItem(array(
+$nest = $goose->spawn->getItem(array(
 	'field' => 'srl,group_srl,name',
-	'table' => $tablesName[nests],
+	'table' => 'nests',
 	'where' => 'srl='.$nest_srl
 ));
-$nestName = ($nest[name]) ? '['.$nest[name].'] ' : null;
+$nestName = ($nest['name']) ? '['.$nest['name'].'] ' : null;
 
 if ($paramAction !== 'create')
 {
 	if (!$category_srl)
 	{
-		$util->back('category_srl값이 없습니다.');
-		$util->out();
+		$goose->util->back('category_srl값이 없습니다.');
+		$goose->util->out();
 	}
-	$category = $spawn->getItem(array(
-		'table' => $tablesName[categories],
+	$category = $goose->spawn->getItem(array(
+		'table' => 'categories',
 		'where' => 'srl='.$category_srl
 	));
 }
@@ -46,7 +46,7 @@ $titleType = getActionType($paramAction);
 
 	<form action="<?=GOOSE_ROOT?>/category/<?=$paramAction?>/" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
-		<input type="hidden" name="group_srl" value="<?=$nest[group_srl]?>"/>
+		<input type="hidden" name="group_srl" value="<?=$nest['group_srl']?>"/>
 		<input type="hidden" name="category_srl" value="<?=$category_srl?>"/>
 		<?
 		if ($paramAction == "delete")
@@ -54,7 +54,7 @@ $titleType = getActionType($paramAction);
 		?>
 			<fieldset>
 				<legend class="blind">분류<?=$titleType?></legend>
-				<p class="message">"<?=$category[name]?>"분류를 삭제하시겠습니까? 삭제된 분류는 복구할 수 없습니다.</p>
+				<p class="message">"<?=$category['name']?>"분류를 삭제하시겠습니까? 삭제된 분류는 복구할 수 없습니다.</p>
 			</fieldset>
 		<?
 		}
@@ -65,7 +65,7 @@ $titleType = getActionType($paramAction);
 				<legend class="blind">분류<?=$titleType?></legend>
 				<dl class="table">
 					<dt><label for="name">이름</label></dt>
-					<dd><input type="text" name="name" id="name" size="20" maxlength="20" value="<?=$category[name]?>"/></dd>
+					<dd><input type="text" name="name" id="name" size="20" maxlength="20" value="<?=$category['name']?>"/></dd>
 				</dl>
 			</fieldset>
 		<?

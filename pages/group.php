@@ -4,7 +4,7 @@ if(!defined("GOOSE")){exit();}
 // index
 if ($paramAction == 'index')
 {
-	$itemCount = $spawn->getCount(array('table'=>$tablesName[nestGroups]));
+	$itemCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 ?>
 	<section>
 		<div class="hgroup">
@@ -14,24 +14,24 @@ if ($paramAction == 'index')
 			<?
 			if ($itemCount > 0)
 			{
-				$itemIndex = $spawn->getItems(array(
-					'table' => $tablesName[nestGroups],
+				$itemIndex = $goose->spawn->getItems(array(
+					'table' => 'nestGroups',
 					'order' => 'srl',
 					'sort' => 'asc'
 				));
 				foreach ($itemIndex as $k=>$v)
 				{
-					$nestCount = $spawn->getCount(array(
-						'table' => $tablesName[nests],
-						'where' => 'group_srl='.(int)$v[srl]
+					$nestCount = $goose->spawn->getCount(array(
+						'table' => 'nests',
+						'where' => 'group_srl='.(int)$v['srl']
 					));
 				?>
 					<li>
 						<div class="body">
-							<strong><?=$v[srl]?> - <?=$v[name]?>(<?=$nestCount?>)</strong>
+							<strong><?=$v['srl']?> - <?=$v['name']?>(<?=$nestCount?>)</strong>
 							<nav>
-								<a href="<?=GOOSE_ROOT?>/group/modify/<?=$v[srl]?>/">수정</a>
-								<a href="<?=GOOSE_ROOT?>/group/delete/<?=$v[srl]?>/">삭제</a>
+								<a href="<?=GOOSE_ROOT?>/group/modify/<?=$v['srl']?>/">수정</a>
+								<a href="<?=GOOSE_ROOT?>/group/delete/<?=$v['srl']?>/">삭제</a>
 							</nav>
 						</div>
 					</li>
@@ -69,9 +69,9 @@ else
 			<?
 			if ($group_srl)
 			{
-				$group = $spawn->getItem(array(
+				$group = $goose->spawn->getItem(array(
 					'field' => 'name',
-					'table' => $tablesName[nestGroups],
+					'table' => 'nestGroups',
 					'where' => 'srl='.$group_srl
 				));
 			}
@@ -81,7 +81,7 @@ else
 			?>
 				<fieldset class="delete">
 					<legend class="blind">테이블 그룹<?=$postTitleArray[$type]?></legend>
-					<p class="message">"<?=$group[name]?>"그룹를 삭제하시겠습니까? 삭제된 그룹은 복구할 수 없습니다.</p>
+					<p class="message">"<?=$group['name']?>"그룹를 삭제하시겠습니까? 삭제된 그룹은 복구할 수 없습니다.</p>
 				</fieldset>
 			<?
 			}
@@ -92,7 +92,7 @@ else
 					<legend class="blind">그룹<?=$titleType?></legend>
 					<dl class="table">
 						<dt><label for="name">이름</label></dt>
-						<dd><input type="text" name="name" id="name" size="20" maxlength="20" value="<?=$group[name]?>"/></dd>
+						<dd><input type="text" name="name" id="name" size="20" maxlength="20" value="<?=$group['name']?>"/></dd>
 					</dl>
 				</fieldset>
 			<?

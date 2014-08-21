@@ -5,10 +5,7 @@ class Util {
 	var $start_time;
 
 	// init
-	public function Util()
-	{
-		$this->start_time = array_sum(explode(' ', microtime()));
-	}
+	public function Util() {}
 
 	/**
 	 * check type (배열이나 객체를 javascript object나 배열 형태로 변환)
@@ -31,35 +28,6 @@ class Util {
 		else
 		{
 			return "'" . $obj . "'";
-		}
-	}
-
-	/**
-	 * costom error (제대로 사용할지는 미정)
-	 * 
-	 * @anthor : redgoose
-	 * 
-	 * @param Number $code : 에러코드
-	 * @return void
-	*/
-	public function error($code=404)
-	{
-		switch($code)
-		{
-			case 404:
-				if (is_file(PWD.'/pages/404.html'))
-				{
-					require(PWD.'/pages/404.html');
-				}
-				else
-				{
-					echo "page not found : 404";
-				}
-				break;
-
-			default:
-				echo $code;
-				break;
 		}
 	}
 
@@ -182,11 +150,6 @@ class Util {
 		if ($spawn)
 		{
 			$spawn->disconnect();
-		}
-		if ($timeCheck)
-		{
-			$end_time = array_sum(explode(' ', microtime()));
-			echo "<hr/>\n\nTIME : ".($end_time - $this->start_time);
 		}
 		exit;
 	}
@@ -320,8 +283,6 @@ class Util {
 		$str .= "\$tablesName = array(\n";
 		$str .= "\t'articles' => '".$post['dbPrefix']."articles',\n";
 		$str .= "\t'categories' => '".$post['dbPrefix']."categories',\n";
-		$str .= "\t'extraKey' => '".$post['dbPrefix']."extraKey',\n";
-		$str .= "\t'extraVar' => '".$post['dbPrefix']."extraVar',\n";
 		$str .= "\t'files' => '".$post['dbPrefix']."files',\n";
 		$str .= "\t'users' => '".$post['dbPrefix']."users',\n";
 		$str .= "\t'nestGroups' => '".$post['dbPrefix']."nestGroups',\n";
@@ -352,6 +313,23 @@ class Util {
 			array_push($resultArray, $v[$key]);
 		}
 		return $resultArray;
+	}
+
+	/**
+	 * Check array
+	 * 배열을 isset으로 값이 문제없는지 확인하고 설정되어있지 않으면 null로 변수 초기화시킴
+	 * 
+	 * @param {Array} $target : 원본배열
+	 * @param {Array} $required : 확인할 키의 배열
+	 * @return {Array} : 체크한 원본배열
+	 */
+	public function checkArray($target, $required=array())
+	{
+		foreach ($required as $k=>$v)
+		{
+			$target[$v] = (isset($target[$v])) ? $target[$v] : null;
+		}
+		return $target;
 	}
 }
 ?>

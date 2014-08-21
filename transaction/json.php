@@ -8,16 +8,16 @@ switch($paramAction)
 	// create
 	case 'create':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('name', 'json'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('name', 'json'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
 		// insert data
-		$spawn->insert(array(
-			'table' => $tablesName['jsons'],
+		$goose->spawn->insert(array(
+			'table' => 'jsons',
 			'data' => array(
 				'srl' => null,
 				'name' => $_POST['name'],
@@ -27,21 +27,21 @@ switch($paramAction)
 		));
 
 		// go to index
-		$util->redirect(GOOSE_ROOT.'/json/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/json/index/');
 		break;
 
 	// modify
 	case 'modify':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('srl', 'name', 'json'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('srl', 'name', 'json'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
-		$spawn->update(array(
-			'table' => $tablesName['jsons'],
+		$goose->spawn->update(array(
+			'table' => 'jsons',
 			'where' => 'srl='.(int)$_POST['srl'],
 			'data' => array(
 				"name='$_POST[name]'",
@@ -50,24 +50,24 @@ switch($paramAction)
 			)
 			,'debug' => false
 		));
-		$util->redirect(GOOSE_ROOT.'/json/view/'.$_POST['srl'].'/');
+		$goose->util->redirect(GOOSE_ROOT.'/json/view/'.$_POST['srl'].'/');
 		break;
 
 	// delete
 	case 'delete':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('srl'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('srl'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
-		$spawn->delete(array(
-			'table' => $tablesName['jsons'],
+		$goose->spawn->delete(array(
+			'table' => 'jsons',
 			'where' => 'srl='.(int)$_POST['srl']
 		));
-		$util->redirect(GOOSE_ROOT.'/json/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/json/index/');
 		break;
 }
 ?>

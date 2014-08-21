@@ -6,8 +6,8 @@ $json_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'
 
 if ($paramAction !== "create" and $json_srl)
 {
-	$json = $spawn->getItem(array(
-		'table' => $tablesName['jsons'],
+	$json = $goose->spawn->getItem(array(
+		'table' => 'jsons',
 		'where' => 'srl='.$json_srl
 	));
 	$json['json'] = urlencode($json['json']);

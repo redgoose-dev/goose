@@ -4,25 +4,25 @@ if(!defined("GOOSE")){exit();}
 $nest_srl = (int)$routePapameters['param0'];
 if ($nest_srl)
 {
-	$nest = $spawn->getItem(array(
-		'table' => $tablesName[nests],
+	$nest = $goose->spawn->getItem(array(
+		'table' => 'nests',
 		'where' => 'srl='.$nest_srl
 	));
-	$categoryCount = $spawn->getCount(array(
-		'table' => $tablesName[categories],
-		'where' => 'nest_srl='.(int)$nest[srl]
+	$categoryCount = $goose->spawn->getCount(array(
+		'table' => 'categories',
+		'where' => 'nest_srl='.(int)$nest['srl']
 	));
 }
 else
 {
-	$util->back('둥지값이 없습니다.');
+	$goose->util->back('둥지값이 없습니다.');
 	exit;
 }
 ?>
 
 <section>
 	<div class="hgroup">
-		<h1><?=$nest[name]?> 분류목록</h1>
+		<h1><?=$nest['name']?> 분류목록</h1>
 	</div>
 	<form action="<?=GOOSE_ROOT?>/category/sort/" method="post" name="listForm" id="listForm" class="hidden">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
@@ -33,26 +33,25 @@ else
 				<?
 				if ($categoryCount > 0)
 				{
-					$items = $spawn->getItems(array(
-						'table' => $tablesName[categories],
+					$items = $goose->spawn->getItems(array(
+						'table' => 'categories',
 						'where' => 'nest_srl='.$nest_srl,
 						'order' => 'turn',
 						'sort' => 'asc'
 					));
 					foreach($items as $k=>$v)
 					{
-						$count = $spawn->getCount(array(
-							'table' => $tablesName[articles],
-							'where' => 'category_srl='.(int)$v[srl]
+						$count = $goose->spawn->getCount(array(
+							'table' => 'articles',
+							'where' => 'category_srl='.(int)$v['srl']
 						));
-						$gets = "&table_srl=$table_srl&category_srl=$doc[srl]";
 				?>
-						<li srl="<?=$v[srl]?>">
+						<li srl="<?=$v['srl']?>">
 							<div class="body">
-								<strong><?=$v[name]?>(<?=$count?>)</strong>
+								<strong><?=$v['name']?>(<?=$count?>)</strong>
 								<nav>
-									<a href="<?=GOOSE_ROOT?>/category/modify/<?=$nest_srl?>/<?=$v[srl]?>/">수정</a>
-									<a href="<?=GOOSE_ROOT?>/category/delete/<?=$nest_srl?>/<?=$v[srl]?>/">삭제</a>
+									<a href="<?=GOOSE_ROOT?>/category/modify/<?=$nest_srl?>/<?=$v['srl']?>/">수정</a>
+									<a href="<?=GOOSE_ROOT?>/category/delete/<?=$nest_srl?>/<?=$v['srl']?>/">삭제</a>
 								</nav>
 							</div>
 						</li>
@@ -74,7 +73,7 @@ else
 			<span><a href="<?=GOOSE_ROOT?>/article/index/<?=$nest_srl?>/" class="ui-button">문서목록</a></span>
 			<?
 			$url = GOOSE_ROOT.'/nest/index/';
-			$url .= ($nest[group_srl]) ? $nest[group_srl].'/' : '';
+			$url .= ($nest['group_srl']) ? $nest['group_srl'].'/' : '';
 			?>
 			<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
 		</nav>

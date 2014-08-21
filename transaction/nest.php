@@ -14,27 +14,27 @@ switch($paramAction)
 		$regdate = date("YmdHis");
 
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('name', 'id'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('name', 'id'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
 		// 중복 아이디값 확인
-		$cnt = $spawn->getCount(array(
-			'table' => $tablesName['nests'],
+		$cnt = $goose->spawn->getCount(array(
+			'table' => 'nests',
 			'where' => "id='$_POST[id]'"
 		));
 		if ($cnt > 0)
 		{
-			$util->back('id가 이미 존재합니다.');
-			$util->out();
+			$goose->util->back('id가 이미 존재합니다.');
+			$goose->out();
 		}
 		
 		// insert data
-		$dd = $spawn->insert(array(
-			'table' => $tablesName['nests'],
+		$dd = $goose->spawn->insert(array(
+			'table' => 'nests',
 			'data' => array(
 				'srl' => null,
 				'group_srl' => (int)$_POST['group_srl'],
@@ -44,37 +44,34 @@ switch($paramAction)
 				'thumnailType' => $_POST['thumType'],
 				'listCount' => (int)$listCount,
 				'useCategory' => (int)$_POST['useCategory'],
-				'useExtraVar' => (int)$_POST['useExtraVar'],
-				'editor' => $_POST['editor'],
 				'json' => $_POST['json'],
 				'regdate' => $regdate
 			)
 		));
-
-		$util->redirect(GOOSE_ROOT.'/nest/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/nest/index/');
 		break;
 
 
 	// modify
 	case 'modify':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('name', 'nest_srl'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('name', 'nest_srl'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
-		$result = $spawn->update(array(
-			'table' => $tablesName['articles'],
+		$result = $goose->spawn->update(array(
+			'table' => 'articles',
 			'where' => "nest_srl='$_POST[nest_srl]'",
 			'data' => array(
 				"group_srl='$_POST[group_srl]'"
 			)
 		));
 
-		$result = $spawn->update(array(
-			'table' => $tablesName['nests'],
+		$result = $goose->spawn->update(array(
+			'table' => 'nests',
 			'where' => 'srl='.(int)$_POST['nest_srl'],
 			'data' => array(
 				"group_srl='$_POST[group_srl]'",
@@ -83,36 +80,34 @@ switch($paramAction)
 				"thumnailType='$_POST[thumType]'",
 				"listCount='$listCount'",
 				"useCategory='$_POST[useCategory]'",
-				"useExtraVar='$_POST[useExtraVar]'",
-				"editor='$_POST[editor]'",
 				"json='$_POST[json]'"
 			)
 		));
-		$util->redirect(GOOSE_ROOT.'/nest/index/'.$_POST['group_srl'].'/');
+		$goose->util->redirect(GOOSE_ROOT.'/nest/index/'.$_POST['group_srl'].'/');
 		break;
 
 
 	// delete
 	case 'delete':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('nest_srl'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('nest_srl'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
-		$articles = $spawn->getItems(array(
-			'table' => $tablesName['articles'],
+		$articles = $goose->spawn->getItems(array(
+			'table' => 'articles',
 			'where' => 'nest_srl='.(int)$_POST['nest_srl']
 		));
 
 		foreach ($articles as $k=>$v)
 		{
 			// get file index
-			$files = $spawn->getItems(array(
+			$files = $goose->spawn->getItems(array(
 				'field' => 'loc',
-				'table' => $tablesName['files'],
+				'table' => 'files',
 				'where' => 'article_srl='.(int)$v['srl']
 			));
 
@@ -135,33 +130,24 @@ switch($paramAction)
 			}
 
 			// delete db files
-			$spawn->delete(array(
-				'table' => $tablesName['files'],
-				'where' => 'article_srl='.(int)$v['srl']
-			));
-			// delete db extravar
-			$spawn->delete(array(
-				'table' => $tablesName['extraVars'],
+			$goose->spawn->delete(array(
+				'table' => 'files',
 				'where' => 'article_srl='.(int)$v['srl']
 			));
 		}
-		$spawn->delete(array(
-			'table' => $tablesName['categories'],
+		$goose->spawn->delete(array(
+			'table' => 'categories',
 			'where' => 'nest_srl='.(int)$_POST['nest_srl']
 		));
-		$spawn->delete(array(
-			'table' => $tablesName['extraKeys'],
+		$goose->spawn->delete(array(
+			'table' => 'articles',
 			'where' => 'nest_srl='.(int)$_POST['nest_srl']
 		));
-		$spawn->delete(array(
-			'table' => $tablesName['articles'],
-			'where' => 'nest_srl='.(int)$_POST['nest_srl']
-		));
-		$spawn->delete(array(
-			'table' => $tablesName['nests'],
+		$goose->spawn->delete(array(
+			'table' => 'nests',
 			'where' => 'srl='.(int)$_POST['nest_srl']
 		));
 
-		$util->redirect(GOOSE_ROOT.'/nest/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/nest/index/');
 		break;
 }

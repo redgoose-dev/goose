@@ -1,27 +1,42 @@
 <?
 if(!defined("GOOSE")){exit();}
 
-// skip error reporting
-@error_reporting(E_ALL ^ E_NOTICE);
-
-// session check
-$_SESSION['gooseEmail'] = isset($_SESSION['gooseEmail']) ? $_SESSION['gooseEmail'] : false;
-$_SESSION['gooseName'] = isset($_SESSION['gooseName']) ? $_SESSION['gooseName'] : false;
-$_SESSION['gooseLevel'] = isset($_SESSION['gooseLevel']) ? $_SESSION['gooseLevel'] : false;
-
-// load variable
-require_once(PWD.'/libs/variable.php');
-
-// init Util class
-require_once(PWD.'/libs/Util.class.php');
-$util = new Util();
-
-// check install
-if (file_exists(PWD."/data/config/user.php"))
+// set start time
+if (DEBUG)
 {
-	require_once(PWD.'/data/config/user.php');
+	@error_reporting(E_ALL);
+	@define(__StartTime__, array_sum(explode(' ', microtime())));
 }
 else
+{
+	@error_reporting(E_ALL ^ E_NOTICE);
+}
+
+
+// load php files
+require_once(PWD.'/libs/variable.php');
+require_once(PWD.'/libs/Goose.class.php');
+require_once(PWD.'/libs/Util.class.php');
+require_once(PWD.'/libs/Database.class.php');
+require_once(PWD.'/libs/Spawn.class.php');
+require_once(PWD.'/libs/Router.class.php');
+require_once(PWD.'/libs/functions.php');
+
+
+// init goose class
+$goose = Goose::getInstance();
+$goose->init();
+
+
+// session check
+$_SESSION = $goose->util->checkArray(
+	$_SESSION
+	,array('gooseEmail', 'gooseName', 'gooseLevel')
+);
+
+
+// check install
+if (!$goose->isInstalled())
 {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
@@ -31,20 +46,12 @@ else
 	{
 		require_once(PWD.'/pages/install.php');
 	}
-	$util->out();
+	exit;
 }
 
-// load library files
-require_once(PWD.'/libs/Database.class.php');
-require_once(PWD.'/libs/Spawn.class.php');
-require_once(PWD.'/libs/Router.class.php');
-require_once(PWD.'/libs/functions.php');
 
 // init router
 $router = new Router();
-
-// create instanse object
-$spawn = new Spawn($dbConfig);
 
 // route setting
 $router->setBasePath(GOOSE_ROOT);
@@ -83,12 +90,12 @@ if ($route)
 			{
 				$containerDirectory = PWD.'/pages/auth.php';
 				require(PWD.'/pages/layout.php');
-				$util->out();
+				$goose->out();
 			}
 			if ($paramController == 'auth' and $paramAction == 'logout')
 			{
 				require(PWD.'/transaction/auth.php');
-				$util->out();
+				$goose->out();
 			}
 
 			$paramController = ($paramController) ? $paramController : 'index';
@@ -102,8 +109,8 @@ if ($route)
 				}
 				else
 				{
-					$util->error(404);
-					$util->out();
+					$goose->error(404);
+					$goose->out();
 				}
 			}
 			else
@@ -114,8 +121,8 @@ if ($route)
 				}
 				else
 				{
-					$util->error(404);
-					$util->out();
+					$goose->error(404);
+					$goose->out();
 				}
 			}
 			break;
@@ -123,9 +130,9 @@ if ($route)
 }
 else
 {
-	$util->error(404);
-	$util->out();
+	$goose->error(404);
+	$goose->out();
 }
 
-$util->out();
+$goose->out();
 ?>

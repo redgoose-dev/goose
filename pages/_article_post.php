@@ -36,48 +36,6 @@ else if ($paramAction == 'modify')
 
 $nestName = '['.$nest['name'].'] ';
 $titleType = getActionType($paramAction);
-
-
-/**
- * 확장변수 폼 만들어주는 함수
- * 
- * @param Number $n : 폼 타입 (0:input[type=text], 1:textarea, 2:select)
- * @param String $keyName : key 이름
- * @param String $keyValue : 기본값
- * @param String $selectVar : 사용자값 (기본값보다 우선)
- * @param Number $required : 필수항목 (0:false, 1:true)
- * @return String $str : 만들어진 폼 일리먼트 문자
- */
-function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="", $required=null)
-{
-	$requiredAttr = ($required == 1) ? 'required' : '';
-
-	switch ($type)
-	{
-		case 0:
-			$value = ($selectVar) ? $selectVar : $keyValue;
-			$str = "<input type=\"text\" name=\"$keyName\" id=\"$keyName\" value=\"$value\" class=\"block\" $requiredAttr />";
-			break;
-
-		case 1:
-			$value = ($selectVar) ? $selectVar : $keyValue;
-			$str = "<textarea name=\"$keyName\" id=\"$keyName\" class=\"block\" rows=\"4\" $requiredAttr>$value</textarea>";
-			break;
-
-		case 2:
-			$arr = explode(",", $keyValue);
-			$str .= "<select name=\"$keyName\" id=\"$keyName\" $requiredAttr>";
-			$str .= "<option value=\"\">선택하세요.</option>";
-			for ($i=0; $i<count($arr); $i++)
-			{
-				$selected = ($selectVar == $arr[$i]) ? 'selected' : '';
-				$str .= "<option value=\"$arr[$i]\" $selected>$arr[$i]</option>";
-			}
-			$str .= "</select>";
-			break;
-	}
-	return $str;
-}
 ?>
 
 <section class="form">
@@ -138,54 +96,6 @@ function extraKeyTypePrint($type=NULL, $keyName="", $keyValue="", $selectVar="",
 			if (file_exists($editorDir.'basic/post.php'))
 			{
 				require_once($editorDir.'basic/post.php');
-			}
-		}
-
-		// 확장변수
-		if ($nest['useExtraVar'] == 1)
-		{
-			$extraCount = $spawn->getCount(array(
-				'table' => $tablesName['extraKey'],
-				'where' => 'nest_srl='.$nest['srl']
-			));
-			if ($extraCount > 0)
-			{
-		?>
-				<!-- 확장변수 폼 -->
-				<input type="hidden" name="useExtraVar" value="1" />
-				<fieldset style="margin-top:30px">
-					<legend>추가 입력항목</legend>
-					<?
-					$items = $spawn->getItems(array(
-						'table' => $tablesName['extraKey'],
-						'where' => 'nest_srl='.$nest['srl'],
-						'order' => 'turn',
-						'sort' => 'asc'
-					));
-					foreach($items as $k=>$v)
-					{
-						$extVar = ($article['srl']) ? $spawn->getItem(array(
-							'table' => $tablesName['extraVar'],
-							'where' => 'article_srl='.$article['srl'].' and key_srl='.(int)$v['srl']
-						)) : null;
-						$defaultValue = ($paramAction=='create' || $v['formType']==2) ? $v['defaultValue'] : '';
-						$requiredClass = ($v['required']) ? 'class="required"' : '';
-						?>
-						<dl class="table<?=($k==0)?' first':''?>">
-							<dt>
-								<label for="ext_<?=$v['keyName']?>" <?=$requiredClass?>><?=$v['name']?></label>
-							</dt>
-							<dd>
-								<?=extraKeyTypePrint($v['formType'], 'ext_'.$v['keyName'], $defaultValue, $extVar['value'], $v['required'])?>
-								<p><?=$v['info']?></p>
-							</dd>
-						</dl>
-						<?
-					}
-					?>
-				</fieldset>
-				<!-- // 확장변수 폼 -->
-		<?
 			}
 		}
 		?>

@@ -57,8 +57,8 @@ switch($paramAction)
 		$fileRelativeDir = $month.'/'.$filename;
 
 		// insert db
-		$spawn->insert(array(
-			'table' => $tablesName['tempFiles'],
+		$goose->spawn->insert(array(
+			'table' => 'tempFiles',
 			'data' => array(
 				'srl' => null,
 				'loc' => $fileRelativeDir,
@@ -67,7 +67,7 @@ switch($paramAction)
 			)
 		));
 
-		$sess_srl = $spawn->conn->lastInsertId();
+		$sess_srl = $goose->spawn->conn->lastInsertId();
 
 		// result print
 		$result = array(
@@ -88,13 +88,13 @@ switch($paramAction)
 			switch ($item[0])
 			{
 				case 'modify':
-					$tableName = $tablesName['files'];
+					$tableName = 'files';
 					break;
 				case 'session':
-					$tableName = $tablesName['tempFiles'];
+					$tableName = 'tempFiles';
 					break;
 			}
-			$files = $spawn->getItem(array(
+			$files = $goose->spawn->getItem(array(
 				'field' => 'loc,name',
 				'table' => $tableName,
 				'where' => 'srl='.$item[1]
@@ -104,7 +104,7 @@ switch($paramAction)
 			{
 				unlink($loc);
 			}
-			$spawn->delete(array(
+			$goose->spawn->delete(array(
 				'table' => $tableName,
 				'where' => 'srl='.$item[1]
 			));
@@ -115,6 +115,6 @@ switch($paramAction)
 		break;
 }
 
-$util->out();
+$goose->out();
 exit;
 ?>

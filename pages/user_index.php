@@ -1,9 +1,9 @@
 <?
 if(!defined("GOOSE")){exit();}
 
-$usersCount = $spawn->getCount(array('table'=>$tablesName['users']));
-$users = $spawn->getItems(array(
-	'table' => $tablesName['users'],
+$usersCount = $goose->spawn->getCount(array('table'=>'users'));
+$users = $goose->spawn->getItems(array(
+	'table' => 'users',
 	'order' => 'srl',
 	'sort' => 'desc'
 ));
@@ -30,7 +30,7 @@ $users = $spawn->getItems(array(
 						<a><strong><?=$v['name']?></strong></a>
 						<div class="inf">
 							<span>이메일:<?=$v['email']?></span>
-							<span>등록날짜:<?=$util->convertDate($v['regdate'])?></span>
+							<span>등록날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
 							<span>권한:<?=$level?></span>
 						</div>
 						<nav>

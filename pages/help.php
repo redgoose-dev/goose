@@ -270,7 +270,7 @@
 		</section>
 		<section>
 			<h1>nests</h1>
-			<p>article 데이터의 그룹이 되는 테이블입니다. 이 테이블은 썸네일 이미지 사이즈나 출력갯수, 분류나 확장변수를 사용할것인지의 여부를 저장하는 테이블이 됩니다.</p>
+			<p>article 데이터의 그룹이 되는 테이블입니다. 이 테이블은 썸네일 이미지 사이즈나 출력갯수, 분류를 사용할것인지의 여부를 저장하는 테이블이 됩니다.</p>
 			<table class="ui-table">
 				<caption>nests 테이블 필드목록</caption>
 				<thead>
@@ -323,11 +323,6 @@
 						<th>useCategory</th>
 						<td class="center nowrap">number</td>
 						<td>분류기능을 사용할지에 대한 여부 (1|0)</td>
-					</tr>
-					<tr>
-						<th>useExtraVar</th>
-						<td class="center nowrap">number</td>
-						<td>확장변수 기능을 사용할지에 대한 여부 (1|0)</td>
 					</tr>
 					<tr>
 						<th>editor</th>

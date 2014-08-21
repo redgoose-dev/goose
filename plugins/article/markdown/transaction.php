@@ -1,18 +1,6 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$ipAddress = $_SERVER['REMOTE_ADDR'];
-$regdate = date("YmdHis");
-$_POST['title'] = htmlspecialchars($_POST['title']);
-
-$nest = $spawn->getItem(array(
-	'table' => $tablesName['nests']
-	,'where' => 'srl='.$_POST['nest_srl']
-));
-
-$editorDir = PWD.'/plugins/editor/'.$nest['editor'];
-
-
 /**
  * upload file db update
  * tempFiles 테이블에 있는 임시파일들 목록을 files 테이블에 옮기고, 썸네일으로 사용하는 첨부파일 번호를 리턴한다.
@@ -23,7 +11,7 @@ $editorDir = PWD.'/plugins/editor/'.$nest['editor'];
  */
 function fileUpload($art_srl, $thum_srl)
 {
-	global $spawn, $util, $tablesName;
+	global $goose;
 	if ($_POST['addQueue'])
 	{
 		$thumnail_srl = null;
@@ -32,12 +20,12 @@ function fileUpload($art_srl, $thum_srl)
 		{
 			if ($v)
 			{
-				$tempFile = $spawn->getItem(array(
-					'table' => $tablesName['tempFiles'],
+				$tempFile = $goose->spawn->getItem(array(
+					'table' => 'tempFiles',
 					'where' => 'srl='.(int)$v
 				));
-				$spawn->insert(array(
-					'table' => $tablesName['files'],
+				$goose->spawn->insert(array(
+					'table' => 'files',
 					'data' => array(
 						'srl' => null,
 						'article_srl' => $art_srl,
@@ -48,10 +36,10 @@ function fileUpload($art_srl, $thum_srl)
 
 				if ($tempFile['srl'] == $thum_srl)
 				{
-					$thumnail_srl = $spawn->conn->lastInsertId();
+					$thumnail_srl = $goose->spawn->conn->lastInsertId();
 				}
-				$spawn->delete(array(
-					'table' => $tablesName['tempFiles'],
+				$goose->spawn->delete(array(
+					'table' => 'tempFiles',
 					'where' => 'srl='.(int)$v
 				));
 			}
@@ -69,14 +57,14 @@ function fileUpload($art_srl, $thum_srl)
  */
 function uploadThumnail($imgData=null)
 {
-	global $dir, $util, $dataThumnailDirectory;
+	global $goose, $dataThumnailDirectory;
 	if ($imgData)
 	{
 		$fileName = uniqid() . ".jpg";
 		$month = Date(Ym);
 		$thumnailDir = $month.'/'.$fileName;
 		$uploadDir = PWD.$dataThumnailDirectory.$month.'/';
-		$util->createDirectory($uploadDir, 0777);
+		$goose->util->createDirectory($uploadDir, 0777);
 		$uploadDir .= $fileName;
 		$imgData = str_replace('data:image/jpeg;base64,', '', $imgData);
 		$imgData = str_replace(' ', '+', $imgData);
@@ -92,15 +80,15 @@ switch($paramAction)
 	// create
 	case 'create':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('title', 'content'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('title', 'content'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
-		$result = $spawn->insert(array(
-			'table' => $tablesName['articles'],
+		$result = $goose->spawn->insert(array(
+			'table' => 'articles',
 			'data' => array(
 				'srl' => null,
 				'group_srl' => $_POST['group_srl'],
@@ -120,7 +108,7 @@ switch($paramAction)
 		));
 
 		// get last id number
-		$article_srl = $spawn->conn->lastInsertId();
+		$article_srl = $goose->spawn->conn->lastInsertId();
 
 		// files upload
 		$thumnail_srl = fileUpload($article_srl, $_POST['thumnail_srl']);
@@ -129,8 +117,8 @@ switch($paramAction)
 		if ($thumnail_srl)
 		{
 			$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
-			$spawn->update(array(
-				'table' => $tablesName['articles'],
+			$goose->spawn->update(array(
+				'table' => 'articles',
 				'where' => 'srl='.$article_srl,
 				'data' => array(
 					"thumnail_srl='$thumnail_srl'",
@@ -139,57 +127,25 @@ switch($paramAction)
 			));
 		}
 
-		// 확장변수 데이터 입력
-		if ($_POST['useExtraVar'])
-		{
-			$extraKey = $spawn->getItems(array(
-				'table' => $tablesName['extraKey'],
-				'where' => 'nest_srl='.(int)$_POST['nest_srl'],
-				'order' => 'turn',
-				'sort' => 'asc'
-			));
-			foreach ($extraKey as $k=>$v)
-			{
-				$keyName = $v['keyName'];
-				$value = $_POST['ext_'.$keyName];
-				if ($value)
-				{
-					$spawn->insert(array(
-						'table' => $tablesName['extraVar'],
-						'data' => array(
-							'article_srl' => $article_srl,
-							'key_srl' => $v['srl'],
-							'value' => $value
-						)
-					));
-				}
-			}
-		}
-
-		if (file_exists($editorDir.'/transaction_article.php'))
-		{
-			require_once($editorDir.'/transaction_article.php');
-		}
-
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
-		$util->redirect(GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
+		$goose->util->redirect(GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
 		break;
 
 	// modify
 	case 'modify':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('title', 'content'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('title', 'content'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
 		$absoluteThumnailDir = PWD.$dataThumnailDirectory;
 
 		// get article item data
-		$article = $spawn->getItem(array(
-			'table' => $tablesName['articles'],
+		$article = $goose->spawn->getItem(array(
+			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl']
 		));
 
@@ -205,8 +161,8 @@ switch($paramAction)
 			}
 			$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
 
-			$spawn->update(array(
-				'table' => $tablesName['articles'],
+			$goose->spawn->update(array(
+				'table' => 'articles',
 				'where' => 'srl='.(int)$_POST['article_srl'],
 				'data' => array(
 					"thumnail_srl=$thumnail_srl",
@@ -217,8 +173,8 @@ switch($paramAction)
 		}
 
 		// update article
-		$result = $spawn->update(array(
-			'table' => $tablesName['articles'],
+		$result = $goose->spawn->update(array(
+			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl'],
 			'data' => array(
 				"category_srl='$_POST[category_srl]'",
@@ -235,8 +191,8 @@ switch($paramAction)
 		if ($article['thumnail_srl'] && !$thumnailUploaded)
 		{
 			// get article item data
-			$filesCount = $spawn->getCount(array(
-				'table' => $tablesName['files'],
+			$filesCount = $goose->spawn->getCount(array(
+				'table' => 'files',
 				'where' => 'article_srl='.(int)$_POST['article_srl'].' and srl='.(int)$article['thumnail_srl']
 			));
 			if (!$filesCount)
@@ -247,8 +203,8 @@ switch($paramAction)
 					unlink($absoluteThumnailDir.$article['thumnail_url']);
 				}
 				// update article db
-				$result = $spawn->update(array(
-					'table' => $tablesName['articles'],
+				$result = $goose->spawn->update(array(
+					'table' => 'articles',
 					'where' => 'srl='.(int)$_POST['article_srl'],
 					'data' => array(
 						"thumnail_srl='0'",
@@ -259,69 +215,14 @@ switch($paramAction)
 			}
 		}
 
-		// update extra value
-		$extraKey = $spawn->getItems(array(
-			'field' => 'srl,keyName',
-			'table' => $tablesName['extraKey'],
-			'where' => 'nest_srl='.(int)$_POST['nest_srl'],
-			'order' => 'turn',
-			'sort' => 'asc'
-		));
-
-		foreach ($extraKey as $k=>$v)
-		{
-			$extraVarCount = $spawn->getCount(array(
-				'table' => $tablesName['extraVar'],
-				'where' => 'article_srl='.(int)$_POST['article_srl'].' and key_srl='.$v['srl']
-			));
-			$keyName = $v['keyName'];
-			$value = $_POST['ext_'.$keyName];
-
-			if ($extraVarCount==0 and $value)
-			{
-				$spawn->insert(array(
-					'table' => $tablesName['extraVar'],
-					'data' => array(
-						'article_srl' => $_POST['article_srl'],
-						'key_srl' => $v['srl'],
-						'value' => $value
-					)
-				));
-			}
-			else
-			{
-				if ($value)
-				{
-					$spawn->update(array(
-						'table' => $tablesName['extraVar'],
-						'where' => 'article_srl='.$_POST['article_srl'],
-						'data' => array("value='$value'")
-					));
-				}
-				else
-				{
-					$spawn->delete(array(
-						'table' => $tablesName['extraVar'],
-						'where' => 'article_srl='.$_POST['article_srl'].' and key_srl='.$v['srl']
-					));
-				}
-			}
-		}
-
-		if (file_exists($editorDir.'/transaction_article.php'))
-		{
-			require_once($editorDir.'/transaction_article.php');
-		}
-
-		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
-		$util->redirect(GOOSE_ROOT.'/article/view/'.$_POST['article_srl'].'/'.(($params) ? '?'.$params : ''));
+		$goose->util->redirect($_POST['url']);
 		break;
 
 	// delete
 	case 'delete':
 		// get article item data
-		$article = $spawn->getItem(array(
-			'table' => $tablesName['articles'],
+		$article = $goose->spawn->getItem(array(
+			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl']
 		));
 
@@ -332,8 +233,8 @@ switch($paramAction)
 		}
 
 		// delete original files
-		$files = $spawn->getItems(array(
-			'table' => $tablesName['files'],
+		$files = $goose->spawn->getItems(array(
+			'table' => 'files',
 			'where' => 'article_srl='.$article['srl']
 		));
 		if (count($files))
@@ -343,8 +244,8 @@ switch($paramAction)
 				if (file_exists(PWD.$dataOriginalDirectory.$v['loc']))
 				{
 					unlink(PWD.$dataOriginalDirectory.$v['loc']);
-					$spawn->delete(array(
-						'table' => $tablesName['files'],
+					$goose->spawn->delete(array(
+						'table' => 'files',
 						'where' => 'srl='.$v['srl']
 					));
 				}
@@ -352,25 +253,15 @@ switch($paramAction)
 		}
 
 		// delete article
-		$spawn->delete(array(
-			'table' => $tablesName['articles'],
+		$goose->spawn->delete(array(
+			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl']
 		));
-		// delete extravar item
-		$spawn->delete(array(
-			'table' => $tablesName['extraVar'],
-			'where' => 'article_srl='.(int)$_POST['article_srl']
-		));
-
-		if (file_exists($editorDir.'/transaction_article.php'))
-		{
-			require_once($editorDir.'/transaction_article.php');
-		}
 
 		$addUrl = ($_POST['nest_srl']) ? $_POST['nest_srl'].'/' : '';
 		$addUrl .= ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
-		$util->redirect(GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
+		$goose->util->redirect(GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
 		break;
 }
 ?>

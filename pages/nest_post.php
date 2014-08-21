@@ -4,14 +4,15 @@ if(!defined("GOOSE")){exit();}
 $nest_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : null;
 if ($paramAction !== "create" and $nest_srl)
 {
-	$nest = $spawn->getItem(array(
-		'table' => $tablesName['nests'],
+	$nest = $goose->spawn->getItem(array(
+		'table' => 'nests',
 		'where' => 'srl='.$nest_srl
 	));
 	$thumnailSize = explode("*", $nest['thumnailSize']);
+	$nest['json'] = ($nest['json']) ? json_decode($nest['json']) : null;
 }
 
-if ($thumnailSize[1])
+if (isset($thumnailSize[1]))
 {
 	$thumnailSize = array('width' => $thumnailSize[0], 'height' => $thumnailSize[1]);
 }
@@ -20,7 +21,7 @@ else
 	$thumnailSize = array('width'=>100, 'height'=>100);
 }
 
-$listCount = ($nest['listCount']) ? $nest['listCount'] : 12;
+$listCount = (isset($nest['listCount'])) ? $nest['listCount'] : 12;
 $titleType = ($paramAction == 'create') ? '만들기' : '';
 $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
@@ -32,6 +33,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 	</div>
 	<form action="<?=GOOSE_ROOT?>/nest/<?=$paramAction?>/" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
+		<input type="hidden" name="json" />
 		<?
 		if ($paramAction == "delete")
 		{
@@ -48,8 +50,8 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 			<fieldset>
 				<legend class="blind">둥지<?=$titleType?></legend>
 				<?
-				$group = $spawn->getItems(array(
-					'table' => $tablesName['nestGroups'],
+				$group = $goose->spawn->getItems(array(
+					'table' => 'nestGroups',
 					'order' => 'srl',
 					'sort' => 'asc'
 				));
@@ -77,7 +79,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				?>
 				<dl class="table">
 					<?
-					$attr = ($nest['id']) ? ' value="'.$nest['id'].'" readonly' : '';
+					$attr = (isset($nest['id'])) ? ' value="'.$nest['id'].'" readonly' : '';
 					?>
 					<dt><label for="id">아이디</label></dt>
 					<dd>
@@ -87,7 +89,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<dt><label for="name">둥지이름</label></dt>
-					<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$nest['name']?>"/></dd>
+					<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=(isset($nest['name']))?$nest['name']:''?>"/></dd>
 				</dl>
 				<dl class="table">
 					<dt><label for="thumWidth">썸네일사이즈</label></dt>
@@ -104,6 +106,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					<dt><label>썸네일 축소방식</label></dt>
 					<dd>
 						<?
+						$thumType1 = $thumType2 = $thumType3 = $thumType4 = null;
 						if ($paramAction == "modify")
 						{
 							$thumType1 = ($nest['thumnailType'] == "crop") ? ' checked = "checked"' : '';
@@ -131,6 +134,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				</dl>
 				<dl class="table">
 					<?
+					$nest['useCategory'] = (isset($nest['useCategory'])) ? $nest['useCategory'] : null;
 					$useCategoryYes = ($nest['useCategory'] == 1) ? ' checked = "checked"' : '';
 					$useCategoryNo = ($nest['useCategory'] != 1) ? ' checked = "checked"' : '';
 					?>
@@ -141,26 +145,16 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					</dd>
 				</dl>
 				<dl class="table">
-					<?
-					$useExtraVarYes = ($nest['useExtraVar'] == 1) ? ' checked = "checked"' : '';
-					$useExtraVarNo = ($nest['useExtraVar'] != 1) ? ' checked = "checked"' : '';
-					?>
-					<dt><label for="useExtraVar">확장변수사용</label></dt>
+					<dt><label for="articleSkin">article skin 선택</label></dt>
 					<dd>
-						<label><input type="radio" name="useExtraVar" id="useExtraVar" value="0" <?=$useExtraVarNo?>/> 사용안함</label>
-						<label><input type="radio" name="useExtraVar" value="1" <?=$useExtraVarYes?>/> 사용</label>
-					</dd>
-				</dl>
-				<dl class="table">
-					<dt><label for="editor">에디터 선택</label></dt>
-					<dd>
-						<select name="editor" id="editor">
+						<select name="articleSkin" id="articleSkin">
 							<?
-							$tree = $util->readDir(PWD.'/plugins/editor/');
-							echo (!count($tree)) ? "<option>에디터 없음</option>" : "";
+							$tree = $goose->util->readDir(PWD.'/plugins/article/');
+							echo (!count($tree)) ? '<option>ArticleSkin 없음</option>' : '';
 							foreach($tree as $k=>$v)
 							{
-								$selected = ($v == $nest['editor']) ? ' selected' : '';
+								$selected = ($v == $nest['json']->articleSkin) ? ' selected' : '';
+								$selected = (!$nest['json']->articleSkin && $v=='basic') ? ' selected' : $selected;
 								echo "<option value=\"$v\"$selected>$v</option>";
 							}
 							?>
@@ -200,6 +194,13 @@ if ($paramAction != "delete")
 			}
 			,messages : {
 				id : {alphanumeric: '알파벳과 숫자만 사용가능합니다.'}
+			}
+			,submitHandler : function(form) {
+				var json = new Object();
+				json.articleSkin = form.articleSkin.value;
+				form.json.value = JSON.stringify(json);
+				form.submit();
+				return false;
 			}
 		});
 	});

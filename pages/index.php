@@ -2,11 +2,11 @@
 if(!defined("GOOSE")){exit();}
 
 // get article count
-$articlesCount = $spawn->getCount(array(
-	'table' => $tablesName['articles']
+$articlesCount = $goose->spawn->getCount(array(
+	'table' => 'articles'
 ));
-$articlesIndex = $spawn->getItems(array(
-	'table' => $tablesName['articles'],
+$articlesIndex = $goose->spawn->getItems(array(
+	'table' => 'articles',
 	'order' => 'srl',
 	'sort' => 'desc',
 	'limit' => array(0, 20)
@@ -24,16 +24,16 @@ $articlesIndex = $spawn->getItems(array(
 			foreach ($articlesIndex as $k=>$v)
 			{
 				$categoryName = null;
-				$nest = $spawn->getItem(array(
+				$nest = $goose->spawn->getItem(array(
 					'field' => 'name,useCategory',
-					'table' => $tablesName['nests'],
+					'table' => 'nests',
 					'where' => 'srl='.$v['nest_srl']
 				));
 				if ($nest['useCategory'] && $v['category_srl'])
 				{
-					$categoryName = $spawn->getItem(array(
+					$categoryName = $goose->spawn->getItem(array(
 						'field' => 'name',
-						'table' => $tablesName['categories'],
+						'table' => 'categories',
 						'where' => 'srl='.$v['category_srl']
 					));
 					$categoryName = ($categoryName) ? "<span>분류:$categoryName[name]</span>" : "";
@@ -51,7 +51,7 @@ $articlesIndex = $spawn->getItems(array(
 									<div class=\"inf\">
 										$categoryName
 										<span>조회수:".$v['hit']."</span>
-										<span>작성날짜:".$util->convertDate($v['regdate'])."</span>
+										<span>작성날짜:".$goose->util->convertDate($v['regdate'])."</span>
 									</div>
 								</dd>
 							</dl>

@@ -8,7 +8,8 @@ if(!defined("GOOSE")){exit();}
  * @author Redgoose (http://redgoose.me)
  */
 class Spawn extends Database {
-	var $conn;
+	public $conn;
+	private $tablesName;
 
 	/**
 	 * init method
@@ -16,10 +17,29 @@ class Spawn extends Database {
 	 * @param Array $config : 데이터베이스 접속정보 배열값
 	 * @return Spawn
 	**/
-	public function Spawn($config)
+	public function Spawn($config, $tablesName=null)
 	{
+		$this->tablesName = $tablesName;
 		$this->conn = parent::Database($config);
 		$this->action("set names utf8");
+	}
+
+	/**
+	 * Adjustment table name
+	 * 
+	 * @param 
+	 * 
+	 */
+	private function adjustTableName($str)
+	{
+		if (isset($this->tablesName) && $str)
+		{
+			return (isset($this->tablesName[$str])) ? $this->tablesName[$str] : $str;
+		}
+		else
+		{
+			return $str;
+		}
 	}
 
 	/**
@@ -30,6 +50,8 @@ class Spawn extends Database {
 	**/
 	private function arrayToQuery($getArray)
 	{
+		$getArray['table'] = self::adjustTableName($getArray['table']);
+
 		if (!$getArray['act'] || !$getArray['table'])
 		{
 			return null;
@@ -77,6 +99,7 @@ class Spawn extends Database {
 	// insert
 	public function insert($get)
 	{
+		$get['table'] = self::adjustTableName($get['table']);
 		if ($get['table'] and $get['data'])
 		{
 			$result = "insert into $get[table] (";
@@ -130,6 +153,7 @@ class Spawn extends Database {
 	**/
 	public function update($get)
 	{
+		$get['table'] = self::adjustTableName($get['table']);
 		if ($get['table'] and $get['data'] and $get['where'])
 		{
 			$result = "update $get[table] set ";
@@ -166,6 +190,7 @@ class Spawn extends Database {
 	**/
 	public function delete($get)
 	{
+		$get['table'] = self::adjustTableName($get['table']);
 		if ($get['table'] and $get['where'])
 		{
 			$result = "delete from $get[table] where $get[where]";
@@ -254,7 +279,7 @@ class Spawn extends Database {
 		}
 		else
 		{
-			return parent::count($query);
+			return (int)parent::count($query);
 		}
 	}
 }
