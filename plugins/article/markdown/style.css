@@ -1,3 +1,5 @@
+.articleBody {margin: 20px 0;}
+
 .tagList {margin: 0;}
 .tagList:after {content: ''; display: block; clear: both;}
 .tagList h1 {
@@ -11,8 +13,5 @@
 	background: #eaf4f8; border-radius: 1em;
 }
 
-
-ul.index .tagList {margin-top: 8px;}
-.articleBody > .tagList {
-	margin: 30px 0 0;
-}
+.goose-index .tagList {margin-top: 8px;}
+.articleBody > .tagList {margin: 30px 0 0;}

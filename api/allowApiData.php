@@ -24,23 +24,6 @@ $allowApiData = array(
 		,'name'
 		,'regdate'
 	)
-	,'extraKey' => array(
-		'srl'
-		,'nest_srl'
-		,'turn'
-		,'keyName'
-		,'name'
-		,'info'
-		,'formType'
-		,'defaultValue'
-		,'required'
-	)
-	,'extraVar' => array(
-		'srl'
-		,'article_srl'
-		,'key_srl'
-		,'value'
-	)
 	,'files' => array(
 		'srl'
 		,'article_srl'
@@ -67,7 +50,6 @@ $allowApiData = array(
 		,'thumnailType'
 		,'listCount'
 		,'useCategory'
-		,'useExtraVar'
 		,'editor'
 		,'regdate'
 	)

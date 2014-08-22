@@ -5,6 +5,7 @@ session_start();
 
 define('GOOSE', true);
 define('PWD', dirname(__FILE__));
+define('DEBUG', false);
 
 require_once(PWD.'/libs/init.php');
 ?>

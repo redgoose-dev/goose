@@ -3,8 +3,8 @@ if(!defined("GOOSE")){exit();}
 
 if ($paramAction == 'create')
 {
-	$attachFiles = $spawn->getItems(array(
-		'table' => $tablesName['tempFiles'],
+	$attachFiles = $goose->spawn->getItems(array(
+		'table' => 'tempFiles',
 		'order' => 'srl',
 		'sort' => 'asc'
 	));
@@ -14,8 +14,8 @@ if ($paramAction == 'create')
 else if ($paramAction == 'modify')
 {
 	// modify
-	$attachFiles = $spawn->getItems(array(
-		'table' => $tablesName['files'],
+	$attachFiles = $goose->spawn->getItems(array(
+		'table' => 'files',
 		'where' => 'article_srl='.$article_srl,
 		'order' => 'srl',
 		'sort' => 'asc'

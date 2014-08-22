@@ -6,8 +6,8 @@ $json_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'
 
 if ($paramAction !== "create" and $json_srl)
 {
-	$json = $spawn->getItem(array(
-		'table' => $tablesName['jsons'],
+	$json = $goose->spawn->getItem(array(
+		'table' => 'jsons',
 		'where' => 'srl='.$json_srl
 	));
 	$json['json'] = urlencode($json['json']);
@@ -20,7 +20,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 
 <link rel="stylesheet" type="text/css" href="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/css/JSONEditor.css" media="screen" />
 
-<section class="form JSONPost">
+<section class="goose-form">
 	<div class="hgroup">
 		<h1>JSON <?=$titleType?></h1>
 	</div>

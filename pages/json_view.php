@@ -5,11 +5,11 @@ $json_srl = (int)$routePapameters['param0'];
 
 if (!$json_srl)
 {
-	$util->back('srl값이 없습니다.');
+	$goose->util->back('srl값이 없습니다.');
 }
 
-$json = $spawn->getItem(array(
-	'table' => $tablesName['jsons']
+$json = $goose->spawn->getItem(array(
+	'table' => 'jsons'
 	,'where' => 'srl='.$json_srl
 ));
 $json['json'] = urlencode($json['json']);
@@ -18,7 +18,7 @@ $json['json'] = urlencode($json['json']);
 <section>
 	<div class="hgroup">
 		<h1><?=$json['srl']?>. <?=$json['name']?></h1>
-		<p><?=$util->convertDate($json['regdate']).'&nbsp;'.$util->convertTime($json['regdate'])?></p>
+		<p><?=$goose->util->convertDate($json['regdate']).'&nbsp;'.$goose->util->convertTime($json['regdate'])?></p>
 	</div>
 
 	<!-- body -->

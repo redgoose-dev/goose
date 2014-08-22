@@ -5,7 +5,7 @@ $userEmail = (isset($userEmail)) ? $userEmail : '';
 $userPassword = (isset($userPassword)) ? $userPassword : '';
 ?>
 
-<section class="auth">
+<section class="goose-auth">
 	<div class="hgroup">
 		<h1>관리자 인증</h1>
 	</div>

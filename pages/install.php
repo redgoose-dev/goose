@@ -1,6 +1,6 @@
 <?
 $root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
-$apikeyPrefix = '__' . $util->generateRandomString(15) . '__';
+$apikeyPrefix = '__' . $goose->util->generateRandomString(15) . '__';
 ?>
 
 <!doctype html>

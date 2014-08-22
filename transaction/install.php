@@ -12,23 +12,23 @@ $error = false;
  */
 function checkPost()
 {
-	global $util;
+	global $goose;
 	foreach($_POST as $k=>$v)
 	{
 		if (!$v)
 		{
-			$util->back("[$k] 값이 없습니다.");
+			$goose->util->back("[$k] 값이 없습니다.");
 			return false;
 		}
 	}
 	if ($_POST['dbPassword'] != $_POST['dbPassword2'])
 	{
-		$util->back("DB비밀번호와 확인값이 다릅니다.");
+		$goose->util->back("DB비밀번호와 확인값이 다릅니다.");
 		return false;
 	}
 	if ($_POST['password'] != $_POST['password2'])
 	{
-		$util->back("관리자 비밀번호와 확인값이 다릅니다.");
+		$goose->util->back("관리자 비밀번호와 확인값이 다릅니다.");
 		return false;
 	}
 	return true;
@@ -39,24 +39,24 @@ function checkPost()
 if (checkPost() == true)
 {
 	// create directory
-	$util->createDirectory(PWD."/data", 0777);
-	$util->createDirectory(PWD."/data/config", 0755);
-	$util->createDirectory(PWD."/data/original", 0777);
-	$util->createDirectory(PWD."/data/thumnail", 0777);
+	$goose->util->createDirectory(PWD."/data", 0777);
+	$goose->util->createDirectory(PWD."/data/config", 0755);
+	$goose->util->createDirectory(PWD."/data/original", 0777);
+	$goose->util->createDirectory(PWD."/data/thumnail", 0777);
 
 	// create user.php
 	$_POST['root'] = $root;
 	$_POST['url'] = $url;
 	$_POST['adminLevel'] = 1;
-	if ($util->createUserFile($_POST, PWD.'/data/config/user.php') != 'success')
+	if ($goose->util->createUserFile($_POST, PWD.'/data/config/user.php') != 'success')
 	{
 		echo '<p>Failed to create the file user.php</p>';
-		$util->out();
+		exit;
 	}
 }
 else
 {
-	$util->out();
+	exit;
 }
 
 
@@ -68,7 +68,7 @@ require_once(PWD.'/libs/Database.class.php');
 require_once(PWD.'/libs/Spawn.class.php');
 
 // create instanse object
-$spawn = new Spawn($dbConfig);
+$spawn = new Spawn($dbConfig, $tablesName);
 $spawn->action("set names utf8");
 
 // create db table
@@ -113,41 +113,6 @@ if ($result != 'success')
 {
 	$error = true;
 	echo "<p>Fail create '".$tablesName['categories']."' table</p>";
-}
-
-// create table "extraKey"
-$result = $spawn->action("
-	create table `".$tablesName['extraKey']."` (
-		`srl` bigint(11) not null auto_increment,
-		`nest_srl` bigint(11) default null,
-		`turn` int(11) default null,
-		`keyName` varchar(20) default null,
-		`name` varchar(25) default null,
-		`info` varchar(250) default null,
-		`formType` int(11) default null,
-		`defaultValue` varchar(250) default null,
-		`required` int(1) not null default '0',
-		primary key (`srl`)
-	) engine=InnoDB default charset=utf8");
-if ($result != 'success')
-{
-	$error = true;
-	echo "<p>Fail create '".$tablesName['extraKey']."' table</p>";
-}
-
-// create table "extraVar"
-$result = $spawn->action("
-	create table `".$tablesName['extraVar']."` (
-		`srl` bigint(11) not null auto_increment,
-		`article_srl` bigint(11) default null,
-		`key_srl` bigint(11) default null,
-		`value` longtext not null,
-		primary key (`srl`)
-	) engine=InnoDB default charset=utf8");
-if ($result != 'success')
-{
-	$error = true;
-	echo "<p>Fail create '".$tablesName['extraVar']."' table</p>";
 }
 
 // create table "files"
@@ -222,8 +187,6 @@ $result = $spawn->action("
 		`thumnailType` varchar(15) not null default 'crop',
 		`listCount` int(11) default null,
 		`useCategory` int(1) not null default '0',
-		`useExtraVar` int(1) not null default '0',
-		`editor` varchar(30) default null,
 		`json` text default null,
 		`regdate` varchar(14) default null,
 		primary key (`srl`)
@@ -291,6 +254,6 @@ else
 */
 if (!$error)
 {
-	$util->redirect(GOOSE_ROOT."/", "Complete install");
+	$goose->util->redirect(GOOSE_ROOT."/", "Complete install");
 }
 ?>

@@ -6,58 +6,58 @@ switch($paramAction)
 	// create
 	case 'create':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('name'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('name'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
 		$regdate = date("YmdHis");
 
-		$spawn->insert(array(
-			'table' => $tablesName['nestGroups'],
+		$goose->spawn->insert(array(
+			'table' => 'nestGroups',
 			'data' => array(
 				'srl' => null,
 				'name' => $_POST['name'],
 				'regdate' => $regdate
 			)
 		));
-		$util->redirect(GOOSE_ROOT.'/group/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/group/index/');
 		break;
 
 
 	// modify
 	case 'modify':
 		// post값 확인
-		$errorValue = $util->checkExistValue($_POST, array('name'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('name'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
-		$spawn->update(array(
-			'table' => $tablesName['nestGroups'],
+		$goose->spawn->update(array(
+			'table' => 'nestGroups',
 			'where' => 'srl='.$_POST['group_srl'],
 			'data' => array("name='$_POST[name]'")
 		));
-		$util->redirect(GOOSE_ROOT.'/group/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/group/index/');
 		break;
 
 
 	// delete
 	case 'delete':
-		$spawn->delete(array(
-			'table' => $tablesName['nestGroups'],
+		$goose->spawn->delete(array(
+			'table' => 'nestGroups',
 			'where' => 'srl='.$_POST['group_srl']
 		));
-		$spawn->update(array(
-			'table' => $tablesName['nests'],
+		$goose->spawn->update(array(
+			'table' => 'nests',
 			'where' => 'group_srl='.$_POST['group_srl'],
 			'data' => array("group_srl=NULL")
 		));
-		$util->redirect(GOOSE_ROOT.'/group/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/group/index/');
 		break;
 }
 ?>

@@ -4,10 +4,10 @@ if(!defined("GOOSE")){exit();}
 // email check
 function checkExistEmail()
 {
-	global $spawn, $util, $tablesName;
+	global $goose;
 
-	$cnt = $spawn->getCount(array(
-		'table' => $tablesName['users'],
+	$cnt = $goose->spawn->getCount(array(
+		'table' => 'users',
 		'where' => "email='".$_POST['email']."'"
 	));
 	return ($cnt > 0) ? true : false;
@@ -17,11 +17,11 @@ switch($paramAction)
 {
 	case 'create':
 		// check value
-		$errorValue = $util->checkExistValue($_POST, array('name', 'email', 'pw', 'level'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('name', 'email', 'pw', 'level'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 
 		// create date
@@ -30,13 +30,13 @@ switch($paramAction)
 		// 중복 이메일주소 감사
 		if (checkExistEmail())
 		{
-			$util->back('이메일주소가 이미 존재합니다.');
-			$util->out();
+			$goose->util->back('이메일주소가 이미 존재합니다.');
+			$goose->out();
 		}
 
 		// insert data
-		$result = $spawn->insert(array(
-			'table' => $tablesName['users'],
+		$result = $goose->spawn->insert(array(
+			'table' => 'users',
 			'data' => array(
 				'srl' => null,
 				'name' => $_POST['name'],
@@ -47,30 +47,30 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(GOOSE_ROOT.'/user/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/user/index/');
 		break;
 
 	case 'modify':
 		// check value
-		$errorValue = $util->checkExistValue($_POST, array('name', 'email', 'level'));
+		$errorValue = $goose->util->checkExistValue($_POST, array('name', 'email', 'level'));
 		if ($errorValue)
 		{
-			$util->back("[$errorValue]값이 없습니다.");
-			$util->out();
+			$goose->util->back("[$errorValue]값이 없습니다.");
+			$goose->out();
 		}
 		
 		if ($_SESSION['gooseEmail'] != $_POST['email'])
 		{
 			if ($_SESSION['gooseLevel'] < $adminLevel)
 			{
-				$util->back("수정할 수 있는 권한이 없습니다.");
-				$util->out();
+				$goose->util->back("수정할 수 있는 권한이 없습니다.");
+				$goose->out();
 			}
 		}
 
 		// update db
-		$result = $spawn->update(array(
-			'table' => $tablesName['users'],
+		$result = $goose->spawn->update(array(
+			'table' => 'users',
 			'where' => 'srl='.(int)$_POST['user_srl'],
 			'data' => array(
 				"name='".$_POST['name']."'",
@@ -79,16 +79,16 @@ switch($paramAction)
 			)
 		));
 
-		$util->redirect(GOOSE_ROOT.'/user/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/user/index/');
 		break;
 
 	case 'delete':
-		$result = $spawn->delete(array(
-			'table' => $tablesName['users'],
+		$result = $goose->spawn->delete(array(
+			'table' => 'users',
 			'where' => 'srl='.$_POST['user_srl']
 		));
 
-		$util->redirect(GOOSE_ROOT.'/user/index/');
+		$goose->util->redirect(GOOSE_ROOT.'/user/index/');
 		break;
 }
 ?>

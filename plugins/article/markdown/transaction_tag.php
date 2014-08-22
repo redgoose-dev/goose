@@ -13,7 +13,7 @@ if(!defined("GOOSE")){exit();}
  */
 function checkTag($str)
 {
-	return preg_replace("/[^a-zA-Z0-9가-힣]|/", "", $str);;
+	return preg_replace("/[^a-zA-Z0-9가-힣ㄱ-ㅎ]|/", "", $str);;
 }
 
 /**
@@ -35,14 +35,14 @@ $tagsFile = PWD.'/data/config/tags.user.txt';
 
 if (!file_exists($tagsFile))
 {
-	$util->fop($tagsFile, 'w', '[]', 0777);
+	$goose->util->fop($tagsFile, 'w', '[]', 0777);
 }
 
 if (file_exists($tagsFile))
 {
-	$fr = $util->fop($tagsFile, 'r');
+	$fr = $goose->util->fop($tagsFile, 'r');
 	$originalTagData = json_decode($fr, true);
-	$originalKeywords = $util->arrayToArray($originalTagData, 'name');
+	$originalKeywords = $goose->util->arrayToArray($originalTagData, 'name');
 	$resultTags = ($originalTagData) ? $originalTagData : array();
 
 	switch($paramAction)

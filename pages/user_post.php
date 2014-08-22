@@ -6,13 +6,13 @@ $user_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'
 
 if ($paramAction !== "create" && $user_srl)
 {
-	$user = $spawn->getItem(array(
-		'table' => $tablesName['users'],
+	$user = $goose->spawn->getItem(array(
+		'table' => 'users',
 		'where' => 'srl='.$user_srl
 	));
 	if (($_SESSION['gooseEmail'] != $user['email']) && ($_SESSION['gooseLevel'] < 1))
 	{
-		$util->back('접근할 수 없습니다.');
+		$goose->util->back('접근할 수 없습니다.');
 	}
 }
 
@@ -21,7 +21,7 @@ $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 ?>
 
-<section class="form">
+<section class="goose-form">
 	<div class="hgroup">
 		<h1>사용자 <?=$titleType?></h1>
 	</div>

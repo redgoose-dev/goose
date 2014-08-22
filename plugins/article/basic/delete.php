@@ -1,25 +1,7 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$article_srl = (int)$routePapameters['param0'];
-if (!$article_srl)
-{
-	$util->back('article값이 없습니다.');
-	exit;
-}
-
-$article = $spawn->getItem(array(
-	'field' => 'srl,nest_srl,category_srl,title',
-	'table' => $tablesName[articles],
-	'where' => 'srl='.$article_srl
-));
-
-$nest = $spawn->getItem(array(
-	'table' => $tablesName[nests],
-	'where' => 'srl='.$article[nest_srl]
-));
 $nestName = '['.$nest[name].'] ';
-
 $titleType = getActionType($paramAction);
 ?>
 
@@ -30,7 +12,7 @@ $titleType = getActionType($paramAction);
 	<form name="writeForm" action="<?=GOOSE_ROOT?>/article/delete/" method="post">
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
 		<input type="hidden" name="nest_srl" value="<?=$article[nest_srl]?>" />
-		<input type="hidden" name="category_srl" value="<?=$article[category_srl]?>" />
+		<input type="hidden" name="category_srl" value="<?=$category_srl?>" />
 		<input type="hidden" name="page" value="<?=$_GET[page]?>" />
 		<fieldset>
 			<legend class="blind">문서<?=$titleType?></legend>

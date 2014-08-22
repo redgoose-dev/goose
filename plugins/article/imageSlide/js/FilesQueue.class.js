@@ -115,7 +115,10 @@ var FilesQueue = function(getParent, $el, options) {
 			{
 				for (var n=0; n<file.form.length; n++)
 				{
-					form[n].value = file.form[n].value;
+					if (form[n])
+					{
+						form[n].value = file.form[n].value;
+					}
 				}
 			}
 			else
