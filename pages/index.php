@@ -2,22 +2,20 @@
 if(!defined("GOOSE")){exit();}
 
 // get article count
-$articlesCount = $goose->spawn->getCount(array(
-	'table' => 'articles'
-));
+$articlesCount = $goose->spawn->getCount(array('table' => 'articles'));
 $articlesIndex = $goose->spawn->getItems(array(
-	'table' => 'articles',
-	'order' => 'srl',
-	'sort' => 'desc',
-	'limit' => array(0, 20)
+	'table' => 'articles'
+	,'order' => 'srl'
+	,'sort' => 'desc'
+	,'limit' => array(0, 20)
 ));
 ?>
 
 <section>
 	<div class="hgroup">
-		<h1>최신글</h1>
+		<h1>Newstest articles</h1>
 	</div>
-	<ul class="index">
+	<ul class="goose-index">
 		<?
 		if ($articlesCount > 0)
 		{

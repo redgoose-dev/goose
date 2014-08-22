@@ -13,13 +13,12 @@ $users = $goose->spawn->getItems(array(
 	<div class="hgroup">
 		<h1><a href="<?=GOOSE_ROOT?>/user/index/">사용자 목록</a></h1>
 	</div>
-
 	<?
 	if ($usersCount)
 	{
 	?>
 		<!-- index -->
-		<ul class="index">
+		<ul class="goose-index">
 			<?
 			foreach ($users as $k=>$v)
 			{

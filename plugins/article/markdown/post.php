@@ -17,8 +17,7 @@ if (file_exists($tagPath))
 // article tags
 if (isset($article['json']))
 {
-	$articleJson = json_decode($article['json'], true);
-	$articleTags = $articleJson['tag'];
+	$articleTags = $article['json']['tag'];
 	$articleTagsString = json_encode($articleTags);
 }
 ?>
@@ -27,7 +26,7 @@ if (isset($article['json']))
 <link rel="stylesheet" href="<?=$extPath?>/TagManager/TagManager.css" />
 <link rel="stylesheet" href="<?=$extPath?>/Jcrop/jquery.Jcrop.min.css" />
 
-<section class="form">
+<section class="goose-form">
 	<div class="hgroup">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>

@@ -33,7 +33,6 @@ $articleCount = $goose->spawn->getCount(array(
 if ($articleCount > 0)
 {
 	require_once(PWD.'/libs/Paginate.class.php');
-
 	$paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
 	$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
 	$paginate = new Paginate($articleCount, $_GET['page'], $paginateParameter, $nest['listCount'], 5);
@@ -63,7 +62,7 @@ if ($articleCount > 0)
 	if (count($category) > 0)
 	{
 	?>
-		<nav class="categories">
+		<nav class="goose-categories">
 			<ul>
 				<?
 				foreach($category as $k=>$v)
@@ -87,7 +86,7 @@ if ($articleCount > 0)
 	?>
 
 	<!-- index -->
-	<ul class="index">
+	<ul class="goose-index">
 		<?
 		if ($articleCount > 0)
 		{

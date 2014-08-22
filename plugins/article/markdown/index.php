@@ -33,7 +33,6 @@ $articleCount = $goose->spawn->getCount(array(
 if ($articleCount > 0)
 {
 	require_once(PWD.'/libs/Paginate.class.php');
-
 	$paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
 	$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
 	$paginate = new Paginate($articleCount, $_GET['page'], $paginateParameter, $nest['listCount'], 5);
@@ -50,6 +49,8 @@ if ($articleCount > 0)
 }
 ?>
 
+<link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/style.css" />
+
 <section>
 	<div class="hgroup">
 		<?
@@ -63,7 +64,7 @@ if ($articleCount > 0)
 	if (count($category) > 0)
 	{
 	?>
-		<nav class="categories">
+		<nav class="goose-categories">
 			<ul>
 				<?
 				foreach($category as $k=>$v)
@@ -86,7 +87,7 @@ if ($articleCount > 0)
 	}
 	?>
 
-	<ul class="index">
+	<ul class="goose-index">
 		<?
 		if ($articleCount > 0)
 		{
@@ -103,7 +104,8 @@ if ($articleCount > 0)
 				$categoryName = (isset($categoryName['name'])) ? '<span>분류:'.$categoryName['name'].'</span> ' : '';
 				$img = ($v['thumnail_url']) ? '<dt><img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/></dt>' : '';
 				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
-				$tags = $json['json']['tag'];
+				$json = json_decode($v['json'], true);
+				$tags = $json['tag'];
 		?>
 				<li>
 					<a href="<?=$url?>">

@@ -39,7 +39,7 @@ if ($paramAction !== 'create')
 $titleType = getActionType($paramAction);
 ?>
 
-<section class="form">
+<section class="goose-form">
 	<div class="hgroup">
 		<h1><?=$nestName?>분류<?=$titleType?></h1>
 	</div>
@@ -88,7 +88,7 @@ if ($paramAction != "delete")
 	<script>
 	jQuery('#regsterForm').validate({
 		rules : {
-			name : {required : true, minlength : 3}
+			name : {required : true}
 		}
 	});
 	</script>

@@ -23,7 +23,7 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 	{
 	?>
 		<!-- groups list -->
-		<nav class="categories">
+		<nav class="goose-categories">
 			<ul>
 				<?
 				$nestGroupsIndex = $goose->spawn->getItems(array(
@@ -54,7 +54,7 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 	?>
 
 	<!-- nests list -->
-	<ul class="index">
+	<ul class="goose-index">
 		<?
 		if ($nestsCount > 0)
 		{

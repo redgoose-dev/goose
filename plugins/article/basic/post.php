@@ -5,7 +5,7 @@ $nestName = '['.$nest['name'].'] ';
 $titleType = getActionType($paramAction);
 ?>
 
-<section class="form">
+<section class="goose-form">
 	<div class="hgroup">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
 	</div>

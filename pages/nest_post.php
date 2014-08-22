@@ -27,7 +27,7 @@ $titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 ?>
 
-<section class="form">
+<section class="goose-form">
 	<div class="hgroup">
 		<h1>둥지<?=$titleType?></h1>
 	</div>

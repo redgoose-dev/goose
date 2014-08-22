@@ -1,3 +1,63 @@
+/* Variables */
+$button_basicColor: #a5acb0;
+$button_backgroundHighlightColor: #72b3ca;
+$button_textColor: #fff;
+
+$color_strong: #111;
+$color_basic: #333;
+$color_blur: #666;
+$color_warning: #f00;
+$color_highlight: #72b3ca;
+
+$text_text-size: 14px;
+$text_line-height: 1.428571429;
+
+$margin_side: 12px;
+$margin_side_min: 12px;
+
+/* mixin */
+@mixin gradiant($startColor:#ffffff, $endColor:#000000, $mattColor:#666666) {
+	background: $mattColor;
+	background: -webkit-gradient(linear, left top, left bottom, from(#{$startColor}), to(#{$endColor}));
+	background: -moz-linear-gradient(top, #{$startColor}, #{$endColor});
+	background: -o-linear-gradient(top, #{$startColor}, #{$endColor});
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$startColor}', endColorstr='#{$endColor}');
+}
+
+
+/* placeholder */
+%clear {
+	&:after {content:''; display:block; clear: both;}
+}
+
+%ul {
+	margin: 0; padding: 0; list-style: none;
+}
+
+%blind {
+	position: absolute; overflow: hidden; visibility: hidden;
+	width: 0; height: 0; font-size: 0; line-height: 0;
+}
+
+%button {
+	display: inline-block; cursor: pointer;
+	margin: 0; padding: 11px 20px;
+	border: none;
+	background: $button_basicColor;
+	font-size: 14px; color: $button_textColor; text-decoration: none;
+	&.btn-small {
+		padding:8px 15px; font-size: 12px;
+	}
+	&.btn-highlight {
+		color: $button_textColor;
+		background: $button_backgroundHighlightColor;
+	}
+	&.btn-block {
+		display: block;
+	}
+}
+
+
 /* Tags */
 *, *:before, *:after {
 	-webkit-box-sizing: border-box;
@@ -65,11 +125,10 @@ button.ui-button {
 		a {color: $color_strong; text-decoration: none;}
 	}
 	> p {margin: 0 0 4px; font-size: 12px; color: $color_blur;}
-}
-@media all and (min-width:640px) {
-	.hgroup {
-		padding: 0;
-		> h1 {margin-bottom: 5px;}
+
+	@media all and (min-width:640px) {
+			padding: 0;
+			> h1 {margin-bottom: 5px;}
 	}
 }
 
@@ -79,9 +138,7 @@ button.ui-button {
 	margin: 15px 0;
 	dl {margin: 0; text-align: center;}
 	dt, dd {margin: 12px 0;}
-}
-@media all and (min-width:640px) {
-	.controller {
+	@media all and (min-width:640px) {
 		margin: 15px 0;
 		&:after {content:''; display:block; clear: both;}
 		dl {margin: 0;}
@@ -112,54 +169,9 @@ button.ui-button {
 	}
 	a {display: block; text-align: center; padding-left: 0; padding-right: 0;}
 	button {width: 100%;}
-}
-@media all and (min-width:640px) {
-	.btngroup {
+	@media all and (min-width:640px) {
 		display: block; width: auto; text-align: right;
 		span {display: inline-block;}
 		a {padding-left: 20px; padding-right: 20px;}
-	}
-}
-
-
-/* table */
-.ui-table {
-	width: 100%; border-collapse: collapse;
-	> caption {
-		text-align: left;
-		font-size: 14px; font-weight: 600;
-		padding: 0 0 5px 0;
-	}
-	th, td {
-		padding: 0;
-		border-width: 1px; border-style: solid; border-color: #ccc;
-	}
-	th {
-		text-align: center;
-	}
-	thead {
-		th {
-			padding: 8px 0;
-			background: #eee;
-		}
-	}
-	tbody {
-		th, td {
-			padding: 7px 8px;
-			border-bottom: 1px solid #ccc;
-		}
-		th {
-			background: #f9f9f9; white-space: nowrap;
-		}
-	}
-	.center {text-align: center;}
-	.nowrap {white-space: nowrap;}
-}
-
-
-/* list */
-.ui-list {
-	> li {
-		margin: 5px 0 20px 0;
 	}
 }

@@ -76,6 +76,9 @@ if ($article_srl)
 		'table' => 'articles',
 		'where' => 'srl='.$article_srl
 	));
+	try {
+		$article['json'] = json_decode($article['json'], true);
+	} catch(Exception $e) {}
 
 	$category = $goose->spawn->getItem(array(
 		'table' => 'categories',
@@ -100,11 +103,13 @@ $skin = (isset($nest['json']['articleSkin'])) ? $nest['json']['articleSkin'] : '
 $actionFile = ($paramAction == 'create' || $paramAction == 'modify') ? 'post' : $paramAction;
 if (is_file(PWD.'/plugins/article/'.$skin.'/'.$actionFile.'.php'))
 {
-	require_once(PWD.'/plugins/article/'.$skin.'/'.$actionFile.'.php');
+	$path_skin = '/plugins/article/'.$skin;
+	require_once(PWD.$path_skin.'/'.$actionFile.'.php');
 }
 else if (is_file(PWD.'/plugins/article/basic/'.$actionFile.'.php'))
 {
-	require_once(PWD.'/plugins/article/basic/'.$actionFile.'.php');
+	$path_skin = '/plugins/article/basic';
+	require_once(PWD.$path_skin.'/'.$actionFile.'.php');
 }
 else
 {

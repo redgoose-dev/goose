@@ -24,12 +24,12 @@ else
 	<div class="hgroup">
 		<h1><?=$nest['name']?> 분류목록</h1>
 	</div>
-	<form action="<?=GOOSE_ROOT?>/category/sort/" method="post" name="listForm" id="listForm" class="hidden">
+	<form action="<?=GOOSE_ROOT?>/category/sort/" method="post" name="listForm" id="listForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
 			<legend class="blind">분류목록</legend>
-			<ul id="index" class="index">
+			<ul id="index" class="goose-index">
 				<?
 				if ($categoryCount > 0)
 				{

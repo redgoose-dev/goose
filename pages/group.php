@@ -10,7 +10,7 @@ if ($paramAction == 'index')
 		<div class="hgroup">
 			<h1>둥지그룹 목록</h1>
 		</div>
-		<ul class="index">
+		<ul class="goose-index">
 			<?
 			if ($itemCount > 0)
 			{
@@ -60,7 +60,7 @@ else
 	$titleType = ($paramAction == 'modify') ? '수정' : $titleType;
 	$titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 ?>
-	<section class="form">
+	<section class="goose-form">
 		<div class="hgroup">
 			<h1>둥지그룹 <?=$titleType?></h1>
 		</div>

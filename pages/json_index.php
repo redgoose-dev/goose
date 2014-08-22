@@ -15,7 +15,7 @@ $jsonIndex = $goose->spawn->getItems(array(
 	</div>
 
 	<!-- json index -->
-	<ul class="index">
+	<ul class="goose-index">
 		<?
 		if ($jsonCount > 0)
 		{

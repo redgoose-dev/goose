@@ -1,11 +1,22 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+$extPath = GOOSE_ROOT.'/libs/ext';
+
+require_once(PWD.'/libs/ext/Parsedown/Parsedown.class.php');
+$Parsedown = new Parsedown();
+$article['content'] = '<div class="markdown-body">'.$Parsedown->text($article['content']).'</div>';
+
 if ($nest['useCategory'])
 {
 	$categoryName = (isset($category['name'])) ? "<span class=\"category\">[$category[name]]</span>&nbsp;" : '';
 }
+
+$tags = (isset($article['json'])) ? $article['json']['tag'] : array();
 ?>
+
+<link rel="stylesheet" href="<?=$extPath?>/Parsedown/markdown.css" />
+<link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/style.css" />
 
 <section>
 	<div class="hgroup detail">
@@ -17,20 +28,29 @@ if ($nest['useCategory'])
 	</div>
 
 	<!-- body -->
-	<?
-	$article['content'] = htmlspecialchars($article['content']);
-	$article['content'] = nl2br($article['content']);
-	$article['content'] = str_replace('[[', '<', $article['content']);
-	$article['content'] = str_replace(']]', '>', $article['content']);
-	?>
-
-	<style>
-	.articleBody {margin:20px 0;}
-	</style>
 	<div class="articleBody">
 		<?=$article['content']?>
+	
+		<?
+		if (count($tags))
+		{
+		?>
+			<section class="tagList">
+				<h1>TAGS</h1>
+				<ul>
+					<?
+					foreach ($tags as $k=>$v)
+					{
+						echo "<li>$v</li>";
+					}
+					?>
+				</ul>
+			</section>
+		<?
+		}
+		?>
 	</div>
-	<!-- // body -->
+	<!-- body -->
 
 	<hr />
 

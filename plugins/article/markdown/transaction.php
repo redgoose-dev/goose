@@ -73,19 +73,23 @@ function uploadThumnail($imgData=null)
 	return $thumnailDir;
 }
 
+if ($paramAction != 'delete')
+{
+	// post값 확인
+	$errorValue = $goose->util->checkExistValue($_POST, array('title', 'content'));
+	if ($errorValue)
+	{
+		$goose->util->back("[$errorValue]값이 없습니다.");
+		$goose->out();
+	}
+}
+
 
 // act
 switch($paramAction)
 {
 	// create
 	case 'create':
-		// post값 확인
-		$errorValue = $goose->util->checkExistValue($_POST, array('title', 'content'));
-		if ($errorValue)
-		{
-			$goose->util->back("[$errorValue]값이 없습니다.");
-			$goose->out();
-		}
 
 		$result = $goose->spawn->insert(array(
 			'table' => 'articles',
@@ -128,26 +132,33 @@ switch($paramAction)
 		}
 
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
-		$goose->util->redirect(GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl);
+		$redirectUrl = GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl;
 		break;
 
 	// modify
 	case 'modify':
-		// post값 확인
-		$errorValue = $goose->util->checkExistValue($_POST, array('title', 'content'));
-		if ($errorValue)
-		{
-			$goose->util->back("[$errorValue]값이 없습니다.");
-			$goose->out();
-		}
 
-		$absoluteThumnailDir = PWD.$dataThumnailDirectory;
+		// update article
+		$result = $goose->spawn->update(array(
+			'table' => 'articles',
+			'where' => 'srl='.(int)$_POST['article_srl'],
+			'data' => array(
+				"category_srl='$_POST[category_srl]'",
+				"title='$_POST[title]'",
+				"content='$_POST[content]'",
+				"modate='$regdate'",
+				"json='$_POST[json]'",
+				"ipAddress='$ipAddress'"
+			)
+		));
 
 		// get article item data
 		$article = $goose->spawn->getItem(array(
 			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl']
 		));
+
+		$absoluteThumnailDir = PWD.$dataThumnailDirectory;
 
 		// upload files
 		$thumnail_srl = fileUpload($_POST['article_srl'], $_POST['thumnail_srl']);
@@ -174,17 +185,9 @@ switch($paramAction)
 
 		// update article
 		$result = $goose->spawn->update(array(
-			'table' => 'articles',
-			'where' => 'srl='.(int)$_POST['article_srl'],
-			'data' => array(
-				"category_srl='$_POST[category_srl]'",
-				"title='$_POST[title]'",
-				"content='$_POST[content]'",
-				"thumnail_coords='$_POST[thumnail_coords]'",
-				"modate='$regdate'",
-				"json='$_POST[json]'",
-				"ipAddress='$ipAddress'"
-			)
+			'table' => 'articles'
+			,'where' => 'srl='.(int)$_POST['article_srl']
+			,'data' => array("thumnail_coords='$_POST[thumnail_coords]'")
 		));
 
 		// 썸네일 이미지는 있고, 첨부파일이 하나도 없을때 썸네일 이미지 삭제
@@ -215,13 +218,19 @@ switch($paramAction)
 			}
 		}
 
-		$goose->util->redirect($_POST['url']);
+		$redirectUrl = $_POST['url'];
 		break;
 
 	// delete
 	case 'delete':
 		// get article item data
 		$article = $goose->spawn->getItem(array(
+			'table' => 'articles',
+			'where' => 'srl='.(int)$_POST['article_srl']
+		));
+
+		// delete article
+		$goose->spawn->delete(array(
 			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl']
 		));
@@ -252,16 +261,24 @@ switch($paramAction)
 			}
 		}
 
-		// delete article
-		$goose->spawn->delete(array(
-			'table' => 'articles',
-			'where' => 'srl='.(int)$_POST['article_srl']
-		));
-
 		$addUrl = ($_POST['nest_srl']) ? $_POST['nest_srl'].'/' : '';
 		$addUrl .= ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
-		$goose->util->redirect(GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
+		$redirectUrl = GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : '');
 		break;
+}
+
+
+// attach files
+//require_once('transaction_files.php');
+
+// tag
+require_once('transaction_tag.php');
+
+
+// redirect url
+if ($redirectUrl)
+{
+	$goose->util->redirect($redirectUrl);
 }
 ?>

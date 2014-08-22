@@ -20,7 +20,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 
 <link rel="stylesheet" type="text/css" href="<?=GOOSE_ROOT?>/libs/ext/JSONEditor/css/JSONEditor.css" media="screen" />
 
-<section class="form JSONPost">
+<section class="goose-form">
 	<div class="hgroup">
 		<h1>JSON <?=$titleType?></h1>
 	</div>
