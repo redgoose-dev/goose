@@ -1,4 +1,4 @@
-.articleBody {margin-top: 20px;}
+.articleBody {margin: 20px 0;}
 
 .tagList {margin: 0;}
 .tagList:after {content: ''; display: block; clear: both;}
