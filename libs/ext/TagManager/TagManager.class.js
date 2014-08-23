@@ -122,7 +122,7 @@ var TagManager = function($el, $tags)
 		// sync tags
 		for (var i=0; i< self.tags.length; i++)
 		{
-			if (self.alltags.indexOf(self.tags[i]) > 0)
+			if (self.alltags.indexOf(self.tags[i]) >= 0)
 			{
 				self.$alltagsIndex.eq(self.alltags.indexOf(self.tags[i])).addClass('on');
 			}
