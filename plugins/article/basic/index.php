@@ -142,7 +142,7 @@ if ($articleCount > 0)
 					<span><a href="<?=$url?>" class="ui-button btn-highlight">글쓰기</a></span>
 					<?
 					$url = GOOSE_ROOT.'/nest/index/';
-					$url .= ($nest['group_srl']) ? $nest['group_srl'].'/' : '';
+					$url .= ($_SESSION['group_srl']) ? $_SESSION['group_srl'].'/' : '';
 					?>
 					<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
 					<?

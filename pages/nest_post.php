@@ -55,7 +55,6 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					'order' => 'srl',
 					'sort' => 'asc'
 				));
-
 				if (count($group))
 				{
 				?>
@@ -68,6 +67,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 								foreach ($group as $k=>$v)
 								{
 									$selected = ($v['srl'] == $nest['group_srl']) ? ' selected="selected"' : '';
+									$selected = (!$selected && ($v['srl'] == $_SESSION['group_srl'])) ? ' selected="selected"' : '';
 									echo "<option value=\"$v[srl]\"$selected>$v[name]</option>";
 								}
 								?>
@@ -145,7 +145,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					</dd>
 				</dl>
 				<dl class="table">
-					<dt><label for="articleSkin">article skin 선택</label></dt>
+					<dt><label for="articleSkin">article skin</label></dt>
 					<dd>
 						<select name="articleSkin" id="articleSkin">
 							<?

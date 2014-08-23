@@ -13,7 +13,6 @@ class Goose {
 	 */
 	public $spawn;
 
-
 	/**
 	 * tables name
 	 */
@@ -29,6 +28,18 @@ class Goose {
 	 */
 	public $adminLevel;
 
+
+	/**
+	 * user.php file location
+	 * 
+	 * @return string : location string
+	 */
+	private function getUserFileLocation()
+	{
+		return PWD.'/data/config/user.php';
+	}
+
+
 	/**
 	 * return static goose object (singleton)
 	 * 
@@ -42,17 +53,6 @@ class Goose {
 			$theInstance = new Goose();
 		}
 		return $theInstance;
-	}
-
-
-	/**
-	 * user.php file location
-	 * 
-	 * @return string : location string
-	 */
-	public function getUserFileLocation()
-	{
-		return PWD.'/data/config/user.php';
 	}
 
 

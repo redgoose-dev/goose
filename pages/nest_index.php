@@ -2,8 +2,9 @@
 if(!defined("GOOSE")){exit();}
 
 $group_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : null;
-$itemParameter = ($group_srl) ? 'group_srl='.$group_srl : '';
+$_SESSION['group_srl'] = ($group_srl) ? $group_srl : null;
 
+$itemParameter = ($group_srl) ? 'group_srl='.$group_srl : '';
 $nestsCount = $goose->spawn->getCount(array('table'=>'nests', 'where'=>$itemParameter));
 $nestsIndex = $goose->spawn->getItems(array(
 	'table' => 'nests',
