@@ -48,7 +48,10 @@ switch($paramAction)
 				'regdate' => $regdate
 			)
 		));
-		$goose->util->redirect(GOOSE_ROOT.'/nest/index/');
+
+		$params = ($_POST['group_srl']) ? $_POST['group_srl'].'/' : '';
+		$params = ($_SESSION['group_srl'] && $_POST['group_srl'] && ($_POST['group_srl'] != $_SESSION['group_srl'])) ? $_POST['group_srl'].'/' : $params;
+		$redirectUrl = GOOSE_ROOT.'/nest/index/'.$params;
 		break;
 
 
@@ -83,7 +86,10 @@ switch($paramAction)
 				"json='$_POST[json]'"
 			)
 		));
-		$goose->util->redirect(GOOSE_ROOT.'/nest/index/'.$_POST['group_srl'].'/');
+
+		$params = ($_SESSION['group_srl']) ? $_SESSION['group_srl'].'/' : '';
+		$params = ($_SESSION['group_srl'] && $_POST['group_srl'] && ($_POST['group_srl'] != $_SESSION['group_srl'])) ? $_POST['group_srl'].'/' : $params;
+		$redirectUrl = GOOSE_ROOT.'/nest/index/'.$params;
 		break;
 
 
@@ -148,6 +154,15 @@ switch($paramAction)
 			'where' => 'srl='.(int)$_POST['nest_srl']
 		));
 
-		$goose->util->redirect(GOOSE_ROOT.'/nest/index/');
+		$params = ($_SESSION['group_srl']) ? $_SESSION['group_srl'].'/' : '';
+		$params = ($_SESSION['group_srl'] && $_POST['group_srl'] && ($_POST['group_srl'] != $_SESSION['group_srl'])) ? $_POST['group_srl'].'/' : $params;
+		$redirectUrl = GOOSE_ROOT.'/nest/index/'.$params;
 		break;
+}
+
+
+// redirect url
+if ($redirectUrl)
+{
+	$goose->util->redirect($redirectUrl);
 }
