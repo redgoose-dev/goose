@@ -67,7 +67,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 								foreach ($group as $k=>$v)
 								{
 									$selected = ($v['srl'] == $nest['group_srl']) ? ' selected="selected"' : '';
-									$selected = (!$selected && ($v['srl'] == $_SESSION['group_srl'])) ? ' selected="selected"' : '';
+									$selected = (!$selected && ($v['srl'] == $_SESSION['group_srl'])) ? ' selected="selected"' : $selected;
 									echo "<option value=\"$v[srl]\"$selected>$v[name]</option>";
 								}
 								?>
