@@ -26,7 +26,7 @@ function getTags($str)
 {
 	$json = (get_magic_quotes_gpc()) ? stripslashes($str) : $str;
 	$json = json_decode($json, true);
-	return $json['tag'];
+	return ($json['tag']) ? $json['tag'] : array();
 }
 
 
