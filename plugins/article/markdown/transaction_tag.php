@@ -71,7 +71,7 @@ if (file_exists($tagsFile))
 			break;
 
 		case 'modify':
-			$oldTags = getTags($article['json']);
+			$oldTags = getTags($oldArticle['json']);
 			$newTags = getTags($_POST['json']);
 
 			foreach ($oldTags as $k=>$v)
@@ -107,7 +107,7 @@ if (file_exists($tagsFile))
 
 	foreach ($resultTags as $k=>$v)
 	{
-		if ($v['count'] <= 0)
+		if (($v['count'] <= 0) || !$v['name'])
 		{
 			unset($resultTags[$k]);
 		}
