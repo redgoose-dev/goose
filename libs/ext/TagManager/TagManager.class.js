@@ -62,6 +62,14 @@ var TagManager = function($el, $tags)
 				});
 				$tags.append($tag);
 				$el.val('');
+				if (self.alltags.length)
+				{
+					var pos = self.alltags.indexOf(keyword);
+					if (pos >= 0)
+					{
+						self.$alltagsIndex.eq(pos).addClass('on');
+					}
+				}
 			}
 			else
 			{
@@ -84,7 +92,6 @@ var TagManager = function($el, $tags)
 			self.tags.splice(position, 1);
 			$tag.remove();
 			self.$alltagsIndex.eq(self.alltags.indexOf(text)).removeClass('on');
-			
 		});
 	}
 
@@ -139,7 +146,6 @@ var TagManager = function($el, $tags)
 			if (!$(this).hasClass('on'))
 			{
 				self.add($(this).children('span').text());
-				$(this).addClass('on');
 			}
 		});
 	}
