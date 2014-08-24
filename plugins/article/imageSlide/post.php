@@ -25,12 +25,6 @@ if (isset($article['json']))
 <link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/css/UploadInterface.css" />
 <link rel="stylesheet" href="<?=$extPath?>/Jcrop/jquery.Jcrop.min.css" />
 
-<input type="hidden" name="addQueue" value="" />
-<input type="hidden" name="thumnail_srl" value="<?=$article['thumnail_srl']?>" />
-<input type="hidden" name="thumnail_coords" value="<?=$article['thumnail_coords']?>" />
-<input type="hidden" name="thumnail_image" value="" />
-<input type="hidden" name="content" value="<?=$article['content']?>"/>
-
 <section class="goose-form">
 	<div class="hgroup">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
