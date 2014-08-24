@@ -1,10 +1,6 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-/*
-	$editorDir : editor plugin location
-*/
-
 /**
  * check tag data
  * 
@@ -30,13 +26,14 @@ function getTags($str)
 }
 
 
+
 // tag processing
 $tagsFile = PWD.'/data/config/tags.user.txt';
-
 if (!file_exists($tagsFile))
 {
 	$goose->util->fop($tagsFile, 'w', '[]', 0777);
 }
+
 
 if (file_exists($tagsFile))
 {
@@ -48,7 +45,9 @@ if (file_exists($tagsFile))
 	switch($paramAction)
 	{
 		case 'create':
+
 			$newTags = getTags($_POST['json']);
+
 			foreach($newTags as $k=>$v)
 			{
 				$v = checkTag($v);
@@ -57,27 +56,36 @@ if (file_exists($tagsFile))
 					$pos = array_search($v, $originalKeywords);
 					if (is_numeric($pos))
 					{
-						$resultTags[$pos]['count']++;
+						array_push($resultTags[$pos]['srl'], $lastSrl);
 					}
 					else
 					{
 						array_push($resultTags, array(
 							'name' => $v
-							,'count' => 1
+							,'srl' => array($lastSrl)
 						));
 					}
 				}
 			}
+
 			break;
 
 		case 'modify':
+
 			$oldTags = getTags($oldArticle['json']);
 			$newTags = getTags($_POST['json']);
 
 			foreach ($oldTags as $k=>$v)
 			{
 				$pos = array_search($v, $originalKeywords);
-				$resultTags[$pos]['count']--;
+				if (is_numeric($pos))
+				{
+					$pos2 = array_search($article['srl'], $resultTags[$pos]['srl']);
+					if (is_numeric($pos2))
+					{
+						unset($resultTags[$pos]['srl'][$pos2]);
+					}
+				}
 			}
 
 			foreach ($newTags as $k=>$v)
@@ -85,36 +93,61 @@ if (file_exists($tagsFile))
 				$pos = array_search($v, $originalKeywords);
 				if (is_numeric($pos))
 				{
-					$resultTags[$pos]['count']++;
+					$pos2 = array_search($article['srl'], $resultTags[$pos]['srl']);
+					if (is_bool($pos2))
+					{
+						array_push($resultTags[$pos]['srl'], $article['srl']);
+					}
 				}
 				else
 				{
-					array_push($resultTags, array('name' => $v, 'count' => 1));
+					array_push($resultTags, array(
+						'name' => $v
+						,'srl' => array($article['srl'])
+					));
 				}
 			}
+
 			break;
 
 		case 'delete':
-			$oldTags = getTags($article['json']);
+
+			$oldTags= getTags($article['json']);
 
 			foreach ($oldTags as $k=>$v)
 			{
 				$pos = array_search($v, $originalKeywords);
-				$resultTags[$pos]['count']--;
+				if (is_numeric($pos))
+				{
+					$pos2 = array_search($article['srl'], $resultTags[$pos]['srl']);
+					if (is_numeric($pos2))
+					{
+						unset($resultTags[$pos]['srl'][$pos2]);
+					}
+				}
 			}
+
 			break;
 	}
+}
 
+
+if (is_array($resultTags))
+{
 	foreach ($resultTags as $k=>$v)
 	{
-		if (($v['count'] <= 0) || !$v['name'])
+		if (count($v['srl']))
+		{
+			$resultTags[$k]['srl'] = array_values($v['srl']);
+		}
+		else
 		{
 			unset($resultTags[$k]);
 		}
 	}
-
-	$fw = fopen($tagsFile, "w") or die('open error');
-	fwrite($fw, json_encode($resultTags));
-	fclose($fw);
 }
+
+$fw = fopen($tagsFile, "w") or die('open error');
+fwrite($fw, json_encode($resultTags));
+fclose($fw);
 ?>

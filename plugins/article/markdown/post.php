@@ -125,7 +125,7 @@ if (isset($article['json']))
 										<?
 										foreach ($allTagsData as $k=>$v)
 										{
-											echo "<li><span>$v->name</span><em>$v->count</em></li>";
+											echo "<li><span>$v->name</span><em>".count($v->srl)."</em></li>";
 										}
 										?>
 									</ul>
