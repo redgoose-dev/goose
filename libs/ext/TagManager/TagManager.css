@@ -34,13 +34,14 @@
 .tagIndexWrap .list {position: relative;}
 .tagIndexWrap .list > ul {
 	margin: 0; padding: 8px 5px; list-style: none; display: none;
-	position: absolute; left: 0; bottom: 0; width: 200px;
+	position: absolute; left: -10px; bottom: 0; width: 330px;
+	max-height: 300px; overflow: auto;
 	background: white;
 	border: 1px solid #ccc;
 	box-shadow: 1px 1px 3px rgba(0,0,0,.3);
 }
 .tagIndexWrap .list > ul > li {
-	float: left; padding: 5px 10px; margin: 0; width: 50%;
+	float: left; padding: 5px 10px; margin: 0; width: 33.33%;
 	font-size: 12px; font-family: 'Helvetica';
 	cursor: pointer;
 }
