@@ -7,19 +7,6 @@ require('attachFileDatas.php');
 
 $nestName = '['.$nest['name'].'] ';
 $titleType = getActionType($paramAction);
-
-// all tags
-if (file_exists($tagPath))
-{
-	$allTagsData = $goose->util->fop($tagPath, 'r');
-}
-
-// article tags
-if (isset($article['json']))
-{
-	$articleTags = $article['json']['tag'];
-	$articleTagsString = json_encode($articleTags);
-}
 ?>
 
 <link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/css/UploadInterface.css" />
