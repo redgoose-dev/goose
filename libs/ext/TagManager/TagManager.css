@@ -1,4 +1,5 @@
 .tagList {margin: 8px 0 0 0;}
+.tagList:empty {margin-top: 0;}
 .tagList:after {content: ''; display: block; clear: both;}
 .tagList p {
 	float: left; margin: 0 3px 2px 0; padding: 4px 8px; position: relative;
