@@ -484,11 +484,7 @@ var UploadInterface = function(el, options) {
 	this.thumnailImageCheck = function()
 	{
 		var $items = self.queue.$index.children();
-		if ($items.filter('.thumnail').length)
-		{
-			return false;
-		}
-		else
+		if (!$items.filter('.thumnail').length)
 		{
 			var existImage = false;
 			$items.each(function(){
@@ -499,18 +495,14 @@ var UploadInterface = function(el, options) {
 					return false;
 				}
 			});
-
 			if (existImage && !self.settings.form.thumnail_image.value)
 			{
 				alert('썸네일 이미지를 만들지 않았습니다.');
 				self.$controller.children('[rg-action=useThumnail]').focus();
 				return true;
 			}
-			else
-			{
-				return false;
-			}
 		}
+		return false;
 	}
 
 	/**
