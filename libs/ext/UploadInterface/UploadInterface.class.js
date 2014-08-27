@@ -11,8 +11,7 @@ var UploadInterface = function(el, options) {
 	this.$drop = null;
 	this.$controller = null;
 	this.readyItem = new Array();
-
-	var thumnail = new Thumnail(self, {
+	this.thumnail = new Thumnail(self, {
 		type : self.settings.thumnailType
 		,size : self.settings.thumnailSize.split('*')
 		,quality : 0.8
@@ -457,7 +456,7 @@ var UploadInterface = function(el, options) {
 		}
 		if (item)
 		{
-			thumnail.open(item);
+			self.thumnail.open(item);
 		}
 	}
 
