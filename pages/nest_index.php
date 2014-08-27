@@ -61,7 +61,7 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 		{
 			foreach ($nestsIndex as $k=>$v)
 			{
-				$v['json'] = json_decode($v['json']);
+				$v['json'] = json_decode(urldecode($v['json']));
 				$url = GOOSE_ROOT.'/article/index/'.$v['srl'].'/';
 				$articleCount = $goose->spawn->getCount(array(
 					'table' => 'articles',

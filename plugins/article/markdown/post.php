@@ -218,7 +218,8 @@ jQuery(function($){
 		json.tag = tagManager.export();
 
 		// json object to hidden string
-		$(this).find('input[name=json]').val(JSON.stringify(json));
+		json = encodeURIComponent(JSON.stringify(json));
+		$(this).find('input[name=json]').val(json);
 	});
 });
 </script>

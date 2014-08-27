@@ -104,7 +104,7 @@ if ($articleCount > 0)
 				$categoryName = (isset($categoryName['name'])) ? '<span>분류:'.$categoryName['name'].'</span> ' : '';
 				$img = ($v['thumnail_url']) ? '<dt><img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/></dt>' : '';
 				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
-				$json = json_decode($v['json'], true);
+				$json = json_decode(urldecode($v['json']), true);
 				$tags = $json['tag'];
 		?>
 				<li>

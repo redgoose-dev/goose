@@ -9,7 +9,7 @@ if ($paramAction !== "create" and $nest_srl)
 		'where' => 'srl='.$nest_srl
 	));
 	$thumnailSize = explode("*", $nest['thumnailSize']);
-	$nest['json'] = ($nest['json']) ? json_decode($nest['json']) : null;
+	$nest['json'] = ($nest['json']) ? json_decode(urldecode($nest['json'])) : null;
 }
 
 if (isset($thumnailSize[1]))
@@ -198,7 +198,7 @@ if ($paramAction != "delete")
 			,submitHandler : function(form) {
 				var json = new Object();
 				json.articleSkin = form.articleSkin.value;
-				form.json.value = JSON.stringify(json);
+				form.json.value = encodeURIComponent(JSON.stringify(json));
 				form.submit();
 				return false;
 			}

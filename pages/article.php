@@ -77,7 +77,7 @@ if ($article_srl)
 		'where' => 'srl='.$article_srl
 	));
 	try {
-		$article['json'] = json_decode($article['json'], true);
+		$article['json'] = json_decode(urldecode($article['json']), true);
 	} catch(Exception $e) {}
 
 	$category = $goose->spawn->getItem(array(
@@ -94,7 +94,7 @@ if ($nest_srl || $article['nest_srl'])
 		'where' => 'srl='.(($nest_srl) ? $nest_srl : $article['nest_srl'])
 	));
 	try {
-		$nest['json'] = json_decode($nest['json'], true);
+		$nest['json'] = json_decode(urldecode($nest['json']), true);
 	} catch(Exception $e) {}
 }
 

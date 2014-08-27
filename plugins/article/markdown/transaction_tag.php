@@ -20,9 +20,12 @@ function checkTag($str)
  */ 
 function getTags($str)
 {
-	$json = (get_magic_quotes_gpc()) ? stripslashes($str) : $str;
-	$json = json_decode($json, true);
-	return ($json['tag']) ? $json['tag'] : array();
+	try {
+		$json = json_decode(urldecode($str), true);
+		return ($json['tag']) ? $json['tag'] : array();
+	} catch(Exception $e) {
+		return array();
+	}
 }
 
 

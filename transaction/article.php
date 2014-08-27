@@ -11,7 +11,7 @@ $nest = $goose->spawn->getItem(array(
 	'where' => 'srl='.$_POST['nest_srl']
 ));
 try {
-	$nest['json'] = json_decode($nest['json'], true);
+	$nest['json'] = json_decode(urldecode($nest['json']), true);
 } catch(Exception $e) {}
 
 
