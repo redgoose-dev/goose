@@ -25,7 +25,7 @@ require_once(PWD.'/libs/functions.php');
 
 // init goose class
 $goose = Goose::getInstance();
-$goose->init();
+$goose->init(PWD);
 
 
 // session check
