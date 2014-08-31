@@ -28,6 +28,11 @@ class Goose {
 	 */
 	public $adminLevel;
 
+	/**
+	 * pwd
+	 */
+	private $pwd;
+
 
 	/**
 	 * user.php file location
@@ -36,7 +41,7 @@ class Goose {
 	 */
 	private function getUserFileLocation()
 	{
-		return PWD.'/data/config/user.php';
+		return $this->pwd.'/data/config/user.php';
 	}
 
 
@@ -70,8 +75,9 @@ class Goose {
 	/**
 	 * Initialization
 	 */
-	public function init()
+	public function init($pwd=PWD)
 	{
+		$this->pwd = $pwd;
 		$this->util = new Util();
 
 		if (self::isInstalled())
@@ -122,9 +128,9 @@ class Goose {
 		switch($code)
 		{
 			case 404:
-				if (is_file(PWD.'/pages/404.html'))
+				if (is_file($this->pwd.'/pages/404.html'))
 				{
-					require(PWD.'/pages/404.html');
+					require($this->pwd.'/pages/404.html');
 				}
 				else
 				{
