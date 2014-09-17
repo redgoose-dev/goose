@@ -110,7 +110,7 @@ switch($paramAction)
 			));
 		}
 		echo json_encode(array(
-			'status' => 'success',
+			'status' => 'success'
 		));
 		break;
 }
