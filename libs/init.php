@@ -2,7 +2,7 @@
 if(!defined("GOOSE")){exit();}
 
 // set start time
-if (DEBUG)
+if (is_bool(DEBUG) && DEBUG)
 {
 	@error_reporting(E_ALL);
 	@define(__StartTime__, array_sum(explode(' ', microtime())));

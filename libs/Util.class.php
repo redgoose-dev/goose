@@ -2,7 +2,6 @@
 if(!defined("GOOSE")){exit();}
 
 class Util {
-	var $start_time;
 
 	// init
 	public function Util() {}
@@ -135,23 +134,6 @@ class Util {
 			mkdir($loc, $permission);
 			umask($umask);
 		}
-	}
-
-	/**
-	 * EXIT
-	 * 페이지를 종료한다. db연결을 끊어주는 역할을 하고, 처리시간을 확인할 수 있는 옵션이 있다.
-	 * 
-	 * @param Boolean $timeCheck : true값으로 넣으면 처리시간 로그가 출력된다.
-	 * @return void
-	*/
-	public function out($timeCheck=false)
-	{
-		global $spawn;
-		if ($spawn)
-		{
-			$spawn->disconnect();
-		}
-		exit;
 	}
 
 	/**
