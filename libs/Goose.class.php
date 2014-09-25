@@ -33,6 +33,11 @@ class Goose {
 	 */
 	private $pwd;
 
+	/**
+	 * start time
+	 */
+	private $startTime;
+
 
 	/**
 	 * user.php file location
@@ -79,6 +84,7 @@ class Goose {
 	{
 		$this->pwd = $pwd;
 		$this->util = new Util();
+		$this->startTime = (__StartTime__) ? __StartTime__ : 0;
 
 		if (self::isInstalled())
 		{
@@ -106,10 +112,10 @@ class Goose {
 		{
 			$this->spawn->disconnect();
 		}
-		if (DEBUG)
+		if (is_bool(DEBUG) && DEBUG)
 		{
 			$end_time = array_sum(explode(' ', microtime()));
-			echo "<hr/><p>\n\nTIME : ".($end_time - __StartTime__). "</p>";
+			echo "<hr/><p>\n\nTIME : ".($end_time - $this->startTime). "</p>";
 		}
 		exit;
 	}
