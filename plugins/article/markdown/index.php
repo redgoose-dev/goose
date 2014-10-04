@@ -105,7 +105,6 @@ if ($articleCount > 0)
 				$img = ($v['thumnail_url']) ? '<dt><img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/></dt>' : '';
 				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
 				$json = json_decode(urldecode($v['json']), true);
-				$tags = $json['tag'];
 		?>
 				<li>
 					<a href="<?=$url?>">
@@ -118,23 +117,6 @@ if ($articleCount > 0)
 									<span>조회수:<?=$v['hit']?></span>
 									<span>작성날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
 								</div>
-								<?
-								if (count($tags))
-								{
-								?>
-									<div class="tagList">
-										<ul>
-											<?
-											foreach ($tags as $k2=>$v2)
-											{
-												echo "<li>$v2</li>";
-											}
-											?>
-										</ul>
-									</div>
-								<?
-								}
-								?>
 							</dd>
 						</dl>
 					</a>
