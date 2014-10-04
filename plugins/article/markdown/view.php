@@ -11,8 +11,6 @@ if ($nest['useCategory'])
 {
 	$categoryName = (isset($category['name'])) ? "<span class=\"category\">[$category[name]]</span>&nbsp;" : '';
 }
-
-$tags = (isset($article['json'])) ? $article['json']['tag'] : array();
 ?>
 
 <link rel="stylesheet" href="<?=$extPath?>/Parsedown/markdown.css" />
@@ -30,25 +28,6 @@ $tags = (isset($article['json'])) ? $article['json']['tag'] : array();
 	<!-- body -->
 	<div class="articleBody">
 		<?=$article['content']?>
-	
-		<?
-		if (count($tags))
-		{
-		?>
-			<section class="tagList">
-				<h1>TAGS</h1>
-				<ul>
-					<?
-					foreach ($tags as $k=>$v)
-					{
-						echo "<li>$v</li>";
-					}
-					?>
-				</ul>
-			</section>
-		<?
-		}
-		?>
 	</div>
 	<!-- body -->
 

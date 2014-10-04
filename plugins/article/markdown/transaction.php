@@ -95,9 +95,6 @@ switch($paramAction)
 // attach files
 require_once('transaction_files.php');
 
-// tag
-require_once('transaction_tag.php');
-
 
 // redirect url
 if ($redirectUrl)

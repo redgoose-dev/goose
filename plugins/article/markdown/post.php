@@ -2,28 +2,13 @@
 if(!defined("GOOSE")){exit();}
 
 $extPath = GOOSE_ROOT.'/libs/ext';
-$tagPath = PWD.'/data/config/tags.user.txt';
 require('attachFileDatas.php');
 
 $nestName = '['.$nest['name'].'] ';
 $titleType = getActionType($paramAction);
-
-// all tags
-if (file_exists($tagPath))
-{
-	$allTagsData = $goose->util->fop($tagPath, 'r');
-}
-
-// article tags
-if (isset($article['json']))
-{
-	$articleTags = $article['json']['tag'];
-	$articleTagsString = json_encode($articleTags);
-}
 ?>
 
 <link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
-<link rel="stylesheet" href="<?=$extPath?>/TagManager/TagManager.css" />
 <link rel="stylesheet" href="<?=$extPath?>/Jcrop/jquery.Jcrop.min.css" />
 
 <section class="goose-form">
@@ -105,40 +90,6 @@ if (isset($article['json']))
 				</dd>
 			</dl>
 			<div class="queuesManager" id="queuesManager"></div>
-
-			<dl class="table">
-				<dt><label for="tag">태그</label></dt>
-				<dd>
-					<input type="text" name="tag" id="tag" />
-					<button type="button" class="ui-button btn-small" role-action="addTag">추가</button>
-					<button type="button" class="ui-button btn-small" role-action="removeAllTags">모두삭제</button>
-					<?
-					if (isset($allTagsData))
-					{
-						$allTagsData = json_decode($allTagsData);
-						if (count($allTagsData))
-						{
-					?>
-							<div class="tagIndexWrap" id="allTagsIndex">
-								<div class="list">
-									<ul>
-										<?
-										foreach ($allTagsData as $k=>$v)
-										{
-											echo "<li><span>$v->name</span><em>".count($v->srl)."</em></li>";
-										}
-										?>
-									</ul>
-								</div>
-								<button type="button" class="ui-button btn-small">모든태그</button>
-							</div>
-					<?
-						}
-					}
-					?>
-					<div class="tagList" id="tags"></div>
-				</dd>
-			</dl>
 		</fieldset>
 
 		<nav class="btngroup">
@@ -155,7 +106,6 @@ if (isset($article['json']))
 <script src="<?=$extPath?>/UploadInterface/FileUpload.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/Thumnail.class.js"></script>
 <script src="<?=$extPath?>/UploadInterface/UploadInterface.class.js"></script>
-<script src="<?=$extPath?>/TagManager/TagManager.class.js"></script>
 <script>
 jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
@@ -184,26 +134,6 @@ jQuery(function($){
 		uploadInterface.upload();
 	});
 
-	// tag manager
-	var tagManager = new TagManager($('#tag'), $('#tags'));
-	// add tag
-	$('[role-action=addTag]').on('click', function(){
-		tagManager.add(tagManager.$input.val());
-	});
-	// remove all tags
-	$('[role-action=removeAllTags]').on('click', function(){
-		if (confirm('모든 태그를 삭제하시겠습니까?'))
-		{
-			tagManager.remove($('#tags > p'));
-		}
-	});
-	// importTags
-	var articleTags = '<?=$articleTagsString?>';
-	articleTags = (articleTags) ? JSON.parse(articleTags) : '';
-	tagManager.import(articleTags);
-	// all tags init
-	tagManager.allTagsInit($('#allTagsIndex'));
-
 	// onsubmit event
 	$(document.writeForm).on('submit', function(){
 		var json = new Object();
@@ -213,9 +143,6 @@ jQuery(function($){
 		{
 			return false;
 		}
-
-		// export tag data
-		json.tag = tagManager.export();
 
 		// json object to hidden string
 		json = encodeURIComponent(JSON.stringify(json));
