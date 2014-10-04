@@ -1,5 +1,6 @@
 RewriteEngine On
 RewriteCond $1 !\.(js|ico|gif|jpg|jpeg|png|css|swf|mp3|wav|txt|zip|rar)$
+RewriteCond $1 ^(.*)/$
 RewriteRule ^(.*)$ index.php [L,NC]
 
 <ifModule mod_expires.c>
