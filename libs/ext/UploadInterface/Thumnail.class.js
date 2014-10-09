@@ -216,7 +216,7 @@ var Thumnail = function(parent, options) {
 			,onSelect : function(e) {
 				self.data.coords = [
 					parseInt(e.x)
-					,parseInt(e.y)
+					,parseInt(e.y) > 0 ? parseInt(e.y) : 0
 					,parseInt(e.x2)
 					,parseInt(e.y2)
 					,parseInt(e.w)
@@ -242,7 +242,7 @@ var Thumnail = function(parent, options) {
 				y = ($img.height() * 0.5) - (src.h * 0.5);
 				self.data.coords = [
 					parseInt(x)
-					,parseInt(y)
+					,parseInt(y) > 0 ? parseInt(y) : 0
 					,parseInt(x + src.w)
 					,parseInt(y + src.h)
 					,parseInt(src.w)
