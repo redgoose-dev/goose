@@ -1,10 +1,14 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-$group_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : null;
-$_SESSION['group_srl'] = ($group_srl) ? $group_srl : null;
+$group_srl = (isset($_SESSION['group_srl'])) ? (int)$_SESSION['group_srl'] : null;
+$group_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : $group_srl;
+$group_srl = ($_GET['all']) ? null : $group_srl;
+
+$_SESSION['group_srl'] = $group_srl;
 
 $itemParameter = ($group_srl) ? 'group_srl='.$group_srl : '';
+$nestsAllCount = $goose->spawn->getCount(array('table'=>'nests'));
 $nestsCount = $goose->spawn->getCount(array('table'=>'nests', 'where'=>$itemParameter));
 $nestsIndex = $goose->spawn->getItems(array(
 	'table' => 'nests',
@@ -26,6 +30,12 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 		<!-- groups list -->
 		<nav class="goose-categories">
 			<ul>
+				<?
+				$active = (!$group_srl) ? 'class="active"' : '';
+				?>
+				<li <?=$active?>>
+					<a href="<?=GOOSE_ROOT?>/nest/index/?all=1">All(<?=($nestsAllCount)?>)</a>
+				</li>
 				<?
 				$nestGroupsIndex = $goose->spawn->getItems(array(
 					'table' => 'nestGroups',
