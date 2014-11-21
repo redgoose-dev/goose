@@ -17,7 +17,8 @@ Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 �
 
 Demo
 =====
-[http://redgoose.me/projects/goose/demo/](http://redgoose.me/projects/goose/demo/)
+[http://redgoose.me/projects/goose/demo/](http://redgoose.me/projects/goose/demo/)  
+로그인정보 : user@redgoose.me//1234
 
 
 활용 사이트
