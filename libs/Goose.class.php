@@ -79,12 +79,14 @@ class Goose {
 
 	/**
 	 * Initialization
+	 * 
+	 * @param String $pwd : absolute location
 	 */
 	public function init($pwd=PWD)
 	{
 		$this->pwd = $pwd;
 		$this->util = new Util();
-		$this->startTime = (__StartTime__) ? __StartTime__ : 0;
+		$this->startTime = (__StartTime__) ? __StartTime__ : array_sum(explode(' ', microtime()));
 
 		if (self::isInstalled())
 		{
@@ -105,6 +107,7 @@ class Goose {
 
 	/**
 	 * page exit
+	 * 
 	 */
 	public function out()
 	{
@@ -122,11 +125,9 @@ class Goose {
 
 
 	/**
-	 * costom error (제대로 사용할지는 미정)
+	 * custom error
 	 * 
-	 * @anthor : redgoose
-	 * 
-	 * @param Number $code : 에러코드
+	 * @param Number $code : error code
 	 * @return void
 	*/
 	public function error($code=404)
