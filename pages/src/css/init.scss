@@ -76,7 +76,7 @@ body {
 img, video, iframe {max-width: 100%;}
 img {border: none;}
 table {
-	border-collapse:collapse; border-spacing:0;
+	border-collapse: collapse; border-spacing: 0;
 	th, td {padding: 0;}
 }
 form {margin: 0;}
@@ -84,7 +84,10 @@ fieldset {margin: 0; padding: 0; border: none;}
 ul, ol {margin: 15px 0; padding: 0 0 0 25px;}
 li {margin: 3px 0;}
 a {color: #2281d8;}
-hr {border: none; height: 1px; clear: both; background: #ccc;}
+hr {
+	border: none; height: 1px; clear: both; background: #ccc;
+	&.space {background: none; margin: 12px 0;}
+}
 
 
 /* Attributes */
@@ -129,6 +132,24 @@ button.ui-button {
 	@media all and (min-width:640px) {
 			padding: 0;
 			> h1 {margin-bottom: 5px;}
+	}
+}
+
+
+/* Table */
+.ui-table {
+	width: 100%;
+	caption {padding: 0 0 8px; text-align: left;}
+	th, td {
+		border: 1px solid #ccc;
+		padding: 8px 10px;
+	}
+	td {
+		&.center {text-align: center;}
+		&.nowrap {white-space: nowrap;}
+	}
+	thead {
+		th {background: #f1f1f1;}
 	}
 }
 

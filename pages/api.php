@@ -18,25 +18,28 @@
 		<ol>
 			<li>API Key 인증</li>
 			<li>파라메터값을 조합하여 DB에서 데이터 검색</li>
-			<li>검색한 데이터(php배열)로 각각의 데이터(json,xml)의 형태로 변환 및 출력</li>
-			<li>출력된 페이지 내용으로 지 꼴리는대로 사용</li>
+			<li>검색한 데이터(php array)로 각각의 데이터(json,xml)의 형태로 변환 및 출력</li>
+			<li>출력된 페이지 내용으로 원하는대로 사용</li>
 		</ol>
 	</section>
 
 	<section>
 		<h1>API Key</h1>
 		<p>
-			apikey값은 /{goose}/data/config/user.php 파일의 $api_key 값을 암호화한 아래의 값을 사용하여 인증합니다.
-			<input type="text" value="<?=md5($goose->api_key)?>" class="block" readonly />
+			apikey값은 <code>/{goose}/data/config/user.php</code>파일의 $api_key 값을 암호화한 아래의 값을 사용하여 인증합니다.
 		</p>
+		<p><input type="text" value="<?=md5($goose->api_key)?>" class="block" readonly /></p>
 	</section>
 
 	<section>
 		<h1>Parameter</h1>
 		<p>
-			Goose api는 url주소형식으로 요청합니다. 주소를 적는 방식은 다음과 같습니다. 아래 주소는 가장 기초적인 형태이며 조건에 따라 아래 설명된 규칙을 참고하여 url을 만드시면 됩니다.<br/>
-			<strong>http://xxx.com/goose/api/item?apikey=XXX&table=nests&act=index&output=json</strong><br/>
+			Goose api는 url주소형식으로 요청합니다. 주소를 적는 방식은 다음과 같습니다. 아래 주소는 가장 기초적인 형태이며 조건에 따라 아래 설명된 규칙을 참고하여 url을 만드시면 됩니다.
 		</p>
+		<pre class="code">
+			<code>http://xxx.com/goose/api/item?apikey=XXX&table=nests&act=index&output=json</code>
+		</pre>
+		<hr class="space"/>
 		<table class="ui-table">
 			<caption>필수 파라메터 (Required parameters). 요청시 꼭 넣어줘야하는 값입니다.</caption>
 			<thead>
@@ -79,8 +82,9 @@
 				</tr>
 			</tbody>
 		</table>
+		<br />
 		<table class="ui-table">
-			<caption>"&act=index" 값으로 정할때 테이블에 따라 사용되는 파라메터</caption>
+			<caption><code>&act=index</code>값으로 정할때 테이블에 따라 사용되는 파라메터</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">테이블</th>
@@ -173,8 +177,9 @@
 				</tr>
 			</tbody>
 		</table>
+		<br />
 		<table class="ui-table">
-			<caption>"&act=index" 값으로 정할때 테이블 구분없이 공통으로 사용되는 파라메터</caption>
+			<caption><code>&act=index</code>값으로 정할때 테이블 구분없이 공통으로 사용되는 파라메터</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">키</th>
@@ -216,13 +221,14 @@
 					<td class="nowrap center">string</td>
 					<td>
 						키워드 검색 값. 키워드 검색필드값과 같이 필요합니다.
-						<pre style="margin:3px 0 0">search_key like '%search_value%'</pre>
+						<pre style="margin:3px 0 0"><code>search_key like '%search_value%'</code></pre>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		<br />
 		<table class="ui-table">
-			<caption>"&act=single" 값으로 정할때 필요한 파라메터</caption>
+			<caption><code>&act=single</code>값으로 정할때 필요한 파라메터</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">키</th>
@@ -259,7 +265,7 @@
 					<td class="nowrap center">string</td>
 					<td>
 						키워드 검색 값. 키워드 검색필드값과 같이 필요합니다.
-						<pre style="margin:3px 0 0">search_key like '%search_value%'</pre>
+						<pre style="margin:3px 0 0"><code>search_key like '%search_value%'</code></pre>
 					</td>
 				</tr>
 			</tbody>
@@ -270,7 +276,7 @@
 		<h1>출력 허용필드</h1>
 		<p>
 			API를 통하여 원하지 않는 내용이나 비밀번호를 출력할 수 있는 위험성이 있기 때문에 <code>/{goose}/api/allowApiData.php</code>파일에서 어떤 db 테이블에서 어떤 필드를 출력할것인지에 대하여 컨트롤 할 수 있습니다.<br/>
-			<code>allowApiData.php</code>파일에서의 배열 목록은 출력을 허용하는 필드의 목록입니다.
+			allowApiData.php 파일에서의 배열 목록은 출력을 허용하는 필드의 목록입니다.
 		</p>
 	</section>
 </section>

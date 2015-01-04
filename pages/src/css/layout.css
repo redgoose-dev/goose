@@ -7,15 +7,15 @@
 
 .blind, .goose-auth fieldset legend { position: absolute; overflow: hidden; visibility: hidden; width: 0; height: 0; font-size: 0; line-height: 0; }
 
-.ui-button { display: inline-block; cursor: pointer; margin: 0; padding: 11px 20px; border: none; background: #a5acb0; font-size: 14px; color: white; text-decoration: none; }
+.ui-button { display: inline-block; cursor: pointer; margin: 0; padding: 11px 20px; border: none; background: #a5acb0; font-size: 14px; color: #fff; text-decoration: none; }
 .btn-small.ui-button { padding: 8px 15px; font-size: 12px; }
-.btn-highlight.ui-button { color: white; background: #72b3ca; }
+.btn-highlight.ui-button { color: #fff; background: #72b3ca; }
 .btn-block.ui-button { display: block; }
 
 /* Tags */
 *, *:before, *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
-body { margin: 0; padding: 0; font-size: 16px; font-family: sans-serif; color: #333333; min-width: 320px; -webkit-text-size-adjust: none; font-size: 14px; line-height: 1.42857; color: #333333; }
+body { margin: 0; padding: 0; font-size: 16px; font-family: sans-serif; color: #333; min-width: 320px; -webkit-text-size-adjust: none; font-size: 14px; line-height: 1.42857; color: #333; }
 
 img, video, iframe { max-width: 100%; }
 
@@ -35,6 +35,7 @@ li { margin: 3px 0; }
 a { color: #2281d8; }
 
 hr { border: none; height: 1px; clear: both; background: #ccc; }
+hr.space { background: none; margin: 12px 0; }
 
 /* Attributes */
 /* Forms */
@@ -54,10 +55,18 @@ button.ui-button.block { width: 100%; }
 /* Headding */
 .hgroup { padding: 0; position: relative; border-bottom: 1px solid #ccc; }
 .hgroup > h1 { font-size: 20px; margin: 0; line-height: 28px; }
-.hgroup > h1 a { color: #111111; text-decoration: none; }
-.hgroup > p { margin: 0 0 4px; font-size: 12px; color: #666666; }
+.hgroup > h1 a { color: #111; text-decoration: none; }
+.hgroup > p { margin: 0 0 4px; font-size: 12px; color: #666; }
 @media all and (min-width: 640px) { .hgroup { padding: 0; }
   .hgroup > h1 { margin-bottom: 5px; } }
+
+/* Table */
+.ui-table { width: 100%; }
+.ui-table caption { padding: 0 0 8px; text-align: left; }
+.ui-table th, .ui-table td { border: 1px solid #ccc; padding: 8px 10px; }
+.ui-table td.center { text-align: center; }
+.ui-table td.nowrap { white-space: nowrap; }
+.ui-table thead th { background: #f1f1f1; }
 
 /* Controller */
 .controller { margin: 15px 0; }
@@ -71,7 +80,7 @@ button.ui-button.block { width: 100%; }
   .controller .btngroup { margin: 0; } }
 
 /* Paginate */
-.paginate a, .paginate strong { margin: 0; display: inline-block; padding: 9px 13px 6px; color: white; text-align: center; }
+.paginate a, .paginate strong { margin: 0; display: inline-block; padding: 9px 13px 6px; color: #fff; text-align: center; }
 .paginate a { text-decoration: none; background: #a5acb0; }
 .paginate strong { background: #72b3ca; }
 
@@ -100,7 +109,7 @@ button.ui-button.block { width: 100%; }
 
 /* Footer */
 #footer { margin: 30px 12px 15px; text-align: center; }
-#footer address { padding: 0; font-size: 12px; color: #666666; }
+#footer address { padding: 0; font-size: 12px; color: #666; }
 
 /* Container */
 #container { margin: 15px 12px; }
@@ -112,7 +121,7 @@ button.ui-button.block { width: 100%; }
 /* Categories */
 .goose-categories { border-bottom: 1px solid #ddd; padding: 5px 0; }
 .goose-categories li { float: left; }
-.goose-categories a { display: block; padding: 3px 8px 3px 5px; font-size: 12px; color: #666666; text-decoration: none; }
+.goose-categories a { display: block; padding: 3px 8px 3px 5px; font-size: 12px; color: #666; text-decoration: none; }
 .goose-categories a:hover { text-decoration: underline; }
 .goose-categories li.active a { font-weight: bolder; color: #469fc0; text-decoration: underline; }
 
@@ -141,9 +150,9 @@ button.ui-button.block { width: 100%; }
 .goose-index > li > .body > .inf > span:last-child:after { content: ''; }
 .goose-index > li.placeHolder { background: #e4f5fa; }
 .goose-index nav { float: right; margin-top: 10px; }
-.goose-index nav > a { display: inline-block; padding: 3px 5px; font-size: 13px; font-weight: 600; color: #666666; text-decoration: none; }
-.goose-index nav > a.highlight { color: #333333; }
-.goose-index > .empty { padding: 30px 0; text-align: center; font-size: 16px; color: #666666; border-bottom: 1px dashed #d6d6d6; }
+.goose-index nav > a { display: inline-block; padding: 3px 5px; font-size: 13px; font-weight: 600; color: #666; text-decoration: none; }
+.goose-index nav > a.highlight { color: #333; }
+.goose-index > .empty { padding: 30px 0; text-align: center; font-size: 16px; color: #666; border-bottom: 1px dashed #d6d6d6; }
 .goose-index > .empty:hover { background: none; }
 
 /* Form */
@@ -152,16 +161,29 @@ button.ui-button.block { width: 100%; }
 .goose-form fieldset > dl { margin: 15px 0; }
 .goose-form fieldset > dl > dt { margin: 0 0 4px 3px; padding: 0; font-size: 14px; font-weight: 600; word-break: break-all; }
 .goose-form fieldset > dl > dt:before { content: ''; display: inline-block; width: 5px; height: 10px; margin-right: 5px; background-image: url("../img/ico_arrow1.png"); background-position: 0 45%; background-repeat: no-repeat; background-size: 5px auto; }
-.goose-form fieldset > dl > dd { margin: 3px 0 0 0; font-size: 13px; color: #666666; }
+.goose-form fieldset > dl > dd { margin: 3px 0 0 0; font-size: 13px; color: #666; }
 .goose-form fieldset > dl > dd > p { margin: 4px 0 0 0; }
 .goose-form fieldset > dl > dd .error { color: #e80000; }
 .goose-form fieldset > dl > dd label.error { display: block; margin: 4px 0 0 0; }
 .goose-form fieldset .required:before { content: '* '; }
 .goose-form fieldset > legend { font-size: 18px; margin-bottom: 5px; }
-.goose-form .message { color: #666666; font-size: 16px; margin: 0; padding: 30px 0 30px; border-bottom: 1px dashed #ddd; }
+.goose-form .message { color: #666; font-size: 16px; margin: 0; padding: 30px 0 30px; border-bottom: 1px dashed #ddd; }
 
 /* JSON */
 .jsonCode .snippet-wrap pre.sh_sourceCode { margin-top: 1.5em; }
+
+/* Documents */
+.Documents > section { margin: 15px 0 50px; font-size: 13px; }
+.Documents > section > h1 { margin: 0; font-size: 20px; font-weight: bold; }
+.Documents > section > p { margin: 10px 0; color: #333; }
+.Documents > section > ul, .Documents > section > ol { margin: 12px 0; padding-left: 20px; }
+.Documents > section > ul > li > strong, .Documents > section > ol > li > strong { font-size: 14px; }
+.Documents > section > section { margin: 15px 0 40px; }
+.Documents > section > section > h1 { margin: 15px 0 15px; font-size: 16px; }
+.Documents code { display: inline; margin: 0 2px; padding: 0 3px; white-space: pre-wrap; font-size: 13px; font-family: 'Consolas', 'Inconsolata', 'Courier', 'monospace'; border: 1px solid #eaeaea; border-radius: 3px; background-color: #f8f8f8; }
+.Documents pre > code { margin: 0; }
+.Documents pre.code { margin: 10px 0; font-size: 0; }
+.Documents pre.code > code { display: block; margin: 0; padding: 3px 8px; line-height: 1.5; overflow: auto; white-space: pre; }
 
 /* For desktop */
 @media all and (min-width: 640px) { #header h1 { float: left; line-height: 31px; padding-top: 5px; font-size: 24px; }
