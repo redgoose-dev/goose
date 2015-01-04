@@ -15,6 +15,7 @@ $allowApiData = array(
 		,'regdate'
 		,'modate'
 		,'hit'
+		,'json'
 		,'ipAddress'
 	)
 	,'categories' => array(
@@ -50,7 +51,7 @@ $allowApiData = array(
 		,'thumnailType'
 		,'listCount'
 		,'useCategory'
-		,'editor'
+		,'json'
 		,'regdate'
 	)
 	,'tempFiles' => array(
