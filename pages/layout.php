@@ -46,7 +46,7 @@ if(!defined("GOOSE")){exit();}
 
 	<!-- Footer -->
 	<footer id="footer">
-		<address>Copyright 2012 Goose Engine. All right reserved.</address>
+		<address>Copyright <?=date("Y")?> Goose Engine. All right reserved.</address>
 	</footer>
 	<!-- // Footer -->
 </main>
