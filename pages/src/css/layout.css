@@ -163,6 +163,7 @@ button.ui-button.block { width: 100%; }
 .goose-index.card .inf span:last-child:after { content: ''; }
 .goose-index.thumnail { margin: 5px 0; }
 .goose-index.thumnail li { width: 50%; padding: 10px 10px; }
+.goose-index.thumnail li:hover dl { background: #fafafa; }
 .goose-index.thumnail .noimg { width: 100%; height: 150px; line-height: 150px; }
 .goose-index.thumnail dt img { width: 100%; height: 150px; }
 .goose-index.thumnail dd { padding: 12px 10px; }

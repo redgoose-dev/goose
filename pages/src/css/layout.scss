@@ -166,7 +166,10 @@
 	&.thumnail {
 		$imageSize: 150px;
 		margin: 5px 0;
-		li {width: 50%; padding: 10px 10px;}
+		li {
+			width: 50%; padding: 10px 10px;
+			&:hover dl {background: #fafafa;}
+		}
 		.noimg {width: 100%; height: $imageSize; line-height: $imageSize;}
 		dt img {width: 100%; height: $imageSize;}
 		dd {padding: 12px 10px;}
