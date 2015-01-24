@@ -12,8 +12,7 @@ $color_highlight: #72b3ca;
 $text_text-size: 14px;
 $text_line-height: 1.428571429;
 
-$margin_side: 12px;
-$margin_side_min: 12px;
+$margin_side: 10px;
 
 /* mixin */
 @mixin gradiant($startColor:#ffffff, $endColor:#000000, $mattColor:#666666) {

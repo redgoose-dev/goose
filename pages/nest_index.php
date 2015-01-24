@@ -23,49 +23,43 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 	<div class="hgroup">
 		<h1><a href="<?=GOOSE_ROOT?>/nest/index/">Nests</a></h1>
 	</div>
-	<?
-	if ($nestGroupsCount)
-	{
-	?>
-		<!-- groups list -->
-		<nav class="goose-categories">
-			<ul>
-				<?
-				$active = (!$group_srl) ? 'class="active"' : '';
-				?>
-				<li <?=$active?>>
-					<a href="<?=GOOSE_ROOT?>/nest/index/?all=1">All(<?=($nestsAllCount)?>)</a>
-				</li>
-				<?
-				$nestGroupsIndex = $goose->spawn->getItems(array(
-					'table' => 'nestGroups',
-					'order' => 'srl',
-					'sort' => 'desc'
+
+	<!-- groups list -->
+	<nav class="goose-categories">
+		<ul>
+			<?
+			$active = (!$group_srl) ? 'class="active"' : '';
+			?>
+			<li <?=$active?>>
+				<a href="<?=GOOSE_ROOT?>/nest/index/?all=1">All(<?=($nestsAllCount)?>)</a>
+			</li>
+			<?
+			$nestGroupsIndex = $goose->spawn->getItems(array(
+				'table' => 'nestGroups',
+				'order' => 'srl',
+				'sort' => 'desc'
+			));
+			foreach ($nestGroupsIndex as $k=>$v)
+			{
+				$nestCount = $goose->spawn->getCount(array(
+					'table' => 'nests',
+					'where' => 'group_srl='.(int)$v['srl']
 				));
-				foreach ($nestGroupsIndex as $k=>$v)
-				{
-					$nestCount = $goose->spawn->getCount(array(
-						'table' => 'nests',
-						'where' => 'group_srl='.(int)$v['srl']
-					));
-					$active = ($group_srl == $v['srl']) ? " class='active'" : "";
-					$url = GOOSE_ROOT.'/nest/index/'.$v['srl'].'/';
-					echo "
-						<li $active>
-							<a href=\"$url\">$v[name]($nestCount)</a>
-						</li>
-					";
-				}
-				?>
-			</ul>
-		</nav>
-		<!-- // groups list -->
-	<?
-	}
-	?>
+				$active = ($group_srl == $v['srl']) ? " class='active'" : "";
+				$url = GOOSE_ROOT.'/nest/index/'.$v['srl'].'/';
+				echo "
+					<li $active>
+						<a href=\"$url\">$v[name]($nestCount)</a>
+					</li>
+				";
+			}
+			?>
+		</ul>
+	</nav>
+	<!-- // groups list -->
 
 	<!-- nests list -->
-	<ul class="goose-index">
+	<ul class="goose-index list">
 		<?
 		if ($nestsCount > 0)
 		{
@@ -91,23 +85,23 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 				$categoryBtn = ($v['useCategory'] == 1) ? '<a href="'.GOOSE_ROOT.'/category/index/'.$v['srl'].'/">분류설정</a>' : '';
 		?>
 				<li>
-					<div class="body">
-						<a href="<?=$url?>">
-							<strong><?=$groupName?> <?=$v['name']?>(<?=$articleCount?>)</strong>
-						</a>
-						<div class="inf">
-							<span>아이디:<?=$v['id']?></span>
-							<span>날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
-							<?=$categoryCount?>
-							<span>썸네일사이즈:<?=$v['thumnailSize']?></span>
-							<span>Article:<?=$v['json']->articleSkin?></span>
-						</div>
-						<nav>
-							<a href="<?=GOOSE_ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
-							<a href="<?=GOOSE_ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
-							<?=$categoryBtn?>
-						</nav>
-					</div>
+					<dl>
+						<dd>
+							<a href="<?=$url?>"><strong class="big"><?=$groupName?> <?=$v['name']?>(<?=$articleCount?>)</strong></a>
+							<div class="inf">
+								<span>아이디:<?=$v['id']?></span>
+								<span>날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
+								<?=$categoryCount?>
+								<span>썸네일사이즈:<?=$v['thumnailSize']?></span>
+								<span>Article:<?=$v['json']->articleSkin?></span>
+							</div>
+							<nav>
+								<a href="<?=GOOSE_ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
+								<a href="<?=GOOSE_ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
+								<?=$categoryBtn?>
+							</nav>
+						</dd>
+					</dl>
 				</li>
 		<?
 			}

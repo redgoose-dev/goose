@@ -44,7 +44,7 @@
 
 /* Footer */
 #footer {
-	margin: 30px $margin_side_min 15px; text-align: center;
+	margin: 30px $margin_side 15px; text-align: center;
 	address {
 		padding: 0;
 		font-size: 12px; color: $color_blur;
@@ -54,7 +54,8 @@
 
 /* Container */
 #container {
-	margin: 15px $margin_side_min;
+	margin: 15px 0;
+	.hgroup {padding: 0 $margin_side;}
 }
 
 
@@ -70,14 +71,15 @@
 
 /* Categories */
 .goose-categories {
-	border-bottom: 1px solid #ddd; padding: 5px 0;
+	border-bottom: 1px solid #ddd; padding: 5px;
+	padding-left: $margin_side - 5;
 	ul {
 		@extend %ul;
 		@extend %clear;
 	}
 	li {float: left;}
 	a {
-		display: block; padding: 3px 8px 3px 5px;
+		display: block; padding: 3px 5px;
 		font-size:12px; color: $color_blur; text-decoration: none;
 		&:hover {text-decoration:underline;}
 	}
@@ -88,72 +90,137 @@
 /* Index */
 .goose-index {
 	margin: 0; padding: 0; list-style: none;
+	&:after {content: ''; display: block; clear: both;}
+	dl, dd {margin: 0;}
+	a {display: block; text-decoration: none;}
 	em {font-style: normal;}
-	> li {
-		margin: 0;
-		border-bottom:1px dashed #d6d6d6;
-		em {font-style: normal;}
-		> a {
-			display: block; padding: 10px 0; text-decoration: none;
-			> dl {
-				margin: 0;
-				@extend %clear;
-				> dt {
-					float: right; padding: 0; margin: -3px 0;
-					> img {display: block; max-width: 80px;}
-				}
-				> dd {
-					margin: 0;
-					&.body {
-						> strong {color:#b68250; font-size: 14px;}
-						> .inf {
-							font-size:13px; color:#666; margin-top: 4px;
-							> span {
-								&:after {content: ',';}
-								&:last-child:after {content: '';}
-							}
-							> p {margin: 0;}
-						}
-					}
-				}
-				&.noimg {
-					> dd {margin-right: 90px;}
-				}
-			}
-		}
-		> .body {
-			@extend %clear;
-			padding: 10px 0;
-			> a {
-				display: block; padding: 0; text-decoration: none;
-				> strong {color:#b68250; font-size: 16px;}
-			}
-			> strong {color:#b68250; font-size: 16px;}
-			> .inf {
-				font-size: 13px; color: #666; margin-top: 2px;
-				> span {
-					&:after {content: ',';}
-					&:last-child:after {content: '';}
-				}
-			}
-		}
-		&.placeHolder {background: #e4f5fa;}
+	li {position: relative; float: left; margin: 0;}
+	dl {background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2);}
+	dt img {
+		display: block; width: 100%; height: 100%;
+		object-fit: cover;
+	}
+	strong {
+		display: block;
+		color: #b68250; font-size: 14px;
+		overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+		
+		&.big {font-size: 16px;}
+	}
+	.inf {font-size: 13px; color: #666; margin-top: 3px;}
+	.noimg {
+		overflow: hidden; width: 100%; height: 100%;
+		font-family: 'Helvetica'; font-size: 12px; text-align: center; color: #fff; text-transform: uppercase;
+		background: #ccc;
 	}
 	nav {
-		float: right; margin-top: 10px;
-		> a {
-			display: inline-block; padding: 3px 5px;
+		margin-top: 5px;
+		&:after {content: ''; display: block; clear: both;}
+		a {
+			display: block; float: left; padding: 3px 8px;
 			font-size: 13px; font-weight: 600; color: $color_blur;
 			text-decoration: none;
+			&:hover {text-decoration: underline;}
 			&.highlight {color: $color_basic;}
+			&:first-child {padding-left: 0;}
 		}
 	}
-	> .empty {
-		padding: 30px 0; text-align: center; font-size: 16px; color: $color_blur;
+
+	&.list {
+		$imageSize: 150px;
+		margin: 0;
+		li {
+			width: 100%; padding: 10px $margin_side;
+			border-bottom:1px dashed #d6d6d6;
+		}
+		dl {box-shadow: 0 0 0;}
+		dt, .noimg {display: none;}
+		.inf span {
+			&:after {content: ',';}
+			&:last-child:after {content: '';}
+		}
+	}
+	&.card {
+		$imageSize: 100px;
+		margin: 5px 0;
+		li {
+			width: 100%; padding: 10px 10px;
+			&:hover dl {background: #fafafa;}
+		}
+		dl {height: $imageSize; overflow: hidden;}
+		dt {
+			float: left; margin-right: 12px;
+			width: $imageSize; height: 100%;
+		}
+		dd {padding: 12px 15px;}
+		.noimg {line-height: $imageSize;}
+		.inf {
+			overflow: hidden; text-overflow: ellipsis;
+			height: 36px;
+			span {
+				&:after {content: ',';}
+				&:last-child:after {content: '';}
+			}
+		}
+	}
+	&.thumnail {
+		$imageSize: 150px;
+		margin: 5px 0;
+		li {width: 50%; padding: 10px 10px;}
+		.noimg {width: 100%; height: $imageSize; line-height: $imageSize;}
+		dt img {width: 100%; height: $imageSize;}
+		dd {padding: 12px 10px;}
+		.inf {
+			height: 50px; font-size: 12px;
+			&:after {content: ''; display: block; clear: both;}
+			span {
+				display: block; line-height: 1.3;
+				overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+			}
+		}
+	}
+
+	.empty {
+		padding: 30px 0 !important; width: 100% !important;
+		text-align: center; font-size: 16px; color: $color_blur;
 		border-bottom:1px dashed #d6d6d6;
 		&:hover {background: none;}
 	}
+	.placeHolder dl {background: #e4f5fa;}
+
+	@media all and (min-width:480px) {
+		&.card li {}
+		&.thumnail li {width: 33.33%;}
+	}
+	@media all and (min-width:768px) {
+		&.card li {width: 50%;}
+		&.thumnail li {width: 25%;}
+	}
+	@media all and (min-width:1024px) {
+		&.card li {width: 33.33%;}
+		&.thumnail li {width: 20%;}
+	}
+	@media all and (min-width:1440px) {
+		&.card li {width: 25%;}
+		&.thumnail li {width: 16.66%;}
+	}
+	@media all and (min-width:1600px) {
+		&.card li {}
+		&.thumnail li {width: 14.28%;}
+	}
+	@media all and (min-width:1920px) {
+		&.card li {width: 20%;}
+		&.thumnail li {width: 12.5%;}
+	}
+	@media all and (min-width:2000px) {
+		&.card li {width: 16.66%;}
+		&.thumnail li {width: 10%;}
+	}
 }
+
+
+/* Article body */
+.articleBody {margin: 0 $margin_side;}
 
 
 /* Form */
@@ -168,7 +235,7 @@
 	select {margin-left: 0;}
 	fieldset {
 		> dl {
-			margin: 15px 0;
+			margin: 15px $margin_side;
 			> dt {
 				margin: 0 0 4px 3px; padding: 0;
 				font-size: 14px; font-weight: 600;
@@ -193,15 +260,15 @@
 		> legend {font-size: 18px; margin-bottom: 5px;}
 	}
 	.message {
-		color: $color_blur; font-size: 16px; margin: 0; padding: 30px 0 30px;
+		color: $color_blur; font-size: 16px; margin: 0; padding: 30px $margin_side 30px;
 		border-bottom: 1px dashed #ddd;
 	}
-
 }
 
 
 /* JSON */
 .jsonCode {
+	margin: 0 $margin_side;
 	.snippet-wrap pre.sh_sourceCode {margin-top: 1.5em;}
 }
 
@@ -209,7 +276,7 @@
 /* Documents */
 .Documents {
 	> section {
-		margin: 15px 0 50px; font-size: 13px;
+		margin: 15px $margin_side 50px; font-size: 13px;
 		> h1 {margin: 0; font-size: 20px; font-weight: bold;}
 		> p {margin: 10px 0; color: #333;}
 		> ul, > ol {
@@ -228,7 +295,7 @@
 	}
 
 	code {
-		display: inline; margin: 0 2px; padding: 0 3px; white-space: pre-wrap;
+		display: inline; margin: 0 2px; padding: 0 3px;
 		font-size: 13px;
 		font-family: 'Consolas', 'Inconsolata', 'Courier', 'monospace';
 		border: 1px solid #eaeaea; border-radius: 3px; background-color: #f8f8f8;
@@ -308,17 +375,7 @@
 	}
 
 	.goose-index {
-		.body {
-			strong {font-size: 16px;}
-		}
-		.inf {font-size:14px;}
-		dl {
-			dt {
-				img {max-width: 80px;}
-			}
-			&.noimg {
-				dd {margin-right: 90px;}
-			}
-		}
+		
 	}
+	.jsonCode {margin: 0;}
 }

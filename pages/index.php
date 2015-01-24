@@ -15,7 +15,7 @@ $articlesIndex = $goose->spawn->getItems(array(
 	<div class="hgroup">
 		<h1>Newstest articles</h1>
 	</div>
-	<ul class="goose-index">
+	<ul class="goose-index card">
 		<?
 		if ($articlesCount > 0)
 		{
@@ -39,23 +39,25 @@ $articlesIndex = $goose->spawn->getItems(array(
 				$url = GOOSE_ROOT.'/article/view/'.$v['srl'].'/?m=1';
 				$img = ($v['thumnail_url']) ? "<dt><img src=\"".GOOSE_ROOT."/data/thumnail/$v[thumnail_url]\" alt=\"$v[title]\" /></dt>" : "";
 				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
-				echo "
-					<li>
-						<a href=\"$url\">
-							<dl $noimg>
-								$img
-								<dd class=\"body\">
-									<strong><em>[$nest[name]]</em> $v[title]</strong>
-									<div class=\"inf\">
-										$categoryName
-										<span>조회수:".$v['hit']."</span>
-										<span>작성날짜:".$goose->util->convertDate($v['regdate'])."</span>
-									</div>
-								</dd>
-							</dl>
-						</a>
-					</li>
-				";
+		?>
+				<li>
+					<a href="<?=$url?>">
+						<dl>
+							<dt>
+								<?=($v['thumnail_url']) ? '<img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/>' : '<div class="noimg">noimg</div>'?>
+							</dt>
+							<dd>
+								<strong><em>[<?=$nest['name']?>]</em> <?=$v['title']?></strong>
+								<div class="inf">
+									<?=$categoryName?>
+									<span>조회수:<?=$v['hit']?></span>
+									<span>작성날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
+								</div>
+							</dd>
+						</dl>
+					</a>
+				</li>
+		<?
 			}
 		}
 		else

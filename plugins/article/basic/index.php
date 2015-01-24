@@ -27,6 +27,7 @@ $articleCount = $goose->spawn->getCount(array(
 	'table' => 'articles',
 	'where' => ($where) ? $where : ''
 ));
+$listType = (isset($nest['json']['listType'])) ? $nest['json']['listType'] : $listTypes[1];
 
 
 // init paginate
@@ -59,11 +60,21 @@ if ($articleCount > 0)
 	</div>
 
 	<?
-	if (count($category) > 0)
+	if ($nest['useCategory'] == 1)
 	{
 	?>
 		<nav class="goose-categories">
 			<ul>
+				<?
+				$active = (!$category_srl) ? 'class="active"' : '';
+				$cnt = $goose->spawn->getCount(array(
+					'table' => 'articles',
+					'where' => 'nest_srl='.$nest_srl
+				));
+				?>
+				<li <?=$active?>>
+					<a href="<?=GOOSE_ROOT?>/article/index/<?=$nest_srl?>/">All(<?=($cnt)?>)</a>
+				</li>
 				<?
 				foreach($category as $k=>$v)
 				{
@@ -86,7 +97,7 @@ if ($articleCount > 0)
 	?>
 
 	<!-- index -->
-	<ul class="goose-index">
+	<ul class="goose-index <?=$listType?>">
 		<?
 		if ($articleCount > 0)
 		{
@@ -104,8 +115,8 @@ if ($articleCount > 0)
 		?>
 				<li>
 					<a href="<?=$url?>">
-						<dl class="noimg">
-							<dd class="body">
+						<dl>
+							<dd>
 								<strong><?=$v['title']?></strong>
 								<div class="inf">
 									<?=$categoryName?>

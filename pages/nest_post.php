@@ -145,7 +145,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 					</dd>
 				</dl>
 				<dl class="table">
-					<dt><label for="articleSkin">article skin</label></dt>
+					<dt><label for="articleSkin">Article skin</label></dt>
 					<dd>
 						<select name="articleSkin" id="articleSkin">
 							<?
@@ -155,6 +155,21 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 							{
 								$selected = ($v == $nest['json']->articleSkin) ? ' selected' : '';
 								$selected = (!$nest['json']->articleSkin && $v=='basic') ? ' selected' : $selected;
+								echo "<option value=\"$v\"$selected>$v</option>";
+							}
+							?>
+						</select>
+					</dd>
+				</dl>
+				<dl class="table">
+					<dt><label for="listType">List type</label></dt>
+					<dd>
+						<select name="listType" id="listType">
+							<?
+							foreach($listTypes as $k=>$v)
+							{
+								$selected = ($v == $nest['json']->listType) ? ' selected' : '';
+								$selected = (!$nest['json']->listType && $v=='card') ? ' selected' : $selected;
 								echo "<option value=\"$v\"$selected>$v</option>";
 							}
 							?>
@@ -198,6 +213,7 @@ if ($paramAction != "delete")
 			,submitHandler : function(form) {
 				var json = new Object();
 				json.articleSkin = form.articleSkin.value;
+				json.listType = form.listType.value;
 				form.json.value = encodeURIComponent(JSON.stringify(json));
 				form.submit();
 				return false;

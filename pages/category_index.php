@@ -29,7 +29,7 @@ else
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
 			<legend class="blind">분류목록</legend>
-			<ul id="index" class="goose-index">
+			<ul id="index" class="goose-index list">
 				<?
 				if ($categoryCount > 0)
 				{
@@ -47,13 +47,15 @@ else
 						));
 				?>
 						<li srl="<?=$v['srl']?>">
-							<div class="body">
-								<strong><?=$v['name']?>(<?=$count?>)</strong>
-								<nav>
-									<a href="<?=GOOSE_ROOT?>/category/modify/<?=$nest_srl?>/<?=$v['srl']?>/">수정</a>
-									<a href="<?=GOOSE_ROOT?>/category/delete/<?=$nest_srl?>/<?=$v['srl']?>/">삭제</a>
-								</nav>
-							</div>
+							<dl>
+								<dd>
+									<strong class="big"><?=$v['srl']?>- <?=$v['name']?>(<?=$count?>)</strong>
+									<nav>
+										<a href="<?=GOOSE_ROOT?>/category/modify/<?=$nest_srl?>/<?=$v['srl']?>/">수정</a>
+										<a href="<?=GOOSE_ROOT?>/category/delete/<?=$nest_srl?>/<?=$v['srl']?>/">삭제</a>
+									</nav>
+								</dd>
+							</dl>
 						</li>
 				<?
 					}
@@ -99,7 +101,7 @@ jQuery(function($){
 			}).get().join(',');
 			objs.form.children('input[name=srls]').val(srls);
 		}
-		,placeHolderTemplate : '<li class="placeHolder"></li>'
+		,placeHolderTemplate : '<li class="placeHolder"><dl></dl></li>'
 	});
 });
 

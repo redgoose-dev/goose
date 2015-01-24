@@ -10,7 +10,7 @@ if ($paramAction == 'index')
 		<div class="hgroup">
 			<h1>둥지그룹 목록</h1>
 		</div>
-		<ul class="goose-index">
+		<ul class="goose-index list">
 			<?
 			if ($itemCount > 0)
 			{
@@ -27,13 +27,15 @@ if ($paramAction == 'index')
 					));
 				?>
 					<li>
-						<div class="body">
-							<strong><?=$v['srl']?> - <?=$v['name']?>(<?=$nestCount?>)</strong>
-							<nav>
-								<a href="<?=GOOSE_ROOT?>/group/modify/<?=$v['srl']?>/">수정</a>
-								<a href="<?=GOOSE_ROOT?>/group/delete/<?=$v['srl']?>/">삭제</a>
-							</nav>
-						</div>
+						<dl>
+							<dd>
+								<strong class="big"><?=$v['srl']?> - <?=$v['name']?>(<?=$nestCount?>)</strong>
+								<nav>
+									<a href="<?=GOOSE_ROOT?>/group/modify/<?=$v['srl']?>/">수정</a>
+									<a href="<?=GOOSE_ROOT?>/group/delete/<?=$v['srl']?>/">삭제</a>
+								</nav>
+							</dd>
+						</dl>
 					</li>
 				<?
 				}

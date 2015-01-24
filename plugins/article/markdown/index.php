@@ -27,6 +27,7 @@ $articleCount = $goose->spawn->getCount(array(
 	'table' => 'articles',
 	'where' => ($where) ? $where : ''
 ));
+$listType = (isset($nest['json']['listType'])) ? $nest['json']['listType'] : $listTypes[1];
 
 
 // init paginate
@@ -61,11 +62,21 @@ if ($articleCount > 0)
 	</div>
 
 	<?
-	if (count($category) > 0)
+	if ($nest['useCategory'] == 1)
 	{
 	?>
 		<nav class="goose-categories">
 			<ul>
+				<?
+				$active = (!$category_srl) ? 'class="active"' : '';
+				$cnt = $goose->spawn->getCount(array(
+					'table' => 'articles',
+					'where' => 'nest_srl='.$nest_srl
+				));
+				?>
+				<li <?=$active?>>
+					<a href="<?=GOOSE_ROOT?>/article/index/<?=$nest_srl?>/">All(<?=($cnt)?>)</a>
+				</li>
 				<?
 				foreach($category as $k=>$v)
 				{
@@ -87,7 +98,7 @@ if ($articleCount > 0)
 	}
 	?>
 
-	<ul class="goose-index">
+	<ul class="goose-index <?=$listType?>">
 		<?
 		if ($articleCount > 0)
 		{
@@ -102,15 +113,15 @@ if ($articleCount > 0)
 					'where' => 'srl='.$v['category_srl']
 				)) : '';
 				$categoryName = (isset($categoryName['name'])) ? '<span>분류:'.$categoryName['name'].'</span> ' : '';
-				$img = ($v['thumnail_url']) ? '<dt><img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/></dt>' : '';
-				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
 				$json = json_decode(urldecode($v['json']), true);
 		?>
 				<li>
 					<a href="<?=$url?>">
-						<dl <?=$noimg?>>
-							<?=$img?>
-							<dd class="body">
+						<dl>
+							<dt>
+								<?=($v['thumnail_url']) ? '<img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/>' : '<div class="noimg">noimg</div>'?>
+							</dt>
+							<dd>
 								<strong><?=$v['title']?></strong>
 								<div class="inf">
 									<?=$categoryName?>

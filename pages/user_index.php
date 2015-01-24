@@ -18,25 +18,27 @@ $users = $goose->spawn->getItems(array(
 	{
 	?>
 		<!-- index -->
-		<ul class="goose-index">
+		<ul class="goose-index list">
 			<?
 			foreach ($users as $k=>$v)
 			{
 				$level = ($v['level'] == 1) ? '관리자' : '일반';
 			?>
 				<li>
-					<div class="body">
-						<a><strong><?=$v['name']?></strong></a>
-						<div class="inf">
-							<span>이메일:<?=$v['email']?></span>
-							<span>등록날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
-							<span>권한:<?=$level?></span>
-						</div>
-						<nav>
-							<a href="<?=GOOSE_ROOT?>/user/modify/<?=$v['srl']?>/">수정</a>
-							<a href="<?=GOOSE_ROOT?>/user/delete/<?=$v['srl']?>/">삭제</a>
-						</nav>
-					</div>
+					<dl>
+						<dd>
+							<strong class="big"><?=$v['name']?></strong>
+							<div class="inf">
+								<span>이메일:<?=$v['email']?></span>
+								<span>등록날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
+								<span>권한:<?=$level?></span>
+							</div>
+							<nav>
+								<a href="<?=GOOSE_ROOT?>/user/modify/<?=$v['srl']?>/">수정</a>
+								<a href="<?=GOOSE_ROOT?>/user/delete/<?=$v['srl']?>/">삭제</a>
+							</nav>
+						</dd>
+					</dl>
 				</li>
 			<?
 			}
