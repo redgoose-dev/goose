@@ -103,7 +103,7 @@ class Goose {
 			unset($api_key);
 			$this->adminLevel = $adminLevel;
 			unset($adminLevel);
-			$this->indexCount = $indexCount;
+			$this->indexCount = ($indexCount) ? $indexCount : 15;
 			unset($indexCount);
 
 			$this->spawn = new Spawn($dbConfig, $this->tablesName);
