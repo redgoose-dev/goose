@@ -25,7 +25,7 @@ if ($nest['useCategory'])
 	?>
 
 	<style>
-	.articleBody {margin:20px 0;}
+	.articleBody {margin-top: 20px; margin-bottom: 20px;}
 	</style>
 	<div class="articleBody">
 		<?=$article['content']?>
