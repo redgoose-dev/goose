@@ -277,7 +277,7 @@ class Util {
 		$str .= "\$indexCount = 30;\n";
 		$str .= "?>";
 
-		return $this->fop($dir, 'w', $str);
+		return $this->fop($dir, 'w', $str, 0777);
 	}
 
 	/**
