@@ -29,6 +29,11 @@ class Goose {
 	public $adminLevel;
 
 	/**
+	 * index item number
+	 */
+	public $indexCount;
+
+	/**
 	 * pwd
 	 */
 	private $pwd;
@@ -98,6 +103,8 @@ class Goose {
 			unset($api_key);
 			$this->adminLevel = $adminLevel;
 			unset($adminLevel);
+			$this->indexCount = $indexCount;
+			unset($indexCount);
 
 			$this->spawn = new Spawn($dbConfig, $this->tablesName);
 			unset($dbConfig);

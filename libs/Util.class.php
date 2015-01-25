@@ -274,7 +274,7 @@ class Util {
 		$str .= ");\n";
 		$str .= "\$api_key = \"".$post['apiPrefix']."\";\n";
 		$str .= "\$adminLevel = \"".$post['adminLevel']."\";\n";
-		$str .= "\$indexCount = \"30\";\n";
+		$str .= "\$indexCount = 30;\n";
 		$str .= "?>";
 
 		return $this->fop($dir, 'w', $str);
