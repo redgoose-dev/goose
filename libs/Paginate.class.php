@@ -5,18 +5,34 @@ class Paginate {
 	var $total, $page, $size, $scale;
 	var $start_page, $page_max, $offset, $block, $tails;
 
-	public function Paginate($total="0", $page="1", $arr="", $size="10", $scale="10", $start_page="1")
+	/**
+	 * Paginate
+	 * 
+	 * @Param {Number} $total : total items
+	 * @Param {Number} $page : page number
+	 * @Param {Array} $arr : url parameter
+	 * @Param {Number} $size : count of list
+	 * @Param {Number} $scale : count of page
+	 * @Param {Number} $start_page : start page number
+	 * @Return void
+	 */
+	public function Paginate($total, $page, $arr, $size, $scale, $start_page)
 	{
-		if (!$size) { $size = 12; }
-		$this->total = $total; //게시물 전체개수
-		$this->page = $page; //페이지번호
-		$this->size = $size; //목록개수
-		$this->scale = $scale; //페이지개수
-		$this->start_page = $start_page; //페이지 시작번호
-		$this->page_max = ceil($total / $size); //총 페이지개수
-		$this->offset = ($page - 1) * $size; //해당 페이지에서 시작하는 목록번호
-		$this->block = floor(($page-1) / $scale); //페이지를 10개씩보여준다면 1~10페이지까지는 0블럭..
-		$this->no = $this->total - $this->offset; //목록에서 번호나열할때 필요.. (하단 사용법을보세요..)
+		$size = ($size) ? $size : 12;
+		$page = ($page) ? $page : 1;
+		$scale = ($scale) ? $scale : 10;
+		$start_page = ($start_page) ? $start_page : 1;
+		$arr = ($arr) ? $arr : "";
+
+		$this->total = $total;
+		$this->page = $page;
+		$this->size = $size;
+		$this->scale = $scale;
+		$this->start_page = $start_page;
+		$this->page_max = ceil($total / $size); // 총 페이지개수
+		$this->offset = ($page - 1) * $size; // 해당 페이지에서 시작하는 목록번호
+		$this->block = floor(($page-1) / $scale); // 페이지를 10개씩보여준다면 1~10페이지까지는 0블럭..
+		$this->no = $this->total - $this->offset; // 목록에서 번호나열할때 필요함
 
 		$tails = '';
 		if (is_array($arr)) {
@@ -28,6 +44,12 @@ class Paginate {
 		$this->tails = substr($tails, 0, -1);
 	}
 
+	/**
+	 * Create Navigation
+	 * make navigation element
+	 * 
+	 * @Return void
+	 */
 	public function createNavigation()
 	{
 		$op = null;
