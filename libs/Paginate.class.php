@@ -16,13 +16,10 @@ class Paginate {
 	 * @Param {Number} $start_page : start page number
 	 * @Return void
 	 */
-	public function Paginate($total, $page, $arr, $size, $scale, $start_page)
+	public function Paginate($total="0", $page="1", $arr="", $size="10", $scale="10", $start_page="1")
 	{
-		$size = ($size) ? $size : 12;
 		$page = ($page) ? $page : 1;
-		$scale = ($scale) ? $scale : 10;
-		$start_page = ($start_page) ? $start_page : 1;
-		$arr = ($arr) ? $arr : "";
+		$total = ($total) ? $total : 0;
 
 		$this->total = $total;
 		$this->page = $page;
