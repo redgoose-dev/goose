@@ -135,7 +135,7 @@ class Spawn extends Database {
 			$result .= ')';
 		}
 
-		if ($get['debug'])
+		if (isset($get['debug']) && $data['debug'] == true)
 		{
 			return $result;
 		}
@@ -172,7 +172,7 @@ class Spawn extends Database {
 			}
 			$result .= " where $get[where]";
 		}
-		if ($get['debug'])
+		if (isset($get['debug']) && $data['debug'] == true)
 		{
 			return $result;
 		}
@@ -196,7 +196,7 @@ class Spawn extends Database {
 			$result = "delete from $get[table] where $get[where]";
 		}
 
-		if ($get['debug'])
+		if (isset($get['debug']) && $data['debug'] == true)
 		{
 			return $result;
 		}
@@ -228,7 +228,7 @@ class Spawn extends Database {
 		$data['act'] = 'select';
 		$data['field'] = (isset($data['field'])) ? $data['field'] : '*';
 		$query = $this->arrayToQuery($data);
-		if (isset($data['debug']))
+		if (isset($data['debug']) && $data['debug'] == true)
 		{
 			var_dump($query);
 			return array();
@@ -250,7 +250,7 @@ class Spawn extends Database {
 		$data['act'] = 'select';
 		$data['field'] = (isset($data['field'])) ? $data['field'] : '*';
 		$query = $this->arrayToQuery($data);
-		if (isset($data['debug']))
+		if (isset($data['debug']) && $data['debug'] == true)
 		{
 			var_dump($query);
 			return null;
@@ -272,7 +272,7 @@ class Spawn extends Database {
 		$data['act'] = 'select';
 		$data['field'] = 'count(*)';
 		$query = $this->arrayToQuery($data);
-		if (isset($data['debug']))
+		if (isset($data['debug']) && $data['debug'] == true)
 		{
 			var_dump($query);
 			return null;
