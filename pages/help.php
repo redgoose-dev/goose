@@ -633,10 +633,10 @@ $result = $spawn->getItems(array(
 				Spawn 클래스를 통하여 데이터를 관리할 수 있습니다.<br/>
 				아래와 같은 소스를 참고하여 Spawn 클래스를 초기화하여 db접속과 객체를 만듭니다.
 			</p>
-<pre class="code"><code>require_once('../goose/config/db.config.php');
-require_once('../goose/config/variable.php');
-require_once('../goose/libs/Database.class.php');
-require_once('/goose/libs/Spawn.class.php');
+<pre class="code"><code>require_once('{goose}/data/config/user.php');
+require_once('{goose}/libs/variable.php');
+require_once('{goose}/libs/Database.class.php');
+require_once('{goose}/libs/Spawn.class.php');
 
 $spawn = new Spawn($dbConfig);
 </code></pre>
