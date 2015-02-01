@@ -5,7 +5,7 @@ class Paginate {
 	var $total, $page, $size, $scale;
 	var $start_page, $page_max, $offset, $block, $tails;
 
-	public function Paginate($total, $page, $arr="", $size="10", $scale="10", $start_page="1")
+	public function Paginate($total="0", $page="1", $arr="", $size="10", $scale="10", $start_page="1")
 	{
 		if (!$size) { $size = 12; }
 		$this->total = $total; //게시물 전체개수
