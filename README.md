@@ -1,28 +1,39 @@
-goose
+Goose
 =====
 
-개인용 CMS Goose입니다.
-거위라는 프로그램의 사용 용도는 글이나 사진이 담긴 포스트를 관리하는 프로그램이라고 볼 수 있습니다. 대략적으로 작은 워드프레스로 생각해도 되겠습니다.
+개인용 CMS Goose입니다.  
+거위라는 프로그램의 사용 용도는 글이나 사진이 담긴 포스트를 관리하는 프로그램이라고 볼 수 있습니다. 대략적으로 작은 워드프레스로 생각해도 되겠습니다.  
 주요 포스트 데이터는 둥지(Nest)라는 장소에서 관리하고 그 데이터들은 다른 공간에서 불러서 사용할 수 있습니다.
 
+자세한 내용은 <http://redgoose.me/projects/goose/>을 참고해주세요.
 
-설치환경
+
+Features
 =====
-Goose 프로그램을 설치할 수 있는 환경은 XE나 워드프레스를 설치할 수 있는 아래 조건을 충족하는 환경이라면 쉽게 설치할 수 있습니다.
+#### 구조화된 데이터 관리
+둥지라는 개념의 데이터들의 그룹을 통해 다양한 형태의 둥지를 만들고 활용할 수 있습니다.
 
-* Apache 2.0
-* PHP 5.3
-* MYSQL 5.5
+#### 편리한 이미지 업로드
+html5를 적극 활용한 멀티 업로드, 드래그 앤 드롭으로 쉽게 이미지를 업로드하고 관리할 수 있습니다. 그리고 썸네일 이미지도 쉽게 만들 수 있습니다.
+
+#### 심플한 기능과 UI
+꼭 필요한 기능만 넣자는 목표로 만들었기 때문에 기능 자체는 굉장히 심플합니다. 그래서 별거 없습니다!
+
+#### 자유롭게 제작가능한 서비스 사이트
+사이트를 자유롭게 제작하고 데이터만 Goose프로그램에서 불러올 수 있기때문에 자유롭게 사이트를 만들 수 있습니다.  
+Goose 프로그램은 데이터를 제공만 해줄 뿐 나머지는 직접 만들어야합니다.
+
+
+Install Environment
+=====
+Goose 설치할 수 있는 환경의 버전은 아래와 같습니다.
+
+* Apache 2.0+
+* PHP 5.3+
+* MYSQL 5.5+
 
 
 Demo
 =====
-[http://redgoose.me/projects/goose/demo/](http://redgoose.me/projects/goose/demo/)  
+URL : <http://redgoose.me/projects/goose/demo/>  
 로그인정보 : user@redgoose.me//1234
-
-
-활용 사이트
-=====
-* <a href="http://redgoose.me" target="_blank">redgoose gallery</a>
-* <a href="http://redgoose.me/note/" target="_blank">redgoose note</a>
-* <a href="http://artofphoto.co.kr" target="_blank">artofphoto(구버전)</a>
