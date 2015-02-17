@@ -34,10 +34,11 @@
 	<section>
 		<h1>Parameter</h1>
 		<p>
-			Goose api는 url주소형식으로 요청합니다. 주소를 적는 방식은 다음과 같습니다. 아래 주소는 가장 기초적인 형태이며 조건에 따라 아래 설명된 규칙을 참고하여 url을 만드시면 됩니다.
+			Goose api는 url주소형식으로 요청합니다.<br/>
+			주소를 적는 방식은 다음과 같습니다. 아래 주소는 가장 기초적인 형태이며 조건에 따라 아래 설명된 규칙을 참고하여 url을 만드시면 됩니다.(둥지목록을 가져옵니다.)
 		</p>
 		<pre class="code">
-			<code>http://xxx.com/goose/api/item?apikey=XXX&table=nests&act=index&output=json</code>
+			<code><?=URL?>/api/item?apikey=<?=md5($goose->api_key)?>&amp;table=nests&amp;act=index&amp;output=json</code>
 		</pre>
 		<hr class="space"/>
 		<table class="ui-table">
@@ -84,7 +85,7 @@
 		</table>
 		<br />
 		<table class="ui-table">
-			<caption><code>&act=index</code>값으로 정할때 테이블에 따라 사용되는 파라메터</caption>
+			<caption><code>&amp;act=index</code>값으로 정할때 테이블에 따라 사용되는 파라메터</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">테이블</th>
@@ -179,7 +180,7 @@
 		</table>
 		<br />
 		<table class="ui-table">
-			<caption><code>&act=index</code>값으로 정할때 테이블 구분없이 공통으로 사용되는 파라메터</caption>
+			<caption><code>&amp;act=index</code>값으로 정할때 테이블 구분없이 공통으로 사용되는 파라메터</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">키</th>
@@ -228,7 +229,7 @@
 		</table>
 		<br />
 		<table class="ui-table">
-			<caption><code>&act=single</code>값으로 정할때 필요한 파라메터</caption>
+			<caption><code>&amp;act=single</code>값으로 정할때 필요한 파라메터</caption>
 			<thead>
 				<tr>
 					<th scope="col" width="12%">키</th>

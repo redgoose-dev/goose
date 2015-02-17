@@ -207,7 +207,7 @@ class API {
 	}
 
 	// print data
-	public function out($data, $type)
+	public function output($data, $type)
 	{
 		switch($type)
 		{

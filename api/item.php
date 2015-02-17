@@ -8,12 +8,13 @@ $q = (count($_POST)) ? $_POST : $_GET;
 $optputType = ($q['output']) ? $q['output'] : "html";
 $data = array();
 
+
 // api class init
 $api = new API(array(
-	'util' => $util
-	,'tablesName' => $tablesName
-	,'spawn' => $spawn
-	,'apikey' => $api_key
+	'util' => $goose->util
+	,'tablesName' => $goose->tablesName
+	,'spawn' => $goose->spawn
+	,'apikey' => $goose->api_key
 	,'allow' => ((isset($allowApiData)) ? $allowApiData : null)
 ));
 
@@ -21,7 +22,7 @@ $api = new API(array(
 if (!isset($api->allow))
 {
 	$data['error'] = 'Empty allowApiData';
-	echo $api->out($data, $optputType);
+	echo $api->output($data, $optputType);
 	$util->out();
 }
 
@@ -30,8 +31,8 @@ $auth_result = $api->auth($q['apikey']);
 if ($auth_result)
 {
 	$data['error'] = $auth_result;
-	echo $api->out($data, $optputType);
-	$util->out();
+	echo $api->output($data, $optputType);
+	$goose->out();
 }
 
 // action
@@ -39,36 +40,36 @@ switch($q['act'])
 {
 	case "index":
 		$data = $api->getIndexItem(array(
-			'table' => $_GET['table']
-			,'field' => $_GET['field']
-			,'page' => $_GET['page']
-			,'limit' => $_GET['limit']
-			,'order' => $_GET['order']
-			,'sort' => $_GET['sort']
+			'table' => $q['table']
+			,'field' => $q['field']
+			,'page' => $q['page']
+			,'limit' => $q['limit']
+			,'order' => $q['order']
+			,'sort' => $q['sort']
 
 			,'where' => array(
-				'srl' => $_GET['srl']
-				,'id' => $_GET['id']
-				,'group_srl' => $_GET['group_srl']
-				,'nest_srl' => $_GET['nest_srl']
-				,'article_srl' => $_GET['article_srl']
-				,'category_srl' => $_GET['category_srl']
-				,'thumnail_srl' => $_GET['thumnail_srl']
-				,'key_srl' => $_GET['key_srl']
+				'srl' => $q['srl']
+				,'id' => $q['id']
+				,'group_srl' => $q['group_srl']
+				,'nest_srl' => $q['nest_srl']
+				,'article_srl' => $q['article_srl']
+				,'category_srl' => $q['category_srl']
+				,'thumnail_srl' => $q['thumnail_srl']
+				,'key_srl' => $q['key_srl']
 			)
-			,'search_key' => $_GET['search_key']
-			,'search_value' => $_GET['search_value']
+			,'search_key' => $q['search_key']
+			,'search_value' => $q['search_value']
 		));
 		break;
 
 	case "single":
 		$data = $api->getSingleItem(array(
-			'table' => $_GET['table']
-			,'field' => $_GET['field']
-			,'key' => $_GET['key']
-			,'value' => $_GET['value']
-			,'search_key' => $_GET['search_key']
-			,'search_value' => $_GET['search_value']
+			'table' => $q['table']
+			,'field' => $q['field']
+			,'key' => $q['key']
+			,'value' => $q['value']
+			,'search_key' => $q['search_key']
+			,'search_value' => $q['search_value']
 		));
 		break;
 
@@ -81,6 +82,6 @@ switch($q['act'])
 
 $data = ($data) ? $data : array();
 
-echo $api->out($data, $optputType);
-$util->out();
+echo $api->output($data, $optputType);
+$goose->out();
 ?>
