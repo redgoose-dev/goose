@@ -135,7 +135,7 @@ class Spawn extends Database {
 			$result .= ')';
 		}
 
-		if (isset($get['debug']) && $data['debug'] == true)
+		if (isset($get['debug']) && $get['debug'] == true)
 		{
 			return $result;
 		}
@@ -172,7 +172,7 @@ class Spawn extends Database {
 			}
 			$result .= " where $get[where]";
 		}
-		if (isset($get['debug']) && $data['debug'] == true)
+		if (isset($get['debug']) && $get['debug'] == true)
 		{
 			return $result;
 		}
@@ -196,7 +196,7 @@ class Spawn extends Database {
 			$result = "delete from $get[table] where $get[where]";
 		}
 
-		if (isset($get['debug']) && $data['debug'] == true)
+		if (isset($get['debug']) && $get['debug'] == true)
 		{
 			return $result;
 		}
