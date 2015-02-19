@@ -93,7 +93,6 @@ switch($paramAction)
 // attach files
 require_once('transaction_files.php');
 
-//$goose->out();
 
 // redirect url
 if ($redirectUrl)

@@ -186,7 +186,6 @@ switch($paramAction)
 				"json='$json_result'"
 			)
 		));
-		//$goose->out();
 		break;
 
 	// delete
