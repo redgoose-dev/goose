@@ -1,3 +1,12 @@
+/**
+ * Thumnail Class
+ * create, modify thumnail image
+ * 
+ * @Param {UploadInterface} parent : UploadInterface class
+ * @Param {Object} options : option parameter
+ * @Return void
+*/
+
 var Thumnail = function(parent, options) {
 
 	var
@@ -12,11 +21,11 @@ var Thumnail = function(parent, options) {
 	this.queue = null;
 	this.$window = null;
 	this.data = {
-		srl : null
+		srl : parent.settings.thumnail.srl
+		,coords : (parent.settings.thumnail.coords) ? JSON.parse("[" + parent.settings.thumnail.coords + "]") : null
+		,url : parent.settings.thumnail.url
 		,location : null
-		,coords : null
 	};
-
 
 	/**
 	 * window template
@@ -257,20 +266,6 @@ var Thumnail = function(parent, options) {
 	}
 
 	/**
-	 * save parameter
-	 * 
-	 * @param {}
-	 * @return void
-	 */
-	var saveParameter = function()
-	{
-		var form = parent.settings.form;
-		form.thumnail_srl.value = self.data.srl;
-		form.thumnail_coords.value = self.data.coords;
-		form.thumnail_image.value = getImageData(self.data.location)
-	}
-
-	/**
 	 * get image data
 	 * 
 	 * @param {String} img
@@ -321,19 +316,16 @@ var Thumnail = function(parent, options) {
 			self.queue = item;
 			self.$window = template();
 
+			if (item.srl !== self.data.srl)
+			{
+				self.data.coords = null;
+			}
+
 			self.data.srl = item.srl;
 			self.data.location = parent.settings.fileDir + item.location;
 
-			var thumnail_srl = parent.settings.form.thumnail_srl.value;
-			var thumnail_coords = parent.settings.form.thumnail_coords.value;
-			if (thumnail_coords && (thumnail_srl == item.srl))
-			{
-				self.data.coords = JSON.parse('[' + thumnail_coords + ']')
-			}
-
 			var $figure = self.$window.find('figure');
-			var $img = $('<img src="' + self.data.location + '" />')
-
+			var $img = $('<img src="' + self.data.location + '" />');
 			$figure.append($img);
 			$('body').append(self.$window);
 			$img.get(0).onload = onloadPreviewImage;
@@ -348,22 +340,17 @@ var Thumnail = function(parent, options) {
 	 */
 	this.close = function()
 	{
-		var srl = self.data.srl;
-		var thumnail_srl = parent.settings.form.thumnail_srl.value;
-		var coords = self.data.coords.toString();
-		var thumnail_coords = parent.settings.form.thumnail_coords.value;
+		var thumnail_srl = parent.settings.thumnail.srl;
+		var thumnail_coords = parent.settings.thumnail.coords;
 
-		if (srl !== thumnail_srl || coords !== thumnail_coords)
+		if (self.data.srl !== thumnail_srl || self.data.coords.toString() !== thumnail_coords)
 		{
-			saveParameter();
+			self.data.image = getImageData(self.data.location);
 			parent.queue.updateThumnailClass(self.queue.element);
 		}
 
 		$('body').removeClass('thumnailWindowMode');
 		self.$window.remove();
-		self.data.srl = null;
-		self.data.location = null;
-		self.data.coords = null;
 		self.$window = null;
 		self.queue = null;
 	}

@@ -12,9 +12,14 @@ var UploadInterface = function(el, options) {
 	this.$controller = null;
 	this.readyItem = new Array();
 	this.thumnail = new Thumnail(self, {
-		type : self.settings.thumnailType
-		,size : self.settings.thumnailSize.split('*')
+		type : self.settings.thumnail.type
+		,size : self.settings.thumnail.size.split('*')
 		,quality : 0.8
+		,data : {
+			srl : self.settings.thumnail.srl
+			,coords : self.settings.thumnail.coords
+			,url : self.settings.thumnail.url
+		}
 	});
 
 	/**
@@ -374,7 +379,7 @@ var UploadInterface = function(el, options) {
 				,type2 : data[n].type
 				,status : data[n].status
 			});
-			if (self.settings.form.thumnail_srl.value == data[n].srl)
+			if (self.settings.thumnail.srl == data[n].srl)
 			{
 				self.queue.index[key].element.addClass('thumnail');
 			}
