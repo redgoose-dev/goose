@@ -13,9 +13,14 @@ var UploadInterface = function(el, options) {
 	this.json = new Object();
 	this.readyItem = new Array();
 	this.thumnail = new Thumnail(self, {
-		type : self.settings.thumnailType
-		,size : self.settings.thumnailSize.split('*')
+		type : self.settings.thumnail.type
+		,size : self.settings.thumnail.size.split('*')
 		,quality : 0.8
+		,data : {
+			srl : self.settings.thumnail.srl
+			,coords : self.settings.thumnail.coords
+			,url : self.settings.thumnail.url
+		}
 	});
 
 	/**
@@ -359,7 +364,7 @@ var UploadInterface = function(el, options) {
 				,status : data[n].status
 				,form : data[n].form
 			});
-			if (self.settings.form.thumnail_srl.value == data[n].srl)
+			if (self.thumnail.data.srl == data[n].srl)
 			{
 				self.queue.index[key].element.addClass('thumnail');
 			}
@@ -505,13 +510,14 @@ var UploadInterface = function(el, options) {
 	}
 
 	/**
-	 * Export JSON
+	 * Export slide JSON data
 	 * 
 	 * @return {String} str
 	 */
-	this.exportJSON = function()
+	this.exportSlideJSON = function()
 	{
 		var data = new Array();
+
 		self.queue.$index.children().each(function(){
 			var queue = self.queue.index[$(this).attr('key')];
 			var item = {
@@ -530,6 +536,7 @@ var UploadInterface = function(el, options) {
 			});
 			data.push(item);
 		});
+
 		return encodeURIComponent(JSON.stringify(data));
 	}
 
