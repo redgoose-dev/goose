@@ -141,7 +141,7 @@ jQuery(function($){
 	// onsubmit event
 	$(form).on('submit', function(){
 
-		// thumnail image check
+		// check thumnail image
 		if (uploadInterface.thumnailImageCheck())
 		{
 			return false;

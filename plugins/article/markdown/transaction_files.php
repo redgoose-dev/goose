@@ -100,7 +100,7 @@ switch($paramAction)
 	case 'create':
 
 		// get last id number
-		$article_srl = $lastSrl;
+		$article_srl = $goose->spawn->conn->lastInsertId();;
 
 		// get last item json
 		$json = getJSON($article_srl);
@@ -190,6 +190,9 @@ switch($paramAction)
 
 	// delete
 	case 'delete':
+		// convert string to json data
+		$article['json'] = json_decode(urldecode($article['json']), true);
+
 		// delete thumnail image
 		if ($article['json']['thumnail']['url'] and file_exists(PWD.$dataThumnailDirectory.$article['json']['thumnail']['url']))
 		{

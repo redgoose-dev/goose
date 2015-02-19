@@ -35,7 +35,6 @@ switch($paramAction)
 				'ipAddress' => $ipAddress
 			)
 		));
-		$lastSrl = $goose->spawn->conn->lastInsertId();
 
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$redirectUrl = GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl;
@@ -74,7 +73,6 @@ switch($paramAction)
 			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl']
 		));
-		$article['json'] = json_decode(urldecode($article['json']), true);
 
 		// delete article
 		$goose->spawn->delete(array(

@@ -113,13 +113,13 @@ if ($articleCount > 0)
 					'where' => 'srl='.$v['category_srl']
 				)) : '';
 				$categoryName = (isset($categoryName['name'])) ? '<span>분류:'.$categoryName['name'].'</span> ' : '';
-				$json = json_decode(urldecode($v['json']), true);
+				$v['json'] = json_decode(urldecode($v['json']), true);
 		?>
 				<li>
 					<a href="<?=$url?>">
 						<dl>
 							<dt>
-								<?=($v['thumnail_url']) ? '<img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/>' : '<div class="noimg">noimg</div>'?>
+								<?=($v['json']['thumnail']['url']) ? '<img src="'.GOOSE_ROOT.$dataThumnailDirectory.$v['json']['thumnail']['url'].'" alt=""/>' : '<div class="noimg">noimg</div>'?>
 							</dt>
 							<dd>
 								<strong><?=$v['title']?></strong>
