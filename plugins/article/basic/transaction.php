@@ -21,11 +21,8 @@ switch($paramAction)
 				'group_srl' => $_POST['group_srl'],
 				'nest_srl' => $_POST['nest_srl'],
 				'category_srl' => $_POST['category_srl'],
-				'thumnail_srl' => null,
 				'title' => $_POST['title'],
 				'content' => $_POST['content'],
-				'thumnail_url' => null,
-				'thumnail_coords' => null,
 				'regdate' => $regdate,
 				'modate' => $regdate,
 				'json' => $_POST['json'],
@@ -40,7 +37,6 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
-		// update article
 		$result = $goose->spawn->update(array(
 			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl'],
@@ -59,7 +55,6 @@ switch($paramAction)
 
 	// delete
 	case 'delete':
-		// delete article
 		$goose->spawn->delete(array(
 			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl']

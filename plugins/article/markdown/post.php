@@ -21,10 +21,8 @@ $titleType = getActionType($paramAction);
 		<input type="hidden" name="nest_srl" value="<?=$nest['srl']?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
 		<input type="hidden" name="page" value="<?=$_GET['page']?>" />
-		<input type="hidden" name="addQueue" value="" />
-		<input type="hidden" name="thumnail_srl" value="<?=$article['thumnail_srl']?>" />
-		<input type="hidden" name="thumnail_coords" value="<?=$article['thumnail_coords']?>" />
-		<input type="hidden" name="thumnail_image" value="" />
+		<input type="hidden" name="addQueue" />
+		<input type="hidden" name="thumnail_image" />
 		<input type="hidden" name="json" />
 		<?
 		if ($paramAction == 'modify')
@@ -72,7 +70,7 @@ $titleType = getActionType($paramAction);
 			<dl>
 				<dt><label for="content">내용</label></dt>
 				<dd>
-					<textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars($article[content])?></textarea>
+					<textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars($article['content'])?></textarea>
 					<p>
 						* 마크다운 한글 메뉴얼 : <a href="http://scriptogr.am/myevan/post/markdown-syntax-guide-for-scriptogram" target="_blank">바로가기</a><br/>
 						* 존 그루버 마크다운 페이지 번역 : <a href="http://nolboo.github.io/blog/2013/09/07/john-gruber-markdown/" target="_blank">바로가기</a>
@@ -102,22 +100,28 @@ $titleType = getActionType($paramAction);
 <script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
 <script src="<?=$extPath?>/Jcrop/jquery.Jcrop.min.js"></script>
-<script src="<?=$extPath?>/UploadInterface/FilesQueue.class.js"></script>
-<script src="<?=$extPath?>/UploadInterface/FileUpload.class.js"></script>
-<script src="<?=$extPath?>/UploadInterface/Thumnail.class.js"></script>
-<script src="<?=$extPath?>/UploadInterface/UploadInterface.class.js"></script>
+<script src="<?=$extPath?>/UploadInterface/FilesQueue.class.min.js"></script>
+<script src="<?=$extPath?>/UploadInterface/FileUpload.class.min.js"></script>
+<script src="<?=$extPath?>/UploadInterface/Thumnail.class.min.js"></script>
+<script src="<?=$extPath?>/UploadInterface/UploadInterface.class.min.js"></script>
 <script>
 jQuery(function($){
+	var form = document.writeForm;
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
-		form : document.writeForm
+		form : form
 		,$queue : $('#queuesManager')
 		,uploadAction : '<?=GOOSE_ROOT?>/files/upload/'
 		,removeAction : '<?=GOOSE_ROOT?>/files/remove/'
 		,fileDir : '<?=GOOSE_ROOT?>/data/original/'
 		,auto : false
 		,limit : 5
-		,thumnailType : '<?=$nest['thumnailType']?>'
-		,thumnailSize : '<?=$nest['thumnailSize']?>'
+		,thumnail : {
+			type : '<?=$nest['thumnailType']?>'
+			,size : '<?=$nest['thumnailSize']?>'
+			,srl : '<?=$article['json']['thumnail']['srl']?>'
+			,coords : '<?=$article['json']['thumnail']['coords']?>'
+			,url : '<?=$article['json']['thumnail']['url']?>'
+		}
 		,$insertTarget : $('#content')
 		,insertFunc : null // function(value){}
 	});
@@ -135,8 +139,7 @@ jQuery(function($){
 	});
 
 	// onsubmit event
-	$(document.writeForm).on('submit', function(){
-		var json = new Object();
+	$(form).on('submit', function(){
 
 		// thumnail image check
 		if (uploadInterface.thumnailImageCheck())
@@ -144,9 +147,25 @@ jQuery(function($){
 			return false;
 		}
 
+		// set json data
+		var coords = uploadInterface.thumnail.data.coords;
+		var json = {
+			thumnail : {
+				srl : uploadInterface.thumnail.data.srl
+				,coords : (coords) ? coords.toString() : ''
+				,url : uploadInterface.thumnail.data.url
+			}
+		};
+
+		// set thumnail image
+		if (uploadInterface.thumnail.data.image)
+		{
+			form.thumnail_image.value = uploadInterface.thumnail.data.image;
+		}
+
 		// json object to hidden string
 		json = encodeURIComponent(JSON.stringify(json));
-		$(this).find('input[name=json]').val(json);
+		form.json.value = json;
 	});
 });
 </script>

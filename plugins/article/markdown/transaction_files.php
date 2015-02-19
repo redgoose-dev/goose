@@ -74,27 +74,54 @@ function uploadThumnail($imgData=null)
 }
 
 
+/**
+ * get JSON
+ * article의 json필드의 내용을 가져온다.
+ * 
+ * @param {Number} $srl
+ * @return {Array}
+ */
+function getJSON($srl)
+{
+	global $goose;
+	$data = $goose->spawn->getItem(array(
+		'table' => 'articles'
+		,'field' => 'json'
+		,'where' => 'srl='.(int)$srl
+	));
+	return ($data['json']) ? json_decode(urldecode($data['json']), true) : array();
+}
+
+
 // action
 switch($paramAction)
 {
 	// create
 	case 'create':
+
 		// get last id number
-		$article_srl = $goose->spawn->conn->lastInsertId();
+		$article_srl = $lastSrl;
+
+		// get last item json
+		$json = getJSON($article_srl);
 
 		// files upload
-		$thumnail_srl = fileUpload($article_srl, $_POST['thumnail_srl']);
+		$thumnail_srl = fileUpload($article_srl, $json['thumnail']['srl']);
 
 		// thumnail image upload
 		if ($thumnail_srl)
 		{
 			$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
-			$goose->spawn->update(array(
+
+			$json['thumnail']['srl'] = $thumnail_srl;
+			$json['thumnail']['url'] = $thumnailUrl;
+			$json_result = urlencode(json_encode($json));
+
+			$result = $goose->spawn->update(array(
 				'table' => 'articles',
 				'where' => 'srl='.$article_srl,
 				'data' => array(
-					"thumnail_srl='$thumnail_srl'",
-					"thumnail_url='$thumnailUrl'"
+					"json='$json_result'"
 				)
 			));
 		}
@@ -102,79 +129,72 @@ switch($paramAction)
 
 	// modify
 	case 'modify':
-		// get article item data
-		$article = $goose->spawn->getItem(array(
-			'table' => 'articles',
-			'where' => 'srl='.(int)$_POST['article_srl']
-		));
+		// get article json
+		$json = getJSON((int)$_POST['article_srl']);
+		$json_new = $json;
 
 		$absoluteThumnailDir = PWD.$dataThumnailDirectory;
 
 		// upload files
-		$thumnail_srl = fileUpload($_POST['article_srl'], $_POST['thumnail_srl']);
+		$thumnail_srl = fileUpload($_POST['article_srl'], $json['thumnail']['srl']);
 
 		// upload thumnail image
 		if ($_POST['thumnail_image'])
 		{
-			if (file_exists($absoluteThumnailDir.$article['thumnail_url']))
+			if (file_exists($absoluteThumnailDir.$json['thumnail']['url']))
 			{
-				unlink($absoluteThumnailDir.$article['thumnail_url']);
+				unlink($absoluteThumnailDir.$json['thumnail']['url']);
 			}
 			$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
 
-			$goose->spawn->update(array(
-				'table' => 'articles',
-				'where' => 'srl='.(int)$_POST['article_srl'],
-				'data' => array(
-					"thumnail_srl=$thumnail_srl",
-					"thumnail_url='$thumnailUrl'"
-				)
-			));
+			// set json
+			$json_new['thumnail']['srl'] = $thumnail_srl;
+			$json_new['thumnail']['url'] = $thumnailUrl;
+
 			$thumnailUploaded = true;
 		}
+
+		// 썸네일 이미지는 있고, 썸네일 이미지가 새로 만들어지지 않을때
+		if ($json['thumnail']['srl'] && !$thumnailUploaded)
+		{
+			// get article item data
+			$filesCount = $goose->spawn->getCount(array(
+				'table' => 'files',
+				'where' => 'article_srl='.(int)$_POST['article_srl'].' and srl='.(int)$json['thumnail']['srl']
+			));
+			if (!$filesCount)
+			{
+				// delete thumnail file
+				var_dump($absoluteThumnailDir.$json['thumnail']['url']);
+				if (file_exists($absoluteThumnailDir.$json['thumnail']['url']))
+				{
+					unlink($absoluteThumnailDir.$json['thumnail']['url']);
+				}
+				// set json
+				$json_new['thumnail'] = array(srl => '0', url => '', coords => '');
+			}
+		}
+
+		// array to json
+		$json_result = urlencode(json_encode($json_new));
 
 		// update article
 		$result = $goose->spawn->update(array(
 			'table' => 'articles'
 			,'where' => 'srl='.(int)$_POST['article_srl']
-			,'data' => array("thumnail_coords='$_POST[thumnail_coords]'")
+			,'data' => array(
+				"json='$json_result'"
+			)
 		));
-
-		// 썸네일 이미지는 있고, 첨부파일이 하나도 없을때 썸네일 이미지 삭제
-		if ($article['thumnail_srl'] && !$thumnailUploaded)
-		{
-			// get article item data
-			$filesCount = $goose->spawn->getCount(array(
-				'table' => 'files',
-				'where' => 'article_srl='.(int)$_POST['article_srl'].' and srl='.(int)$article['thumnail_srl']
-			));
-			if (!$filesCount)
-			{
-				// delete thumnail file
-				if (file_exists($absoluteThumnailDir.$article['thumnail_url']))
-				{
-					unlink($absoluteThumnailDir.$article['thumnail_url']);
-				}
-				// update article db
-				$result = $goose->spawn->update(array(
-					'table' => 'articles',
-					'where' => 'srl='.(int)$_POST['article_srl'],
-					'data' => array(
-						"thumnail_srl='0'",
-						"thumnail_url=''",
-						"thumnail_coords=''"
-					)
-				));
-			}
-		}
+		//$goose->out();
 		break;
 
 	// delete
 	case 'delete':
 		// delete thumnail image
-		if ($article['thumnail_url'] and file_exists(PWD.$dataThumnailDirectory.$article['thumnail_url']))
+		if ($article['json']['thumnail']['url'] and file_exists(PWD.$dataThumnailDirectory.$article['json']['thumnail']['url']))
 		{
-			unlink(PWD.$dataThumnailDirectory.$article['thumnail_url']);
+			unlink(PWD.$dataThumnailDirectory.$article['json']['thumnail']['url']);
 		}
 
 		// delete original files
