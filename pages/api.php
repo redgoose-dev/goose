@@ -96,7 +96,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<th class="nowrap" rowspan="5">articles</th>
+					<th class="nowrap" rowspan="4">articles</th>
 					<td class="nowrap center">srl</td>
 					<td class="nowrap center">number</td>
 					<td>article 고유번호</td>
@@ -117,12 +117,6 @@
 					<td>분류 고유번호</td>
 				</tr>
 				<tr>
-					<td class="nowrap center">thumnail_srl</td>
-					<td class="nowrap center">number</td>
-					<td>썸네일 이미지가 되는 files 테이블 srl값</td>
-				</tr>
-
-				<tr>
 					<th class="nowrap" rowspan="2">categories</th>
 					<td class="nowrap center">srl</td>
 					<td class="nowrap center">number</td>
@@ -133,7 +127,6 @@
 					<td class="nowrap center">number</td>
 					<td>둥지 고유번호</td>
 				</tr>
-
 				<tr>
 					<th class="nowrap" rowspan="2">files</th>
 					<td class="nowrap center">srl</td>
@@ -145,14 +138,12 @@
 					<td class="nowrap center">number</td>
 					<td>article 고유번호</td>
 				</tr>
-
 				<tr>
 					<th class="nowrap">nestGroups</th>
 					<td class="nowrap center">srl</td>
 					<td class="nowrap center">number</td>
 					<td>둥지그룹 고유번호</td>
 				</tr>
-
 				<tr>
 					<th class="nowrap" rowspan="3">nests</th>
 					<td class="nowrap center">srl</td>
@@ -169,7 +160,6 @@
 					<td class="nowrap center">string</td>
 					<td>둥지 ID값</td>
 				</tr>
-
 				<tr>
 					<th class="nowrap">jsons</th>
 					<td class="nowrap center">srl</td>

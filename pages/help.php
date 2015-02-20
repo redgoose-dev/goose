@@ -117,11 +117,6 @@
 						<td>categories 테이블 고유번호</td>
 					</tr>
 					<tr>
-						<th>thumnail_srl</th>
-						<td class="center nowrap">number</td>
-						<td>썸네일 이미지가 되는 files 테이블 srl 필드값</td>
-					</tr>
-					<tr>
 						<th>title</th>
 						<td class="center nowrap">string</td>
 						<td>제목</td>
@@ -130,16 +125,6 @@
 						<th>content</th>
 						<td class="center nowrap">string</td>
 						<td>내용</td>
-					</tr>
-					<tr>
-						<th>thumnail_url</th>
-						<td class="center nowrap">string</td>
-						<td>썸네일 이미지 경로</td>
-					</tr>
-					<tr>
-						<th>thumnail_coords</th>
-						<td class="center nowrap">string</td>
-						<td>원본 이미지에서 썸네일 이미지 크롭할때의 주소 좌표값</td>
 					</tr>
 					<tr>
 						<th>regdate</th>
