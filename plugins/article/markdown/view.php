@@ -14,7 +14,7 @@ if ($nest['useCategory'])
 ?>
 
 <link rel="stylesheet" href="<?=$extPath?>/Parsedown/markdown.css" />
-<link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/style.css" />
+<link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/assets/style.css" />
 
 <section>
 	<div class="hgroup detail">

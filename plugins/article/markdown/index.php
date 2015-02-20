@@ -50,7 +50,7 @@ if ($articleCount > 0)
 }
 ?>
 
-<link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/style.css" />
+<link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/assets/style.css" />
 
 <section>
 	<div class="hgroup">

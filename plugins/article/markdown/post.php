@@ -97,7 +97,6 @@ $titleType = getActionType($paramAction);
 	</form>
 </section>
 
-<script>function log(o){console.log(o);}</script>
 <script src="<?=$jQueryAddress?>"></script>
 <script src="<?=$extPath?>/Jcrop/jquery.Jcrop.min.js"></script>
 <script src="<?=$extPath?>/UploadInterface/FilesQueue.class.min.js"></script>
@@ -105,67 +104,17 @@ $titleType = getActionType($paramAction);
 <script src="<?=$extPath?>/UploadInterface/Thumnail.class.min.js"></script>
 <script src="<?=$extPath?>/UploadInterface/UploadInterface.class.min.js"></script>
 <script>
-jQuery(function($){
-	var form = document.writeForm;
-	var uploadInterface = new UploadInterface($('#fileUpload'), {
-		form : form
-		,$queue : $('#queuesManager')
-		,uploadAction : '<?=GOOSE_ROOT?>/files/upload/'
-		,removeAction : '<?=GOOSE_ROOT?>/files/remove/'
-		,fileDir : '<?=GOOSE_ROOT?>/data/original/'
-		,auto : false
-		,limit : 5
-		,thumnail : {
-			type : '<?=$nest['thumnailType']?>'
-			,size : '<?=$nest['thumnailSize']?>'
-			,srl : '<?=$article['json']['thumnail']['srl']?>'
-			,coords : '<?=$article['json']['thumnail']['coords']?>'
-			,url : '<?=$article['json']['thumnail']['url']?>'
-		}
-		,$insertTarget : $('#content')
-		,insertFunc : null // function(value){}
-	});
-
-	var attachFiles = '<?=$pushData?>';
-	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null;
-	if (attachFilesData)
-	{
-		uploadInterface.pushQueue(attachFilesData);
+var userData = {
+	root : '<?=GOOSE_ROOT?>'
+	,thumnail : {
+		type : '<?=$nest['thumnailType']?>'
+		,size : '<?=$nest['thumnailSize']?>'
+		,srl : '<?=$article['json']['thumnail']['srl']?>'
+		,coords : '<?=$article['json']['thumnail']['coords']?>'
+		,url : '<?=$article['json']['thumnail']['url']?>'
 	}
-
-	// upload button click event
-	$('#fileUploadButton').on('click', function(){
-		uploadInterface.upload();
-	});
-
-	// onsubmit event
-	$(form).on('submit', function(){
-
-		// check thumnail image
-		if (uploadInterface.thumnailImageCheck())
-		{
-			return false;
-		}
-
-		// set json data
-		var coords = uploadInterface.thumnail.data.coords;
-		var json = {
-			thumnail : {
-				srl : uploadInterface.thumnail.data.srl
-				,coords : (coords) ? coords.toString() : ''
-				,url : uploadInterface.thumnail.data.url
-			}
-		};
-
-		// set thumnail image
-		if (uploadInterface.thumnail.data.image)
-		{
-			form.thumnail_image.value = uploadInterface.thumnail.data.image;
-		}
-
-		// json object to hidden string
-		json = encodeURIComponent(JSON.stringify(json));
-		form.json.value = json;
-	});
-});
+	,originalPath : '<?=$dataOriginalDirectory?>'
+	,pushData : '<?=$pushData?>'
+};
 </script>
+<script src="<?=GOOSE_ROOT?><?=$path_skin?>/assets/post.min.js"></script>
