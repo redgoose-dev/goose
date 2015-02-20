@@ -37,14 +37,13 @@ $articlesIndex = $goose->spawn->getItems(array(
 					$categoryName = ($categoryName) ? "<span>분류:$categoryName[name]</span>" : "";
 				}
 				$url = GOOSE_ROOT.'/article/view/'.$v['srl'].'/?m=1';
-				$img = ($v['thumnail_url']) ? "<dt><img src=\"".GOOSE_ROOT."/data/thumnail/$v[thumnail_url]\" alt=\"$v[title]\" /></dt>" : "";
-				$noimg = ($v['thumnail_url']) ? "class=\"noimg\"" : "";
+				$v['json'] = json_decode(urldecode($v['json']), true);
 		?>
 				<li>
 					<a href="<?=$url?>">
 						<dl>
 							<dt>
-								<?=($v['thumnail_url']) ? '<img src="'.GOOSE_ROOT.'/data/thumnail/'.$v['thumnail_url'].'" alt=""/>' : '<div class="noimg">noimg</div>'?>
+								<?=($v['json']['thumnail']['url']) ? '<img src="'.GOOSE_ROOT.$dataThumnailDirectory.$v['json']['thumnail']['url'].'" alt=""/>' : '<div class="noimg">noimg</div>'?>
 							</dt>
 							<dd>
 								<strong><em>[<?=$nest['name']?>]</em> <?=$v['title']?></strong>
