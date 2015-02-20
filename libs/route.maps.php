@@ -5,6 +5,7 @@ $router->map('/');
 $router->map('/install/', array('type' => 'install'), array('methods' => 'GET'));
 $router->map('/install/', array('type' => 'install'), array('methods' => 'POST'));
 $router->map('/api/:type/', array('type' => 'api'));
+$router->map('/script/:file/', array('type' => 'script'));
 $router->map('/:controller/');
 $router->map('/:controller/:action/', null, array('methods' => 'GET'));
 $router->map('/:controller/:action/', null, array('methods' => 'POST'));

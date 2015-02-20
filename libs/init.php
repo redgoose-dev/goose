@@ -1,4 +1,4 @@
-<?
+<?php
 if(!defined("GOOSE")){exit();}
 
 // set start time
@@ -79,8 +79,21 @@ if ($route)
 			}
 			else
 			{
-				$util->error(404);
-				$util->out();
+				$goose->error(404);
+				$goose->out();
+			}
+			break;
+
+		case "script":
+			$file = PWD.'/script/'. $routePapameters['file'] .'.php';
+			if (is_file($file))
+			{
+				require($file);
+			}
+			else
+			{
+				$goose->error(404);
+				$goose->out();
 			}
 			break;
 
