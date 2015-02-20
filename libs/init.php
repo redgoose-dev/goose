@@ -72,7 +72,7 @@ if ($route)
 	switch ($routeTarget['type'])
 	{
 		case "api":
-			$file = PWD.'/api/'. $routePapameters['type'] .'.php';
+			$file = PWD.'/etc/api/'. $routePapameters['type'] .'.php';
 			if (is_file($file))
 			{
 				require($file);
@@ -85,7 +85,7 @@ if ($route)
 			break;
 
 		case "script":
-			$file = PWD.'/script/'. $routePapameters['file'] .'.php';
+			$file = PWD.'/etc/script/'. $routePapameters['file'] .'.php';
 			if (is_file($file))
 			{
 				require($file);

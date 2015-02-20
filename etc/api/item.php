@@ -1,8 +1,8 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
-require_once 'api/API.class.php';
-require_once 'api/allowApiData.php';
+require_once PWD.'/etc/api/API.class.php';
+require_once PWD.'/etc/api/allowApiData.php';
 
 $q = (count($_POST)) ? $_POST : $_GET;
 $optputType = ($q['output']) ? $q['output'] : "html";
