@@ -24,14 +24,9 @@ class Goose {
 	public $api_key;
 
 	/**
-	 * admin level
+	 * user
 	 */
-	public $adminLevel;
-
-	/**
-	 * index item number
-	 */
-	public $indexCount;
+	public $user;
 
 	/**
 	 * pwd
@@ -101,10 +96,8 @@ class Goose {
 			unset($tablesName);
 			$this->api_key = $api_key;
 			unset($api_key);
-			$this->adminLevel = $adminLevel;
-			unset($adminLevel);
-			$this->indexCount = ($indexCount) ? $indexCount : 15;
-			unset($indexCount);
+			$this->user = $user;
+			unset($user);
 
 			$this->spawn = new Spawn($dbConfig, $this->tablesName);
 			unset($dbConfig);

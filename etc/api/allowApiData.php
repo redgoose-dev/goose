@@ -44,8 +44,6 @@ $allowApiData = array(
 		,'group_srl'
 		,'id'
 		,'name'
-		,'thumnailSize'
-		,'thumnailType'
 		,'listCount'
 		,'useCategory'
 		,'json'

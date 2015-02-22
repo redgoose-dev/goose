@@ -17,50 +17,50 @@ $apikeyPrefix = '__' . $goose->util->generateRandomString(15) . '__';
 	</header>
 	<form action="./" method="post" id="regsterForm">
 		<fieldset>
-			<legend>데이터베이스 정보</legend>
+			<legend>Database infomation</legend>
 			<label class="first">
-				<strong>DB 아이디</strong>
+				<strong>DB user id</strong>
 				<span><input type="text" name="dbId" id="dbId" size="15" maxlength="20" /></span>
 			</label>
 			<label>
-				<strong>DB 비밀번호</strong>
+				<strong>DB password</strong>
 				<span><input type="password" name="dbPassword" size="15" id="dbPassword" maxlength="20" /></span>
 			</label>
 			<label>
-				<strong>DB 비밀번호 확인</strong>
+				<strong>DB confirm password</strong>
 				<span><input type="password" name="dbPassword2" size="15" id="dbPassword2" maxlength="20" /></span>
 			</label>
 			<label>
-				<strong>DB 이름</strong>
+				<strong>DB name</strong>
 				<span><input type="text" name="dbName" id="dbName" size="15" maxlength="20" /></span>
 			</label>
 			<hr />
 			<label>
-				<strong>DB 호스트이름</strong>
+				<strong>DB hostname</strong>
 				<span><input type="text" name="dbHost" id="dbHost" size="12" maxlength="40" value="localhost" /></span>
 			</label>
 			<label>
-				<strong>테이블이름 prefix</strong>
+				<strong>Table name prefix</strong>
 				<span><input type="text" name="dbPrefix" id="dbPrefix" size="12" maxlength="20" value="GOOSE_" /></span>
 			</label>
 		</fieldset>
 
 		<fieldset>
-			<legend>관리자 정보</legend>
+			<legend>Admin infomation</legend>
 			<label class="first">
-				<strong>이메일</strong>
+				<strong>E-mail</strong>
 				<span><input type="email" name="email" id="email" size="28" maxlength="40" /></span>
 			</label>
 			<label>
-				<strong>닉네임</strong>
+				<strong>Nickname</strong>
 				<span><input type="text" name="name" id="name" size="18" maxlength="20" /></span>
 			</label>
 			<label>
-				<strong>비밀번호</strong>
+				<strong>Password</strong>
 				<span><input type="password" name="password" id="password" size="15" maxlength="20" /></span>
 			</label>
 			<label>
-				<strong>비밀번호 확인</strong>
+				<strong>Confirm password</strong>
 				<span><input type="password" name="password2" id="password2" size="15" maxlength="20" /></span>
 			</label>
 		</fieldset>
@@ -72,13 +72,26 @@ $apikeyPrefix = '__' . $goose->util->generateRandomString(15) . '__';
 				<span><input type="text" name="apiPrefix" id="apiPrefix" size="28" maxlength="20" value="<?=$apikeyPrefix?>" /></span>
 			</label>
 		</fieldset>
+
+		<fieldset>
+			<legend>ETC</legend>
+			<label class="first">
+				<strong>Timezone</strong>
+				<span>
+					<input type="text" name="timezone" size="24" maxlength="30" value="Asia/Seoul" required /><br/>
+					<span><a href="http://php.net/manual/en/timezones.php" target="_blank">List of Supported Timezones</a> 페이지에 있는 지역을 참고하여 해당지역을 입력해주세요.</span>
+				</span>
+				
+			</label>
+		</fieldset>
 		<nav>
-			<button type="submit">설치하기</button>
+			<button type="submit">Install</button>
 		</nav>
 	</form>
 </main>
 
-<script src="<?=$root?>/libs/ext/jQuery/jquery-1.11.1.min.js"></script>
+
+<script src="<?=$root?>/libs/ext/jQuery/jquery-1.11.2.min.js"></script>
 <script src="<?=$root?>/libs/ext/validation/jquery.validate.min.js"></script>
 <script src="<?=$root?>/libs/ext/validation/localization/messages_ko.js"></script>
 <script>

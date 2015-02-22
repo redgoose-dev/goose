@@ -299,19 +299,6 @@
 						<td>이름</td>
 					</tr>
 					<tr>
-						<th>thumnailSize</th>
-						<td class="center nowrap">string</td>
-						<td>섬네일 이미지 사이즈 (예:100*100)</td>
-					</tr>
-					<tr>
-						<th>thumnailType</th>
-						<td class="center nowrap">string</td>
-						<td>
-							섬네일 이미지로 축소하는 방식 (crop | resizeWidth | resizeHeight)
-							
-						</td>
-					</tr>
-					<tr>
 						<th>listCount</th>
 						<td class="center nowrap">number</td>
 						<td>페이지당 출력갯수</td>

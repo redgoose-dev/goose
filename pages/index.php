@@ -7,7 +7,7 @@ $articlesIndex = $goose->spawn->getItems(array(
 	'table' => 'articles'
 	,'order' => 'srl'
 	,'sort' => 'desc'
-	,'limit' => array(0, $goose->indexCount)
+	,'limit' => array(0, $goose->user['indexCount'])
 ));
 ?>
 

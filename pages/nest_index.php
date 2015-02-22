@@ -1,22 +1,5 @@
 <?php
 if(!defined("GOOSE")){exit();}
-
-$group_srl = (isset($_SESSION['group_srl'])) ? (int)$_SESSION['group_srl'] : null;
-$group_srl = (isset($routePapameters['param0'])) ? (int)$routePapameters['param0'] : $group_srl;
-$group_srl = ($_GET['all']) ? null : $group_srl;
-
-$_SESSION['group_srl'] = $group_srl;
-
-$itemParameter = ($group_srl) ? 'group_srl='.$group_srl : '';
-$nestsAllCount = $goose->spawn->getCount(array('table'=>'nests'));
-$nestsCount = $goose->spawn->getCount(array('table'=>'nests', 'where'=>$itemParameter));
-$nestsIndex = $goose->spawn->getItems(array(
-	'table' => 'nests',
-	'where' => $itemParameter,
-	'order' => 'srl',
-	'sort' => 'desc'
-));
-$nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 ?>
 
 <section>
@@ -65,7 +48,7 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 		{
 			foreach ($nestsIndex as $k=>$v)
 			{
-				$v['json'] = json_decode(urldecode($v['json']));
+				$v['json'] = json_decode(urldecode($v['json']), true);
 				$url = GOOSE_ROOT.'/article/index/'.$v['srl'].'/';
 				$articleCount = $goose->spawn->getCount(array(
 					'table' => 'articles',
@@ -75,7 +58,7 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 					'table' => 'categories',
 					'where' => 'nest_srl='.(int)$v['srl']
 				));
-				$categoryCount = ($categoryCount && $v['useCategory']==1) ? '<span>분류:'.$categoryCount.'</span>' : '';
+				$categoryCount = ($categoryCount && $v['useCategory']==1) ? '<span>Count of category:'.$categoryCount.'</span>' : '';
 				$groupName = $goose->spawn->getItem(array(
 					'field' => 'name',
 					'table' => 'nestGroups',
@@ -89,11 +72,9 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 						<dd>
 							<a href="<?=$url?>"><strong class="big"><?=$groupName?> <?=$v['name']?>(<?=$articleCount?>)</strong></a>
 							<div class="inf">
-								<span>아이디:<?=$v['id']?></span>
-								<span>날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
+								<span>ID:<?=$v['id']?></span>
+								<span>Date:<?=$goose->util->convertDate($v['regdate'])?></span>
 								<?=$categoryCount?>
-								<span>썸네일사이즈:<?=$v['thumnailSize']?></span>
-								<span>Article:<?=$v['json']->articleSkin?></span>
 							</div>
 							<nav>
 								<a href="<?=GOOSE_ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
@@ -113,6 +94,7 @@ $nestGroupsCount = $goose->spawn->getCount(array('table'=>'nestGroups'));
 		?>
 	</ul>
 	<!-- // nests list -->
+
 	<!-- bottom buttons -->
 	<nav class="btngroup">
 		<span><a href="<?=GOOSE_ROOT?>/nest/index/" class="ui-button">목록</a></span>

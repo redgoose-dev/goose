@@ -5,6 +5,7 @@ $root = preg_replace('/\/index.php$/', '', $_SERVER['PHP_SELF']);
 $url = 'http://'.$_SERVER['HTTP_HOST'].$root;
 $error = false;
 
+
 /**
  * Check $_POST
  * 
@@ -35,6 +36,47 @@ function checkPost()
 }
 
 
+/**
+ * Create user file value
+ * 
+ * @param Array $post : post 데이터
+ * @param String $dir : user파일위치
+ * @return String : 처리결과
+ */
+function createUserFile($post, $dir)
+{
+	global $goose, $root, $url;
+
+	$str = "<?php\n";
+	$str .= "if(!defined(\"GOOSE\")){exit();}\n";
+	$str .= "\n";
+	$str .= "define('GOOSE_ROOT', '".$post['root']."');\n";
+	$str .= "define('URL', '".$post['url']."');\n";
+	$str .= "\n";
+	$str .= "\$dbConfig = array('mysql:dbname=".$post['dbName'].";host=".$post['dbHost']."', '".$post['dbId']."', '".$post['dbPassword']."');\n";
+	$str .= "\$tablesName = array(\n";
+	$str .= "\t'articles' => '".$post['dbPrefix']."articles',\n";
+	$str .= "\t'categories' => '".$post['dbPrefix']."categories',\n";
+	$str .= "\t'files' => '".$post['dbPrefix']."files',\n";
+	$str .= "\t'users' => '".$post['dbPrefix']."users',\n";
+	$str .= "\t'nestGroups' => '".$post['dbPrefix']."nestGroups',\n";
+	$str .= "\t'nests' => '".$post['dbPrefix']."nests',\n";
+	$str .= "\t'tempFiles' => '".$post['dbPrefix']."tempFiles',\n";
+	$str .= "\t'jsons' => '".$post['dbPrefix']."jsons'\n";
+	$str .= ");\n";
+	$str .= "\$api_key = \"".$post['apiPrefix']."\";\n";
+	$str .= "\$user = array(\n";
+	$str .= "\t'adminLevel' => ".$post['adminLevel']."\n";
+	$str .= "\t,'indexCount' => 30\n";
+	$str .= "\t,'timezone' => '".$post['timezone']."'\n";
+	$str .= "\t,'skinDefault' => 'basic'\n";
+	$str .= ");\n";
+	$str .= "?>";
+
+	return $goose->util->fop($dir, 'w', $str, 0777);
+}
+
+
 // 파일 만들기
 if (checkPost() == true)
 {
@@ -48,7 +90,7 @@ if (checkPost() == true)
 	$_POST['root'] = $root;
 	$_POST['url'] = $url;
 	$_POST['adminLevel'] = 1;
-	if ($goose->util->createUserFile($_POST, PWD.'/data/config/user.php') != 'success')
+	if (createUserFile($_POST, PWD.'/data/config/user.php') != 'success')
 	{
 		echo '<p>Failed to create the file user.php</p>';
 		exit;
@@ -180,8 +222,6 @@ $result = $spawn->action("
 		`group_srl` int(11) default null,
 		`id` varchar(20) default null,
 		`name` varchar(250) default null,
-		`thumnailSize` varchar(9) default null,
-		`thumnailType` varchar(15) not null default 'crop',
 		`listCount` int(11) default null,
 		`useCategory` int(1) not null default '0',
 		`json` text default null,

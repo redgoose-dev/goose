@@ -61,7 +61,7 @@ switch($paramAction)
 		
 		if ($_SESSION['gooseEmail'] != $_POST['email'])
 		{
-			if ($_SESSION['gooseLevel'] < $adminLevel)
+			if ($_SESSION['gooseLevel'] < $goose->user['adminLevel'])
 			{
 				$goose->util->back("수정할 수 있는 권한이 없습니다.");
 				$goose->out();

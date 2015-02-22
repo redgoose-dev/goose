@@ -245,42 +245,6 @@ class Util {
 	}
 
 	/**
-	 * Create user file value
-	 * 
-	 * @param Array $post : post 데이터
-	 * @param String $dir : user파일위치
-	 * @return String : 처리결과
-	 */
-	public function createUserFile($post, $dir)
-	{
-		global $root, $url;
-
-		$str = "<?php\n";
-		$str .= "if(!defined(\"GOOSE\")){exit();}\n";
-		$str .= "\n";
-		$str .= "define('GOOSE_ROOT', '".$post['root']."');\n";
-		$str .= "define('URL', '".$post['url']."');\n";
-		$str .= "\n";
-		$str .= "\$dbConfig = array('mysql:dbname=".$post['dbName'].";host=".$post['dbHost']."', '".$post['dbId']."', '".$post['dbPassword']."');\n";
-		$str .= "\$tablesName = array(\n";
-		$str .= "\t'articles' => '".$post['dbPrefix']."articles',\n";
-		$str .= "\t'categories' => '".$post['dbPrefix']."categories',\n";
-		$str .= "\t'files' => '".$post['dbPrefix']."files',\n";
-		$str .= "\t'users' => '".$post['dbPrefix']."users',\n";
-		$str .= "\t'nestGroups' => '".$post['dbPrefix']."nestGroups',\n";
-		$str .= "\t'nests' => '".$post['dbPrefix']."nests',\n";
-		$str .= "\t'tempFiles' => '".$post['dbPrefix']."tempFiles',\n";
-		$str .= "\t'jsons' => '".$post['dbPrefix']."jsons'\n";
-		$str .= ");\n";
-		$str .= "\$api_key = \"".$post['apiPrefix']."\";\n";
-		$str .= "\$adminLevel = \"".$post['adminLevel']."\";\n";
-		$str .= "\$indexCount = 30;\n";
-		$str .= "?>";
-
-		return $this->fop($dir, 'w', $str, 0777);
-	}
-
-	/**
 	 * Array to Array
 	 * 특정 배열키를 지정한 값을 새로운 배열로 만든다.
 	 * 
@@ -313,6 +277,40 @@ class Util {
 			$target[$v] = (isset($target[$v])) ? $target[$v] : null;
 		}
 		return $target;
+	}
+
+	/**
+	 * JSON to Array
+	 * 문자로 되어있는 json데이터를 배열로 바꿔줍니다.
+	 * 
+	 * @param {String} $json
+	 * @param {Boolean} $type : 출력타입(true:array, false:object)
+	 * @return {Array}
+	 */
+	public function jsonToArray($json, $type=true)
+	{
+		try {
+			return json_decode(urldecode($json), $type);
+		} catch (Exception $e) {
+			return null;
+		}
+		
+	}
+
+	/**
+	 * Array to JSON
+	 * 배열데이터를 json데이터로 바꿔줍니다.
+	 * 
+	 * @param {Array} $array
+	 * @return {String}
+	 */
+	public function ArrayToJson($array)
+	{
+		try {
+			return urlencode(json_encode($array));
+		} catch (Exception $e) {
+			return null;
+		}
 	}
 }
 ?>
