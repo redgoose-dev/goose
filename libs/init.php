@@ -28,6 +28,10 @@ $goose = Goose::getInstance();
 $goose->init(PWD);
 
 
+// set timezone
+date_default_timezone_set(($goose->user['timezone']) ? $goose->user['timezone'] : 'UTC');
+
+
 // session check
 $_SESSION = $goose->util->checkArray(
 	$_SESSION
