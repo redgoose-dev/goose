@@ -58,7 +58,7 @@ if(!defined("GOOSE")){exit();}
 					'table' => 'categories',
 					'where' => 'nest_srl='.(int)$v['srl']
 				));
-				$categoryCount = ($categoryCount && $v['useCategory']==1) ? '<span>Count of category:'.$categoryCount.'</span>' : '';
+				$categoryCount = ($categoryCount && $v['useCategory']==1) ? '<span>Category:'.$categoryCount.'</span>' : '';
 				$groupName = $goose->spawn->getItem(array(
 					'field' => 'name',
 					'table' => 'nestGroups',
