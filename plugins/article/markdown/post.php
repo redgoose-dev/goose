@@ -97,6 +97,9 @@ $titleType = getActionType($paramAction);
 	</form>
 </section>
 
+<?
+//var_dump($nest['json']['thumnail']['size'][0]);
+?>
 <script src="<?=$jQueryAddress?>"></script>
 <script src="<?=$extPath?>/Jcrop/jquery.Jcrop.min.js"></script>
 <script src="<?=$extPath?>/UploadInterface/FilesQueue.class.min.js"></script>
@@ -107,8 +110,8 @@ $titleType = getActionType($paramAction);
 var userData = {
 	root : '<?=GOOSE_ROOT?>'
 	,thumnail : {
-		type : '<?=$nest['thumnailType']?>'
-		,size : '<?=$nest['thumnailSize']?>'
+		type : '<?=$nest['json']['thumnail']['type']?>'
+		,size : '<?=$nest['json']['thumnail']['size'][0].'*'.$nest['json']['thumnail']['size'][1]?>'
 		,srl : '<?=$article['json']['thumnail']['srl']?>'
 		,coords : '<?=$article['json']['thumnail']['coords']?>'
 		,url : '<?=$article['json']['thumnail']['url']?>'
