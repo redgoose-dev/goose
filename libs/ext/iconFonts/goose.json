@@ -1,0 +1,300 @@
+{
+	"selection": [
+		{
+			"order": 1,
+			"id": 7,
+			"prevSize": 32,
+			"code": 58880,
+			"name": "arrow-left",
+			"tempChar": ""
+		},
+		{
+			"order": 2,
+			"id": 6,
+			"prevSize": 32,
+			"code": 58881,
+			"name": "arrow-right",
+			"tempChar": ""
+		},
+		{
+			"order": 3,
+			"id": 5,
+			"prevSize": 32,
+			"code": 58882,
+			"name": "check",
+			"tempChar": ""
+		},
+		{
+			"order": 4,
+			"id": 4,
+			"prevSize": 32,
+			"code": 58883,
+			"name": "close",
+			"tempChar": ""
+		},
+		{
+			"order": 5,
+			"id": 3,
+			"prevSize": 32,
+			"code": 58884,
+			"name": "hamburger",
+			"tempChar": ""
+		},
+		{
+			"order": 6,
+			"id": 2,
+			"prevSize": 32,
+			"code": 58885,
+			"name": "headline",
+			"tempChar": ""
+		},
+		{
+			"order": 7,
+			"id": 1,
+			"prevSize": 32,
+			"code": 58886,
+			"name": "picture",
+			"tempChar": ""
+		},
+		{
+			"order": 8,
+			"id": 0,
+			"prevSize": 32,
+			"code": 58887,
+			"name": "redgoose",
+			"tempChar": ""
+		}
+	],
+	"metadata": {
+		"name": "Goose icon set",
+		"importSize": 50,
+		"url": "http://redgoose.me",
+		"designer": "redgoose",
+		"designerURL": "http://redgoose.me",
+		"iconsHash": -933890233
+	},
+	"height": 1024,
+	"prevSize": 32,
+	"icons": [
+		{
+			"paths": [
+				"M815.104 905.216l-395.264-395.264 395.264-395.264-112.64-112.64-507.904 507.904 507.904 509.952z"
+			],
+			"attrs": [
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"arrow-left"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0
+				]
+			},
+			"defaultCode": 58880
+		},
+		{
+			"paths": [
+				"M194.56 114.688l395.264 395.264-395.264 395.264 112.64 114.688 507.904-509.952-507.904-507.904z"
+			],
+			"attrs": [
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"arrow-right"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0
+				]
+			},
+			"defaultCode": 58881
+		},
+		{
+			"paths": [
+				"M333.824 704.512l-206.848-192.512-126.976 122.88 333.824 305.152 690.176-733.184-129.024-122.88-561.152 620.544z"
+			],
+			"attrs": [
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"check"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0
+				]
+			},
+			"defaultCode": 58882
+		},
+		{
+			"paths": [
+				"M909.312 0l-397.312 397.312-397.312-397.312-114.688 114.688 397.312 397.312-397.312 397.312 114.688 114.688 397.312-397.312 397.312 397.312 114.688-114.688-397.312-397.312 397.312-397.312-114.688-114.688z"
+			],
+			"attrs": [
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"close"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0
+				]
+			},
+			"defaultCode": 58883
+		},
+		{
+			"paths": [
+				"M34.816 114.688h956.416v159.744h-956.416v-159.744z",
+				"M34.816 432.128h956.416v159.744h-956.416v-159.744z",
+				"M34.816 751.616h956.416v159.744h-956.416v-159.744z"
+			],
+			"attrs": [
+				{},
+				{},
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"hamburger"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0,
+					0,
+					0
+				]
+			},
+			"defaultCode": 58884
+		},
+		{
+			"paths": [
+				"M880.64 20.48h-737.28c-51.2 0-92.16 40.96-92.16 92.16v798.72c0 51.2 40.96 92.16 92.16 92.16h737.28c51.2 0 92.16-40.96 92.16-92.16v-798.72c0-51.2-40.96-92.16-92.16-92.16zM849.92 880.64h-675.84v-542.72h675.84v542.72zM272.384 450.56h481.28v61.44h-481.28v-61.44zM272.384 573.44h481.28v61.44h-481.28v-61.44zM272.384 696.32h481.28v61.44h-481.28v-61.44z"
+			],
+			"attrs": [
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"headline"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0
+				]
+			},
+			"defaultCode": 58885
+		},
+		{
+			"paths": [
+				"M20.48 81.92v860.16h983.040v-860.16h-983.040zM880.64 798.72h-737.28v-614.4h737.28v614.4z",
+				"M831.488 346.112c0 53.161-43.095 96.256-96.256 96.256s-96.256-43.095-96.256-96.256c0-53.161 43.095-96.256 96.256-96.256s96.256 43.095 96.256 96.256z",
+				"M798.72 569.344v-63.488l-167.936 126.976-237.568-319.488-167.936 319.488v124.928h573.44z"
+			],
+			"attrs": [
+				{},
+				{},
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"picture"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0,
+					0,
+					0
+				]
+			},
+			"defaultCode": 58886
+		},
+		{
+			"paths": [
+				"M954.368 280.576c0 0 26.624 18.432-40.96 88.064 0 0-20.48 94.208-149.504 182.272 0 0 16.384 8.192 32.768 0 0 0-49.152 40.96-135.168 77.824-90.112 40.96-26.624 90.112 6.144 112.64 30.72 22.528 114.688 71.68 167.936 67.584 0 0-10.24 10.24-22.528 10.24 0 0 26.624 24.576 53.248 26.624 0 0-28.672 12.288-47.104 8.192 0 0 22.528 24.576 40.96 26.624 0 0-24.576 12.288-38.912 10.24 0 0 12.288 36.864 28.672 40.96 0 0-22.528 26.624-98.304-43.008-24.576-22.528-92.16-16.384-92.16-16.384s-145.408 2.048-204.8-22.528c-59.392-26.624-149.504-118.784-196.608-161.792-47.104-45.056-73.728-77.824-102.4-88.064s-71.68-2.048-114.688-67.584l-26.624-16.384 43.008-4.096c0 0 67.584-51.2 112.64 0s61.44 67.584 102.4 55.296c0 0-22.528-49.152-106.496-124.928-55.296-45.056-47.104-61.44-51.2-98.304 0 0-20.48-94.208-77.824-169.984-59.392-75.776 4.096-51.2 22.528-30.72s368.64 253.952 397.312 442.368c0 0 92.16-28.672 135.168-155.648 0 0 22.528-32.768 65.536-63.488 32.768-22.528 303.104-204.8 313.344-272.384 0 0 49.152-32.768 6.144 49.152 2.048 0 90.112-14.336-22.528 137.216z"
+			],
+			"attrs": [
+				{}
+			],
+			"isMulticolor": false,
+			"grid": 24,
+			"tags": [
+				"redgoose"
+			],
+			"colorPermutations": {
+				"6868681": [
+					0
+				]
+			},
+			"defaultCode": 58887
+		}
+	],
+	"colorThemes": [
+		[
+			[
+				68,
+				68,
+				68,
+				1
+			]
+		]
+	],
+	"colorThemeIdx": 0,
+	"preferences": {
+		"showGlyphs": true,
+		"showQuickUse": true,
+		"showQuickUse2": true,
+		"showSVGs": true,
+		"fontPref": {
+			"prefix": "icn-",
+			"metadata": {
+				"fontFamily": "goose-icons",
+				"majorVersion": 1,
+				"minorVersion": 0,
+				"fontURL": "http://redgoose",
+				"description": ""
+			},
+			"metrics": {
+				"emSize": 1024,
+				"baseline": 6.25,
+				"whitespace": 50
+			},
+			"resetPoint": 58880,
+			"showSelector": false,
+			"showMetrics": false,
+			"postfix": "",
+			"showVersion": false,
+			"showMetadata": false,
+			"autoHost": false
+		},
+		"imagePref": {
+			"prefix": "icon-",
+			"png": true,
+			"useClassSelector": true,
+			"color": 4473924,
+			"bgColor": 16777215,
+			"classSelector": ".icon"
+		},
+		"historySize": 100,
+		"showCodes": true,
+		"showLiga": false,
+		"quickUsageToken": {
+			"Gooseicons": "ZmZiZjQ2ZDAzNTMxMGRiNDcxNmNlNjVmOTNhZWI4Y2QjMSMxNDI0NzA2ODA1IyMj"
+		},
+		"gridSize": 16,
+		"showGrid": true
+	},
+	"IcoMoonType": "icon-set"
+}
