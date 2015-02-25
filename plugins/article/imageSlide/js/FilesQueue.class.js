@@ -18,9 +18,10 @@ var FilesQueue = function(getParent, $el, options) {
 	 * @param {String} status
 	 * @param {String} src
 	 * @param {String} formData
+	 * @param {String} type
 	 * @return {DOM} : queue element
 	 */
-	self.template = function(key, filename, status, src, formData, type)
+	this.template = function(key, filename, status, src, formData, type)
 	{
 		function form(data)
 		{
@@ -56,7 +57,7 @@ var FilesQueue = function(getParent, $el, options) {
 		item += (formData) ? form(formData) : '';
 		item += '</div>';
 		item += '<nav>';
-		item += (src) ? '\t\t<button type="button" rg-action="thumnail" class="icn-thumnail" title="썸네일이미지"></button>\n' : '';
+		item += (/^image/i.test(type)) ? '\t\t<button type="button" rg-action="thumnail" class="icn-thumnail" title="썸네일이미지"></button>\n' : '';
 		item += '\t\t<button type="button" rg-action="delete" class="icn-close" title="삭제"></button>\n';
 		item += '</nav>';
 		item += '</div>';
@@ -146,6 +147,7 @@ var FilesQueue = function(getParent, $el, options) {
 			,status
 			,(/^image/i.test(file.type)) ? file.loc : null
 			,form
+			,file.type
 		);
 
 		self.index[key] = {
