@@ -11,7 +11,8 @@ if(!defined("GOOSE")){exit();}
 <meta name="generator" content="redgoose">
 <meta http-equiv="Content-Language" content="kr">
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<link rel="stylesheet" type="text/css" href="<?=GOOSE_ROOT?>/pages/src/css/layout.css" media="screen" />
+<link rel="stylesheet" href="<?=GOOSE_ROOT?>/libs/ext/iconFonts/style.css" />
+<link rel="stylesheet" href="<?=GOOSE_ROOT?>/pages/src/css/layout.css" media="screen" />
 <script>function log(o){console.log(o);}</script>
 </head>
 <body>
