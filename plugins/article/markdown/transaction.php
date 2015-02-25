@@ -43,11 +43,6 @@ switch($paramAction)
 	// modify
 	case 'modify':
 
-		$oldArticle = $goose->spawn->getItem(array(
-			'table' => 'articles',
-			'where' => 'srl='.(int)$_POST['article_srl']
-		));
-
 		// update article
 		$result = $goose->spawn->update(array(
 			'table' => 'articles',
@@ -90,11 +85,4 @@ switch($paramAction)
 
 // attach files
 require_once('transaction_files.php');
-
-
-// redirect url
-if ($redirectUrl)
-{
-	$goose->util->redirect($redirectUrl);
-}
 ?>

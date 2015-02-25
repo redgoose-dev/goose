@@ -31,4 +31,11 @@ else
 	$goose->util->alert('불러올 페이지가 없습니다.');
 	$goose->out();
 }
+
+
+// redirect url
+if ($redirectUrl)
+{
+	$goose->util->redirect($redirectUrl);
+}
 ?>

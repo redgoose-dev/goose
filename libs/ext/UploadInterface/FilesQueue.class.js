@@ -12,13 +12,15 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * template
-	 * 
+	 *
 	 * @author : redgoose
 	 * @param {String} key
 	 * @param {String} filename
+	 * @param {String} status
+	 * @param {String} type
 	 * @return {DOM} : queue element
 	 */
-	var template = function(key, filename, status)
+	this.template = function(key, filename, status, type)
 	{
 		var item = '<li key="' + key + '">\n';
 		item += '\t<div class="body">\n';
@@ -33,7 +35,9 @@ var FilesQueue = function(getParent, $el, options) {
 			item += '\t</div>\n';
 		}
 		item += '\t<nav>\n';
-		item += '\t\t<button type="button" rg-action="delete" class="sp-ico">삭제</button>\n';
+		item += (/^image/i.test(type)) ? '\t\t<button type="button" rg-action="thumnail" class="icn-thumnail" title="썸네일이미지"></button>\n' : '';
+		item += '\t\t<button type="button" rg-action="insertContent" class="icn-plus" title="본문에 삽입하기"></button>\n';
+		item += '\t\t<button type="button" rg-action="delete" class="icn-close" title="삭제"></button>\n';
 		item += '\t</nav>\n';
 		item += '</li>';
 
@@ -42,7 +46,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * queue event init
-	 * 
+	 *
 	 * @author : redgoose
 	 * @param {DOM} obj
 	 * @return void
@@ -58,9 +62,25 @@ var FilesQueue = function(getParent, $el, options) {
 		// delete queue
 		obj.find('nav > button').on('click', function(e){
 			e.stopPropagation();
-			if (confirm('파일을 삭제하시겠습니까?'))
+			var $queue = $(this).closest('li');
+			switch($(this).attr('rg-action'))
 			{
-				self.removeQueue(obj.closest('li'));
+				case 'delete':
+					if (confirm('파일을 삭제하시겠습니까?'))
+					{
+						self.removeQueue($queue);
+					}
+					break;
+				case 'thumnail':
+					var queue = parent.queue.index[$queue.attr('key')];
+					if (/^image/i.test(queue.filetype))
+					{
+						parent.thumnail.open(queue);
+					}
+					break;
+				case 'insertContent':
+					parent.insertContent($queue);
+					break;
 			}
 		});
 	}
@@ -68,7 +88,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * create queue
-	 * 
+	 *
 	 * @author : redgoose
 	 * @param {Object} file
 	 * @return {String}
@@ -78,7 +98,7 @@ var FilesQueue = function(getParent, $el, options) {
 		var idx = self.count;
 		var key = 'queue-' + idx;
 		var status = (file.status) ? file.status : 'ready';
-		var $dom = template(key, file.name, status);
+		var $dom = self.template(key, file.name, status, file.type);
 
 		self.index[key] = {
 			filename : file.name
@@ -103,7 +123,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * select queue
-	 * 
+	 *
 	 * @author : redgoose
 	 * @param {} : ...
 	 * @return void
@@ -132,7 +152,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * select all queue
-	 * 
+	 *
 	 * @return void
 	 */
 	this.selectAllQueue = function()
@@ -149,7 +169,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * remove queue
-	 * 
+	 *
 	 * @author : redgoose
 	 * @param {DOM} $queue
 	 * @return void
@@ -200,7 +220,7 @@ var FilesQueue = function(getParent, $el, options) {
 	/**
 	 * clear preview
 	 * 프리뷰의 내용을 삭제한다.
-	 * 
+	 *
 	 * @return void
 	 */
 	this.clearPreview = function()
@@ -210,7 +230,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * get index item
-	 * 
+	 *
 	 * @param {String} key
 	 * @return {Object}
 	 */
@@ -221,7 +241,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * get items
-	 * 
+	 *
 	 * @return {Array}
 	 */
 	this.getItems = function()
@@ -233,7 +253,7 @@ var FilesQueue = function(getParent, $el, options) {
 
 	/**
 	 * get thumnail item
-	 * 
+	 *
 	 * @return {Array}
 	 */
 	this.getThumnailItem = function()

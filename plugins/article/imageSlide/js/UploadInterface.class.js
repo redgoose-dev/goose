@@ -7,10 +7,9 @@ var UploadInterface = function(el, options) {
 	this.settings = $.extend({}, this.defaults, options);
 	this.key = false;
 	this.queue = null;
-	this.$queue = null;
 	this.$drop = null;
-	this.$controller = null;
-	this.json = new Object();
+	this.$queue = $('<div class="filesQueue"><ul></ul></div>');
+	this.$controller = $('<nav id="queueController"></nav>');
 	this.readyItem = new Array();
 	this.thumnail = new Thumnail(self, {
 		type : self.settings.thumnail.type
@@ -23,72 +22,25 @@ var UploadInterface = function(el, options) {
 		}
 	});
 
-	/**
-	 * init
-	 */
-	var init = function()
-	{
-		if (self.settings.$queue)
-		{
-			self.$queue = $('<div class="filesQueue"><ul></ul></div>');
-			self.queue = new FilesQueue(self, self.$queue, {});
-			self.$drop = self.$queue.children('ul');
-			self.$controller = $('<nav id="queueController"></nav>');
-			self.settings.$queue
-				.append(self.$queue)
-				.append(self.$controller)
-			;
-
-			createControllter(self.$controller);
-			events();
-		}
-	}
 
 	/**
-	 * create controller
-	 * 
-	 * @param {DOM} $nav
+	 * controller button event
+	 * 하단 버튼이벤트
+	 *
+	 * @return void
 	 */
-	var createControllter = function($nav)
+	var controllerButton = function()
 	{
-		var $dom = '';
-		$dom += '<button type="button" rg-action="useThumnail" class="ui-button btn-small btn-highlight">썸네일설정</button>';
-		$dom += '<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>';
-		$dom += '<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>';
-		$dom += '<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>';
-		$nav.append($($dom));
-	}
+		var dom = '';
+		dom += '<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>';
+		dom += '<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>';
+		dom += '<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>';
 
-	/**
-	 * byte to size convert
-	 * 
-	 * @param {Number} bytes
-	 * @return {String}
-	 */
-	var bytesToSize = function(bytes)
-	{
-		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-		if (bytes == 0) return '0 Byte';
-		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-	}
-
-	/**
-	 * Events init
-	 */
-	var events = function()
-	{
-		// controller
-		if (self.$controller)
-		{
-			self.$controller.children('button').on('click', function(e){
+		self.$controller
+			.append($(dom))
+			.children('button').on('click', function(e){
 				switch($(this).attr('rg-action'))
 				{
-					// use thumnail
-					case 'useThumnail':
-						self.createThumnail();
-						break;
-
 					// select all items
 					case 'selectAll':
 						self.selectAllQueue();
@@ -104,9 +56,15 @@ var UploadInterface = function(el, options) {
 						self.deleteAllQueue();
 						break;
 				}
-			});
-		}
+			})
+		;
+	}
 
+	/**
+	 * Events init
+	 */
+	var events = function()
+	{
 		// file input change
 		if (self.settings.auto)
 		{
@@ -117,7 +75,7 @@ var UploadInterface = function(el, options) {
 
 		// keyboard event
 		$(window).on('keydown', function(e){
-			if (e.which == 91)
+			if (e.which == 91 || e.which == 17)
 			{
 				self.key = true;
 			}
@@ -160,15 +118,27 @@ var UploadInterface = function(el, options) {
 			,dragSelectorExclude : 'span[contenteditable], button'
 			,dragBetween: true
 			,placeHolderTemplate: '<li class="placeHolder"><div></div></li>'
-			,dragEnd: function() {
-				
-			}
-		})
+			,dragEnd: function() {}
+		});
+	}
+
+	/**
+	 * byte to size convert
+	 *
+	 * @param {Number} bytes
+	 * @return {String}
+	 */
+	var bytesToSize = function(bytes)
+	{
+		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+		if (bytes == 0) return '0 Byte';
+		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 	}
 
 	/**
 	 * File upload
-	 * 
+	 *
 	 * @Param {Object} item
 	 */
 	var fileUpload = function(item)
@@ -191,11 +161,11 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * get file type
-	 * 
+	 *
 	 * @param {String} filename
 	 * @return {String}
 	 */
-	var getFileType = function(filename)
+	this.getFileType = function(filename)
 	{
 		var type = (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : undefined;
 
@@ -226,25 +196,8 @@ var UploadInterface = function(el, options) {
 	}
 
 	/**
-	 * get object key
-	 * 
-	 * @param {Object} obj
-	 * @return {Array}
-	 */
-	var getObjectKey = function(obj)
-	{
-		var arr = new Array();
-		for (var key in obj)
-		{
-			arr.push(key);
-		}
-		return arr;
-	}
-
-
-	/**
 	 * file upload method
-	 * 
+	 *
 	 * @param {File} getFiles
 	 */
 	this.upload = function(getFiles)
@@ -253,7 +206,7 @@ var UploadInterface = function(el, options) {
 		{
 			var files = (getFiles) ? getFiles : $el.get(0).files;
 			var count = Object.keys(self.queue.index).length + files.length;
-	
+
 			if (self.settings.limit && (count > self.settings.limit))
 			{
 				alert('파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.');
@@ -267,7 +220,10 @@ var UploadInterface = function(el, options) {
 						,file : files[n]
 					});
 				}
-				fileUpload(self.readyItem[0]);
+				if (self.readyItem.length)
+				{
+					fileUpload(self.readyItem[0]);
+				}
 			}
 		}
 		else
@@ -278,7 +234,7 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * upload progress
-	 * 
+	 *
 	 * @param {Number} loaded
 	 * @param {Number} total
 	 * @param {Object} queue
@@ -288,14 +244,14 @@ var UploadInterface = function(el, options) {
 	{
 		var percent = parseInt(loaded / total * 100);
 		queue.status = 'loading';
-		queue.element.find('div.body > span.size').text(percent + '%');
-		queue.element.find('div.body > span.status').text('Loading');
+		queue.element.find('span.size').text(percent + '%');
+		queue.element.find('span.status').text('Loading');
 		queue.element.find('div.progress span').width(percent + '%');
 	}
 
 	/**
 	 * upload complete
-	 * 
+	 *
 	 * @param {String} response
 	 * @param {Object} queue
 	 * @return void
@@ -312,22 +268,25 @@ var UploadInterface = function(el, options) {
 		queue.element.find('span.size').text(bytesToSize(queue.filesize));
 		queue.element.find('span.status').text(queue.status);
 
+		// hide progress
+		if (queue.status == 'complete')
+		{
+			queue.element.find('div.progress').delay(200).fadeOut(400);
+		}
+
 		// append image
 		if (/^image/i.test(queue.filetype))
 		{
 			queue.element.find('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
 		}
 
-		// hide progress
-		queue.element.find('div.progress').delay(200).fadeOut(400);
-
 		// reset file input
 		resetInput();
 
-		// addQueue 갱신
+		// refresh addQueue
 		self.refreshAddQueue();
 
-		// 다음파일 업로드하기
+		// upload next file
 		self.readyItem.splice(0, 1);
 		if (self.readyItem.length)
 		{
@@ -345,9 +304,8 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * push queue
-	 * 
-	 * @param {Array} data : attach files data
-	 * @param {Array} conData : contents data
+	 *
+	 * @param {Array} data
 	 * @return void
 	 */
 	this.pushQueue = function(data)
@@ -357,7 +315,7 @@ var UploadInterface = function(el, options) {
 			var key = self.queue.createQueue({
 				name : data[n].filename
 				,size : null
-				,type : getFileType(data[n].filename)
+				,type : self.getFileType(data[n].filename)
 				,loc : data[n].location
 				,srl : data[n].srl
 				,type2 : data[n].type
@@ -375,48 +333,6 @@ var UploadInterface = function(el, options) {
 			{
 				self.refreshAddQueue();
 			}
-		}
-	}
-
-	/**
-	 * create thumnail
-	 */
-	this.createThumnail = function()
-	{
-		var item = null;
-
-		// 선택된 큐중에 이미지인 큐가 나오면 item변수로 넣기
-		var items = self.queue.getItems(); // 선택된 큐
-		for (var i=0; i<items.length; i++)
-		{
-			if (/^image/i.test(items[i].filetype))
-			{
-				item = items[i];
-				break;
-			}
-		}
-
-		// 썸네일로 지정되어있는 큐라면 item변수에 넣기
-		if (!item)
-		{
-			item = self.queue.getThumnailItem();
-		}
-
-		// 조건없이 순서대로 찾아서 이미지인 큐가 나오면 item변수로 넣기
-		if (!item)
-		{
-			for (var key in self.queue.index)
-			{
-				if (/^image/i.test(self.queue.index[key].filetype))
-				{
-					item = self.queue.index[key];
-					break;
-				}
-			}
-		}
-		if (item)
-		{
-			self.thumnail.open(item);
 		}
 	}
 
@@ -454,7 +370,7 @@ var UploadInterface = function(el, options) {
 	{
 		if (confirm('모두 삭제하시겠습니까?'))
 		{
-			var $lis = self.$queue.find('>ul>li');
+			var $lis = self.$queue.find('> ul > li');
 			if ($lis.length)
 			{
 				self.queue.removeQueue($lis);
@@ -482,13 +398,18 @@ var UploadInterface = function(el, options) {
 
 	/**
 	 * thumnail image exist check
-	 * 
+	 *
 	 * @return {Boolean} : 첨부파일중에 이미지가 있으면 true를 반환
 	 */
 	this.thumnailImageCheck = function()
 	{
 		var $items = self.queue.$index.children();
-		if (!$items.filter('.thumnail').length)
+
+		if ($items.filter('.thumnail').length)
+		{
+			return false;
+		}
+		else
 		{
 			var existImage = false;
 			$items.each(function(){
@@ -499,14 +420,18 @@ var UploadInterface = function(el, options) {
 					return false;
 				}
 			});
+
 			if (existImage && !self.settings.form.thumnail_image.value)
 			{
 				alert('썸네일 이미지를 만들지 않았습니다.');
-				self.$controller.children('[rg-action=useThumnail]').focus();
+				self.queue.$index.find('[rg-action=thumnail]').eq(0).focus();
 				return true;
 			}
+			else
+			{
+				return false;
+			}
 		}
-		return false;
 	}
 
 	/**
@@ -517,7 +442,6 @@ var UploadInterface = function(el, options) {
 	this.exportSlideJSON = function()
 	{
 		var data = new Array();
-
 		self.queue.$index.children().each(function(){
 			var queue = self.queue.index[$(this).attr('key')];
 			var item = {
@@ -536,18 +460,34 @@ var UploadInterface = function(el, options) {
 			});
 			data.push(item);
 		});
-
 		return encodeURIComponent(JSON.stringify(data));
 	}
 
+	// action
+	if (self.settings.$manager)
+	{
+		// files queue
+		self.queue = new FilesQueue(self, self.$queue, {});
+		// set $drop
+		self.$drop = self.$queue.children('ul');
+		// append elements
+		self.settings.$manager
+			.append(self.$queue)
+			.append(self.$controller)
+		;
+		// init controller buttons event
+		controllerButton();
+		// init events
+		events();
+		// set ready
+		self.ready = true;
+	}
 
-	// act
-	init();
 }
 
 
 /**
- * Default variables
+ * Public variables
  */
 UploadInterface.prototype.defaults = {
 	uploadAction : null

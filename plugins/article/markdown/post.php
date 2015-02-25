@@ -97,9 +97,6 @@ $titleType = getActionType($paramAction);
 	</form>
 </section>
 
-<?
-//var_dump($nest['json']['thumnail']['size'][0]);
-?>
 <script src="<?=$jQueryAddress?>"></script>
 <script src="<?=$extPath?>/Jcrop/jquery.Jcrop.min.js"></script>
 <script src="<?=$extPath?>/UploadInterface/FilesQueue.class.min.js"></script>

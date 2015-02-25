@@ -20,7 +20,7 @@ var FilesQueue = function(getParent, $el, options) {
 	 * @param {String} formData
 	 * @return {DOM} : queue element
 	 */
-	var template = function(key, filename, status, src, formData)
+	self.template = function(key, filename, status, src, formData, type)
 	{
 		function form(data)
 		{
@@ -36,7 +36,6 @@ var FilesQueue = function(getParent, $el, options) {
 			str += '</div>';
 			return str;
 		}
-
 		var item = '<li key="' + key + '">';
 		item += '<div>';
 		if (status == 'ready')
@@ -57,7 +56,8 @@ var FilesQueue = function(getParent, $el, options) {
 		item += (formData) ? form(formData) : '';
 		item += '</div>';
 		item += '<nav>';
-		item += '<button type="button" rg-action="delete" class="sp-ico">삭제</button>';
+		item += (src) ? '\t\t<button type="button" rg-action="thumnail" class="icn-thumnail" title="썸네일이미지"></button>\n' : '';
+		item += '\t\t<button type="button" rg-action="delete" class="icn-close" title="삭제"></button>\n';
 		item += '</nav>';
 		item += '</div>';
 		item += '</li>';
@@ -68,7 +68,6 @@ var FilesQueue = function(getParent, $el, options) {
 	/**
 	 * queue event init
 	 * 
-	 * @author : redgoose
 	 * @param {DOM} obj
 	 * @return void
 	 */
@@ -85,15 +84,26 @@ var FilesQueue = function(getParent, $el, options) {
 		});
 
 		// delete queue
-		obj.find('button[rg-action=delete]').on('click', function(e){
+		obj.find('nav > button').on('click', function(e){
 			e.stopPropagation();
-			if (confirm('파일을 삭제하시겠습니까?'))
+			switch($(this).attr('rg-action'))
 			{
-				self.removeQueue(obj.closest('li'));
+				case 'delete':
+					if (confirm('파일을 삭제하시겠습니까?'))
+					{
+						self.removeQueue(obj.closest('li'));
+					}
+					break;
+				case 'thumnail':
+					var queue = parent.queue.index[$(this).closest('li').attr('key')];
+					if (/^image/i.test(queue.filetype))
+					{
+						parent.thumnail.open(queue);
+					}
+					break;
 			}
 		});
 	}
-
 
 	/**
 	 * create queue
@@ -130,7 +140,7 @@ var FilesQueue = function(getParent, $el, options) {
 			}
 		}
 
-		var $dom = template(
+		var $dom = self.template(
 			key
 			,file.name
 			,status
@@ -249,7 +259,6 @@ var FilesQueue = function(getParent, $el, options) {
 		}
 	}
 
-
 	/**
 	 * get index item
 	 * 
@@ -293,3 +302,48 @@ var FilesQueue = function(getParent, $el, options) {
 	}
 
 }
+
+/*
+// 참고 - uploadInterface에 있는 썸네일 이미지 만들기 메서드
+this.createThumnail = function()
+{
+	var item = null;
+
+	// 선택된 큐중에 이미지인 큐가 나오면 item변수로 넣기
+	var items = self.queue.getItems(); // 선택된 큐
+	for (var i=0; i<items.length; i++)
+	{
+		if (/^image/i.test(items[i].filetype))
+		{
+			item = items[i];
+			break;
+		}
+	}
+
+	// 썸네일로 지정되어있는 큐라면 item변수에 넣기
+	if (!item)
+	{
+		item = self.queue.getThumnailItem();
+	}
+
+	// 조건없이 순서대로 찾아서 이미지인 큐가 나오면 item변수로 넣기
+	if (!item)
+	{
+		for (var key in self.queue.index)
+		{
+			if (/^image/i.test(self.queue.index[key].filetype))
+			{
+				item = self.queue.index[key];
+				break;
+			}
+		}
+	}
+	if (item)
+	{
+		self.thumnail.open(item);
+		self.activeThumnailSize = self.thumnail.settings.size.map(function(n){
+			return n;
+		}).join('*');
+	}
+}
+*/

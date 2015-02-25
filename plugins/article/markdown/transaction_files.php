@@ -165,7 +165,6 @@ switch($paramAction)
 			if (!$filesCount)
 			{
 				// delete thumnail file
-				var_dump($absoluteThumnailDir.$json['thumnail']['url']);
 				if (file_exists($absoluteThumnailDir.$json['thumnail']['url']))
 				{
 					unlink($absoluteThumnailDir.$json['thumnail']['url']);

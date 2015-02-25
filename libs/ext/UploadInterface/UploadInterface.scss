@@ -1,19 +1,10 @@
 /* queue manager */
 .queuesManager {
-	padding-bottom: 8px; border-bottom: 1px solid #ddd;
-	.sp-ico {
-		background-image: url('sp-icon@1x.png');
-		background-repeat: no-repeat;
-		background-color: transparent;
-		// for retina
-		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-			background-image: url('sp-icon@2x.png');
-			background-size: 32px 30px;
-		}
-	}
-
-	.filesQueue {
+	%clear {
 		&:after {content: ''; display: block; clear: both;}
+	}
+	padding-bottom: 8px; border-bottom: 1px solid #ddd;
+	.filesQueue {
 		> figure {
 			position: relative;
 			float: left;
@@ -54,36 +45,24 @@
 			}
 		}
 		li {
+			@extend %clear;
 			position: relative;
 			margin: 0 0 2px; padding: 6px 12px;
 			background: #f3f3f3;
 			border: 2px solid #f3f3f3;
 			&.on {border-color: #74b3c9;}
-			&.thumnail {background: #e7f8fc;}
 		}
 		nav {
+			@extend %clear;
 			position: absolute;
 			right: 2px; top: 50%;
 			height: 30px;
 			margin-top: -15px;
-			button {
-				display: block;
-				float: left;
-				margin: 0 0 0 1px; padding: 0;
-				width: 30px; height: 30px;
-				cursor: pointer;
-				text-indent: -9999px;
-				border: none;
-				&:first-child {margin-left: 0;}
-				&[rg-action=useThumnail] {background-position: 10px 10px;}
-				&[rg-action=useThumnail].on {background-position: 10px -10px;}
-				&[rg-action=delete] {background-position: -12px 10px;}
-				&[rg-action=delete].on {background-position: -12px -10px;}
-			}
 		}
 		.body {
-			margin-right: 40px;
-			font-size: 12px; color: #333; word-break: break-word;
+			padding-right: 70px;
+			font-size: 12px; color: #333;
+			word-break: break-word;
 			.size {
 				color: #666;
 				&:before {content: '(';}
@@ -104,9 +83,27 @@
 				}
 			}
 		}
+		button[rg-action] {
+			display: block;
+			float: left;
+			margin: 0 0 0 1px; padding: 0;
+			width: 24px; height: 30px;
+			cursor: pointer;
+			border: none;
+			background: none;
+			font-size: 10px;
+			color: #25292f;
+			-webkit-appearance: none;
+			&:first-child {margin-left: 0;}
+			&.icn-thumnail {font-size: 11px; color: #a2a9b5;}
+		}
+		li.thumnail .icn-thumnail {color: #25292f;}
+
 		@media all and (max-width: 640px) {
 			> figure {width: 80px; height: 80px;}
 			ul {margin-left: 90px; height: 150px;}
+			nav {position: static; margin-top: 0;}
+			.body {padding-right: auto;}
 		}
 	}
 

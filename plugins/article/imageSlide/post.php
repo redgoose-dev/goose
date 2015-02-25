@@ -97,88 +97,16 @@ $titleType = getActionType($paramAction);
 <script src="<?=$extPath?>/UploadInterface/Thumnail.class.min.js"></script>
 <script src="<?=GOOSE_ROOT?><?=$path_skin?>/js/UploadInterface.class.min.js"></script>
 <script>
-jQuery(function($){
-	var form = document.writeForm;
-	var uploadInterface = new UploadInterface($('#fileUpload'), {
-		form : form
-		,$queue : $('#queuesManager')
-		,uploadAction : '<?=GOOSE_ROOT?>/files/upload/'
-		,removeAction : '<?=GOOSE_ROOT?>/files/remove/'
-		,fileDir : '<?=GOOSE_ROOT?>/data/original/'
-		,auto : true
-		,limit : 30
-		,thumnail : {
-			type : '<?=$nest['json']['thumnail']['type']?>'
-			,size : '<?=$nest['json']['thumnail']['size'][0].'*'.$nest['json']['thumnail']['size'][1]?>'
-			,srl : '<?=$article['json']['thumnail']['srl']?>'
-			,coords : '<?=$article['json']['thumnail']['coords']?>'
-			,url : '<?=$article['json']['thumnail']['url']?>'
-		}
-		,queueForm : [
-			{ label : 'Subject', name : 'subject', value : '' }
-		]
-	});
-
-	// push data
-	var attachFiles = '<?=$pushData?>';
-	attachFiles = (attachFiles) ? JSON.parse(attachFiles) : null;
-	var contentData = $(form).find('input[name=content]').val();
-	try {
-		contentData = (contentData) ? JSON.parse(decodeURIComponent(contentData)) : null;
-	} catch(e) {
-		contentData = null;
+window.userData = {
+	root : '<?=GOOSE_ROOT?>'
+	,thumnail : {
+		type : '<?=$nest['json']['thumnail']['type']?>'
+		,size : '<?=$nest['json']['thumnail']['size'][0].'*'.$nest['json']['thumnail']['size'][1]?>'
+		,srl : '<?=$article['json']['thumnail']['srl']?>'
+		,coords : '<?=$article['json']['thumnail']['coords']?>'
+		,url : '<?=$article['json']['thumnail']['url']?>'
 	}
-
-	if (attachFiles)
-	{
-		if (contentData)
-		{
-			// srl값이 일치하지 않아 srl값 매칭
-			for (var n=0; n<contentData.length; n++)
-			{
-				for (var nn=0; nn<attachFiles.length; nn++)
-				{
-					if (contentData[n].location == attachFiles[nn].location)
-					{
-						contentData[n].srl = attachFiles[nn].srl;
-						break;
-					}
-				}
-			}
-			uploadInterface.pushQueue(contentData);
-		}
-		else
-		{
-			uploadInterface.pushQueue(attachFiles);
-		}
-	}
-
-	// onsubmit event
-	$(form).on('submit', function(){
-
-		// check thumnail image
-		if (uploadInterface.thumnailImageCheck())
-		{
-			return false;
-		}
-
-		// set thumnail data
-		var thumnailData = uploadInterface.thumnail.data;
-		var json = {
-			thumnail : {
-				srl : thumnailData.srl
-				,coords : (thumnailData.coords) ? thumnailData.coords.toString() : ''
-				,url : thumnailData.url
-			}
-		};
-		form.thumnail_image.value = (thumnailData.image) ? thumnailData.image : '';
-
-		// push slide data to content
-		form.content.value = uploadInterface.exportSlideJSON();
-
-		// set json
-		json = encodeURIComponent(JSON.stringify(json));
-		form.json.value = json;
-	});
-});
+	,pushData : '<?=$pushData?>'
+};
 </script>
+<script src="<?=GOOSE_ROOT?><?=$path_skin?>/js/post.min.js"></script>

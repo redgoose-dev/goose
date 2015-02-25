@@ -2,7 +2,7 @@ jQuery(function($){
 	var form = document.writeForm;
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		form : form
-		,$queue : $('#queuesManager')
+		,$manager : $('#queuesManager')
 		,uploadAction : userData.root + '/files/upload/'
 		,removeAction : userData.root + '/files/remove/'
 		,fileDir : userData.root + userData.originalPath
@@ -12,6 +12,11 @@ jQuery(function($){
 		,$insertTarget : $('#content')
 		,insertFunc : null // function(value){}
 	});
+
+	if (!uploadInterface.ready)
+	{
+		return false;
+	}
 
 	var attachFiles = userData.pushData;
 	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null;

@@ -4,19 +4,6 @@
 
 // queue manager
 .queuesManager {
-	.sp-ico {
-		background-image: url('sp-ico@1x.png');
-		background-repeat: no-repeat;
-		background-color: transparent;
-
-		/* for retina */
-		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-			background-image: url('sp-ico@2x.png');
-			background-size: 100px 50px;
-		}
-	}
-
-	// queues
 	.filesQueue {
 		@extend %clear;
 		ul {
@@ -50,7 +37,11 @@
 			margin: 12px 0; padding: 0;
 			@extend %clear;
 			&.on > div {border-color: #74b3c9;}
-			&.thumnail > div {background: #e7f8fc;}
+			&.thumnail {
+				.icn-thumnail {
+					color: #25292f;
+				}
+			}
 			 > div {
 				position: relative;
 				margin: 0 5px; padding: 8px;
@@ -116,19 +107,22 @@
 		// buttons
 		nav {
 			position: absolute;
-			display: none;
 			right: 15px; top: 15px;
 			box-shadow: 0 2px 3px rgba(0,0,0,.3);
 			button {
 				display: block; float: left;
-				margin: 0; padding: 0;
-				width: 20px; height: 20px;
-				cursor: pointer; text-indent: -9999px;
+				margin: 0 0 0 3px; padding: 0;
+				width: 28px; height: 28px;
+				cursor: pointer;
+				font-size: 11px;
+				color: #525964;
 				border: none; border-radius: 2px;
 				background-color: #fff;
+				-webkit-appearance: none;
+				&:first-child {margin-left: 0;}
+				&.icn-thumnail {font-size:12px; color: #a2a9b5;}
 			}
 		}
-		li > div:hover nav {display: block;}
 
 		// progress
 		.progress {
