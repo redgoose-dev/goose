@@ -1,5 +1,5 @@
 jQuery(function($){
-a
+
 	var form = document.writeForm;
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		form : form
@@ -80,4 +80,5 @@ a
 		json = encodeURIComponent(JSON.stringify(json));
 		form.json.value = json;
 	});
+
 });
