@@ -2,6 +2,7 @@
 .codekit-cache
 .sass-cache
 README.html
+*.codekit
 
 # user files
 /data
