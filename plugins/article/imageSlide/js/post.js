@@ -1,12 +1,12 @@
 jQuery(function($){
-
+a
 	var form = document.writeForm;
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		form : form
 		,$manager : $('#queuesManager')
 		,uploadAction : userData.root + '/files/upload/'
 		,removeAction : userData.root + '/files/remove/'
-		,fileDir : userData.root + '/data/original/'
+		,fileDir : userData.url + '/data/original/'
 		,auto : true
 		,limit : 30
 		,thumnail : userData.thumnail

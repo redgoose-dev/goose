@@ -106,6 +106,7 @@ $titleType = getActionType($paramAction);
 <script>
 var userData = {
 	root : '<?=GOOSE_ROOT?>'
+	,url : '<?=GOOSE_URL?>'
 	,thumnail : {
 		type : '<?=$nest['json']['thumnail']['type']?>'
 		,size : '<?=$nest['json']['thumnail']['size'][0].'*'.$nest['json']['thumnail']['size'][1]?>'
@@ -116,5 +117,6 @@ var userData = {
 	,originalPath : '<?=$dataOriginalDirectory?>'
 	,pushData : '<?=$pushData?>'
 };
+log(userData);
 </script>
 <script src="<?=GOOSE_ROOT?><?=$path_skin?>/assets/post.min.js"></script>

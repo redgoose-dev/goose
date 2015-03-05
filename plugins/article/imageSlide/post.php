@@ -99,6 +99,7 @@ $titleType = getActionType($paramAction);
 <script>
 window.userData = {
 	root : '<?=GOOSE_ROOT?>'
+	,url : '<?=GOOSE_URL?>'
 	,thumnail : {
 		type : '<?=$nest['json']['thumnail']['type']?>'
 		,size : '<?=$nest['json']['thumnail']['size'][0].'*'.$nest['json']['thumnail']['size'][1]?>'
