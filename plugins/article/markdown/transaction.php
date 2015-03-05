@@ -26,8 +26,8 @@ switch($paramAction)
 				'group_srl' => $_POST['group_srl'],
 				'nest_srl' => $_POST['nest_srl'],
 				'category_srl' => $_POST['category_srl'],
-				'title' => $_POST['title'],
-				'content' => $_POST['content'],
+				'title' => addslashes($_POST['title']),
+				'content' => addslashes($_POST['content']),
 				'regdate' => $regdate,
 				'modate' => $regdate,
 				'json' => $_POST['json'],
@@ -45,15 +45,15 @@ switch($paramAction)
 
 		// update article
 		$result = $goose->spawn->update(array(
-			'table' => 'articles',
-			'where' => 'srl='.(int)$_POST['article_srl'],
-			'data' => array(
-				"category_srl='$_POST[category_srl]'",
-				"title='$_POST[title]'",
-				"content='$_POST[content]'",
-				"modate='$regdate'",
-				"json='$_POST[json]'",
-				"ipAddress='$ipAddress'"
+			'table' => 'articles'
+			,'where' => 'srl='.(int)$_POST['article_srl']
+			,'data' => array(
+				"category_srl='$_POST[category_srl]'"
+				,"title='".addslashes($_POST['title'])."'"
+				,"content='".addslashes($_POST['content'])."'"
+				,"modate='$regdate'"
+				,"json='$_POST[json]'"
+				,"ipAddress='$ipAddress'"
 			)
 		));
 
