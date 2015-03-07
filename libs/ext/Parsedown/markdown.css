@@ -1,5 +1,5 @@
 .markdown-body {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px; color: #000; line-height: 1.42857143; word-break: break-word;
 }
 .markdown-body > *:first-child {
@@ -9,7 +9,7 @@
 .markdown-body pre,
 .markdown-body code {
 	font-size: 13px;
-	font-family: 'Consolas', 'Inconsolata', 'Courier', 'monospace';
+	font-family: 'Monaco', 'Consolas', 'Inconsolata', 'Courier', 'monospace';
 }
 .markdown-body code {
 	margin: 0 0.15em; padding: 0 0.3em; display: inline;

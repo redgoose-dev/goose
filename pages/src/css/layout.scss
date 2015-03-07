@@ -55,7 +55,25 @@
 /* Container */
 #container {
 	margin: 15px 0;
-	.hgroup {padding: 0 $margin_side;}
+	.hgroup {
+		padding: 0 $margin_side;
+		font-family: "Lucida Grande";
+	}
+	@media all and (min-width:$width-for-desktop) {
+		margin: 15px $margin_side 20px;
+		.hgroup {
+			> h1 {font-size: 24px;}
+			> p {
+				span {
+					&:before {
+						content: '| '; padding-left: 3px; padding-right: 3px; color: #999;
+					}
+					&:first-child:before {display: none;}
+				}
+			}
+			&.detail > h1 {font-size: 16px; margin-bottom: 0;}
+		}
+	}
 }
 
 
@@ -267,6 +285,25 @@
 		color: $color_blur; font-size: 16px; margin: 0; padding: 30px $margin_side 30px;
 		border-bottom: 1px dashed #ddd;
 	}
+
+	@media all and (min-width:$width-for-desktop) {
+		fieldset {
+			> dl.table {
+				display: table; width: 100%; margin: 0;
+				border-bottom: 1px solid #ddd;
+				&.first {border-top: 1px solid #ddd;}
+				> dt, > dd {display: table-cell; vertical-align: middle; padding: 8px 0;}
+				> dt {width: 130px; margin: 0; padding-left: 10px; padding-right: 10px;}
+				> dd {margin: 0; padding-right: 10px;}
+			}
+			> dl.full {
+				margin: 0; padding: 10px 0;
+				border-bottom: 1px solid #ddd;
+				> dt {margin: 0 0 8px 10px;}
+				> dd {padding: 0 10px;}
+			}
+		}
+	}
 }
 
 
@@ -319,7 +356,7 @@
 
 
 /* For desktop */
-@media all and (min-width:640px) {
+@media all and (min-width:$width-for-desktop) {
 	#header {
 		h1 {
 			float: left; line-height: 31px; padding-top: 5px;
@@ -335,22 +372,6 @@
 		}
 	}
 
-	#container {
-		margin: 15px $margin_side 20px;
-		.hgroup {
-			> h1 {font-size: 24px;}
-			> p {
-				span {
-					&:before {
-						content: '| '; padding-left: 3px; padding-right: 3px; color: #999;
-					}
-					&:first-child:before {display: none;}
-				}
-			}
-			&.detail > h1 {font-size: 16px; margin-bottom: 0;}
-		}
-	}
-
 	#footer {
 		text-align: right;
 	}
@@ -363,19 +384,6 @@
 
 	.goose-categories {
 		a {font-size: 13px;}
-	}
-
-	.goose-form {
-		fieldset {
-			> dl.table {
-				display: table; width: 100%; margin: 0;
-				border-bottom: 1px solid #ddd;
-				&.first {border-top: 1px solid #ddd;}
-				> dt, > dd {display: table-cell; vertical-align: middle; padding: 8px 0;}
-				> dt {width: 140px; margin: 0; padding-left: 10px; padding-right: 10px;}
-				> dd {margin: 0; padding-right: 10px;}
-			}
-		}
 	}
 
 	.goose-index {

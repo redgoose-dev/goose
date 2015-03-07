@@ -8,8 +8,10 @@ $nestName = '['.$nest['name'].'] ';
 $titleType = getActionType($paramAction);
 ?>
 
+<link rel="stylesheet" href="<?=GOOSE_ROOT?><?=$path_skin?>/assets/style.css" />
 <link rel="stylesheet" href="<?=$extPath?>/UploadInterface/UploadInterface.css" />
 <link rel="stylesheet" href="<?=$extPath?>/Jcrop/jquery.Jcrop.min.css" />
+<link rel="stylesheet" href="<?=$extPath?>/Parsedown/markdown.css" />
 
 <section class="goose-form">
 	<div class="hgroup">
@@ -67,27 +69,39 @@ $titleType = getActionType($paramAction);
 				<dd><input type="text" id="title" name="title" class="block" value="<?=$article['title']?>" /></dd>
 			</dl>
 
-			<dl>
+			<dl class="full">
 				<dt><label for="content">내용</label></dt>
 				<dd>
-					<textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars($article['content'])?></textarea>
-					<p>
-						* 마크다운 한글 메뉴얼 : <a href="http://scriptogr.am/myevan/post/markdown-syntax-guide-for-scriptogram" target="_blank">바로가기</a><br/>
-						* 존 그루버 마크다운 페이지 번역 : <a href="http://nolboo.github.io/blog/2013/09/07/john-gruber-markdown/" target="_blank">바로가기</a>
-					</p>
-				</dd>
-			</dl>
-
-			<dl>
-				<dt><label for="fileUpload">파일첨부</label></dt>
-				<dd>
-					<div class="box">
-						<input type="file" name="fileUpload" id="fileUpload" multiple />
-						<button type="button" id="fileUploadButton">업로드</button>
+					<div class="mk-editor">
+						<nav>
+							<a href="#" role-control="edit" class="active"><i class="icn-edit"></i> Edit</a>
+							<a href="#" role-control="preview"><i class="icn-eye"></i> Preview</a>
+						</nav>
+						<div class="body">
+							<div class="show" role-target="edit">
+								<textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars($article['content'])?></textarea>
+								<p>
+									* 마크다운 한글 메뉴얼 : <a href="http://scriptogr.am/myevan/post/markdown-syntax-guide-for-scriptogram" target="_blank">바로가기</a><br/>
+									* 존 그루버 마크다운 페이지 번역 : <a href="http://nolboo.github.io/blog/2013/09/07/john-gruber-markdown/" target="_blank">바로가기</a>
+								</p>
+							</div>
+							<div role-target="preview"></div>
+						</div>
 					</div>
 				</dd>
 			</dl>
-			<div class="queuesManager" id="queuesManager"></div>
+
+			<dl class="full">
+				<dt><label for="fileUpload">파일첨부</label></dt>
+				<dd>
+					<div style="margin-bottom: 8px;">
+						<input type="file" name="fileUpload" id="fileUpload" multiple />
+						<button type="button" id="fileUploadButton">업로드</button>
+					</div>
+					<div class="queuesManager" id="queuesManager"></div>
+				</dd>
+			</dl>
+			
 		</fieldset>
 
 		<nav class="btngroup">
@@ -117,6 +131,5 @@ var userData = {
 	,originalPath : '<?=$dataOriginalDirectory?>'
 	,pushData : '<?=$pushData?>'
 };
-log(userData);
 </script>
 <script src="<?=GOOSE_ROOT?><?=$path_skin?>/assets/post.min.js"></script>

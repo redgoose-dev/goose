@@ -80,6 +80,14 @@ switch($paramAction)
 		$params = ($_POST['page']) ? "page=$_POST[page]&" : "";
 		$redirectUrl = GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : '');
 		break;
+
+	// preview
+	case 'preview':
+		require_once(PWD.'/libs/ext/Parsedown/Parsedown.class.php');
+		$Parsedown = new Parsedown();
+		echo '<div class="markdown-body">'.$Parsedown->text($_POST['content']).'</div>';
+		$goose->out();
+		break;
 }
 
 

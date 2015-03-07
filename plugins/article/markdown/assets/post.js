@@ -59,4 +59,54 @@ jQuery(function($){
 		json = encodeURIComponent(JSON.stringify(json));
 		form.json.value = json;
 	});
+
+	// toggle edit/preview
+	var $mkEditor = $('div.mk-editor');
+	var $mkEditorButtons = $mkEditor.find('a[role-control]');
+	$mkEditorButtons.on('click', function(){
+
+		var mode = $(this).attr('role-control');
+		var $target = $mkEditor.find('[role-target=' + mode + ']');
+
+		if (!$(this).hasClass('active'))
+		{
+			$mkEditorButtons.removeClass('active');
+			$(this).addClass('active');
+			$mkEditor.find('[role-target]').removeClass('show');
+			$target.addClass('show');
+
+			// load preview data
+			if (mode == 'preview' && form.content.value)
+			{
+				var result = getPreviewData(function(result){
+					$target.html(result);
+				});
+			}
+		}
+
+		return false;
+	});
+
+	/**
+	 * get preview data
+	 * 
+	 * @Param {Function} complete
+	 * @Return void
+	 */
+	function getPreviewData(complete)
+	{
+		var req = $.ajax({
+			url : userData.root + '/article/preview'
+			,type : 'post'
+			,data : {
+				title : '...'
+				,nest_srl : form.nest_srl.value
+				,content : form.content.value
+			}
+		});
+		req.done(function(str){
+			complete(str);
+		});
+	}
+
 });
