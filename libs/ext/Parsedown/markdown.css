@@ -1,6 +1,7 @@
 .markdown-body {
 	font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px; color: #000; line-height: 1.42857143; word-break: break-word;
+	width: 100%;
 }
 .markdown-body > *:first-child {
 	margin-top: 0 !important;
@@ -8,26 +9,24 @@
 
 .markdown-body pre,
 .markdown-body code {
-	font-size: 13px;
+	font-size: 12px;
 	font-family: 'Monaco', 'Consolas', 'Inconsolata', 'Courier', 'monospace';
 }
 .markdown-body code {
-	margin: 0 0.15em; padding: 0 0.3em; display: inline;
+	margin: 0; padding: 0 0.3em; display: inline;
 	white-space: pre-wrap;
 	border: 1px solid #EAEAEA; border-radius: 3px;
 	background-color: #F8F8F8;
 }
 .markdown-body pre {font-size: 1em; line-height: 1.5;}
 .markdown-body pre code {
-	padding: 0.3em 0.5em; overflow: auto;
+	padding: 0.3em 0.5em;
 	display: block !important;
-	white-space: pre;
 	border: 1px solid #CCC; border-radius: 3px;
+	word-break: break-all;
 }
 
-.markdown-body p {
-	margin: 0.7em 0;
-}
+.markdown-body p {margin: 0.7em 0;}
 
 .markdown-body table,
 .markdown-body pre,
@@ -52,9 +51,7 @@
 	margin: 0; padding-left: 1em;
 }
 
-.markdown-body li > pre {
-	margin: .5em 0;
-}
+.markdown-body li > pre {margin: .5em 0;}
 
 .markdown-body dl {padding: 0;}
 .markdown-body dl dt {font-size: 1em; font-weight: bold; font-style: italic;}
