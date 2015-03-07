@@ -74,7 +74,7 @@ $titleType = getActionType($paramAction);
 				<dd>
 					<div class="mk-editor">
 						<nav>
-							<a href="#" role-control="edit" class="active"><i class="icn-edit"></i> Edit</a>
+							<a href="#" role-control="edit" class="active"><i class="icn-code"></i> Edit</a>
 							<a href="#" role-control="preview"><i class="icn-eye"></i> Preview</a>
 						</nav>
 						<div class="body">
