@@ -359,18 +359,20 @@ var UploadInterface = function(el, options) {
 	this.insertContent = function($queue)
 	{
 		var keyword = '';
+		var urls = new Array();
 		var items = ($queue) ? new Array(self.queue.index[$queue.attr('key')]) : self.queue.getItems();
 
 		for (var i=0; i<items.length; i++)
 		{
 			keyword += '<img src="' + self.settings.fileDir + items[i].location + '" alt="" />\n';
+			urls.push(self.settings.fileDir + items[i].location);
 		}
 
-		if (keyword)
+		if (urls.length)
 		{
 			if (self.settings.insertFunc)
 			{
-				self.settings.insertFunc(keyword);
+				self.settings.insertFunc(urls);
 			}
 			else if (self.settings.$insertTarget)
 			{
