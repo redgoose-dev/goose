@@ -10,7 +10,18 @@ jQuery(function($){
 		,limit : 5
 		,thumnail : userData.thumnail
 		,$insertTarget : $('#content')
-		,insertFunc : null // function(value){}
+		,insertFunc : function(urls){
+			var str = '';
+			for (var i=0; i<urls.length; i++)
+			{
+				str += '![](' + urls[i] + ')\n';
+			}
+			var $content = $(form.content);
+			var position = getCursorPosition($content);
+			var content = $content.val();
+			var newContent = content.substr(0, position) + str + content.substr(position);
+			$content.val(newContent);
+		}
 	});
 
 	if (!uploadInterface.ready)
@@ -109,4 +120,29 @@ jQuery(function($){
 		});
 	}
 
+
+	/**
+	 * get cursor position
+	 *
+	 * @param {DOM} $el
+	 * @return {Number}
+	 */
+	var getCursorPosition = function($el)
+	{
+		var el = $el.get(0);
+		var pos = 0;
+		if ('selectionStart' in el)
+		{
+			pos = el.selectionStart;
+		}
+		else if ('selection' in document)
+		{
+			el.focus();
+			var Sel = document.selection.createRange();
+			var SelLength = document.selection.createRange().text.length;
+			Sel.moveStart('character', -el.value.length);
+			pos = Sel.text.length - SelLength;
+		}
+		return pos;
+	}
 });

@@ -84,7 +84,8 @@ switch($paramAction)
 	// preview
 	case 'preview':
 		require_once(PWD.'/libs/ext/Parsedown/Parsedown.class.php');
-		$Parsedown = new Parsedown();
+		require_once(PWD.'/libs/ext/parsedown-extra/ParsedownExtra.php');
+		$Parsedown = new ParsedownExtra();
 		echo '<div class="markdown-body">'.$Parsedown->text($_POST['content']).'</div>';
 		$goose->out();
 		break;

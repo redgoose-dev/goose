@@ -4,7 +4,8 @@ if(!defined("GOOSE")){exit();}
 $extPath = GOOSE_ROOT.'/libs/ext';
 
 require_once(PWD.'/libs/ext/Parsedown/Parsedown.class.php');
-$Parsedown = new Parsedown();
+require_once(PWD.'/libs/ext/parsedown-extra/ParsedownExtra.php');
+$Parsedown = new ParsedownExtra();
 $article['content'] = '<div class="markdown-body">'.$Parsedown->text($article['content']).'</div>';
 
 if ($nest['useCategory'])

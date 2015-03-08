@@ -131,3 +131,10 @@
 	color: #ccc;
 }
 
+/* Extra */
+.markdown-body .text-center {text-align: center;}
+.markdown-body .text-right {text-align: right;}
+.markdown-body img.text-center {
+	display: block;
+	margin:0 auto;
+}
