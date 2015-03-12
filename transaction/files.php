@@ -14,7 +14,7 @@ switch($paramAction)
 
 		// 변수정의
 		$dir_absolute = PWD.'/data/original/';
-		$dir_relative = GOOSE_ROOT.'/data/original/';
+		$dir_relative = GOOSE_URL.'/data/original/';
 		$originalFileName = $files['name'];
 		$regdate = date("YmdHis");
 		$month = Date(Ym);
