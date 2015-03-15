@@ -58,7 +58,6 @@ class Spawn extends Database {
 		}
 
 		$getArray['where'] = (isset($getArray['where'])) ? preg_replace("/^and|and$/", "", $getArray['where']) : '';
-		$getArray['limit'] = (isset($getArray['limit'])) ? $getArray['limit'] : false;
 
 		$str = $getArray['act'];
 		$str .= ($getArray['field']) ? ' '.$getArray['field'] : ' *';
@@ -66,7 +65,11 @@ class Spawn extends Database {
 		$str .= ($getArray['where']) ? ' where '.$getArray['where'] : '';
 		$str .= (isset($getArray['order'])) ? ' order by '.$getArray['order'] : '';
 		$str .= (isset($getArray['sort'])) ? ' '.$getArray['sort'] : '';
-		$str .= (is_array($getArray['limit'])) ? ' limit '.$getArray['limit'][0].', '.$getArray['limit'][1] : '';
+		if (isset($getArray['limit']))
+		{
+			$str .= ' limit ';
+			$str .= (is_array($getArray['limit'])) ? implode(',', $getArray['limit']) : $getArray['limit'];
+		}
 		return $str;
 	}
 
