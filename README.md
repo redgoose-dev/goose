@@ -5,7 +5,7 @@ Goose
 거위라는 프로그램의 사용 용도는 글이나 사진이 담긴 포스트를 관리하는 프로그램이라고 볼 수 있습니다. 대략적으로 작은 워드프레스로 생각해도 되겠습니다.  
 주요 포스트 데이터는 둥지(Nest)라는 장소에서 관리하고 그 데이터들은 다른 공간에서 불러서 사용할 수 있습니다.
 
-자세한 내용은 <http://redgoose.me/projects/goose/>을 참고해주세요.
+자세한 내용은 <http://projects.redgoose.me/goose>을 참고해주세요.
 
 
 Features
@@ -35,5 +35,5 @@ Goose 설치할 수 있는 환경의 버전은 아래와 같습니다.
 
 Demo
 =====
-URL : <http://redgoose.me/projects/goose/demo/>  
+URL : <http://projects.redgoose.me/goose/demo>  
 로그인정보 : user@redgoose.me//1234
