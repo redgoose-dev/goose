@@ -53,7 +53,7 @@ $listType = (isset($nest['json']['listType'])) ? $nest['json']['listType'] : $li
 					<a href="<?=GOOSE_ROOT?>/article/index/<?=$nest_srl?>/">All(<?=($cnt)?>)</a>
 				</li>
 				<?
-				foreach($category as $k=>$v)
+				foreach($categories as $k=>$v)
 				{
 					$cnt = $goose->spawn->getCount(array(
 						'table' => 'articles',
@@ -151,7 +151,7 @@ $listType = (isset($nest['json']['listType'])) ? $nest['json']['listType'] : $li
 					?>
 					<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
 					<?
-					if (count($category) > 0)
+					if (count($categories) > 0)
 					{
 						$url = GOOSE_ROOT.'/category/index/';
 						$url .= ($nest_srl) ? $nest_srl.'/' : '';
