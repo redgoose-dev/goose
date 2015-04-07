@@ -23,10 +23,15 @@ $articlesIndex = $goose->spawn->getItems(array(
 			{
 				$categoryName = null;
 				$nest = $goose->spawn->getItem(array(
-					'field' => 'name,useCategory',
+					'field' => 'name,useCategory,json',
 					'table' => 'nests',
 					'where' => 'srl='.$v['nest_srl']
 				));
+				$nest['json'] = json_decode(urldecode($nest['json']), true);
+				if ($nest['json']['permission'] < $_SESSION['gooseLevel'])
+				{
+					continue;
+				}
 				if ($nest['useCategory'] && $v['category_srl'])
 				{
 					$categoryName = $goose->spawn->getItem(array(

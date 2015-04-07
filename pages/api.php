@@ -1,3 +1,7 @@
+<?php
+$apiKey = ($goose->isAdmin) ? md5($goose->api_key) : '{api_key값은 관리자로 로그인하면 표시됩니다}';
+?>
+
 <section class="Documents">
 	<div class="hgroup">
 		<h1>Goose API 안내</h1>
@@ -28,7 +32,7 @@
 		<p>
 			apikey값은 <code>/{goose}/data/config/user.php</code>파일의 $api_key 값을 암호화한 아래의 값을 사용하여 인증합니다.
 		</p>
-		<p><input type="text" value="<?=md5($goose->api_key)?>" class="block" readonly /></p>
+		<p><input type="text" value="<?=$apiKey?>" class="block" readonly /></p>
 	</section>
 
 	<section>
@@ -38,7 +42,7 @@
 			주소를 적는 방식은 다음과 같습니다. 아래 주소는 가장 기초적인 형태이며 조건에 따라 아래 설명된 규칙을 참고하여 url을 만드시면 됩니다.(둥지목록을 가져옵니다.)
 		</p>
 		<pre class="code">
-			<code><?=URL?>/api/item?apikey=<?=md5($goose->api_key)?>&amp;table=nests&amp;act=index&amp;output=json</code>
+			<code><?=URL?>/api/item?apikey=<?=$apiKey?>&amp;table=nests&amp;act=index&amp;output=json</code>
 		</pre>
 		<hr class="space"/>
 		<table class="ui-table">
