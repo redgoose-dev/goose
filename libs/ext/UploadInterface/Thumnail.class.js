@@ -283,7 +283,7 @@ var Thumnail = function(parent, options) {
 		;
 
 		// draw background
-		context.fillStyle = '#ff0000';
+		context.fillStyle = '#ffffff';
 		context.fillRect(0, 0, outputSize[0], outputSize[1]);
 
 		// draw photo

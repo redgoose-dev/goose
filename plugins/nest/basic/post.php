@@ -139,7 +139,7 @@ jQuery(function($){
 	});
 	$('#regsterForm').validate({
 		rules : {
-			id : {required : true, minlength : 3, alphanumeric : true}
+			id : {required : true, minlength : 2, alphanumeric : true}
 			,name : {required: true, minlength: 2}
 			,listCount : {required: true, number: true}
 		}
