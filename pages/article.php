@@ -97,6 +97,17 @@ if ($nest_srl || $article['nest_srl'])
 		$nest['json'] = json_decode(urldecode($nest['json']), true);
 	} catch(Exception $e) {}
 }
+if (!$nest['srl'])
+{
+	$goose->util->back('없는 둥지번호입니다.');
+}
+
+// check user level
+if (!$goose->isAdmin && $nest['json']['permission'] < $_SESSION['gooseLevel'])
+{
+	$goose->util->back('접근 권한이 없습니다.');
+	$goose->out();
+}
 
 // load skin file
 $skin = (isset($nest['json']['articleSkin'])) ? $nest['json']['articleSkin'] : 'basic';

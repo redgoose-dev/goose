@@ -14,7 +14,7 @@ if(!defined("GOOSE")){exit();}
 			$active = (!$group_srl) ? 'class="active"' : '';
 			?>
 			<li <?=$active?>>
-				<a href="<?=GOOSE_ROOT?>/nest/index/?all=1">All(<?=($nestsAllCount)?>)</a>
+				<a href="<?=GOOSE_ROOT?>/nest/index/?all=1">All<?=($goose->isAdmin) ? "($nestsAllCount)" : ""?></a>
 			</li>
 			<?
 			$nestGroupsIndex = $goose->spawn->getItems(array(
@@ -24,17 +24,22 @@ if(!defined("GOOSE")){exit();}
 			));
 			foreach ($nestGroupsIndex as $k=>$v)
 			{
-				$nestCount = $goose->spawn->getCount(array(
-					'table' => 'nests',
-					'where' => 'group_srl='.(int)$v['srl']
-				));
+				if ($goose->isAdmin)
+				{
+					$nestCount = $goose->spawn->getCount(array(
+						'table' => 'nests',
+						'where' => 'group_srl='.(int)$v['srl']
+					));
+					$nestCount = '('.$nestCount.')';
+				}
+				else
+				{
+					$nestCount = '';
+				}
+
 				$active = ($group_srl == $v['srl']) ? " class='active'" : "";
 				$url = GOOSE_ROOT.'/nest/index/'.$v['srl'].'/';
-				echo "
-					<li $active>
-						<a href=\"$url\">$v[name]($nestCount)</a>
-					</li>
-				";
+				echo "<li $active><a href=\"$url\">$v[name] $nestCount</a></li>";
 			}
 			?>
 		</ul>
@@ -49,6 +54,10 @@ if(!defined("GOOSE")){exit();}
 			foreach ($nestsIndex as $k=>$v)
 			{
 				$v['json'] = json_decode(urldecode($v['json']), true);
+				if ($v['json']['permission'] < $_SESSION['gooseLevel'])
+				{
+					continue;
+				}
 				$url = GOOSE_ROOT.'/article/index/'.$v['srl'].'/';
 				$articleCount = $goose->spawn->getCount(array(
 					'table' => 'articles',
@@ -75,12 +84,20 @@ if(!defined("GOOSE")){exit();}
 								<span>ID:<?=$v['id']?></span>
 								<span>Date:<?=$goose->util->convertDate($v['regdate'])?></span>
 								<?=$categoryCount?>
+								<span>Level:<?=$v['json']['permission']?></span>
 							</div>
-							<nav>
-								<a href="<?=GOOSE_ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
-								<a href="<?=GOOSE_ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
-								<?=$categoryBtn?>
-							</nav>
+							<?
+							if ($goose->isAdmin)
+							{
+							?>
+								<nav>
+									<a href="<?=GOOSE_ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
+									<a href="<?=GOOSE_ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
+									<?=$categoryBtn?>
+								</nav>
+							<?
+							}
+							?>
 						</dd>
 					</dl>
 				</li>
@@ -98,8 +115,15 @@ if(!defined("GOOSE")){exit();}
 	<!-- bottom buttons -->
 	<nav class="btngroup">
 		<span><a href="<?=GOOSE_ROOT?>/nest/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=GOOSE_ROOT?>/group/index/" class="ui-button">둥지그룹</a></span>
-		<span><a href="<?=GOOSE_ROOT?>/nest/create/" class="ui-button btn-highlight">둥지만들기</a></span>
+		<?
+		if ($goose->isAdmin)
+		{
+		?>
+			<span><a href="<?= GOOSE_ROOT ?>/group/index/" class="ui-button">둥지그룹</a></span>
+			<span><a href="<?= GOOSE_ROOT ?>/nest/create/" class="ui-button btn-highlight">둥지만들기</a></span>
+		<?
+		}
+		?>
 	</nav>
 	<!-- // bottom buttons -->
 </section>

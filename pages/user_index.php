@@ -22,25 +22,27 @@ $users = $goose->spawn->getItems(array(
 			<?
 			foreach ($users as $k=>$v)
 			{
-				$level = ($v['level'] == 1) ? '관리자' : '일반';
+				if ($goose->isAdmin || ($_SESSION['gooseEmail'] == $v['email']))
+				{
 			?>
-				<li>
-					<dl>
-						<dd>
-							<strong class="big"><?=$v['name']?></strong>
-							<div class="inf">
-								<span>이메일:<?=$v['email']?></span>
-								<span>등록날짜:<?=$goose->util->convertDate($v['regdate'])?></span>
-								<span>권한:<?=$level?></span>
-							</div>
-							<nav>
-								<a href="<?=GOOSE_ROOT?>/user/modify/<?=$v['srl']?>/">수정</a>
-								<a href="<?=GOOSE_ROOT?>/user/delete/<?=$v['srl']?>/">삭제</a>
-							</nav>
-						</dd>
-					</dl>
-				</li>
+					<li>
+						<dl>
+							<dd>
+								<strong class="big"><?=$v['name']?></strong>
+								<div class="inf">
+									<span>E-Mail: <?=$v['email']?></span>
+									<span>Date: <?=$goose->util->convertDate($v['regdate'])?></span>
+									<span>Level: <?=$v['level']?></span>
+								</div>
+								<nav>
+									<a href="<?= GOOSE_ROOT ?>/user/modify/<?= $v['srl'] ?>/">수정</a>
+									<a href="<?= GOOSE_ROOT ?>/user/delete/<?= $v['srl'] ?>/">삭제</a>
+								</nav>
+							</dd>
+						</dl>
+					</li>
 			<?
+				}
 			}
 			?>
 		</ul>
@@ -50,6 +52,13 @@ $users = $goose->spawn->getItems(array(
 	?>
 	<nav class="btngroup">
 		<span><a href="<?=GOOSE_ROOT?>/user/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=GOOSE_ROOT?>/user/create/" class="ui-button btn-highlight">사용자 등록</a></span>
+		<?
+		if ($goose->isAdmin)
+		{
+		?>
+			<span><a href="<?= GOOSE_ROOT ?>/user/create/" class="ui-button btn-highlight">사용자 등록</a></span>
+		<?
+		}
+		?>
 	</nav>
 </section>

@@ -1,6 +1,14 @@
 <?
 if(!defined("GOOSE")){exit();}
 
+// check user level
+if (!$goose->isAdmin && ($_POST['email'] != $_SESSION['gooseEmail']))
+{
+	$goose->util->back("적용할 권한이 없습니다.");
+	$goose->out();
+}
+
+
 // email check
 function checkExistEmail()
 {
@@ -13,6 +21,7 @@ function checkExistEmail()
 	return ($cnt > 0) ? true : false;
 }
 
+// action
 switch($paramAction)
 {
 	case 'create':
@@ -57,15 +66,6 @@ switch($paramAction)
 		{
 			$goose->util->back("[$errorValue]값이 없습니다.");
 			$goose->out();
-		}
-		
-		if ($_SESSION['gooseEmail'] != $_POST['email'])
-		{
-			if ($_SESSION['gooseLevel'] < $goose->user['adminLevel'])
-			{
-				$goose->util->back("수정할 수 있는 권한이 없습니다.");
-				$goose->out();
-			}
 		}
 
 		// update db

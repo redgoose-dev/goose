@@ -67,6 +67,7 @@ function createUserFile($post, $dir)
 	$str .= "\$api_key = \"".$post['apiPrefix']."\";\n";
 	$str .= "\$user = array(\n";
 	$str .= "\t'adminLevel' => ".$post['adminLevel']."\n";
+    $str .= "\t,'loginLevel' => 1\n";
 	$str .= "\t,'indexCount' => 30\n";
 	$str .= "\t,'timezone' => '".$post['timezone']."'\n";
 	$str .= "\t,'skinDefault' => 'basic'\n";

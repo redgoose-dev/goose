@@ -14,7 +14,7 @@ switch ($paramAction)
 
 		if ($auth['pw'] == $pw)
 		{
-			if ($auth['level'] > $goose->user['adminLevel'])
+			if ($auth['level'] > $goose->user['loginLevel'])
 			{
 				$goose->util->back('접속 권한이 없습니다.');
 			}

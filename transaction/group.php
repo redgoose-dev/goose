@@ -1,6 +1,15 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+// check user level
+if (!$goose->isAdmin)
+{
+	$goose->util->back("적용할 권한이 없습니다.");
+	$goose->out();
+}
+
+
+// action
 switch($paramAction)
 {
 	// create

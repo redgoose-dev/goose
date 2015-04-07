@@ -29,6 +29,11 @@ class Goose {
 	public $user;
 
 	/**
+	 * is admin
+	 */
+	public $isAdmin;
+
+	/**
 	 * pwd
 	 */
 	private $pwd;
@@ -98,6 +103,7 @@ class Goose {
 			unset($api_key);
 			$this->user = $user;
 			unset($user);
+			$this->isAdmin = ($this->user['adminLevel'] == $_SESSION['gooseLevel']) ? true : false;
 
 			$this->spawn = new Spawn($dbConfig, $this->tablesName);
 			unset($dbConfig);

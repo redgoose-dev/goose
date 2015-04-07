@@ -1,53 +1,24 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+// set nest name
+$nestName = ($nest['srl']) ? '['.$nest['name'].'] ' : '';
+
+// set where by article
 if ($nest_srl)
 {
-	if ($nest['srl'])
-	{
-		$nestName = '['.$nest['name'].'] ';
-		$category = $goose->spawn->getItems(array(
-			'table' => 'categories',
-			'where' => 'nest_srl='.$nest['srl'],
-			'order' => 'turn',
-			'sort' => 'asc'
-		));
-	}
-	else
-	{
-		$goose->util->back('없는 둥지번호입니다.');
-		exit;
-	}
-
 	$where = 'nest_srl='.$nest_srl;
 	$where .= ($category_srl) ? ' and category_srl='.$category_srl : '';
 }
 
+// set article count
 $articleCount = $goose->spawn->getCount(array(
 	'table' => 'articles',
 	'where' => ($where) ? $where : ''
 ));
-$listType = (isset($nest['json']['listType'])) ? $nest['json']['listType'] : $listTypes[1];
 
-
-// init paginate
-if ($articleCount > 0)
-{
-	require_once(PWD.'/libs/Paginate.class.php');
-	$paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
-	$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
-	$paginate = new Paginate($articleCount, $_GET['page'], $paginateParameter, $nest['listCount'], 5);
-	$no = $paginate->no;
-
-	$article = $goose->spawn->getItems(array(
-		'field' => '*',
-		'table' => 'articles',
-		'where' => $where,
-		'order' => 'srl',
-		'sort' => 'desc',
-		'limit' => array($paginate->offset, $paginate->size)
-	));
-}
+// set list type
+$listType = (isset($nest['json']['listType'])) ? $nest['json']['listType'] : $listTypes[0];
 ?>
 
 <section>
@@ -62,21 +33,26 @@ if ($articleCount > 0)
 	<?
 	if ($nest['useCategory'] == 1)
 	{
+		$categories = $goose->spawn->getItems(array(
+			'table' => 'categories',
+			'where' => 'nest_srl='.$nest_srl,
+			'order' => 'turn',
+			'sort' => 'asc'
+		));
 	?>
 		<nav class="goose-categories">
 			<ul>
 				<?
-				$active = (!$category_srl) ? 'class="active"' : '';
 				$cnt = $goose->spawn->getCount(array(
 					'table' => 'articles',
 					'where' => 'nest_srl='.$nest_srl
 				));
 				?>
-				<li <?=$active?>>
+				<li <?=(!$category_srl) ? 'class="active"' : ''?>>
 					<a href="<?=GOOSE_ROOT?>/article/index/<?=$nest_srl?>/">All(<?=($cnt)?>)</a>
 				</li>
 				<?
-				foreach($category as $k=>$v)
+				foreach($categories as $k=>$v)
 				{
 					$cnt = $goose->spawn->getCount(array(
 						'table' => 'articles',
@@ -101,6 +77,21 @@ if ($articleCount > 0)
 		<?
 		if ($articleCount > 0)
 		{
+			require_once(PWD.'/libs/Paginate.class.php');
+			$paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
+			$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
+			$paginate = new Paginate($articleCount, $_GET['page'], $paginateParameter, $nest['listCount'], 5);
+			$no = $paginate->no;
+
+			$article = $goose->spawn->getItems(array(
+				'field' => '*',
+				'table' => 'articles',
+				'where' => $where,
+				'order' => 'srl',
+				'sort' => 'desc',
+				'limit' => array($paginate->offset, $paginate->size)
+			));
+
 			foreach ($article as $k=>$v)
 			{
 				$url = GOOSE_ROOT.'/article/view/';
@@ -157,7 +148,7 @@ if ($articleCount > 0)
 					?>
 					<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
 					<?
-					if (count($category) > 0)
+					if (count($categories) > 0)
 					{
 						$url = GOOSE_ROOT.'/category/index/';
 						$url .= ($nest_srl) ? $nest_srl.'/' : '';

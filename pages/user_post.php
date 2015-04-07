@@ -64,6 +64,7 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				<?
 				$level1 = null;
 				$level2 = null;
+				$disabled = null;
 				if ($paramAction == "modify")
 				{
 					$level1 = ($user['level'] == "1") ? ' checked = "checked"' : '';
@@ -73,14 +74,19 @@ $titleType = ($paramAction == 'delete') ? '삭제' : $titleType;
 				{
 					$level1 = ' checked = "checked"';
 				}
+				if ($goose->isAdmin)
+				{
 				?>
-				<dl class="table">
-					<dt><label for="level">권한</label></dt>
-					<dd>
-						<label><input type="radio" name="level" id="level1" value="1"<?=$level1?>/>관리자</label>
-						<label><input type="radio" name="level" id="level2" value="9"<?=$level2?>/>일반</label>
-					</dd>
-				</dl>
+					<dl class="table">
+						<dt><label for="level">권한</label></dt>
+						<dd>
+							<label><input type="radio" name="level" id="level1" value="1"<?=$level1?>/>관리자(1)</label>
+							<label><input type="radio" name="level" id="level2" value="9"<?=$level2?>/>일반(9)</label>
+						</dd>
+					</dl>
+				<?
+				}
+				?>
 			</fieldset>
 		<?
 		}

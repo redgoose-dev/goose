@@ -103,6 +103,16 @@ $nowSkin = ($_GET['skin']) ? $_GET['skin'] : $nowSkin;
 					<label><input type="radio" name="useCategory" value="1" <?=$useCategoryYes?>/> 사용</label>
 				</dd>
 			</dl>
+			<?
+			$nest['json']['permission'] = ($nest['json']['permission']) ? $nest['json']['permission'] : $goose->user['adminLevel'];
+			?>
+			<dl class="table">
+				<dt><label for="permission">권한</label></dt>
+				<dd>
+					<input type="number" name="permission" id="permission" min="1" max="10" size="3" value="<?=$nest['json']['permission']?>"/>
+					<p>숫자가 작을수록 권한이 높습니다.</p>
+				</dd>
+			</dl>
 		</fieldset>
 
 		<nav class="btngroup">
@@ -139,6 +149,7 @@ jQuery(function($){
 		,submitHandler : function(form) {
 			var json = {
 				skin : form.skin.value
+				,permission : form.permission.value
 			};
 			form.json.value = encodeURIComponent(JSON.stringify(json));
 			form.submit();

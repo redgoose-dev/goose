@@ -1,6 +1,13 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+// check user level
+if (!$goose->isAdmin)
+{
+	$goose->util->back("적용할 권한이 없습니다.");
+	$goose->out();
+}
+
 
 // convert
 $json = (isset($_POST['json'])) ? $goose->util->jsonToArray($_POST['json']) : null;
