@@ -54,7 +54,7 @@ if(!defined("GOOSE")){exit();}
 			foreach ($nestsIndex as $k=>$v)
 			{
 				$v['json'] = json_decode(urldecode($v['json']), true);
-				if ($v['json']['permission'] < $_SESSION['gooseLevel'])
+				if ($v['json']['permission'] && $v['json']['permission'] < $_SESSION['gooseLevel'])
 				{
 					continue;
 				}
