@@ -10,7 +10,7 @@ var UploadInterface = function(el, options) {
 	this.$drop = null;
 	this.$queue = $('<div class="filesQueue"><figure class="thumnail"></figure><ul></ul></div>');
 	this.$controller = $('<nav id="queueController"></nav>');
-	this.readyItem = new Array();
+	this.readyItem = [];
 	this.thumnail = new Thumnail(self, {
 		type : self.settings.thumnail.type
 		,size : self.settings.thumnail.size.split('*')
@@ -38,7 +38,7 @@ var UploadInterface = function(el, options) {
 
 		self.$controller
 			.append($(dom))
-			.children('button').on('click', function(e){
+			.children('button').on('click', function(){
 				switch($(this).attr('rg-action'))
 				{
 					// insert content
@@ -63,7 +63,7 @@ var UploadInterface = function(el, options) {
 				}
 			})
 		;
-	}
+	};
 
 	/**
 	 * Events init
@@ -85,7 +85,7 @@ var UploadInterface = function(el, options) {
 				self.key = true;
 			}
 		});
-		$(window).on('keyup', function(e){
+		$(window).on('keyup', function(){
 			self.key = false;
 		});
 
@@ -110,18 +110,18 @@ var UploadInterface = function(el, options) {
 					{
 						e.preventDefault();
 						e.stopPropagation();
-						$(this).removeClass('drag')
+						$(this).removeClass('drag');
 						self.upload(e.originalEvent.dataTransfer.files);
 					}
 				}
 			});
 		}
-	}
+	};
 
 	/**
 	 * get cursor position
 	 *
-	 * @param {DOM} $el
+	 * @param {Object} $el
 	 * @return {Number}
 	 */
 	var getCursorPosition = function($el)
@@ -141,7 +141,7 @@ var UploadInterface = function(el, options) {
 			pos = Sel.text.length - SelLength;
 		}
 		return pos;
-	}
+	};
 
 	/**
 	 * byte to size convert
@@ -155,7 +155,7 @@ var UploadInterface = function(el, options) {
 		if (bytes == 0) return '0 Byte';
 		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-	}
+	};
 
 	/**
 	 * File upload
@@ -170,7 +170,7 @@ var UploadInterface = function(el, options) {
 			,self.queue.index[item.key]
 			,item.file
 		);
-	}
+	};
 
 	/**
 	 * reset file input
@@ -178,7 +178,7 @@ var UploadInterface = function(el, options) {
 	var resetInput = function()
 	{
 		$el.replaceWith( $el = $el.clone( true ) );
-	}
+	};
 
 	/**
 	 * get file type
@@ -214,7 +214,7 @@ var UploadInterface = function(el, options) {
 		{
 			return null;
 		}
-	}
+	};
 
 	/**
 	 * file upload method
@@ -251,7 +251,7 @@ var UploadInterface = function(el, options) {
 		{
 			alert('not install queue manager');
 		}
-	}
+	};
 
 	/**
 	 * upload progress
@@ -268,7 +268,7 @@ var UploadInterface = function(el, options) {
 		queue.element.find('span.size').text(percent + '%');
 		queue.element.find('span.status').text('Loading');
 		queue.element.find('div.progress span').width(percent + '%');
-	}
+	};
 
 	/**
 	 * upload complete
@@ -307,7 +307,7 @@ var UploadInterface = function(el, options) {
 		{
 			fileUpload(self.readyItem[0]);
 		}
-	}
+	};
 
 	/**
 	 * upload error
@@ -315,7 +315,7 @@ var UploadInterface = function(el, options) {
 	this.uploadError = function(message, queue)
 	{
 		log(message);
-	}
+	};
 
 	/**
 	 * push queue
@@ -348,18 +348,18 @@ var UploadInterface = function(el, options) {
 				self.refreshAddQueue();
 			}
 		}
-	}
+	};
 
 	/**
 	 * insert content
-	 * 
-	 * @param {DOM} $queue
+	 *
+	 * @param {Object} $queue
 	 * @return void
 	 */
 	this.insertContent = function($queue)
 	{
 		var keyword = '';
-		var urls = new Array();
+		var urls = [];
 		var items = ($queue) ? new Array(self.queue.index[$queue.attr('key')]) : self.queue.getItems();
 
 		for (var i=0; i<items.length; i++)
@@ -383,7 +383,7 @@ var UploadInterface = function(el, options) {
 				$content.val(newContent);
 			}
 		}
-	}
+	};
 
 	/**
 	 * select all queue
@@ -391,7 +391,7 @@ var UploadInterface = function(el, options) {
 	this.selectAllQueue = function()
 	{
 		self.queue.selectAllQueue();
-	}
+	};
 
 	/**
 	 * delete select queue
@@ -410,7 +410,7 @@ var UploadInterface = function(el, options) {
 				alert('선택한 파일이 없습니다.');
 			}
 		}
-	}
+	};
 
 	/**
 	 * delete all queue
@@ -430,7 +430,7 @@ var UploadInterface = function(el, options) {
 				alert('업로드 되어있는 파일이 없습니다.');
 			}
 		}
-	}
+	};
 
 	/**
 	 * refresh add queue
@@ -444,7 +444,7 @@ var UploadInterface = function(el, options) {
 			}
 		}).join(',');
 		self.settings.form.addQueue.value = value;
-	}
+	};
 
 	/**
 	 * thumnail image exist check
@@ -482,7 +482,7 @@ var UploadInterface = function(el, options) {
 				return false;
 			}
 		}
-	}
+	};
 
 	// action
 	if (self.settings.$manager)
@@ -504,7 +504,7 @@ var UploadInterface = function(el, options) {
 		self.ready = true;
 	}
 
-}
+};
 
 
 /**

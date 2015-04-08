@@ -30,7 +30,7 @@ var Thumnail = function(parent, options) {
 	/**
 	 * window template
 	 * 
-	 * @return {DOM}
+	 * @return {Object}
 	 */
 	var template = function()
 	{
@@ -49,7 +49,7 @@ var Thumnail = function(parent, options) {
 		str += '</div>\n';
 		str += '</div>';
 		return $(str);
-	}
+	};
 
 	/**
 	 * get ratio
@@ -63,18 +63,18 @@ var Thumnail = function(parent, options) {
 		var result = parseInt(w) / parseInt(h);
 		result = Math.round(result * 1000) / 1000;
 		return result;
-	}
+	};
 
 	/**
 	 * get image ratio
 	 * 
-	 * @param {DOM} $img
+	 * @param {Object} $img
 	 * @param {String} type
 	 * @return {Number}
 	 */
 	var getImageRatio = function($img, type)
 	{
-		var size = new Array();
+		var size = [];
 		switch(type)
 		{
 			case 'resize':
@@ -93,12 +93,12 @@ var Thumnail = function(parent, options) {
 				break;
 		}
 		return getRatio(size[0], size[1]);
-	}
+	};
 
 	/**
 	 * get output size
 	 * 
-	 * @param {DOM} $img
+	 * @param {Object} $img
 	 * @param {String} type
 	 * @param {Array} size
 	 * @return {Array}
@@ -134,12 +134,12 @@ var Thumnail = function(parent, options) {
 				break;
 		}
 		return [w, h];
-	}
+	};
 
 	/**
 	 * resize preview
 	 * 
-	 * @param {DOM} o
+	 * @param {Object} o
 	 * @param {Number} limit
 	 * @param {Number} size
 	 */
@@ -161,14 +161,14 @@ var Thumnail = function(parent, options) {
 				o.height(limit);
 			}
 		}
-	}
+	};
 
 	/**
 	 * get select coords
 	 * 
-	 * @param {$img} $img
-	 * @param {type} type
-	 * @param {coords} coords
+	 * @param {Object} $img
+	 * @param {String} type
+	 * @param {Array} coords
 	 * @return {Array}
 	 */
 	var getSelectCoords = function($img, type, coords)
@@ -188,15 +188,14 @@ var Thumnail = function(parent, options) {
 				return [0, 0, $img.width(), $img.height()];
 			}
 		}
-	}
+	};
 
 	/**
 	 * onload preview image
-	 * 
-	 * @param {Event} e
+	 *
 	 * @return void
 	 */
-	var onloadPreviewImage = function(e)
+	var onloadPreviewImage = function()
 	{
 		var $img = self.$window.find('figure > img');
 
@@ -244,8 +243,8 @@ var Thumnail = function(parent, options) {
 				/* ,marginTop : 0 - ($wrap.height() * 0.5) + 'px' */
 			});
 	
-			$btnCenter.on('click', function(e){
-				var x, y, x2, y2;
+			$btnCenter.on('click', function(){
+				var x, y;
 				var src = jcrop.tellSelect();
 				x = ($img.width() * 0.5) - (src.w * 0.5);
 				y = ($img.height() * 0.5) - (src.h * 0.5);
@@ -256,14 +255,14 @@ var Thumnail = function(parent, options) {
 					,parseInt(y + src.h)
 					,parseInt(src.w)
 					,parseInt(src.h)
-				]
+				];
 				jcrop.animateTo(self.data.coords);
 			});
-			$btnClose.on('click', function(e){
+			$btnClose.on('click', function(){
 				self.close();
 			});
 		});
-	}
+	};
 
 	/**
 	 * get image data
@@ -300,7 +299,7 @@ var Thumnail = function(parent, options) {
 		);
 
 		return $canvas.get(0).toDataURL("image/jpeg", self.settings.quality);
-	}
+	};
 
 
 	/**
@@ -330,12 +329,11 @@ var Thumnail = function(parent, options) {
 			$('body').append(self.$window);
 			$img.get(0).onload = onloadPreviewImage;
 		}
-	}
+	};
 
 	/**
 	 * close
-	 * 
-	 * @param {}
+	 *
 	 * @return void
 	 */
 	this.close = function()
@@ -355,7 +353,7 @@ var Thumnail = function(parent, options) {
 		self.queue = null;
 	}
 
-}
+};
 
 
 // default variables
@@ -363,4 +361,4 @@ Thumnail.prototype.defaults = {
 	type : 'crop'
 	,size : [200,200]
 	,quality : 0.7
-}
+};

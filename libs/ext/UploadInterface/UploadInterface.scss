@@ -17,7 +17,8 @@
 				display: block;
 				left: 0; right: 0; top: 50%;
 				margin-top: -8px;
-				text-align: center; font-size: 16px; font-family: Helvetica; font-weight: 600; color: #ddd;
+				text-align: center; font-size: 16px;
+				font-family: 'Helvetica', serif; font-weight: 600; color: #ddd;
 			}
 			img {
 				position: relative;
@@ -61,7 +62,7 @@
 		.body {
 			padding-right: 70px;
 			font-size: 12px; color: #333;
-			word-break: break-word;
+			word-break: break-all;
 			.size {
 				color: #666;
 				&:before {content: '(';}

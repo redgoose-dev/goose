@@ -1,9 +1,9 @@
 /**
  * File upload class
- * 
+ *
  * @author : redgoose
  * @param {UploadInterface} parent
- * @param {String} action : 파일처리 백엔드 url
+ * @param {String} action 파일처리 백엔드 url
  * @param {Object} queue
  * @param {File} file
  * @return void
@@ -36,8 +36,9 @@ var FileUpload = function(parent, action, queue, file)
 
 	/**
 	 * upload success callback
-	 * 
-	 * @param {XMLHttpRequestProgressEvent} e
+	 *
+	 * @Param {XMLHttpRequestProgressEvent} e
+	 * @Param {Object} queue
 	 * @return void
 	 */
 	var uploadSuccess = function(e, queue)
@@ -67,4 +68,4 @@ var FileUpload = function(parent, action, queue, file)
 			}
 		}
 	}
-}
+};

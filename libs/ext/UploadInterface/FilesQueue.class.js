@@ -1,13 +1,13 @@
-var FilesQueue = function(getParent, $el, options) {
+var FilesQueue = function(getParent, $el) {
 
 	var self = this;
 	var parent = getParent;
 
 	this.$preview = $el.children('figure.thumnail');
 	this.$index = $el.children('ul');
-	this.index = new Object();
+	this.index = {};
 	this.count = 0;
-	this.active = new Array();
+	this.active = [];
 
 
 	/**
@@ -16,9 +16,9 @@ var FilesQueue = function(getParent, $el, options) {
 	 * @author : redgoose
 	 * @param {String} key
 	 * @param {String} filename
-	 * @param {String} status
+	 * 	@param {String} status
 	 * @param {String} type
-	 * @return {DOM} : queue element
+	 * @return {Object} : queue element
 	 */
 	this.template = function(key, filename, status, type)
 	{
@@ -42,19 +42,18 @@ var FilesQueue = function(getParent, $el, options) {
 		item += '</li>';
 
 		return $(item);
-	}
+	};
 
 	/**
 	 * queue event init
 	 *
-	 * @author : redgoose
-	 * @param {DOM} obj
+	 * @param {Object} obj
 	 * @return void
 	 */
 	var queueEventInit = function(obj)
 	{
 		// select queue
-		obj.on('click', function(e){
+		obj.on('click', function(){
 			var item = self.getIndexItem($(this).attr('key'));
 			self.selectQueue(item);
 		});
@@ -83,7 +82,7 @@ var FilesQueue = function(getParent, $el, options) {
 					break;
 			}
 		});
-	}
+	};
 
 
 	/**
@@ -119,13 +118,13 @@ var FilesQueue = function(getParent, $el, options) {
 
 		self.count++;
 		return key;
-	}
+	};
 
 	/**
 	 * select queue
 	 *
 	 * @author : redgoose
-	 * @param {} : ...
+	 * @param {Object} queue
 	 * @return void
 	 */
 	this.selectQueue = function(queue)
@@ -148,7 +147,7 @@ var FilesQueue = function(getParent, $el, options) {
 				self.$preview.html('<img src="' + parent.settings.fileDir + queue.location + '" alt="" />');
 			}
 		}
-	}
+	};
 
 	/**
 	 * select all queue
@@ -165,13 +164,13 @@ var FilesQueue = function(getParent, $el, options) {
 		{
 			self.$index.children('li').addClass('on');
 		}
-	}
+	};
 
 	/**
 	 * remove queue
 	 *
 	 * @author : redgoose
-	 * @param {DOM} $queue
+	 * @param {Object} $queue
 	 * @return void
 	 */
 	this.removeQueue = function($queue)
@@ -215,7 +214,7 @@ var FilesQueue = function(getParent, $el, options) {
 				})
 			;
 		}
-	}
+	};
 
 	/**
 	 * clear preview
@@ -226,7 +225,7 @@ var FilesQueue = function(getParent, $el, options) {
 	this.clearPreview = function()
 	{
 		self.$preview.html('');
-	}
+	};
 
 	/**
 	 * get index item
@@ -237,7 +236,7 @@ var FilesQueue = function(getParent, $el, options) {
 	this.getIndexItem = function(key)
 	{
 		return self.index[key];
-	}
+	};
 
 	/**
 	 * get items
@@ -249,7 +248,7 @@ var FilesQueue = function(getParent, $el, options) {
 		return self.$index.children('li.on').map(function(o){
 			return self.index[$(this).attr('key')];
 		});
-	}
+	};
 
 	/**
 	 * get thumnail item
@@ -259,7 +258,7 @@ var FilesQueue = function(getParent, $el, options) {
 	this.getThumnailItem = function()
 	{
 		return self.index[self.$index.children('li.thumnail').attr('key')];
-	}
+	};
 
 	/**
 	 * remove thumnail class
@@ -270,4 +269,4 @@ var FilesQueue = function(getParent, $el, options) {
 		$item.addClass('thumnail');
 	}
 
-}
+};
