@@ -112,7 +112,7 @@ if(!defined("GOOSE")){exit();}
 		else
 		{
 		?>
-			<li class="empty">데이터가 없습니다.</li>;
+			<li class="empty">데이터가 없습니다.</li>
 		<?
 		}
 		?>
