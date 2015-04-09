@@ -78,18 +78,18 @@ if(!defined("GOOSE")){exit();}
 									<?=$categoryCount?>
 									<span>Level:<?=$v['json']['permission']?></span>
 								</div>
-								<?
-								if ($goose->isAdmin)
-								{
-								?>
-									<nav>
+								<nav>
+									<?
+									if ($goose->isAdmin)
+									{
+									?>
 										<a href="<?=GOOSE_ROOT?>/nest/modify/<?=$v['srl']?>/">수정</a>
 										<a href="<?=GOOSE_ROOT?>/nest/delete/<?=$v['srl']?>/">삭제</a>
-										<?=$categoryBtn?>
-									</nav>
-								<?
-								}
-								?>
+									<?
+									}
+									?>
+									<?=$categoryBtn?>
+								</nav>
 							</dd>
 						</dl>
 					</li>
