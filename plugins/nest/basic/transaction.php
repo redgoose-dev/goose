@@ -65,9 +65,9 @@ switch($paramAction)
 		// update group_srl
 		$result = $goose->spawn->update(array(
 			'table' => 'articles',
-			'where' => "nest_srl='$_POST[srl]'",
+			'where' => "nest_srl=".(int)$_POST['srl'],
 			'data' => array(
-				"group_srl='$_POST[group_srl]'"
+				"group_srl=".(int)$_POST['group_srl']
 			)
 		));
 
@@ -76,7 +76,7 @@ switch($paramAction)
 			'table' => 'nests',
 			'where' => 'srl='.(int)$_POST['srl'],
 			'data' => array(
-				"group_srl='$_POST[group_srl]'",
+				"group_srl=".(int)$_POST['group_srl'],
 				"name='$_POST[name]'",
 				"listCount='$listCount'",
 				"useCategory='$_POST[useCategory]'",
@@ -125,4 +125,3 @@ switch($paramAction)
 		$redirectUrl = GOOSE_ROOT.'/nest/index/'.$params;
 		break;
 }
-?>

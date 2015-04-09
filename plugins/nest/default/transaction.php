@@ -43,4 +43,3 @@ if ($paramAction == 'delete' && $articles)
 		));
 	}
 }
-?>

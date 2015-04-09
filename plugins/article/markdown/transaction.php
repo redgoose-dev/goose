@@ -48,7 +48,7 @@ switch($paramAction)
 			'table' => 'articles'
 			,'where' => 'srl='.(int)$_POST['article_srl']
 			,'data' => array(
-				"category_srl='$_POST[category_srl]'"
+				"category_srl=".(int)$_POST[category_srl]
 				,"title='".addslashes($_POST['title'])."'"
 				,"content='".addslashes($_POST['content'])."'"
 				,"modate='$regdate'"
@@ -94,4 +94,3 @@ switch($paramAction)
 
 // attach files
 require_once('transaction_files.php');
-?>

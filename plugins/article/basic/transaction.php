@@ -41,7 +41,7 @@ switch($paramAction)
 			'table' => 'articles',
 			'where' => 'srl='.(int)$_POST['article_srl'],
 			'data' => array(
-				"category_srl='$_POST[category_srl]'",
+				"category_srl=".(int)$_POST['category_srl'],
 				"title='$_POST[title]'",
 				"content='$_POST[content]'",
 				"modate='$regdate'",
@@ -66,4 +66,3 @@ switch($paramAction)
 		$goose->util->redirect(GOOSE_ROOT.'/article/index/'.$addUrl.(($params) ? '?'.$params : ''));
 		break;
 }
-?>
