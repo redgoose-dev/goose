@@ -57,7 +57,7 @@
 	margin: 15px 0;
 	.hgroup {
 		padding: 0 $margin_side;
-		font-family: "Lucida Grande";
+		font-family: "Lucida Grande", sans-serif;
 	}
 	@media all and (min-width:$width-for-desktop) {
 		margin: 15px $margin_side 20px;
@@ -89,8 +89,8 @@
 
 /* Categories */
 .goose-categories {
-	border-bottom: 1px solid #ddd; padding: 5px;
-	padding-left: $margin_side - 5;
+	border-bottom: 1px solid #ddd;
+	padding: 5px 5px 5px $margin_side - 5;
 	ul {
 		@extend %ul;
 		@extend %clear;
@@ -122,13 +122,13 @@
 		display: block;
 		color: #b68250; font-size: 14px;
 		overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-		
 		&.big {font-size: 16px;}
+		&.disabled {color: #999;}
 	}
 	.inf {font-size: 13px; color: #666; margin-top: 3px;}
 	.noimg {
 		overflow: hidden; width: 100%; height: 100%;
-		font-family: 'Helvetica'; font-size: 12px; text-align: center; color: #fff; text-transform: uppercase;
+		font-family: 'Helvetica', sans-serif; font-size: 12px; text-align: center; color: #fff; text-transform: uppercase;
 		background: #ccc;
 	}
 	nav {
