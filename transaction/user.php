@@ -91,4 +91,3 @@ switch($paramAction)
 		$goose->util->redirect(GOOSE_ROOT.'/user/index/');
 		break;
 }
-?>
