@@ -1,6 +1,7 @@
 <?php
 if(!defined("GOOSE")){exit();}
 
+
 /**
  * Spawn Class
  * Created on 2014
@@ -13,8 +14,9 @@ class Spawn extends Database {
 
 	/**
 	 * init method
-	 * 
-	 * @param Array $config : 데이터베이스 접속정보 배열값
+	 *
+	 * @param array $config 데이터베이스 접속정보 배열값
+	 * @param array $tablesName Goose tables name
 	 * @return Spawn
 	**/
 	public function Spawn($config, $tablesName=null)
@@ -102,6 +104,7 @@ class Spawn extends Database {
 	// insert
 	public function insert($get)
 	{
+		$result = '';
 		$get['table'] = self::adjustTableName($get['table']);
 		if ($get['table'] and $get['data'])
 		{
@@ -123,8 +126,7 @@ class Spawn extends Database {
 			$sw = true;
 			foreach ($get['data'] as $k=>$v)
 			{
-				//$v = ($v) ? '\''.$v.'\'' : 'null';
-				$v = '\''.$v.'\'';
+				$v = (!is_null($v)) ? '\''.$v.'\'' : 'null';
 				if ($sw == true)
 				{
 					$sw = false;
@@ -144,7 +146,7 @@ class Spawn extends Database {
 		}
 		else
 		{
-			return parent::action($result);;
+			return parent::action($result);
 		}
 	}
 
@@ -156,6 +158,7 @@ class Spawn extends Database {
 	**/
 	public function update($get)
 	{
+		$result = '';
 		$get['table'] = self::adjustTableName($get['table']);
 		if ($get['table'] and $get['data'] and $get['where'])
 		{
@@ -187,12 +190,13 @@ class Spawn extends Database {
 
 	/**
 	 * Item delete
-	 * 
-	 * @param Array $get : 요청 파라메터 배열
-	 * @return String : 결과값
+	 *
+	 * @param array $get 요청 파라메터 배열
+	 * @return string 결과값
 	**/
 	public function delete($get)
 	{
+		$result = null;
 		$get['table'] = self::adjustTableName($get['table']);
 		if ($get['table'] and $get['where'])
 		{
@@ -212,8 +216,8 @@ class Spawn extends Database {
 	/**
 	 * Query action
 	 * 
-	 * @param String $query : 쿼리문
-	 * @return String : 처리 결과값
+	 * @param string $query 쿼리문
+	 * @return string 처리 결과값
 	 */
 	public function action($query)
 	{
@@ -223,9 +227,9 @@ class Spawn extends Database {
 	/**
 	 * Get items index
 	 * 
-	 * @param Array $data : 요청 파라메터 배열
-	 * @return Array : 결과값
-	**/
+	 * @param array $data 요청 파라메터 배열
+	 * @return array
+	 */
 	public function getItems($data)
 	{
 		$data['act'] = 'select';
@@ -245,9 +249,9 @@ class Spawn extends Database {
 	/**
 	 * Get items data
 	 * 
-	 * @param Array $data : 요청 파라메터 배열
-	 * @return Array : 결과값
-	**/
+	 * @param array $data 요청 파라메터 배열
+	 * @return array
+	 */
 	public function getItem($data)
 	{
 		$data['act'] = 'select';
@@ -267,9 +271,9 @@ class Spawn extends Database {
 	/**
 	 * Get item count
 	 * 
-	 * @param Array $data : 요청 파라메터 배열
-	 * @return Array : 결과값
-	**/
+	 * @param array $data 요청 파라메터 배열
+	 * @return array
+	 */
 	public function getCount($data)
 	{
 		$data['act'] = 'select';
@@ -286,4 +290,3 @@ class Spawn extends Database {
 		}
 	}
 }
-?>
