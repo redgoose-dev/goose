@@ -23,9 +23,9 @@ switch($paramAction)
 			'table' => 'articles',
 			'data' => array(
 				'srl' => null,
-				'group_srl' => $_POST['group_srl'],
-				'nest_srl' => $_POST['nest_srl'],
-				'category_srl' => $_POST['category_srl'],
+				'group_srl' => ($_POST['group_srl']) ? $_POST['group_srl'] : null,
+				'nest_srl' => ($_POST['nest_srl']) ? $_POST['nest_srl'] : null,
+				'category_srl' => ($_POST['category_srl']) ? $_POST['category_srl'] : null,
 				'title' => addslashes($_POST['title']),
 				'content' => addslashes($_POST['content']),
 				'regdate' => $regdate,
@@ -35,7 +35,6 @@ switch($paramAction)
 				'ipAddress' => $ipAddress
 			)
 		));
-
 		$addUrl = ($_POST['category_srl']) ? $_POST['category_srl'].'/' : '';
 		$redirectUrl = GOOSE_ROOT.'/article/index/'.$_POST['nest_srl'].'/'.$addUrl;
 		break;

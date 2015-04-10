@@ -8,8 +8,8 @@ switch($paramAction)
 		$files = ($_FILES['file']) ? $_FILES['file'] : $_FILES['Filedata'];
 		if (!$files)
 		{
-			echo '$_FILES error';
-			exit;
+			echo '{"status":"error","message":"not found $_FILES error"}';
+			$goose->out();
 		}
 
 		// 변수정의
@@ -17,7 +17,7 @@ switch($paramAction)
 		$dir_relative = GOOSE_URL.'/data/original/';
 		$originalFileName = $files['name'];
 		$regdate = date("YmdHis");
-		$month = Date(Ym);
+		$month = Date('Ym');
 		$files['type'] = strtolower($files['type']);
 
 		// 날짜 디렉토리 만들기
@@ -49,8 +49,8 @@ switch($paramAction)
 		}
 		else
 		{
-			echo 'no file';
-			exit;
+			echo '{"status":"error","message":"no file"}';
+			$goose->out();
 		}
 
 		// 상대경로 파일주소 정의
@@ -116,5 +116,3 @@ switch($paramAction)
 }
 
 $goose->out();
-exit;
-?>

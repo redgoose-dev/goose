@@ -10,11 +10,18 @@ jQuery(function($){
 		,limit : 5
 		,thumnail : userData.thumnail
 		,$insertTarget : $('#content')
-		,insertFunc : function(urls){
+		,insertFunc : function(params){
 			var str = '';
-			for (var i=0; i<urls.length; i++)
+			for (var i=0; i<params.length; i++)
 			{
-				str += '![](' + urls[i] + ')\n';
+				if (/^image/.test(params[i].type))
+				{
+					str += '![](' + params[i].url + ')\n';
+				}
+				else
+				{
+					str += '[' + params[i].name + '](' + params[i].url + ')';
+				}
 			}
 			var $content = $(form.content);
 			var position = getCursorPosition($content);

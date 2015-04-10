@@ -279,33 +279,39 @@ var UploadInterface = function(el, options) {
 	 */
 	this.uploadComplete = function(response, queue)
 	{
-		var data = JSON.parse(response);
-		queue.status = 'complete';
-		queue.srl = data.sess_srl;
-		queue.location = data.loc;
-		queue.type = 'session';
+		try {
+			var data = JSON.parse(response);
+			queue.status = 'complete';
+			queue.srl = data.sess_srl;
+			queue.location = data.loc;
+			queue.type = 'session';
 
-		// edit queue
-		queue.element.find('span.size').text(bytesToSize(queue.filesize));
-		queue.element.find('span.status').text(queue.status);
+			// edit queue
+			queue.element.find('span.size').text(bytesToSize(queue.filesize));
+			queue.element.find('span.status').text(queue.status);
 
-		// hide progress
-		if (queue.status == 'complete')
-		{
-			queue.element.find('div.progress').delay(200).fadeOut(400);
-		}
+			// hide progress
+			if (queue.status == 'complete')
+			{
+				queue.element.find('div.progress').delay(200).fadeOut(400);
+			}
 
-		// reset file input
-		resetInput();
+			// reset file input
+			resetInput();
 
-		// refresh addQueue
-		self.refreshAddQueue();
+			// refresh addQueue
+			self.refreshAddQueue();
 
-		// upload next file
-		self.readyItem.splice(0, 1);
-		if (self.readyItem.length)
-		{
-			fileUpload(self.readyItem[0]);
+			// upload next file
+			self.readyItem.splice(0, 1);
+			if (self.readyItem.length)
+			{
+				fileUpload(self.readyItem[0]);
+			}
+		} catch(e) {
+			// error upload
+			// 에러가 났을때 처리. 로딩하고 있는 큐는 삭제한다.
+			log(queue);
 		}
 	};
 
@@ -359,20 +365,24 @@ var UploadInterface = function(el, options) {
 	this.insertContent = function($queue)
 	{
 		var keyword = '';
-		var urls = [];
+		var params = [];
 		var items = ($queue) ? new Array(self.queue.index[$queue.attr('key')]) : self.queue.getItems();
 
 		for (var i=0; i<items.length; i++)
 		{
 			keyword += '<img src="' + self.settings.fileDir + items[i].location + '" alt="" />\n';
-			urls.push(self.settings.fileDir + items[i].location);
+			params.push({
+				url : self.settings.fileDir + items[i].location
+				,type : items[i].filetype
+				,name : items[i].filename
+			});
 		}
 
-		if (urls.length)
+		if (params.length)
 		{
 			if (self.settings.insertFunc)
 			{
-				self.settings.insertFunc(urls);
+				self.settings.insertFunc(params);
 			}
 			else if (self.settings.$insertTarget)
 			{
