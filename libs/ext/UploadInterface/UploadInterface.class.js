@@ -344,34 +344,38 @@ var UploadInterface = function(el, options) {
 	 */
 	this.insertContent = function($queue)
 	{
-		var keyword = '';
-		var params = [];
 		var items = ($queue) ? new Array(self.queue.index[$queue.attr('key')]) : self.queue.getItems();
-
-		for (var i=0; i<items.length; i++)
+		if (self.settings.insertFunc)
 		{
-			keyword += '<img src="' + self.settings.fileDir + items[i].location + '" alt="" />\n';
-			params.push({
-				url : self.settings.fileDir + items[i].location
-				,type : items[i].filetype
-				,name : items[i].filename
-			});
+			var params = [];
+			for (var i=0; i<items.length; i++)
+			{
+				params.push({
+					url : self.settings.fileDir + items[i].location
+					,type : items[i].filetype
+					,name : items[i].filename
+				});
+			}
+			self.settings.insertFunc(params);
 		}
-
-		if (params.length)
+		else if (self.settings.$insertTarget)
 		{
-			if (self.settings.insertFunc)
+			var $content = self.settings.$insertTarget;
+			var position = getCursorPosition($content);
+			var content = $content.val();
+			var keyword = '';
+			for (var i=0; i<items.length; i++)
 			{
-				self.settings.insertFunc(params);
+				if (/^image/.test(items[i].filetype))
+				{
+					keyword += '<img src="' + self.settings.fileDir + items[i].location + '" alt="" />\n';
+				}
+				else
+				{
+					keyword += '<a href="' + self.settings.fileDir + items[i].location + '">' + items[i].filename + '</a>\n';
+				}
 			}
-			else if (self.settings.$insertTarget)
-			{
-				var $content = self.settings.$insertTarget;
-				var position = getCursorPosition($content);
-				var content = $content.val();
-				var newContent = content.substr(0, position) + keyword + content.substr(position);
-				$content.val(newContent);
-			}
+			$content.val(content.substr(0, position) + keyword + content.substr(position));
 		}
 	};
 
