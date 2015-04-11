@@ -10,7 +10,7 @@ var UploadInterface = function(el, options) {
 	this.$drop = null;
 	this.$queue = $('<div class="filesQueue"><ul></ul></div>');
 	this.$controller = $('<nav id="queueController"></nav>');
-	this.readyItem = new Array();
+	this.readyItem = [];
 	this.thumnail = new Thumnail(self, {
 		type : self.settings.thumnail.type
 		,size : self.settings.thumnail.size.split('*')
@@ -58,7 +58,7 @@ var UploadInterface = function(el, options) {
 				}
 			})
 		;
-	}
+	};
 
 	/**
 	 * Events init
@@ -120,7 +120,7 @@ var UploadInterface = function(el, options) {
 			,placeHolderTemplate: '<li class="placeHolder"><div></div></li>'
 			,dragEnd: function() {}
 		});
-	}
+	};
 
 	/**
 	 * byte to size convert
@@ -134,7 +134,7 @@ var UploadInterface = function(el, options) {
 		if (bytes == 0) return '0 Byte';
 		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-	}
+	};
 
 	/**
 	 * File upload
@@ -149,7 +149,7 @@ var UploadInterface = function(el, options) {
 			,self.queue.index[item.key]
 			,item.file
 		);
-	}
+	};
 
 	/**
 	 * reset file input
@@ -157,43 +157,7 @@ var UploadInterface = function(el, options) {
 	var resetInput = function()
 	{
 		$el.replaceWith( $el = $el.clone( true ) );
-	}
-
-	/**
-	 * get file type
-	 *
-	 * @param {String} filename
-	 * @return {String}
-	 */
-	this.getFileType = function(filename)
-	{
-		var type = (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : undefined;
-
-		if (/(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i.test(filename))
-		{
-			return 'image/' + type;
-		}
-		else if (/(\.mp4|\.mov)/gi.test(filename))
-		{
-			return 'video/' + type;
-		}
-		else if (/(\.m4a|\.mp3)/gi.test(filename))
-		{
-			return 'audio/' + type;
-		}
-		else if (/(\.txt)/i.test(filename))
-		{
-			return 'text/' + type;
-		}
-		else if (/(\.pdf|\.zip|\.psd)/i.test(filename))
-		{
-			return 'application/' + type;
-		}
-		else
-		{
-			return null;
-		}
-	}
+	};
 
 	/**
 	 * file upload method
@@ -206,19 +170,27 @@ var UploadInterface = function(el, options) {
 		{
 			var files = (getFiles) ? getFiles : $el.get(0).files;
 			var count = Object.keys(self.queue.index).length + files.length;
+			var errorMsg = null;
 
 			if (self.settings.limit && (count > self.settings.limit))
 			{
-				alert('파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.');
+				errorMsg = '파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.';
 			}
 			else
 			{
 				for (var n = 0; n < files.length; n++)
 				{
-					self.readyItem.push({
-						key : self.queue.createQueue(files[n])
-						,file : files[n]
-					});
+					if (files[n].size < this.settings.filesizeLimit)
+					{
+						self.readyItem.push({
+							key : self.queue.createQueue(files[n])
+							,file : files[n]
+						});
+					}
+					else
+					{
+						errorMsg = '허용용량을 초과하는 파일이 있습니다.\n허용용량은 ' + bytesToSize(this.settings.filesizeLimit) + '까지입니다.';
+					}
 				}
 				if (self.readyItem.length)
 				{
@@ -228,9 +200,15 @@ var UploadInterface = function(el, options) {
 		}
 		else
 		{
-			alert('not install queue manager');
+			errorMsg = 'not install queue manager';
 		}
-	}
+
+		if (errorMsg)
+		{
+			alert(errorMsg);
+			return false;
+		}
+	};
 
 	/**
 	 * upload progress
@@ -247,7 +225,7 @@ var UploadInterface = function(el, options) {
 		queue.element.find('span.size').text(percent + '%');
 		queue.element.find('span.status').text('Loading');
 		queue.element.find('div.progress span').width(percent + '%');
-	}
+	};
 
 	/**
 	 * upload complete
@@ -258,41 +236,49 @@ var UploadInterface = function(el, options) {
 	 */
 	this.uploadComplete = function(response, queue)
 	{
-		var data = JSON.parse(response);
-		queue.status = 'complete';
-		queue.srl = data.sess_srl;
-		queue.location = data.loc;
-		queue.type = 'session';
+		try {
+			var data = JSON.parse(response);
+			queue.status = 'complete';
+			queue.srl = data.sess_srl;
+			queue.location = data.loc;
+			queue.type = 'session';
+			queue.filename = data.filename;
 
-		// edit queue
-		queue.element.find('span.size').text(bytesToSize(queue.filesize));
-		queue.element.find('span.status').text(queue.status);
+			// edit queue
+			queue.element.find('.name').text(data.filename);
+			queue.element.find('.size').text(bytesToSize(queue.filesize));
+			queue.element.find('.status').text(queue.status);
 
-		// hide progress
-		if (queue.status == 'complete')
-		{
-			queue.element.find('div.progress').delay(200).fadeOut(400);
+			// hide progress
+			if (queue.status == 'complete')
+			{
+				queue.element.find('div.progress').delay(200).fadeOut(400);
+			}
+
+			// append image
+			if (/^image/i.test(queue.filetype))
+			{
+				queue.element.find('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
+			}
+
+			// reset file input
+			resetInput();
+
+			// refresh addQueue
+			self.refreshAddQueue();
+
+			// upload next file
+			self.readyItem.splice(0, 1);
+			if (self.readyItem.length)
+			{
+				fileUpload(self.readyItem[0]);
+			}
+		} catch(e) {
+			// error upload
+			alert('ERROR UPLOAD');
+			queue.element.remove();
 		}
-
-		// append image
-		if (/^image/i.test(queue.filetype))
-		{
-			queue.element.find('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
-		}
-
-		// reset file input
-		resetInput();
-
-		// refresh addQueue
-		self.refreshAddQueue();
-
-		// upload next file
-		self.readyItem.splice(0, 1);
-		if (self.readyItem.length)
-		{
-			fileUpload(self.readyItem[0]);
-		}
-	}
+	};
 
 	/**
 	 * upload error
@@ -300,7 +286,7 @@ var UploadInterface = function(el, options) {
 	this.uploadError = function(message, queue)
 	{
 		log(message);
-	}
+	};
 
 	/**
 	 * push queue
@@ -314,8 +300,8 @@ var UploadInterface = function(el, options) {
 		{
 			var key = self.queue.createQueue({
 				name : data[n].filename
-				,size : null
-				,type : self.getFileType(data[n].filename)
+				,size : data[n].filesize
+				,type : data[n].filetype
 				,loc : data[n].location
 				,srl : data[n].srl
 				,type2 : data[n].type
@@ -334,7 +320,7 @@ var UploadInterface = function(el, options) {
 				self.refreshAddQueue();
 			}
 		}
-	}
+	};
 
 	/**
 	 * select all queue
@@ -380,7 +366,7 @@ var UploadInterface = function(el, options) {
 				alert('업로드 되어있는 파일이 없습니다.');
 			}
 		}
-	}
+	};
 
 	/**
 	 * refresh add queue
@@ -394,7 +380,7 @@ var UploadInterface = function(el, options) {
 			}
 		}).join(',');
 		self.settings.form.addQueue.value = value;
-	}
+	};
 
 	/**
 	 * thumnail image exist check
@@ -432,11 +418,11 @@ var UploadInterface = function(el, options) {
 				return false;
 			}
 		}
-	}
+	};
 
 	/**
 	 * Export slide JSON data
-	 * 
+	 *
 	 * @return {String} str
 	 */
 	this.exportSlideJSON = function()
@@ -461,7 +447,7 @@ var UploadInterface = function(el, options) {
 			data.push(item);
 		});
 		return encodeURIComponent(JSON.stringify(data));
-	}
+	};
 
 	// action
 	if (self.settings.$manager)
@@ -483,7 +469,7 @@ var UploadInterface = function(el, options) {
 		self.ready = true;
 	}
 
-}
+};
 
 
 /**
@@ -492,4 +478,5 @@ var UploadInterface = function(el, options) {
 UploadInterface.prototype.defaults = {
 	uploadAction : null
 	,removeAction : null
+	,filesizeLimit : 5000000
 };

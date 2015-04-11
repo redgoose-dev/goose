@@ -44,7 +44,7 @@ switch($paramAction)
 		}
 		else
 		{
-			$filename = $files['name'];
+			$filename = str_replace(' ', '-', $files['name']);
 		}
 
 		// 절대경로 파일주소 정의

@@ -263,6 +263,7 @@ var UploadInterface = function(el, options) {
 			queue.srl = data.sess_srl;
 			queue.location = data.loc;
 			queue.type = 'session';
+			queue.filename = data.filename;
 
 			// edit queue
 			queue.element.find('span.name').text(data.filename);

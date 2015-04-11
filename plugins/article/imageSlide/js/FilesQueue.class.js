@@ -12,14 +12,13 @@ var FilesQueue = function(getParent, $el, options) {
 	/**
 	 * template
 	 * 
-	 * @author : redgoose
 	 * @param {String} key
 	 * @param {String} filename
 	 * @param {String} status
 	 * @param {String} src
 	 * @param {String} formData
 	 * @param {String} type
-	 * @return {DOM} : queue element
+	 * @return {object} queue element
 	 */
 	this.template = function(key, filename, status, src, formData, type)
 	{
@@ -50,7 +49,7 @@ var FilesQueue = function(getParent, $el, options) {
 		item += '</figure>';
 		item += '<div class="body">';
 		item += '<p class="title">';
-		item += '<strong>' + filename + '</strong>';
+		item += '<strong class="name">' + filename + '</strong>';
 		item += (status == 'ready') ? '<span class="size">0%</span>' : '';
 		item += '<span class="status">' + status + '</span>';
 		item += '</p>';
