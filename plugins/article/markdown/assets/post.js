@@ -20,7 +20,7 @@ jQuery(function($){
 				}
 				else
 				{
-					str += '[' + params[i].name + '](' + params[i].url + ')';
+					str += '[' + params[i].name + '](' + params[i].url + ')\n';
 				}
 			}
 			var $content = $(form.content);
