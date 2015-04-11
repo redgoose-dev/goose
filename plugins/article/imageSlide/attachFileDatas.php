@@ -33,6 +33,8 @@ if (count($attachFiles))
 			'srl' => $v['srl']
 			,'location' => $v['loc']
 			,'filename' => $v['name']
+			,'filetype' => $v['type']
+			,'filesize' => $v['size']
 			,'status' => $status
 			,'type' => $type
 		);

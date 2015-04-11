@@ -7,7 +7,7 @@ jQuery(function($){
 		,removeAction : userData.root + '/files/remove/'
 		,fileDir : userData.url + userData.originalPath
 		,auto : false
-		,limit : 5
+		,limit : 10
 		,thumnail : userData.thumnail
 		,$insertTarget : $('#content')
 		,insertFunc : function(params){
@@ -50,7 +50,6 @@ jQuery(function($){
 
 	// onsubmit event
 	$(form).on('submit', function(){
-
 		// check thumnail image
 		if (uploadInterface.thumnailImageCheck())
 		{
@@ -111,7 +110,7 @@ jQuery(function($){
 	 * @Param {Function} complete
 	 * @Return void
 	 */
-	function getPreviewData(complete)
+	var getPreviewData = function(complete)
 	{
 		var req = $.ajax({
 			url : userData.root + '/article/preview'
@@ -125,13 +124,13 @@ jQuery(function($){
 		req.done(function(str){
 			complete(str);
 		});
-	}
+	};
 
 
 	/**
 	 * get cursor position
 	 *
-	 * @param {DOM} $el
+	 * @param {object} $el
 	 * @return {Number}
 	 */
 	var getCursorPosition = function($el)

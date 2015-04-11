@@ -8,7 +8,14 @@ switch($paramAction)
 		$files = ($_FILES['file']) ? $_FILES['file'] : $_FILES['Filedata'];
 		if (!$files)
 		{
-			echo '{"status":"error","message":"not found $_FILES error"}';
+			echo '{"status":"error","message":"SERVER ERROR"}';
+			$goose->out();
+		}
+
+		// check file size
+		if ($files['size'] > $goose->user['limitFileSize'])
+		{
+			echo '{"status":"error","message":"The attachment size exceeds the allowable limit."}';
 			$goose->out();
 		}
 
@@ -29,15 +36,16 @@ switch($paramAction)
 			umask($umask);
 		}
 
-		// 파일이름 정의
-		$filename = ($files['type'] == 'image/png'
-			|| $files['type'] == 'image/x-png'
-			|| $files['type'] == 'image/jpg'
-			|| $files['type'] == 'image/gif'
-			|| $files['type'] == 'image/jpeg'
-			|| $files['type'] == 'image/pjpeg') ?
-				md5(date('YmdHis').'-'.rand()) . '.jpg' : $files['name']
-		;
+		// 이미지 파일이름 변경
+		$filename = null;
+		if (preg_match('/^image/', $files['type']) >= 1)
+		{
+			$filename = md5(date('YmdHis').'-'.rand()).'.'.substr(strrchr($files['name'], '.'), 1);
+		}
+		else
+		{
+			$filename = $files['name'];
+		}
 
 		// 절대경로 파일주소 정의
 		$fileAbsoluteDir = $dir_absolute.$month.'/' . $filename;
@@ -58,11 +66,13 @@ switch($paramAction)
 
 		// insert db
 		$goose->spawn->insert(array(
-			'table' => 'tempFiles',
+			'table' => $goose->tablesName['tempFiles'],
 			'data' => array(
 				'srl' => null,
 				'loc' => $fileRelativeDir,
-				'name' => $originalFileName,
+				'name' => $filename,
+				'type' => $files['type'],
+				'size' => $files['size'],
 				'date' => $regdate
 			)
 		));
@@ -73,7 +83,7 @@ switch($paramAction)
 		$result = array(
 			'filelink' => $dir_relative.$fileRelativeDir,
 			'loc' => $fileRelativeDir,
-			'filename' => $originalFileName,
+			'filename' => $filename,
 			'sess_srl' => $sess_srl
 		);
 		echo stripslashes(json_encode($result));

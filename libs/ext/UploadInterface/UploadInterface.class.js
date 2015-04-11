@@ -152,9 +152,9 @@ var UploadInterface = function(el, options) {
 	var bytesToSize = function(bytes)
 	{
 		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-		if (bytes == 0) return '0 Byte';
+		if (bytes == 0) return '0Byte';
 		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+		return Math.round(bytes / Math.pow(1024, i), 2) + '' + sizes[i];
 	};
 
 	/**
@@ -181,42 +181,6 @@ var UploadInterface = function(el, options) {
 	};
 
 	/**
-	 * get file type
-	 *
-	 * @param {String} filename
-	 * @return {String}
-	 */
-	this.getFileType = function(filename)
-	{
-		var type = (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : undefined;
-
-		if (/(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i.test(filename))
-		{
-			return 'image/' + type;
-		}
-		else if (/(\.mp4|\.mov)/gi.test(filename))
-		{
-			return 'video/' + type;
-		}
-		else if (/(\.m4a|\.mp3)/gi.test(filename))
-		{
-			return 'audio/' + type;
-		}
-		else if (/(\.txt)/i.test(filename))
-		{
-			return 'text/' + type;
-		}
-		else if (/(\.pdf|\.zip|\.psd)/i.test(filename))
-		{
-			return 'application/' + type;
-		}
-		else
-		{
-			return null;
-		}
-	};
-
-	/**
 	 * file upload method
 	 *
 	 * @param {File} getFiles
@@ -227,19 +191,27 @@ var UploadInterface = function(el, options) {
 		{
 			var files = (getFiles) ? getFiles : $el.get(0).files;
 			var count = Object.keys(self.queue.index).length + files.length;
+			var errorMsg = null;
 
 			if (self.settings.limit && (count > self.settings.limit))
 			{
-				alert('파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.');
+				errorMsg = '파일은 총 ' + self.settings.limit + '개까지 업로드할 수 있습니다.';
 			}
 			else
 			{
 				for (var n = 0; n < files.length; n++)
 				{
-					self.readyItem.push({
-						key : self.queue.createQueue(files[n])
-						,file : files[n]
-					});
+					if (files[n].size < this.settings.filesizeLimit)
+					{
+						self.readyItem.push({
+							key : self.queue.createQueue(files[n])
+							,file : files[n]
+						});
+					}
+					else
+					{
+						errorMsg = '허용용량을 초과하는 파일이 있습니다.\n허용용량은 ' + bytesToSize(this.settings.filesizeLimit) + '까지입니다.';
+					}
 				}
 				if (self.readyItem.length)
 				{
@@ -249,7 +221,13 @@ var UploadInterface = function(el, options) {
 		}
 		else
 		{
-			alert('not install queue manager');
+			errorMsg = 'not install queue manager';
+		}
+
+		if (errorMsg)
+		{
+			alert(errorMsg);
+			return false;
 		}
 	};
 
@@ -287,6 +265,7 @@ var UploadInterface = function(el, options) {
 			queue.type = 'session';
 
 			// edit queue
+			queue.element.find('span.name').text(data.filename);
 			queue.element.find('span.size').text(bytesToSize(queue.filesize));
 			queue.element.find('span.status').text(queue.status);
 
@@ -310,8 +289,8 @@ var UploadInterface = function(el, options) {
 			}
 		} catch(e) {
 			// error upload
-			// 에러가 났을때 처리. 로딩하고 있는 큐는 삭제한다.
-			log(queue);
+			alert('ERROR UPLOAD');
+			queue.element.remove();
 		}
 	};
 
@@ -335,8 +314,8 @@ var UploadInterface = function(el, options) {
 		{
 			var key = self.queue.createQueue({
 				name : data[n].filename
-				,size : null
-				,type : self.getFileType(data[n].filename)
+				,size : data[n].filesize
+				,type : data[n].filetype
 				,loc : data[n].location
 				,srl : data[n].srl
 				,type2 : data[n].type
@@ -523,4 +502,5 @@ var UploadInterface = function(el, options) {
 UploadInterface.prototype.defaults = {
 	uploadAction : null
 	,removeAction : null
+	,filesizeLimit : 5000000
 };

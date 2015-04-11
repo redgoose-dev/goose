@@ -45,7 +45,7 @@ function checkPost()
  */
 function createUserFile($post, $dir)
 {
-	global $goose, $root, $url;
+	global $goose;
 
 	$str = "<?php\n";
 	$str .= "if(!defined(\"GOOSE\")){exit();}\n";
@@ -71,8 +71,8 @@ function createUserFile($post, $dir)
 	$str .= "\t,'indexCount' => 30\n";
 	$str .= "\t,'timezone' => '".$post['timezone']."'\n";
 	$str .= "\t,'skinDefault' => 'basic'\n";
+	$str .= "\t,'limitFileSize' => 5000000\n";
 	$str .= ");\n";
-	$str .= "?>";
 
 	return $goose->util->fop($dir, 'w', $str, 0777);
 }
@@ -155,21 +155,6 @@ if ($result != 'success')
 	echo "<p>Fail create '".$tablesName['categories']."' table</p>";
 }
 
-// create table "files"
-$result = $spawn->action("
-	create table `".$tablesName['files']."` (
-		`srl` bigint(11) not null auto_increment,
-		`article_srl` bigint(11) default null,
-		`name` varchar(255) default null,
-		`loc` varchar(255) default null,
-		primary key (`srl`)
-	) engine=InnoDB default charset=utf8");
-if ($result != 'success')
-{
-	$error = true;
-	echo "<p>Fail create '".$tablesName['files']."' table</p>";
-}
-
 // create table "jsons"
 $result = $spawn->action("
 	create table `".$tablesName['jsons']."` (
@@ -235,12 +220,32 @@ if ($result != 'success')
 	echo "<p>Fail create '".$tablesName['nests']."' table</p>";
 }
 
+// create table "files"
+$result = $spawn->action("
+	create table `".$tablesName['files']."` (
+		`srl` bigint(11) not null auto_increment,
+		`article_srl` bigint(11) default null,
+		`name` varchar(255) default null,
+		`loc` varchar(255) default null,
+		`type` varchar(50) default null,
+		`size` bigint(11) default null,
+		`date` varchar(14) default null,
+		primary key (`srl`)
+	) engine=InnoDB default charset=utf8");
+if ($result != 'success')
+{
+	$error = true;
+	echo "<p>Fail create '".$tablesName['files']."' table</p>";
+}
+
 // create table "tempFiles"
 $result = $spawn->action("
 	create table `".$tablesName['tempFiles']."` (
 		`srl` bigint(11) not null auto_increment,
 		`loc` varchar(255) default null,
 		`name` varchar(250) default null,
+		`type` varchar(50) default null,
+		`size` bigint(11) default null,
 		`date` varchar(14) default null,
 		primary key (`srl`)
 	) engine=InnoDB default charset=utf8");
@@ -249,6 +254,7 @@ if ($result != 'success')
 	$error = true;
 	echo "<p>Fail create '".$tablesName['tempFiles']."' table</p>";
 }
+
 
 
 // insert admin info
@@ -294,4 +300,3 @@ if (!$error)
 {
 	$goose->util->redirect(GOOSE_ROOT."/", "Complete install");
 }
-?>
