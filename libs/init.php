@@ -90,14 +90,22 @@ if ($route)
 
 		case "script":
 			$file = PWD.'/etc/script/'. $routePapameters['file'] .'.php';
-			if (is_file($file))
+			$file_user = PWD.'/etc/script/'. $routePapameters['file'] .'.user.php';
+			if (is_file($file_user))
 			{
-				require($file);
+				require_once($file_user);
 			}
 			else
 			{
-				$goose->error(404);
-				$goose->out();
+				if (is_file($file))
+				{
+					require_once($file);
+				}
+				else
+				{
+					$goose->error(404);
+					$goose->out();
+				}
 			}
 			break;
 
