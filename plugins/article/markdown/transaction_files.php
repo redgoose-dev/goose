@@ -25,12 +25,15 @@ function fileUpload($art_srl, $thum_srl)
 					'where' => 'srl='.(int)$v
 				));
 				$goose->spawn->insert(array(
-					'table' => 'files',
-					'data' => array(
-						'srl' => null,
-						'article_srl' => $art_srl,
-						'name' => $tempFile['name'],
-						'loc' => $tempFile['loc']
+					'table' => 'files'
+					,'data' => array(
+						'srl' => null
+						,'article_srl' => $art_srl
+						,'name' => $tempFile['name']
+						,'loc' => $tempFile['loc']
+						,'type' => $tempFile['type']
+						,'size' => $tempFile['size']
+						,'date' => date("YmdHis")
 					)
 				));
 
@@ -39,8 +42,8 @@ function fileUpload($art_srl, $thum_srl)
 					$thumnail_srl = $goose->spawn->conn->lastInsertId();
 				}
 				$goose->spawn->delete(array(
-					'table' => 'tempFiles',
-					'where' => 'srl='.(int)$v
+					'table' => 'tempFiles'
+					,'where' => 'srl='.(int)$v
 				));
 			}
 		}
