@@ -40,9 +40,9 @@ foreach($files as $k=>$v)
 		,'where' => 'srl='.$v['article_srl']
 	));
 
-	$ext = substr(strrchr($v['name'], '.'), 1);
+	$ext = strtolower(substr(strrchr($v['name'], '.'), 1));
 	$type = null;
-	if ($ext == 'jpg')
+	if ($ext == 'jpg' || $ext == 'jpeg')
 	{
 		$type = 'image/jpeg';
 	}
@@ -97,6 +97,10 @@ foreach($files as $k=>$v)
 	else if ($ext == 'rar')
 	{
 		$type = 'application/x-rar-compressed';
+	}
+	else if ($ext == 'swf')
+	{
+		$type = 'application/x-shockwave-flash';
 	}
 
 	if (file_exists(PWD.'/data/original/'.$v['loc']))
