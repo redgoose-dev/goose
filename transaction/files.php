@@ -1,6 +1,38 @@
 <?
 if(!defined("GOOSE")){exit();}
 
+/**
+ * check file
+ *
+ * @param string $dir
+ * @param string $file
+ * @param number $n
+ * @return string
+ */
+function checkFile($dir, $file, $n)
+{
+	if (is_null($n))
+	{
+		$n = 0;
+		$newFilename = $file;
+	}
+	else
+	{
+		$n = $n + 1;
+		$newFilename = basename($file, strrchr($file, '.')).'-'.$n.'.'.substr(strrchr($file, '.'), 1);
+	}
+
+	if (file_exists($dir.$newFilename))
+	{
+		return checkFile($dir, $file, $n);
+	}
+	else
+	{
+		return $newFilename;
+	}
+}
+
+
 switch($paramAction)
 {
 	// upload
@@ -44,8 +76,11 @@ switch($paramAction)
 		}
 		else
 		{
-			$filename = str_replace(' ', '-', $files['name']);
+			$filename = str_replace(' ', '_', $files['name']);
 		}
+
+		// check exist file
+		$filename = checkFile($dir_absolute.$month.'/', $filename, null);
 
 		// 절대경로 파일주소 정의
 		$fileAbsoluteDir = $dir_absolute.$month.'/' . $filename;
