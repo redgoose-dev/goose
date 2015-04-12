@@ -119,6 +119,8 @@ switch($paramAction)
 			'filelink' => $dir_relative.$fileRelativeDir,
 			'loc' => $fileRelativeDir,
 			'filename' => $filename,
+			'filetype' => $files['type'],
+			'filesize' => $files['size'],
 			'sess_srl' => $sess_srl
 		);
 		echo stripslashes(json_encode($result));
