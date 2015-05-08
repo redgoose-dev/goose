@@ -97,18 +97,17 @@ $this->goose->isAdmin = true;
 
 
 // install modules
-echo "<p>Create table - ".$this->installModule('user')."</p>";
-echo "<p>Create table - ".$this->installModule('nest')."</p>";
-echo "<p>Create table - ".$this->installModule('app')."</p>";
-echo "<p>Create table - ".$this->installModule('json')."</p>";
-echo "<p>Create table - ".$this->installModule('file')."</p>";
-echo "<p>Create table - ".$this->installModule('article')."</p>";
-echo "<p>Create table - ".$this->installModule('category')."</p>";
+$arr = Array('user', 'nest', 'app', 'json', 'file', 'article', 'category');
+foreach($arr as $k=>$v)
+{
+	$result = $this->installModule($v);
+	echo "<p>Create table - ".$result['message']."</p>";
+}
 
 
 // add admin user
 $result = Spawn::insert(array(
-	'table' => __dbPrefix__ . 'user',
+	'table' => Spawn::getTableName('user'),
 	'data' => array(
 		'srl' => null,
 		'email' => $_POST['email'],

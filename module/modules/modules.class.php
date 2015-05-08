@@ -35,10 +35,27 @@ class Modules {
 		switch($this->param['action'])
 		{
 			case 'install':
-				self::install();
+				$result = self::actInstall();
+				if ($result['state'] == 'error')
+				{
+					Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
+				}
+				else
+				{
+					Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
+				}
 				break;
 			case 'uninstall':
-				self::uninstall();
+				$result = self::actUninstall();
+				Util::console($result);
+				if ($result['state'] == 'error')
+				{
+					//Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
+				}
+				else
+				{
+					//Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
+				}
 				break;
 			default:
 				self::viewIndex();
@@ -60,7 +77,6 @@ class Modules {
 		// get module data
 		$result = $this->getModuleIndex('name');
 		$repo['modules'] = ($result['data']) ? $result['data'] : array();
-		Util::console($repo['modules']);
 
 		// set pwd_container
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'/view_index.html';
@@ -68,6 +84,11 @@ class Modules {
 		// require layout
 		require_once($this->layout->getUrl());
 	}
+
+
+	/**********************************************
+	 * API AREA
+	 *********************************************/
 
 	/**
 	 * get module index
@@ -88,16 +109,48 @@ class Modules {
 	/**
 	 * install
 	 */
-	private function install()
+	private function actInstall()
 	{
-		echo "install module";
+		if ($this->name != 'modules') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
+		if ($this->param['params'][0])
+		{
+			$mod = $this->param['params'][0];
+		}
+		else
+		{
+			return array('state' => 'error', 'action' => 'back', 'message' => '모듈값이 없습니다,');
+		}
+
+		// load module
+		$install = Module::load('install');
+
+		// install module
+		return $install->installModule($mod);
 	}
 
 	/**
 	 * uninstall
 	 */
-	private function uninstall()
+	private function actUninstall()
 	{
+		if ($this->name != 'modules') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
+		if ($this->param['params'][0])
+		{
+			$mod = $this->param['params'][0];
+		}
+		else
+		{
+			return array('state' => 'error', 'action' => 'back', 'message' => '모듈값이 없습니다,');
+		}
+
+		// load module
+		$install = Module::load('install');
+
+		// install module
+		//return $install->unInstallModule($mod);
+
 		echo "uninstall module";
 	}
 

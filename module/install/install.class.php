@@ -140,24 +140,24 @@ class Install {
 	 * install module
 	 *
 	 * @param string $modName module name
-	 * @return boolean
+	 * @return array
 	 */
 	public function installModule($modName=null)
 	{
 		if (!$modName)
 		{
-			return 'not found module name';
+			return Array('state' => 'error', 'message' => 'not found module name');
 		}
 
 		$result = Module::install($modName);
 
 		if ($result['error'])
 		{
-			return "[$modName] ERROR : $result[error]";
+			return Array('state' => 'error', "message" => "[$modName] ERROR : $result[error]");
 		}
 		else
 		{
-			return "[$modName] Complete";
+			return Array('state' => 'success', "message" => "[$modName] Complete");
 		}
 	}
 }
