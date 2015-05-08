@@ -1,0 +1,34 @@
+[
+	{
+		"name": "srl",
+		"type": "int",
+		"length": 11,
+		"etc": "not null",
+		"auto": true,
+		"key": true
+	},
+	{
+		"name" : "nest_srl",
+		"type" : "int",
+		"length" : 11,
+		"etc" : "default null"
+	},
+	{
+		"name" : "turn",
+		"type" : "int",
+		"length" : 11,
+		"etc" : "default null"
+	},
+	{
+		"name" : "name",
+		"type" : "varchar",
+		"length" : 42,
+		"etc" : "default null"
+	},
+	{
+		"name" : "regdate",
+		"type" : "varchar",
+		"length" : 14,
+		"etc" : "default null"
+	}
+]

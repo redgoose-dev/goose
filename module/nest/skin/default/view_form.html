@@ -1,0 +1,167 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+// set title type
+$titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
+?>
+
+<section class="goose-form">
+	<div class="hgroup">
+		<h1>둥지<?=$titleType?></h1>
+		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
+	</div>
+	<form action="<?=__GOOSE_ROOT__.'nest/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
+		<input type="hidden" name="json" value="" />
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
+
+		<fieldset>
+			<legend class="blind">둥지<?=$titleType?></legend>
+			<?php
+			$nowSkin = ($repo['nest']['json']['nestSkin']) ? $repo['nest']['json']['nestSkin'] : $this->set['skin'];
+			$nowSkin = ($_GET['skin']) ? $_GET['skin'] : $nowSkin;
+			?>
+			<dl class="table">
+				<dt><label for="skin">Nest Skin</label></dt>
+				<dd>
+					<select name="nestSkin" id="nestSkin">
+						<?php
+						echo (!count($repo['skin'])) ? '<option>Empty skin</option>' : '';
+						foreach($repo['skin'] as $k=>$v)
+						{
+							$selected = ($v == $nowSkin) ? ' selected' : '';
+							$selected = (!$nowSkin && $v=='basic') ? ' selected' : $selected;
+							echo "<option value=\"$v\"$selected>$v</option>";
+						}
+						?>
+					</select>
+					<p class='col-red'>스킨을 바꾸면 페이지가 이동합니다.</p>
+				</dd>
+			</dl>
+
+			<dl class="table">
+				<dt><label for="skin">Article Skin</label></dt>
+				<dd>
+					<select name="articleSkin" id="articleSkin">
+						<?php
+						echo (!count($repo['articleSkin'])) ? '<option value="default">Empty skin</option>' : '';
+						foreach($repo['articleSkin'] as $k=>$v)
+						{
+							$selected = ($v==$repo['nest']['json']['articleSkin']) ? ' selected' : '';
+							$selected = (!$selected && ($v==$article->set['skin'])) ? ' selected' : $selected;
+							echo "<option value=\"$v\"$selected>$v</option>";
+						}
+						?>
+					</select>
+				</dd>
+			</dl>
+
+			<?php
+			if (count($repo['app']))
+			{
+			?>
+				<dl class="table">
+					<dt><label for="app_srl">App</label></dt>
+					<dd>
+						<select name="app_srl" id="app_srl">
+							<option value="0">선택하세요.</option>
+							<?
+							foreach ($repo['app'] as $k=>$v)
+							{
+								$selected = ($v['srl'] == $repo['nest']['app_srl']) ? ' selected="selected"' : '';
+								$selected = (!$selected && ($v['srl'] == $_SESSION['app_srl'])) ? ' selected="selected"' : $selected;
+								echo "<option value=\"$v[srl]\"$selected>$v[name]</option>";
+							}
+							?>
+						</select>
+					</dd>
+				</dl>
+			<?php
+			}
+			?>
+
+			<dl class="table">
+				<?
+				$attr = (isset($repo['nest']['id'])) ? ' value="'.$repo['nest']['id'].'" readonly' : '';
+				?>
+				<dt><label for="id">아이디</label></dt>
+				<dd>
+					<input type="text" name="id" id="id" maxlength="20" size="22" placeholder="영문과 숫자 입력가능"<?=$attr?>/>
+					<p>이 항목은 한번정하면 변경할 수 없습니다.</p>
+				</dd>
+			</dl>
+
+			<dl class="table">
+				<dt><label for="name">둥지이름</label></dt>
+				<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$repo['nest']['name']?>"/></dd>
+			</dl>
+
+			<?php
+			$listCount = ($repo['nest']['json']['listCount']) ? $repo['nest']['json']['listCount'] : $this->set['countArticle'];
+			?>
+			<dl class="table">
+				<dt><label for="listCount">목록수</label></dt>
+				<dd>
+					<input type="tel" name="listCount" id="listCount" maxlength="3" size="4" value="<?=$listCount?>"/>
+					<p>한페이지에 출력되는 글 갯수입니다.</p>
+				</dd>
+			</dl>
+
+			<dl class="table">
+				<?
+				$nest['json']['useCategory'] = ($repo['nest']['json']['useCategory']) ? $repo['nest']['json']['useCategory'] : null;
+				$useCategoryYes = ($repo['nest']['json']['useCategory'] == 1) ? ' checked = "checked"' : '';
+				$useCategoryNo = ($repo['nest']['json']['useCategory'] != 1) ? ' checked = "checked"' : '';
+				?>
+				<dt><label for="useCategory">분류사용</label></dt>
+				<dd>
+					<label><input type="radio" name="useCategory" id="useCategory" value="0" <?=$useCategoryNo?>/><span>사용안함</span></label>
+					<label><input type="radio" name="useCategory" value="1" <?=$useCategoryYes?>/><span>사용</span></label>
+				</dd>
+			</dl>
+		</fieldset>
+
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight"><?=$titleType?></button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		</nav>
+	</form>
+</section>
+
+<script src="<?=__GOOSE_ROOT__?>ext/validation/jquery.validate.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>ext/validation/localization/messages_ko.js"></script>
+<script>
+(function($){
+	// change skin
+	$('#nestSkin').on('change', function(){
+		var url = location.origin + location.pathname;
+		url += ($(this).val()) ? '?skin=' + $(this).val() : '';
+		location.href = url;
+	});
+
+	// check validate
+	$.validator.addMethod("alphanumeric", function(value, element) {
+		return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+	});
+	$('#regsterForm').validate({
+		rules : {
+			id : {required : true, minlength : 2, alphanumeric : true}
+			,name : {required: true, minlength: 2}
+			,listCount : {required: true, number: true}
+		}
+		,messages : {
+			id : {alphanumeric: '알파벳과 숫자만 사용가능합니다.'}
+		}
+		,submitHandler : function(form) {
+			var json = {
+				nestSkin : form.nestSkin.value
+				,articleSkin : form.articleSkin.value
+				,listCount : (form.listCount) ? form.listCount.value : 15
+				,useCategory : $(form.useCategory).filter(':checked').val()
+			};
+			form.json.value = encodeURIComponent(JSON.stringify(json));
+			form.submit();
+			return false;
+		}
+	});
+})(jQuery);
+</script>

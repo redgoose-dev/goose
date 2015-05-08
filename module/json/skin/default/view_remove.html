@@ -1,0 +1,22 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<section class="goose-form">
+	<div class="hgroup">
+		<h1>JSON 삭제</h1>
+	</div>
+	<form action="<?=__GOOSE_ROOT__.'json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
+		<input type="hidden" name="json_srl" value="<?=$repo['json']['srl']?>" />
+
+		<fieldset>
+			<legend class="blind">JSON<?=$titleType?></legend>
+			<p class="message">"<?=$repo['json']['name']?>" JSON 데이터를 삭제하시겠습니까? 삭제된 JSON 데이터는 복구할 수 없습니다.</p>
+		</fieldset>
+
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight">삭제하기</button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		</nav>
+	</form>
+</section>

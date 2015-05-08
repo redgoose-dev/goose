@@ -1,0 +1,88 @@
+{
+	"field_tmp" : [
+		{
+			"name": "srl",
+			"type": "int",
+			"length": 11,
+			"etc": "not null",
+			"auto": true,
+			"key": true
+		},
+		{
+			"name" : "name",
+			"type" : "varchar",
+			"length" : 120,
+			"etc" : "default null"
+		},
+		{
+			"name" : "loc",
+			"type" : "varchar",
+			"length" : 255,
+			"etc" : "default null"
+		},
+		{
+			"name" : "type",
+			"type" : "varchar",
+			"length" : 40,
+			"etc" : "default null"
+		},
+		{
+			"name" : "size",
+			"type" : "bigint",
+			"length" : 11,
+			"etc" : "default 0"
+		},
+		{
+			"name" : "regdate",
+			"type" : "varchar",
+			"length" : 14,
+			"etc" : "default null"
+		}
+	],
+	"field" : [
+		{
+			"name": "srl",
+			"type": "int",
+			"length": 11,
+			"etc": "not null",
+			"auto": true,
+			"key": true
+		},
+		{
+			"name" : "article_srl",
+			"type" : "bigint",
+			"length" : 11,
+			"etc" : "default null"
+		},
+		{
+			"name" : "name",
+			"type" : "varchar",
+			"length" : 120,
+			"etc" : "default null"
+		},
+		{
+			"name" : "loc",
+			"type" : "varchar",
+			"length" : 255,
+			"etc" : "default null"
+		},
+		{
+			"name" : "type",
+			"type" : "varchar",
+			"length" : 40,
+			"etc" : "default null"
+		},
+		{
+			"name" : "size",
+			"type" : "bigint",
+			"length" : 11,
+			"etc" : "default 0"
+		},
+		{
+			"name" : "regdate",
+			"type" : "varchar",
+			"length" : 14,
+			"etc" : "default null"
+		}
+	]
+}

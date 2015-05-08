@@ -1,0 +1,53 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+// set title type
+$titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
+?>
+
+<section class="goose-form">
+	<div class="hgroup">
+		<h1>APP <?=$titleType?></h1>
+	</div>
+	<form action="<?=__GOOSE_ROOT__.'app/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
+		<input type="hidden" name="app_srl" value="<?=$app_srl?>"/>
+		<fieldset>
+			<legend class="blind">그룹<?=$titleType?></legend>
+			<dl class="table">
+				<dt><label for="id">아이디</label></dt>
+				<dd>
+					<input type="text" name="id" id="id" maxlength="30" size="20" value="<?=$repo['app']['id']?>" placeholder="영문과 숫자 입력가능"/>
+				</dd>
+			</dl>
+			<dl class="table">
+				<dt><label for="name">이름</label></dt>
+				<dd><input type="text" name="name" id="name" size="20" maxlength="20" value="<?=$repo['app']['name']?>"/></dd>
+			</dl>
+		</fieldset>
+
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight"><?=$titleType?></button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">돌아가기</button></span>
+		</nav>
+	</form>
+</section>
+
+<script src="<?=__GOOSE_ROOT__?>ext/validation/jquery.validate.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>ext/validation/localization/messages_ko.js"></script>
+<script>
+jQuery(function($){
+	// check validate
+	$.validator.addMethod("alphanumeric", function(value, element) {
+		return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+	});
+	$('#regsterForm').validate({
+		rules : {
+			id : {required : true, minlength : 2, alphanumeric : true}
+			,name : { required: true, minlength: 2 }
+		}
+		,messages : {
+			id : {alphanumeric: '알파벳과 숫자만 사용가능합니다.'}
+		}
+	});
+});
+</script>

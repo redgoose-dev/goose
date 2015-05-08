@@ -1,0 +1,22 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<section class="goose-form">
+	<div class="hgroup">
+		<h1>사용자 삭제</h1>
+	</div>
+	<form action="<?=__GOOSE_ROOT__?>user/remove/" method="post" id="regsterForm">
+		<input type="hidden" name="user_srl" value="<?=$user_srl?>" />
+
+		<fieldset>
+			<legend class="blind">사용자 삭제</legend>
+			<p class="message">"<?=$repo['user']['name']?>"사용자를 삭제하시겠습니까? 삭제된 사용자는 복구할 수 없습니다.</p>
+		</fieldset>
+
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight">삭제</button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		</nav>
+	</form>
+</section>

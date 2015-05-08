@@ -1,0 +1,39 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+// set nest name
+$nestName = ($repo['nest']['name']) ? '<em>'.$repo['nest']['name'].'</em> ' : '';
+
+// set title type
+$titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
+?>
+
+<section class="goose-form">
+	<div class="hgroup">
+		<h1><?=$nestName?>분류 <?=$titleType?></h1>
+	</div>
+
+	<form action="<?=__GOOSE_ROOT__.'category/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
+		<input type="hidden" name="category_srl" value="<?=$category_srl?>"/>
+
+		<fieldset>
+			<legend class="blind">분류<?=$titleType?></legend>
+			<dl class="table">
+				<dt><label for="name">이름</label></dt>
+				<dd><input type="text" name="name" id="name" size="20" maxlength="20" value="<?=$repo['category']['name']?>" required/></dd>
+			</dl>
+		</fieldset>
+
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight"><?=$titleType?></button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">돌아가기</button></span>
+		</nav>
+	</form>
+</section>
+
+<script src="<?=__GOOSE_ROOT__?>ext/validation/jquery.validate.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>ext/validation/localization/messages_ko.js"></script>
+<script>
+jQuery('#regsterForm').validate();
+</script>

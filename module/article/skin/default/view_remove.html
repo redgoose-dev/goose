@@ -1,0 +1,25 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+$nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : "";
+?>
+
+<section class="form">
+	<div class="hgroup">
+		<h1><?=$nestName?>문서삭제</h1>
+	</div>
+	<form name="writeForm" action="<?=__GOOSE_ROOT__?>article/remove/" method="post">
+		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
+		<input type="hidden" name="nest_srl" value="<?=$repo['article']['nest_srl']?>" />
+		<input type="hidden" name="category_srl" value="<?=$category_srl?>" />
+		<input type="hidden" name="page" value="<?=$_GET[page]?>" />
+		<fieldset>
+			<legend class="blind">문서<?=$titleType?></legend>
+			<p class="message">"<?=$repo['article']['title']?>" 문서을 삭제하시겠습니까? 삭제된 문서는 복구할 수 없습니다.</p>
+		</fieldset>
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight">삭제하기</button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		</nav>
+	</form>
+</section>

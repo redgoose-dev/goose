@@ -1,0 +1,31 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<section class="goose-form">
+	<div class="hgroup">
+		<h1>둥지삭제</h1>
+	</div>
+	<form action="<?=__GOOSE_ROOT__.'nest/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
+		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
+		<input type="hidden" name="nestSkin" value="<?=$repo['nest']['json']['nestSkin']?>"/>
+		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>"/>
+
+		<fieldset class="delete">
+			<legend class="blind">APP 삭제</legend>
+			<div class="message">
+				<p>"<?=$repo['nest']['name']?>" 둥지를 삭제하시겠습니까? 삭제된 둥지는 복구할 수 없습니다.</p>
+				<p class="checkboxes">
+					<label><input type="checkbox" name="delete_article" checked/> <span>article모듈 데이터 삭제</span></label>
+					<label><input type="checkbox" name="delete_file" checked/> <span>file모듈 데이터 삭제</span></label>
+					<label><input type="checkbox" name="delete_category" checked/> <span>category모듈 데이터 삭제</span></label>
+				</p>
+			</div>
+		</fieldset>
+
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight">삭제하기</button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">돌아가기</button></span>
+		</nav>
+	</form>
+</section>

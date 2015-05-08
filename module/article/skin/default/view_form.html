@@ -1,0 +1,97 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+$titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
+$nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : "";
+?>
+
+<section class="goose-form">
+	<div class="hgroup">
+		<h1><?=$nestName?>문서<?=$titleType?></h1>
+	</div>
+
+	<form name="writeForm" action="<?=__GOOSE_ROOT__.'article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>" />
+		<input type="hidden" name="nest_srl" value="<?=$repo['nest']['srl']?>" />
+		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
+		<input type="hidden" name="page" value="<?=$_GET['page']?>" />
+		<input type="hidden" name="json" value="" />
+		<input type="hidden" name="m" value="<?=$_GET['m']?>" />
+
+		<fieldset>
+			<legend class="blind">문서<?=$titleType?></legend>
+			<?php
+			if (count($repo['category']))
+			{
+			?>
+				<dl class="table">
+					<dt><label for="category">분류</label></dt>
+					<dd>
+						<select name="category_srl" id="category">
+							<option value="">분류선택</option>
+							<?php
+							foreach($repo['category'] as $k=>$v)
+							{
+								$selected = ($repo['article']['category_srl']==$v['srl'] || $category_srl==$v['srl']) ? ' selected' : '';
+								echo "<option value='$v[srl]'$selected>$v[name]</option>";
+							}
+							?>
+						</select>
+					</dd>
+				</dl>
+			<?php
+			}
+			?>
+			<dl class="table">
+				<dt><label for="title">제목</label></dt>
+				<dd><input type="text" id="title" name="title" class="block" value="<?=$repo['article']['title']?>" /></dd>
+			</dl>
+			<dl>
+				<dt><label for="content">내용</label></dt>
+				<dd><textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars($repo['article']['content'])?></textarea></dd>
+			</dl>
+			<dl>
+				<dt><label for="upload">파일 업로드</label></dt>
+				<dd>
+					<input type="file" name="upload[]" id="upload" multiple/>
+				</dd>
+			</dl>
+			<?php
+			if (count($repo['file']))
+			{
+			?>
+				<dl>
+					<dt><label for="upload">첨부 파일목록</label></dt>
+					<dd>
+						<p>체크한 이미지는 삭제됩니다.</p>
+						<ul>
+							<?php
+							foreach($repo['file'] as $k=>$v)
+							{
+								$url = __GOOSE_ROOT__.$v['loc'];
+								$size = Util::getFileSize($v['size']);
+							?>
+								<li>
+									<label>
+										<input type="checkbox" name="removeFiles[]" value="<?=$v['srl']?>"/>
+										<span><?=$v['name']?></span>
+									</label>
+									<a href="<?=$url?>" target="_blank">open file</a>
+								</li>
+							<?php
+							}
+							?>
+						</ul>
+					</dd>
+				</dl>
+			<?php
+			}
+			?>
+		</fieldset>
+
+		<nav class="btngroup">
+			<span><button type="submit" class="ui-button btn-highlight"><?=$titleType?></button></span>
+			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		</nav>
+	</form>
+</section>

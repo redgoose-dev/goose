@@ -1,0 +1,43 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<section>
+	<div class="hgroup">
+		<h1>Newstest articles</h1>
+	</div>
+	<ul class="goose-index card">
+		<?php
+		if (count($repo['article']) > 0)
+		{
+			foreach ($repo['article'] as $k=>$v)
+			{
+				$url = __GOOSE_ROOT__.'article/read/'.$v['srl'].'/?m=1';
+				$img = ($v['json']['thumnail']['url']) ? __GOOSE_ROOT__.$v['json']['thumnail']['url'] : null;
+				$categoryName = ($v['categoryName']) ? "<span>Category:$v[categoryName]</span>" : '';
+		?>
+				<li>
+					<a href="<?=$url?>">
+						<dl>
+							<dt><?=($img) ? '<img src="'.__GOOSE_ROOT__.'data/upload/make'.$img.'" alt=""/>' : '<div class="noimg">noimg</div>'?></dt>
+							<dd>
+								<strong><?=($v['nest']['name'])?"<em>[".$v['nest']['name']."]</em> ":''?><?=$v['title']?></strong>
+								<div class="inf">
+									<?=$categoryName?>
+									<span>Hit:<?=$v['hit']?></span>
+									<span>Date:<?=Util::convertDate($v['regdate'])?></span>
+								</div>
+							</dd>
+						</dl>
+					</a>
+				</li>
+			<?
+			}
+		}
+		else
+		{
+			echo "<li class=\"empty\">데이터가 없습니다.</li>";
+		}
+		?>
+	</ul>
+</section>

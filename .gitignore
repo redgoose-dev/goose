@@ -1,0 +1,11 @@
+.DS_Store
+.codekit-cache
+.sass-cache
+README.html
+*.codekit
+.idea
+
+# user files
+/data
+*.user
+*.user.*

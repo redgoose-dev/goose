@@ -1,0 +1,31 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<section>
+	<div class="hgroup">
+		<h1>페이지 목록</h1>
+	</div>
+	<ul class="goose-index list">
+		<?
+		if (count($repo['pages']) > 0)
+		{
+			foreach ($repo['pages'] as $k=>$v)
+			{
+				$url = __GOOSE_ROOT__.'page/'.(substr($v['filename'], 0, strrpos($v['filename'], '.'))).'/';
+		?>
+				<li>
+					<dl>
+						<dd><a href="<?=$url?>"><strong class="big"><?=$v['filename']?></strong></a></dd>
+					</dl>
+				</li>
+		<?
+			}
+		}
+		else
+		{
+			echo '<li class="empty">데이터가 없습니다.</li>';
+		}
+		?>
+	</ul>
+</section>

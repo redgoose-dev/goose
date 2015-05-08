@@ -1,0 +1,78 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+$installModules = Module::getInstallModule();
+$systemModules = ['user'];
+?>
+
+<section>
+	<div class="hgroup">
+		<h1><a href="<?=__GOOSE_ROOT__?>modules/">모듈목록</a></h1>
+		<p>모듈의 목록을 출력합니다. [설치해제]를 하면 모듈의 파일이 삭제되진 않습니다.</p>
+	</div>
+	<!-- index -->
+	<ul class="goose-index list">
+		<?php
+		foreach ($repo['modules'] as $k=>$v)
+		{
+			$set = self::getSetting($v['name']);
+		?>
+			<li>
+				<dl>
+					<dd>
+						<strong class="big"><?=$set['name']?></strong>
+						<?=($set['description']) ? '<p>'.$set['description'].'</p>' : ''?>
+						<div class="inf">
+							<?php
+							if (in_array($set['name'], $installModules))
+							{
+								echo "<span>Install:Installed</span>";
+							}
+							if ($set['permission'])
+							{
+								echo "<span>접근권한 레벨:$set[permission]</span>";
+							}
+							if ($set['adminPermission'])
+							{
+								echo "<span>관리자권한 레벨:$set[adminPermission]</span>";
+							}
+							if ($set['skin'])
+							{
+								echo "<span>Skin:$set[skin]</span>";
+							}
+							?>
+						</div>
+						<nav>
+							<?php
+							if ($set['install'] && !in_array($set['name'], $installModules))
+							{
+								echo "<a href=\"".__GOOSE_ROOT__."modules/install/$set[name]/\">설치</a>";
+							}
+							else if ($set['install'] && in_array($set['name'], $installModules) && !in_array($set['name'], $systemModules))
+							{
+								echo "<a href=\"".__GOOSE_ROOT__."modules/uninstall/$set[name]/\" class=\"uninstall\">설치해제</a>";
+							}
+							?>
+						</nav>
+					</dd>
+				</dl>
+			</li>
+		<?php
+		}
+		?>
+	</ul>
+	<!-- // index -->
+</section>
+
+<script>
+$('.uninstall').on('click', function(){
+	if (confirm('정말 삭제하시겠습니까?'))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+});
+</script>

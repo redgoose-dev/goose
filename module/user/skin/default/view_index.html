@@ -1,0 +1,59 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+$gooseAdmin = $this->parent->goose->isAdmin;
+?>
+
+<section>
+	<div class="hgroup">
+		<h1><a href="<?=__GOOSE_ROOT__?>user/index/">사용자 목록</a></h1>
+	</div>
+	<?php
+	if (count($repo['user']))
+	{
+	?>
+		<!-- index -->
+		<ul class="goose-index list">
+			<?php
+			foreach ($repo['user'] as $k=>$v)
+			{
+				if ($gooseAdmin || ($_SESSION['goose_email'] == $v['email']))
+				{
+			?>
+					<li>
+						<dl>
+							<dd>
+								<strong class="big"><?=$v['name']?></strong>
+								<div class="inf">
+									<span>Email : <?=$v['email']?></span>
+									<span>Date : <?=Util::convertDate($v['regdate'])?></span>
+									<span>Level : <?=$v['level']?></span>
+								</div>
+								<nav>
+									<a href="<?=__GOOSE_ROOT__.'user/modify/'.$v['srl'].'/'?>">수정</a>
+									<a href="<?=__GOOSE_ROOT__.'user/remove/'.$v['srl'].'/'?>">삭제</a>
+								</nav>
+							</dd>
+						</dl>
+					</li>
+			<?php
+				}
+			}
+			?>
+		</ul>
+		<!-- // index -->
+	<?php
+	}
+	?>
+	<nav class="btngroup">
+		<span><a href="<?=__GOOSE_ROOT__?>user/index/" class="ui-button">목록</a></span>
+		<?php
+		if ($gooseAdmin)
+		{
+		?>
+			<span><a href="<?= __GOOSE_ROOT__ ?>user/create/" class="ui-button btn-highlight">사용자 등록</a></span>
+		<?php
+		}
+		?>
+	</nav>
+</section>

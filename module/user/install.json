@@ -1,0 +1,41 @@
+[
+	{
+		"name" : "srl",
+		"type" : "int",
+		"length" : 11,
+		"etc" : "not null",
+		"auto" : true,
+		"key" : true
+	},
+	{
+		"name" : "email",
+		"type" : "varchar",
+		"length" : 60,
+		"etc" : "null default null",
+		"unique" : true
+	},
+	{
+		"name" : "name",
+		"type" : "varchar",
+		"length" : 30,
+		"etc" : "null default null"
+	},
+	{
+		"name" : "pw",
+		"type" : "varchar",
+		"length" : 32,
+		"etc" : "null default null"
+	},
+	{
+		"name" : "level",
+		"type" : "int",
+		"length" : 11,
+		"etc" : "not null default 0"
+	},
+	{
+		"name" : "regdate",
+		"type" : "varchar",
+		"length" : 14,
+		"etc" : "null default null"
+	}
+]

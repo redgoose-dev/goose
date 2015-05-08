@@ -1,0 +1,14 @@
+{
+	"name" : "file",
+	"description" : "",
+	"permission" : 100,
+	"adminPermission" : 100,
+	"install" : true,
+	"skin" : "default",
+	"pagePerCount" : 30,
+	"upPath_upload" : "data/upload",
+	"upPath_original" : "data/upload/original",
+	"upPath_make" : "data/upload/make",
+	"limitFileSize" : 1000000,
+	"allowFileType" : ["jpg", "jpeg", "png", "gif", "txt"]
+}

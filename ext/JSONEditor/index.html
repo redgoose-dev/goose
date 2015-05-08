@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>JSON Manager</title>
+<link rel="stylesheet" href="./css/JSONEditor.css" />
+<link rel="stylesheet" href="./css/extra.css" />
+</head>
+<body>
+<main>
+	<!-- Header -->
+	<header>
+		<h1><a href="./">JSON Manager</a></h1>
+	</header>
+	<!-- // Header -->
+
+	<!-- JSON editor -->
+	<div class="JSONEditor"></div>
+	<!-- // JSON editor -->
+
+	<hr />
+
+	<!-- result -->
+	<div id="jsonResult">
+		<nav class="btngroup">
+			<button type="button" role="btn_toJSON">Export JSON</button>
+		</nav>
+		<pre></pre>
+	</div>
+	<!-- // result -->
+</main>
+
+<script src="./js/jquery-2.1.1.min.js"></script>
+<script src="./js/jquery-sortable.js"></script>
+<script src="./js/JSONEditor.class.js"></script>
+<script>
+jQuery(function($){
+
+	var $jsonEditor = $('div.JSONEditor');
+	var jsonEditor = new JSONEditor($jsonEditor);
+
+	// import json
+	try {
+		var json = JSON.parse('{"사과":"빨간색", "바나나":"노란색", "키위":"녹색", "포도":"보라색"}');
+	}
+	catch(e) {
+		var json = new Object();
+	}
+	if (Array.isArray(json))
+	{
+		jsonEditor.typeItem({
+			active : $jsonEditor.find('li[loc=root]'),
+			type : 'Array'
+		});
+	}
+	jsonEditor.importJSON(json);
+
+	// Export json
+	var $jsonResult = $('#jsonResult');
+	$jsonResult.find('button[role=btn_toJSON]').on('click', function(){
+		$jsonResult.children('pre').text(jsonEditor.exportJSON(5));
+	});
+});
+</script>
+</body>
+</html>

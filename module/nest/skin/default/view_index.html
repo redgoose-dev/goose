@@ -1,0 +1,103 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+
+$totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
+?>
+
+<section>
+	<div class="hgroup">
+		<h1><a href="<?=__GOOSE_ROOT__?>nest/index/">Nests</a></h1>
+	</div>
+
+	<!-- groups list -->
+	<nav class="goose-categories">
+		<ul>
+			<li<?=(!$app_srl)?" class='active'":""?>>
+				<a href="<?=__GOOSE_ROOT__?>nest/index/">All<em><?=$repo['totalNest']?></em></a>
+			</li>
+			<?php
+			foreach($repo['app'] as $k=>$v)
+			{
+				$url = __GOOSE_ROOT__.'nest/index/'.$v['srl'].'/';
+				$active = ($app_srl == $v['srl']) ? " class='active'" : "";
+				echo "<li$active><a href='$url'>$v[name]<em>$v[countNest]</em></a></li>";
+			}
+			?>
+		</ul>
+	</nav>
+	<!-- // groups list -->
+
+	<!-- nests list -->
+	<ul class="goose-index list">
+		<?php
+		if (count($repo['nest']))
+		{
+			foreach ($repo['nest'] as $k=>$v)
+			{
+				$url = __GOOSE_ROOT__.'article/index/'.$v['srl'].'/';
+
+				// category
+				$categoryCount = $categoryBtn = '';
+				if ($v['json']['useCategory'] == 1)
+				{
+					$categoryCount = "<span>Category : $v[countCategory]</span>";
+					$categoryBtn = "<a href=\"".__GOOSE_ROOT__."category/index/$v[srl]/\">분류설정</a>";
+				}
+
+				// app name
+				$appName = ($v['appName']) ? "<em class=\"type\">$v[appName]</em> " : "";
+		?>
+				<li>
+					<dl>
+						<dd>
+							<a href="<?=$url?>">
+								<strong class="big"><?=$appName?><?=$v['name']?><em class="count"><?=$v['countArticle']?></em></strong>
+							</a>
+							<div class="inf">
+								<span>ID : <?=$v['id']?></span>
+								<span>Date : <?=Util::convertDate($v['regdate'])?></span>
+								<?=$categoryCount?>
+								<span>Nest skin : <?=$v['json']['nestSkin']?></span>
+								<span>Article skin : <?=$v['json']['articleSkin']?></span>
+							</div>
+							<nav>
+								<?php
+								if ($this->isAdmin)
+								{
+								?>
+									<a href="<?=__GOOSE_ROOT__."nest/modify/$v[srl]/"?>">수정</a>
+									<a href="<?=__GOOSE_ROOT__."nest/remove/$v[srl]/"?>">삭제</a>
+								<?php
+								}
+								?>
+								<?=$categoryBtn?>
+							</nav>
+						</dd>
+					</dl>
+				</li>
+		<?php
+			}
+		}
+		else
+		{
+			echo "<li class=\"empty\">데이터가 없습니다.</li>";
+		}
+		?>
+	</ul>
+	<!-- // nests list -->
+
+	<!-- bottom buttons -->
+	<nav class="btngroup">
+		<span><a href="<?=__GOOSE_ROOT__?>nest/" class="ui-button">목록</a></span>
+		<?php
+		if ($this->parent->isAdmin)
+		{
+		?>
+			<span><a href="<?=__GOOSE_ROOT__?>app/" class="ui-button">APP목록</a></span>
+			<span><a href="<?=__GOOSE_ROOT__?>nest/create/" class="ui-button btn-highlight">둥지만들기</a></span>
+		<?php
+		}
+		?>
+	</nav>
+	<!-- // bottom buttons -->
+</section>

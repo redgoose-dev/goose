@@ -1,0 +1,62 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<section>
+	<div class="hgroup">
+		<h1>파일목록</h1>
+	</div>
+	<ul class="goose-index card">
+		<?php
+		if (count($repo['file']) > 0)
+		{
+			foreach ($repo['file'] as $k=>$v)
+			{
+				$is_img = ($v['loc'] && (preg_match("/^image/", $v['type'])));
+				$img = ($is_img) ? '<img src="'.__GOOSE_ROOT__.$v['loc'].'" alt="'.$v['name'].'"/>' : '<div class="noimg">noimg</div>';
+				?>
+				<li>
+					<a href="<?=__GOOSE_ROOT__.$v['loc']?>" target="_blank">
+						<dl>
+							<dt><?=$img?></dt>
+							<dd>
+								<strong><?=$v['name']?></strong>
+								<div class="inf">
+									<span>Date:<?=Util::convertDate($v['regdate'])?></span>
+									<span>Type:<?=$v['type']?></span>
+									<span>Size:<?=Util::getFileSize($v['size'])?></span>
+								</div>
+							</dd>
+						</dl>
+					</a>
+				</li>
+			<?php
+			}
+		}
+		else
+		{
+			echo "<li class=\"empty\">데이터가 없습니다.</li>";
+		}
+		?>
+	</ul>
+
+	<!-- bottom navigation -->
+	<div class="controller">
+		<dl>
+			<dt><?=($repo['file'] > 0) ? $paginate->createNavigation() : '';?></dt>
+			<dd>
+				<nav class="btngroup">
+					<?php
+					if ($repo['nest']['json']['useCategory'])
+					{
+						$url = __GOOSE_ROOT__.'category/index/';
+						$url .= ($nest_srl) ? $nest_srl.'/' : '';
+						echo "<span><a href='$url' class='ui-button'>목록</a></span>";
+					}
+					?>
+				</nav>
+			</dd>
+		</dl>
+	</div>
+	<!-- // bottom navigation -->
+</section>

@@ -1,0 +1,114 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<section>
+	<div class="hgroup">
+		<?php
+		$url = __GOOSE_ROOT__.'article/index/';
+		$url .= ($nest_srl) ? $nest_srl.'/' : '';
+		?>
+		<h1><a href="<?=$url?>"><?=($repo['nest']['name']) ? '<em>'.$repo['nest']['name'].'</em> ' : ''?>문서목록</a></h1>
+	</div>
+
+	<?php
+	if ($repo['category'])
+	{
+		$articleCount = $this->parent->getCount( array('where' => ($nest_srl) ? 'nest_srl='.$nest_srl : '') );
+		$articleCount = $articleCount['data'];
+	?>
+		<nav class="goose-categories">
+			<ul>
+				<?php
+				$url = __GOOSE_ROOT__.'article/index/';
+				$url .= ($nest_srl) ? $nest_srl.'/' : '';
+				?>
+				<li<?=(!$category_srl) ? ' class="active"' : ''?>><a href="<?=$url?>">All<em><?=$articleCount?></em></a></li>
+				<?php
+				foreach($repo['category'] as $k=>$v)
+				{
+					$cnt = $this->parent->getCount( array('where' => 'category_srl='.$v['srl']) );
+					$cnt = ($cnt['data']) ? $cnt['data'] : 0;
+
+					$url = __GOOSE_ROOT__.'article/index/';
+					$url .= ($nest_srl) ? $nest_srl.'/' : '0/';
+					$url .= $v['srl'].'/';
+					$active = ($category_srl == $v['srl']) ? " class='active'" : "";
+					echo "<li$active><a href='$url'>$v[name]<em>$cnt</em></a></li>";
+				}
+				?>
+			</ul>
+		</nav>
+	<?php
+	}
+	?>
+
+	<!-- index -->
+	<ul class="goose-index list">
+		<?php
+		if (count($repo['article']))
+		{
+			foreach ($repo['article'] as $k=>$v)
+			{
+				$url = __GOOSE_ROOT__.'article/read/';
+				$url .= ($category_srl) ? $category_srl.'/' : '';
+				$url .= $v['srl'].'/';
+				$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
+				$categoryName = ($v['categoryName']) ? '<span>Category:'.$v['categoryName'].'</span> ' : '';
+		?>
+				<li>
+					<a href="<?=$url?>">
+						<dl>
+							<dd>
+								<strong><?=$v['title']?></strong>
+								<div class="inf">
+									<?=$categoryName?>
+									<span>Hit:<?=$v['hit']?></span>
+									<span>Date:<?=Util::convertDate($v['regdate'])?></span>
+								</div>
+							</dd>
+						</dl>
+					</a>
+				</li>
+		<?php
+			}
+		}
+		else
+		{
+			echo "<li class=\"empty\">데이터가 없습니다.</li>";
+		}
+		?>
+	</ul>
+	<!-- // index -->
+
+	<!-- bottom navigation -->
+	<div class="controller">
+		<dl>
+			<dt><?=($repo['article'] > 0) ? $paginate->createNavigation() : '';?></dt>
+			<dd>
+				<nav class="btngroup">
+					<?php
+					$url = __GOOSE_ROOT__.'article/create/';
+					$url .= ($nest_srl) ? $nest_srl.'/' : '';
+					$url .= ($category_srl) ? $category_srl.'/' : '';
+					?>
+					<span><a href="<?=$url?>" class="ui-button btn-highlight">글쓰기</a></span>
+					<?php
+					$url = __GOOSE_ROOT__.'nest/index/';
+					$url .= ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
+					?>
+					<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
+					<?php
+					if ($repo['nest']['json']['useCategory'])
+					{
+						$url = __GOOSE_ROOT__.'category/index/';
+						$url .= ($nest_srl) ? $nest_srl.'/' : '';
+						echo "<span><a href='$url' class='ui-button'>분류목록</a></span>";
+					}
+					?>
+				</nav>
+			</dd>
+		</dl>
+	</div>
+	<!-- // bottom navigation -->
+</section>
