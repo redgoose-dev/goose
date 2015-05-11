@@ -78,6 +78,9 @@ if ($goose->isInstalled())
 	$goose->createSpawn();
 	$goose->spawn->connect($dbConfig);
 
+	// set api_key
+	define('__apiKey__', md5($apiKey));
+
 	// set table prefix
 	define('__dbPrefix__', $table_prefix);
 

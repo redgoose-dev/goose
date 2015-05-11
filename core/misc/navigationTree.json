@@ -19,7 +19,7 @@
 	},
 	{
 		"name": "API",
-		"url": "{GOOSE_ROOT}page/api/",
+		"url": "{GOOSE_ROOT}api/",
 		"target": "",
 		"permission" : "100"
 	},

@@ -40,14 +40,6 @@ class API {
 				$result = $this->api_get($this->param['params'][0], $this->method);
 				$this->render($result, $this->method['type']);
 				break;
-			case 'insert':
-				break;
-			case 'edit':
-				break;
-			case 'remove':
-				break;
-			case 'act':
-				break;
 			default:
 				$this->view_index();
 				break;
@@ -63,6 +55,7 @@ class API {
 	 */
 	private function auth($apiKey)
 	{
+		return ($apiKey == __apiKey__) ? true : false;
 		return true;
 	}
 
@@ -204,7 +197,8 @@ class API {
 	private function view_index()
 	{
 		// layout 모듈을 불러와서 출력
-		echo "view index";
+		//var_dump($this->goose);
+		//echo "view index";
 	}
 
 
@@ -227,19 +221,24 @@ class API {
 		// check mod value
 		if (!$get['mod']) return array('state' => 'error', 'message' => 'mod값이 없습니다.');
 
+		// set table
+		$get['table'] = ($get['table']) ? $get['table'] : $get['mod'];
+
+		// get module
+		$activeMod = Module::load($get['mod']);
+
 		// get allow field
-		$allowFields = Util::jsonToArray(Util::openFile(__GOOSE_PWD__.'module/'.$get['mod'].'/allowField.json'), null, true);
-		if (!$allowFields || !count($allowFields[$get['mod']])) return array('state' => 'error', 'message' => '해당모듈에 허용하는 필드에 접근할 수 없습니다.');
+		if (!count($activeMod->set['allowApi']['read'])) return array('state' => 'error', 'message' => '해당모듈에 허용하는 필드에 접근할 수 없습니다.');
 
 		// set parameters
-		$params = $this->parameterToArray($get, $allowFields[$get['mod']]);
+		$params = $this->parameterToArray($get, $activeMod->set['allowApi']['read'][$get['table']]);
 
 		switch($method)
 		{
 			// get count
 			case 'count':
 				$result = Spawn::count(array(
-					'table' => Spawn::getTableName($params['mod']),
+					'table' => Spawn::getTableName($params['table']),
 					'where' => ($params['where']) ? $params['where'] : null
 				));
 
@@ -249,7 +248,7 @@ class API {
 			// get single item
 			case 'single':
 				$result = Spawn::item(array(
-					'table' => Spawn::getTableName($params['mod']),
+					'table' => Spawn::getTableName($params['table']),
 					'field' => $params['field'],
 					'where' => $params['where']
 					,'debug' => false
@@ -262,7 +261,7 @@ class API {
 			// get multiple items
 			case 'multi':
 				$total = Spawn::count(array(
-					'table' => Spawn::getTableName($params['mod']),
+					'table' => Spawn::getTableName($params['table']),
 					'where' => $params['where']
 				));
 				if ($total > 0)
@@ -270,11 +269,11 @@ class API {
 					require_once(__GOOSE_PWD__.'core/classes/Paginate.class.php');
 					$params['page'] = ($params['page'] > 1) ? $params['page'] : 1;
 					$params['limit'] = ($params['limit']) ? $params['limit'] : $this->set['defaultPagePerCount'];
-					$params['sort'] = ($params['sort']) ? $params['sort'] : "desc";
+					$params['sort'] = ($params['sort']) ? $params['sort'] : ($params['order']) ? "desc" : "";
 					$paginate = new Paginate($total, $params['page'], array(), $params['limit'], 1);
 
 					$result = Spawn::items(array(
-						'table' => Spawn::getTableName($params['mod']),
+						'table' => Spawn::getTableName($params['table']),
 						'field' => $params['field'],
 						'where' => $params['where'],
 						'order' => $params['order'],
@@ -306,30 +305,6 @@ class API {
 	 * @return array
 	 */
 	private function api_insert($get)
-	{
-		if (!$this->auth($get['api_key'])) return Array( 'state' => 'error', '올바른 api_key값이 아닙니다.' );
-	}
-
-	/**
-	 * api - edit data
-	 * 데이터를 수정하는 메서드
-	 *
-	 * @param array $get parameter
-	 * @return array
-	 */
-	private function api_edit($get)
-	{
-		if (!$this->auth($get['api_key'])) return Array( 'state' => 'error', '올바른 api_key값이 아닙니다.' );
-	}
-
-	/**
-	 * api - remove data
-	 * 데이터를 삭제하는 메서드
-	 *
-	 * @param array $get parameter
-	 * @return array
-	 */
-	private function api_remove($get)
 	{
 		if (!$this->auth($get['api_key'])) return Array( 'state' => 'error', '올바른 api_key값이 아닙니다.' );
 	}
