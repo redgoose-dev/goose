@@ -183,4 +183,14 @@ class Test {
 		return Spawn::action($query);
 	}
 
+	/**
+	 * install
+	 *
+	 * @return string 문제없으면 "success" 출력한다.
+	 */
+	public function uninstall($modName)
+	{
+		$result = Spawn::dropTable(Spawn::getTableName($modName));
+		return ($result == 'success') ? Array('state' => 'success') : Array('state' => 'error', 'message' => $result);
+	}
 }

@@ -1,0 +1,9 @@
+{
+	"name" : "api",
+	"description" : "외부에서 데이터를 가져오거나 처리하는 goose api입니다.",
+	"permission" : 0,
+	"adminPermission" : 100,
+	"skin" : "default",
+	"pagePerCount" : 15,
+	"defaultPagePerCount" : 15
+}

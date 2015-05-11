@@ -35,7 +35,7 @@ class Module {
 		}
 		else
 		{
-			return array('error' => 'module not found');
+			return array('state' => 'error', 'message' => 'module not found');
 		}
 		return array(
 			'pwd' => __GOOSE_PWD__.$path
@@ -56,7 +56,7 @@ class Module {
 		global $goose;
 
 		$existModule = self::existModule($moduleName);
-		if ($existModule['error'])
+		if ($existModule['state'] == 'error')
 		{
 			return $existModule;
 		}
@@ -108,7 +108,7 @@ class Module {
 		}
 		else
 		{
-			return array('error' => '정상적인 모듈이 아닙니다.');
+			return array('state' => 'error', 'message' => '정상적인 모듈이 아닙니다.');
 		}
 	}
 
@@ -124,25 +124,63 @@ class Module {
 
 		if (!$mod->set['install'])
 		{
-			return array( 'error' => 'can not install' );
+			return array( 'state' => 'error', 'message' => 'can not install' );
 		}
 
 		$file = Util::checkUserFile(__GOOSE_PWD__.$mod->path.'install.json');
 		$installData = Util::jsonToArray(Util::openFile($file));
-		$result = $mod->install($installData);
 
-		if ($result == 'success')
+		if (method_exists($mod, 'install'))
 		{
-			self::setInstallModule($moduleName);
-			return array( 'error' => null );
+			$result = $mod->install($installData);
+
+			if ($result == 'success')
+			{
+				self::setInstallModule('add', $moduleName);
+				return array( 'state' => 'success', 'message' => $result );
+			}
+			else
+			{
+				if (strpos($result, 'already exists'))
+				{
+					self::setInstallModule('add', $moduleName);
+				}
+				return array( 'state' => 'error', 'message' => $result );
+			}
 		}
 		else
 		{
-			if (strpos($result, 'already exists'))
+			return Array( 'state' => 'error', 'message' => 'not found install method' );
+		}
+	}
+
+	/**
+	 * uninstall module
+	 *
+	 * @param string $moduleName
+	 * @return array
+	 */
+	public static function uninstall($moduleName)
+	{
+		$mod = self::load($moduleName);
+
+		if (method_exists($mod, 'uninstall'))
+		{
+			$result = $mod->uninstall($moduleName);
+
+			if ($result['state'] == 'success')
 			{
-				self::setInstallModule($moduleName);
+				self::setInstallModule('remove', $moduleName);
+				return Array('state' => 'success');
 			}
-			return array( 'error' => $result );
+			else
+			{
+				return Array('state' => 'error', 'message' => $result['message']);
+			}
+		}
+		else
+		{
+			return Array('state' => 'error', 'message' => 'not found uninstall method');
 		}
 	}
 
@@ -158,16 +196,40 @@ class Module {
 	/**
 	 * set install module
 	 *
+	 * @param string|null $method (add|remove)
 	 * @param string $moduleName
 	 */
-	public static function setInstallModule($moduleName=null)
+	public static function setInstallModule($method=null, $moduleName=null)
 	{
+		$error = true;
 		$modules = self::getInstallModule();
-		array_push($modules, $moduleName);
-		$new_modules = Util::arrayToJson($modules);
-		if ($new_modules)
+
+		switch ($method)
 		{
-			Util::fop(__GOOSE_PWD__.'data/modules.json', 'w', $new_modules);
+			case 'add':
+				if (!array_search($moduleName, $modules))
+				{
+					array_push($modules, $moduleName);
+					$error = false;
+				}
+				break;
+			case 'remove':
+				$index = array_search($moduleName, $modules);
+				if ($index)
+				{
+					array_splice($modules, $index, 1);
+					$error = false;
+				}
+				break;
+		}
+
+		if (!$error)
+		{
+			$new_modules = Util::arrayToJson($modules);
+			if ($new_modules)
+			{
+				Util::fop(__GOOSE_PWD__.'data/modules.json', 'w', $new_modules);
+			}
 		}
 	}
 

@@ -63,17 +63,17 @@ class Goose {
 	/**
 	 * end goose
 	 *
+	 * @param boolean $log 디버그 로그 출력여부를 정한다.
 	 */
-	public static function end()
+	public static function end($is_log=true)
 	{
 		global $goose;
 
-		if (__GOOSE_DEBUG__)
+		if (__GOOSE_DEBUG__ && $is_log)
 		{
 			$endTime = array_sum(explode(' ', microtime()));
 			$time = $endTime - __StartTime__;
-			echo "<hr>";
-			echo "<p>$time</p>";
+			echo "\n\n<p style='border-top:2px dashed #999;padding:1em;'>time : $time</p>";
 		}
 
 		if ($goose->spawn)
@@ -86,18 +86,29 @@ class Goose {
 	/**
 	 * error goose
 	 *
-	 * @param number $code error code
+	 * @param int $code error code
 	 * @param string $msg error message
 	 */
 	public static function error($code=null, $msg=null)
 	{
+        // act error
 		switch($code)
 		{
-			case 404:
-				echo "404 not found";
+			case 101:
+				// custom error
+				$error = Module::load('error');
+				$error->render($code, $msg);
+				self::end();
 				break;
-			case 999:
-				echo "ERROR : \"$msg\"";
+			case 404:
+				// page not found
+				$error = Module::load('error');
+				$error->render(404, 'page not found');
+				self::end();
+				break;
+			case 909:
+				// box error
+
 				break;
 		}
 	}

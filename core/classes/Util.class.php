@@ -483,4 +483,15 @@ class Util {
 		if (($float === 0) && (intval($size) != $size)) $float = 2;
 		return number_format($size, $float, '.', ',') .''. $unit[$L];
 	}
+
+	/**
+	 * get method
+	 * $_POST나 $_GET 중에 값이 값이 있으면 가져온다.
+	 *
+	 * @return array
+	 */
+	public static function getMethod()
+	{
+		return ($_SERVER['REQUEST_METHOD'] == 'POST') ? $_POST : $_GET;
+	}
 }

@@ -8,7 +8,7 @@ if (!defined('__GOOSE__')) exit();
 class layout {
 
 	public $set;
-	public $path, $viewPath;
+	public $path, $skinPath;
 
 	/**
 	 * construct
@@ -21,7 +21,7 @@ class layout {
 		$this->path = $getter['path'];
 		$this->set = $getter['set'];
 
-		$this->viewPath = $this->path.'skin/'.$this->set['skin'].'/';
+		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
 	}
 
 	/**
@@ -31,7 +31,7 @@ class layout {
 	 */
 	public function getUrl()
 	{
-		return __GOOSE_PWD__.$this->viewPath.'view_layout.html';
+		return __GOOSE_PWD__.$this->skinPath.'view_layout.html';
 	}
 
 }

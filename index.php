@@ -4,4 +4,4 @@
 define('__GOOSE__', true);
 define('__GOOSE_DEBUG__', true);
 
-require dirname(__FILE__) . '/core/init.php';
+require_once dirname(__FILE__) . '/core/init.php';

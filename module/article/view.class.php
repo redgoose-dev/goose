@@ -167,7 +167,10 @@ class View extends Article {
 
 		// get file data
 		$file = Module::load('file');
-		$data = $file->getItems( array('where' => 'article_srl='.$article_srl) );
+		$data = $file->getItems(array(
+			'where' => 'article_srl='.$article_srl,
+			'sort' => 'asc'
+		));
 		$repo['file'] = ($data['state'] == 'success') ? $data['data'] : null;
 
 		// get nest data

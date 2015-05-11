@@ -26,7 +26,7 @@ $systemModules = ['user'];
 							<?php
 							if (in_array($set['name'], $installModules))
 							{
-								echo "<span>Install:Installed</span>";
+								echo "<span>Install:설치됨</span>";
 							}
 							if ($set['permission'])
 							{
@@ -46,11 +46,11 @@ $systemModules = ['user'];
 							<?php
 							if ($set['install'] && !in_array($set['name'], $installModules))
 							{
-								echo "<a href=\"".__GOOSE_ROOT__."modules/install/$set[name]/\">설치</a>";
+								echo "<a href=\"".__GOOSE_ROOT__."modules/install/$set[name]/\" data-action='confirm' data-message='설치하시겠습니까?'>설치</a>";
 							}
 							else if ($set['install'] && in_array($set['name'], $installModules) && !in_array($set['name'], $systemModules))
 							{
-								echo "<a href=\"".__GOOSE_ROOT__."modules/uninstall/$set[name]/\" class=\"uninstall\">설치해제</a>";
+								echo "<a href=\"".__GOOSE_ROOT__."modules/uninstall/$set[name]/\" data-action='confirm' data-message='정말 설치해제하시겠습니까?'>설치해제</a>";
 							}
 							?>
 						</nav>
@@ -65,14 +65,10 @@ $systemModules = ['user'];
 </section>
 
 <script>
-$('.uninstall').on('click', function(){
-	if (confirm('정말 삭제하시겠습니까?'))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-});
+(function($){
+	// confirm event
+	$('[data-action=confirm]').on('click', function(){
+		return (confirm($(this).attr('data-message'))) ? true : false;
+	});
+})(jQuery);
 </script>

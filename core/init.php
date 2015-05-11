@@ -65,6 +65,13 @@ $goose->init();
 // check install
 if ($goose->isInstalled())
 {
+	// set user config variables
+	$dbConfig = null; // array
+	$table_prefix = null; // string
+	$accessLevel = null; // int
+	$basic_module = null; // string
+
+	// load user config file
 	require_once(__GOOSE_PWD__.'data/config.php');
 
 	// create and connect database
@@ -102,8 +109,9 @@ if ($goose->isInstalled())
 		$auth->auth($accessLevel['login']);
 
 		// load module
+		$modName = ($_module) ? $_module : $basic_module;
 		$baseModule = Module::load(
-			(($_module) ? $_module : $basic_module),
+			$modName,
 			array(
 				'action' => $_action,
 				'method' => $_method,
@@ -117,34 +125,18 @@ if ($goose->isInstalled())
 		);
 
 		// check module
-		if (is_array($baseModule) && $baseModule['error'])
-		{
-			Goose::error(999, $baseModule['error']);
-			Goose::end();
-		}
-		if (!$baseModule)
-		{
-			Goose::error(999, 'module error');
-			Goose::end();
-		}
+		if (!$baseModule) Goose::error(101, 'module error');
+		if (is_array($baseModule) && $baseModule['state'] == 'error') Goose::error(101, $baseModule['message']);
 
-		// action module view
-		if (!method_exists($baseModule, 'index'))
-		{
-			Goose::error(999, '모듈의 index()메서드가 없습니다.');
-			Goose::end();
-		}
+		// check index method
+		if (!method_exists($baseModule, 'index')) Goose::error(101, $modName.'모듈의 index()메서드가 없습니다.');
 
 		// index module
-		if (method_exists($baseModule, 'index'))
-		{
-			$baseModule->index();
-		}
+		if (method_exists($baseModule, 'index')) $baseModule->index();
 	}
 	else
 	{
 		Goose::error(404);
-		Goose::end();
 	}
 }
 else
@@ -152,8 +144,10 @@ else
 	define( '__GOOSE_ROOT__', preg_replace('/index.php$/', '', $_SERVER['SCRIPT_NAME']) );
 	define('__dbPrefix__', ($_POST['dbPrefix']) ? $_POST['dbPrefix'] : null);
 
+	// load install module
 	$install = Module::load('install');
-	if ($install)
+
+	if ($install->name == 'install')
 	{
 		if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		{
@@ -164,10 +158,13 @@ else
 			$install->form();
 		}
 	}
+	else if ($install['state'] == 'error')
+	{
+		Goose::error(101, $install['message']);
+	}
 	else
 	{
-		Goose::error(999, 'not found install module');
-		Goose::end();
+		Goose::error(101, 'module error');
 	}
 }
 

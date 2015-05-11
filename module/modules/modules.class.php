@@ -47,14 +47,14 @@ class Modules {
 				break;
 			case 'uninstall':
 				$result = self::actUninstall();
-				Util::console($result);
+
 				if ($result['state'] == 'error')
 				{
-					//Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
+					Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
 				}
 				else
 				{
-					//Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
+					Module::afterAction(Array('message' => 'uninstall complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
 				}
 				break;
 			default:
@@ -149,9 +149,7 @@ class Modules {
 		$install = Module::load('install');
 
 		// install module
-		//return $install->unInstallModule($mod);
-
-		echo "uninstall module";
+		return $install->unInstallModule($mod);
 	}
 
 	/**

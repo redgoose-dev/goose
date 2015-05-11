@@ -6,10 +6,10 @@ if (!defined('__GOOSE__')) exit();
  *
  */
 
-class intro {
+class Intro {
 
-	public $name, $param, $set;
-	public $path;
+	public $name, $param, $set, $layout;
+	public $path, $pwd_container;
 
 	/**
 	 * construct

@@ -144,10 +144,7 @@ class Install {
 	 */
 	public function installModule($modName=null)
 	{
-		if (!$modName)
-		{
-			return Array('state' => 'error', 'message' => 'not found module name');
-		}
+		if (!$modName) return Array('state' => 'error', 'message' => 'not found module name');
 
 		$result = Module::install($modName);
 
@@ -157,7 +154,29 @@ class Install {
 		}
 		else
 		{
-			return Array('state' => 'success', "message" => "[$modName] Complete");
+			return Array('state' => 'success', "message" => "[$modName] $result[message]");
+		}
+	}
+
+	/**
+	 * install module
+	 *
+	 * @param string $modName module name
+	 * @return array
+	 */
+	public function unInstallModule($modName=null)
+	{
+		if (!$modName) return Array('state' => 'error', 'message' => 'not found module name');
+
+		$result = Module::uninstall($modName);
+
+		if ($result['state'] == 'success')
+		{
+			return Array('state' => 'success', "message" => "[$modName] Complete uninstall");
+		}
+		else
+		{
+			return Array('state' => 'error', "message" => "[$modName] ERROR : $result[message]");
 		}
 	}
 }

@@ -319,7 +319,7 @@ class Spawn {
 		{
 			$result = $goose->spawn->db->prepare($query);
 			$result->execute();
-			return $result->fetchColumn();
+			return (int)$result->fetchColumn();
 		}
 	}
 
@@ -349,6 +349,10 @@ class Spawn {
 			{
 				$fields2[] = "unique (`$v[name]`)";
 			}
+			if ($v['index'])
+			{
+				$fields2[] = "index (`$v[name]`)";
+			}
 		}
 
 		$str = "create table `$data[tableName]` (";
@@ -363,9 +367,10 @@ class Spawn {
 	 * drop table
 	 *
 	 * @param string $tableName
+	 * @return string
 	 */
 	public static function dropTable($tableName=null)
 	{
-		Spawn::action('drop table '.$tableName);
+		return Spawn::action('drop table '.$tableName);
 	}
 }
