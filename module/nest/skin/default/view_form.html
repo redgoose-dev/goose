@@ -5,12 +5,13 @@ if (!defined('__GOOSE__')) exit();
 $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 ?>
 
-<section class="goose-form">
-	<div class="hgroup">
+<section>
+	<div class="ui-headding">
 		<h1>둥지<?=$titleType?></h1>
 		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
 	</div>
-	<form action="<?=__GOOSE_ROOT__.'nest/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
+
+	<form action="<?=__GOOSE_ROOT__.'nest/'.$this->param['action'].'/'?>" method="post" id="regster-form">
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 
@@ -20,8 +21,8 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			$nowSkin = ($repo['nest']['json']['nestSkin']) ? $repo['nest']['json']['nestSkin'] : $this->set['skin'];
 			$nowSkin = ($_GET['skin']) ? $_GET['skin'] : $nowSkin;
 			?>
-			<dl class="table">
-				<dt><label for="skin">Nest Skin</label></dt>
+			<dl class="ui-table">
+				<dt><label for="nestSkin">Nest Skin</label></dt>
 				<dd>
 					<select name="nestSkin" id="nestSkin">
 						<?php
@@ -34,12 +35,12 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 						}
 						?>
 					</select>
-					<p class='col-red'>스킨을 바꾸면 페이지가 이동합니다.</p>
+					<p class="txt-color-red">스킨을 바꾸면 페이지가 이동합니다.</p>
 				</dd>
 			</dl>
 
-			<dl class="table">
-				<dt><label for="skin">Article Skin</label></dt>
+			<dl class="ui-table">
+				<dt><label for="articleSkin">Article Skin</label></dt>
 				<dd>
 					<select name="articleSkin" id="articleSkin">
 						<?php
@@ -59,7 +60,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			if (count($repo['app']))
 			{
 			?>
-				<dl class="table">
+				<dl class="ui-table">
 					<dt><label for="app_srl">App</label></dt>
 					<dd>
 						<select name="app_srl" id="app_srl">
@@ -132,7 +133,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 <script>
 (function($){
 	// change skin
-	$('#nestSkin').on('change', function(){
+	$('#nest-skin').on('change', function(){
 		var url = location.origin + location.pathname;
 		url += ($(this).val()) ? '?skin=' + $(this).val() : '';
 		location.href = url;
@@ -142,7 +143,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 	$.validator.addMethod("alphanumeric", function(value, element) {
 		return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
 	});
-	$('#regsterForm').validate({
+	$('#regster-form').validate({
 		rules : {
 			id : {required : true, minlength : 2, alphanumeric : true}
 			,name : {required: true, minlength: 2}

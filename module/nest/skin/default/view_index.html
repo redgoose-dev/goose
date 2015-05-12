@@ -5,12 +5,14 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 ?>
 
 <section>
-	<div class="hgroup">
+	<!-- headding -->
+	<div class="ui-headding">
 		<h1><a href="<?=__GOOSE_ROOT__?>nest/index/">Nests</a></h1>
 	</div>
+	<!-- // headding -->
 
-	<!-- groups list -->
-	<nav class="goose-categories">
+	<!-- app list -->
+	<nav class="nav-category">
 		<ul>
 			<li<?=(!$app_srl)?" class='active'":""?>>
 				<a href="<?=__GOOSE_ROOT__?>nest/index/">All<em><?=$repo['totalNest']?></em></a>
@@ -25,10 +27,10 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 			?>
 		</ul>
 	</nav>
-	<!-- // groups list -->
+	<!-- // app list -->
 
 	<!-- nests list -->
-	<ul class="goose-index list">
+	<ul class="idx-document list">
 		<?php
 		if (count($repo['nest']))
 		{
@@ -40,40 +42,39 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 				$categoryCount = $categoryBtn = '';
 				if ($v['json']['useCategory'] == 1)
 				{
-					$categoryCount = "<span>Category : $v[countCategory]</span>";
-					$categoryBtn = "<a href=\"".__GOOSE_ROOT__."category/index/$v[srl]/\">분류설정</a>";
+					$categoryCount = "<span><b>Category</b>$v[countCategory]</span>";
+					$categoryBtn = '<a href="'.__GOOSE_ROOT__.'category/index/'.$v['srl'].'/">분류설정</a>';
 				}
 
 				// app name
-				$appName = ($v['appName']) ? "<em class=\"type\">$v[appName]</em> " : "";
+				$appName = ($v['appName']) ? "<em class=\"txt-brk-type\">$v[appName]</em> " : "";
 		?>
 				<li>
-					<dl>
-						<dd>
+					<div class="ui-webzine">
+						<figure class="thumnail">thumnail</figure>
+						<div class="body">
 							<a href="<?=$url?>">
-								<strong class="big"><?=$appName?><?=$v['name']?><em class="count"><?=$v['countArticle']?></em></strong>
+								<strong class="hd"><?=$appName?><?=$v['name']?><em class="txt-brk-cnt"><?=$v['countArticle']?></em></strong>
 							</a>
 							<div class="inf">
-								<span>ID : <?=$v['id']?></span>
-								<span>Date : <?=Util::convertDate($v['regdate'])?></span>
+								<span><b>ID</b><?=$v['id']?></span>
+								<span><b>Date</b><?=Util::convertDate($v['regdate'])?></span>
 								<?=$categoryCount?>
-								<span>Nest skin : <?=$v['json']['nestSkin']?></span>
-								<span>Article skin : <?=$v['json']['articleSkin']?></span>
+								<span><b>Nest skin</b><?=$v['json']['nestSkin']?></span>
+								<span><b>Article skin</b><?=$v['json']['articleSkin']?></span>
 							</div>
-							<nav>
+							<nav class="btns">
 								<?php
 								if ($this->isAdmin)
 								{
-								?>
-									<a href="<?=__GOOSE_ROOT__."nest/modify/$v[srl]/"?>">수정</a>
-									<a href="<?=__GOOSE_ROOT__."nest/remove/$v[srl]/"?>">삭제</a>
-								<?php
+									echo '<a href="'.__GOOSE_ROOT__.'nest/modify/'.$v['srl'].'">수정</a>';
+									echo '<a href="'.__GOOSE_ROOT__.'nest/remove/'.$v['srl'].'">삭제</a>';
+									echo $categoryBtn;
 								}
 								?>
-								<?=$categoryBtn?>
 							</nav>
-						</dd>
-					</dl>
+						</div>
+					</div>
 				</li>
 		<?php
 			}
@@ -86,18 +87,18 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 	</ul>
 	<!-- // nests list -->
 
-	<!-- bottom buttons -->
-	<nav class="btngroup">
-		<span><a href="<?=__GOOSE_ROOT__?>nest/" class="ui-button">목록</a></span>
+	<!-- buttons -->
+	<nav class="nav-btn-group">
+		<a href="<?=__GOOSE_ROOT__?>nest/" class="ui-button">목록</a>
 		<?php
 		if ($this->parent->isAdmin)
 		{
 		?>
-			<span><a href="<?=__GOOSE_ROOT__?>app/" class="ui-button">APP목록</a></span>
-			<span><a href="<?=__GOOSE_ROOT__?>nest/create/" class="ui-button btn-highlight">둥지만들기</a></span>
+			<a href="<?=__GOOSE_ROOT__?>app/" class="ui-button">APP목록</a>
+			<a href="<?=__GOOSE_ROOT__?>nest/create/" class="ui-button col-key">둥지만들기</a>
 		<?php
 		}
 		?>
 	</nav>
-	<!-- // bottom buttons -->
+	<!-- // buttons -->
 </section>
