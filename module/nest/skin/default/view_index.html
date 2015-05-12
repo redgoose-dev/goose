@@ -6,23 +6,24 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 
 <section>
 	<!-- headding -->
-	<div class="ui-headding">
+	<div class="gs-headding">
 		<h1><a href="<?=__GOOSE_ROOT__?>nest/index/">Nests</a></h1>
+		<p><?=$this->set['description']?></p>
 	</div>
 	<!-- // headding -->
 
 	<!-- app list -->
-	<nav class="nav-category">
+	<nav class="idx-category">
 		<ul>
 			<li<?=(!$app_srl)?" class='active'":""?>>
-				<a href="<?=__GOOSE_ROOT__?>nest/index/">All<em><?=$repo['totalNest']?></em></a>
+				<a href="<?=__GOOSE_ROOT__?>nest/index/">All<em class="gs-brk-cnt"><?=$repo['totalNest']?></em></a>
 			</li>
 			<?php
 			foreach($repo['app'] as $k=>$v)
 			{
 				$url = __GOOSE_ROOT__.'nest/index/'.$v['srl'].'/';
 				$active = ($app_srl == $v['srl']) ? " class='active'" : "";
-				echo "<li$active><a href='$url'>$v[name]<em>$v[countNest]</em></a></li>";
+				echo "<li$active><a href='$url'>$v[name]<em class='gs-brk-cnt'>$v[countNest]</em></a></li>";
 			}
 			?>
 		</ul>
@@ -47,14 +48,14 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 				}
 
 				// app name
-				$appName = ($v['appName']) ? "<em class=\"txt-brk-type\">$v[appName]</em> " : "";
+				$appName = ($v['appName']) ? "<em class=\"gs-brk-type\">$v[appName]</em> " : "";
 		?>
 				<li>
-					<div class="ui-webzine">
+					<div class="wrap">
 						<figure class="thumnail">thumnail</figure>
 						<div class="body">
 							<a href="<?=$url?>">
-								<strong class="hd"><?=$appName?><?=$v['name']?><em class="txt-brk-cnt"><?=$v['countArticle']?></em></strong>
+								<strong class="hd"><?=$appName?><?=$v['name']?><em class="gs-brk-cnt"><?=$v['countArticle']?></em></strong>
 							</a>
 							<div class="inf">
 								<span><b>ID</b><?=$v['id']?></span>
@@ -88,15 +89,13 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 	<!-- // nests list -->
 
 	<!-- buttons -->
-	<nav class="nav-btn-group">
-		<a href="<?=__GOOSE_ROOT__?>nest/" class="ui-button">목록</a>
+	<nav class="gs-btn-group right">
+		<a href="<?=__GOOSE_ROOT__?>nest/" class="gs-button">목록</a>
 		<?php
 		if ($this->parent->isAdmin)
 		{
-		?>
-			<a href="<?=__GOOSE_ROOT__?>app/" class="ui-button">APP목록</a>
-			<a href="<?=__GOOSE_ROOT__?>nest/create/" class="ui-button col-key">둥지만들기</a>
-		<?php
+			echo '<a href="'.__GOOSE_ROOT__.'app/" class="gs-button">APP목록</a>';
+			echo '<a href="'.__GOOSE_ROOT__.'nest/create/" class="gs-button col-key">둥지만들기</a>';
 		}
 		?>
 	</nav>

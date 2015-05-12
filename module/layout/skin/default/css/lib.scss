@@ -1,0 +1,200 @@
+// Variables
+
+
+// Mixin
+@mixin linearGradient_h($color, $start, $end) {
+	background: $color;
+	background: -moz-linear-gradient(left, $start, $end);
+	background: -webkit-linear-gradient(left, $start, $end);
+	background: -o-linear-gradient(left, $start, $end);
+	background: -ms-linear-gradient(left, $start, $end);
+	background: linear-gradient(to right, $start, $end);
+}
+@mixin linearGradient_v($color, $start, $end) {
+	background: $color;
+	background: -moz-linear-gradient(top, $start, $end);
+	background: -webkit-linear-gradient(top, $start, $end);
+	background: -o-linear-gradient(top, $start, $end);
+	background: -ms-linear-gradient(top, $start, $end);
+	background: linear-gradient(to bottom, $start, $end);
+}
+@mixin flexbox() {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+@mixin flex($values) {
+	-webkit-box-flex: $values;
+	-moz-box-flex: $values;
+	-webkit-flex: $values;
+	-ms-flex: $values;
+	flex: $values;
+}
+@mixin order($val) {
+	-webkit-box-ordinal-group: $val;
+	-moz-box-ordinal-group: $val;
+	-ms-flex-order: $val;
+	-webkit-order: $val;
+	order: $val;
+}
+@mixin align-items($value) {
+	-webkit-align-items: $value;
+	align-items: $value;
+}
+
+
+// Placeholder
+%clearfix {
+	&:after {content:''; display:block; clear: both;}
+}
+%ul {margin: 0; padding: 0; list-style: none;}
+%button {
+	display: inline-block; cursor: pointer;
+	margin: 1px 2px; padding: 11px 20px;
+	font-size: 14px; color: #fff; text-decoration: none;
+	border: none; background: #a5acb0;
+	&.size-small {padding: 8px 15px; font-size: 12px;}
+	&.col-key {color: #fff; background: #72b3ca;}
+	&.block {display: block; margin-left: 0; margin-right: 0;}
+}
+%gs-icon {
+	font-family: 'goose-icons', sans-serif;
+	speak: none;
+	font-style: normal; font-weight: normal; font-variant: normal; text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+// Elements
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body {
+	margin:0; padding:0;
+	font-size: 16px; color: #333;
+	font-family: 'Apple SD Gothic Neo', 'NanumGothic', 'MalgunGothic', 'Helvetica', sans-serif;
+	min-width: 320px;
+	-webkit-text-size-adjust: none;
+}
+img, video, iframe {max-width: 100%;}
+img {border: none;}
+table {
+	border-collapse: collapse; border-spacing: 0;
+	th, td {padding: 0;}
+}
+form, figure {margin: 0;}
+fieldset {margin: 0; padding: 0; border: none;}
+ul, ol {margin: 15px 0; padding: 0 0 0 25px;}
+a {color: #2281d8;}
+hr {
+	border: none; height: 1px; clear: both; background: #ccc;
+	&.space {background: none; margin: 12px 0;}
+	&.clear {margin: 0; height: 0; clear: both;}
+}
+
+
+// Attributes
+.blind {
+	position: absolute; overflow: hidden; visibility: hidden;
+	width: 0; height: 0; font-size: 0; line-height: 0;
+}
+.clearfix {}
+
+
+// Forms
+input[type=email], input[type=text], input[type=password], input[type=number], input[type=tel], textarea {
+	margin: 2px 3px; padding: 8px 8px;
+	font-size: 14px; color: #333; vertical-align: middle;
+	background: white; border: 1px solid #acacac;
+	box-shadow:inset 0 2px 3px 0 rgba(0,0,0,.2);
+	border-radius: 0;
+	&.no-margin {margin: 0;}
+	&.block {width: 100%; margin-left: 0; margin-right: 0;}
+	&[disabled], &[readonly] {background: #ddd;}
+}
+
+
+// Button
+.gs-button {@extend %button;}
+button.gs-button {
+	-webkit-appearance:none; border:none;
+	&.block {width: 100%;}
+}
+
+
+// Buttons group
+.gs-btn-group {
+	font-size: 0;
+	&.right {text-align: right;}
+
+	@media all and (max-width:640px) {
+		@include flexbox();
+		> * {
+			margin: 0 0 0 1px; padding-left: 3px; padding-right: 3px;
+			text-align: center;
+			@include flex(1);
+			&:first-child {margin-left: 0;}
+		}
+	}
+}
+
+
+// Headding
+.gs-headding {
+	padding: 0 10px; position: relative;
+	border-bottom: 1px solid #ccc;
+	h1 {
+		font-size: 24px; margin: 0; line-height: 28px;
+		color: #111;
+		a {text-decoration: none; color: #111;}
+	}
+	> p {margin: 0 0 8px; font-size: 12px; color: #666;}
+
+	@media all and (max-width:640px) {
+		margin-bottom: 0; padding-left: 10px;
+		h1 {font-size: 20px;}
+	}
+}
+
+
+// Table
+.gs-table {
+	width: 100%;
+	caption {padding: 0 0 8px; text-align: left;}
+	th, td {
+		border: 1px solid #ccc;
+		padding: 8px 10px;
+	}
+	td {
+		&.center {text-align: center;}
+		&.nowrap {white-space: nowrap;}
+	}
+	thead th {background: #f1f1f1; font-weight: bold;}
+}
+
+
+// Webzine
+.gs-webz {
+	display: table;
+	width: 100%;
+	> * {display: table-cell; vertical-align: middle;}
+}
+
+
+// Paginate
+.gs-paginate {
+	font-size: 0;
+	a, strong {
+		margin: 0 2px; display: inline-block; padding: 9px 13px 6px;
+		color: #fff; text-align: center;
+		font-size: 14px;
+	}
+	a {text-decoration: none; background: #a5acb0;}
+	strong {background: #72b3ca;}
+}
