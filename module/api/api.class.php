@@ -25,6 +25,8 @@ class API {
 		$this->param = $getter['param'];
 		$this->path = $getter['path'];
 		$this->set = $getter['set'];
+
+		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
 	}
 
 	/**
@@ -32,14 +34,16 @@ class API {
 	 */
 	public function index()
 	{
-		$this->method = Util::getMethod();
+		$this->methodData = Util::getMethod();
 
 		switch($this->param['action'])
 		{
+			// /api/get/multi/?api_key=xxx&mod=nest&output=json
 			case 'get':
-				$result = $this->api_get($this->param['params'][0], $this->method);
-				$this->render($result, $this->method['type']);
+				$result = $this->api_get($this->param['params'][0], $this->methodData);
+				$this->render($result, $this->method['output']);
 				break;
+
 			default:
 				$this->view_index();
 				break;
@@ -56,7 +60,6 @@ class API {
 	private function auth($apiKey)
 	{
 		return ($apiKey == __apiKey__) ? true : false;
-		return true;
 	}
 
 	/**
@@ -64,7 +67,7 @@ class API {
 	 * 결과물을 출력한다.
 	 *
 	 * @param array $getResult
-	 * @param string $type
+	 * @param string $type output type
 	 */
 	private function render($getResult, $type)
 	{
@@ -196,9 +199,12 @@ class API {
 	 */
 	private function view_index()
 	{
-		// layout 모듈을 불러와서 출력
-		//var_dump($this->goose);
-		//echo "view index";
+		$this->layout = Module::load('layout');
+
+		// set container pwd
+		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_index.html';
+
+		require_once($this->layout->getUrl());
 	}
 
 
@@ -295,17 +301,5 @@ class API {
 				return array( 'state' => 'error', 'message' => 'method값이 없습니다.' );
 				break;
 		}
-	}
-
-	/**
-	 * api - insert data
-	 * 데이터를 삽입하는 메서드
-	 *
-	 * @param array $get parameter
-	 * @return array
-	 */
-	private function api_insert($get)
-	{
-		if (!$this->auth($get['api_key'])) return Array( 'state' => 'error', '올바른 api_key값이 아닙니다.' );
 	}
 }

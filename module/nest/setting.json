@@ -5,11 +5,5 @@
 	"adminPermission" : 100,
 	"install" : true,
 	"skin" : "default",
-	"countArticle" : 15,
-	"allowApi" : {
-		"read" : {
-			"nest" : [ "srl", "id", "name" ]
-		},
-		"write" : ["nest"]
-	}
+	"countArticle" : 15
 }
