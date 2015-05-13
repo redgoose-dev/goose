@@ -66,13 +66,26 @@ class Module {
 			$path = $existModule['path'];
 		}
 
-		$pwd_setting = Util::checkUserFile($pwd.'setting.json');
+		// set setting data
+		$tmp_settingOriginal = Util::jsonToArray(Util::openFile($pwd.'setting.json'));
+		$tmp_settingUser = Util::jsonToArray(Util::openFile($pwd.'setting.user.json'));
+		if ($tmp_settingOriginal && $tmp_settingUser)
+		{
+			$settings = ($tmp_settingUser) ? Util::extendArray($tmp_settingOriginal, $tmp_settingUser) : $tmp_settingOriginal;
+		}
+		else
+		{
+			$settings = ($tmp_settingUser) ? $tmp_settingUser : null;
+			$settings = ($tmp_settingOriginal) ? $tmp_settingOriginal : $settings;
+		}
+		if (!$settings || !is_array($settings)) return array('state' => 'error', 'message' => 'setting.json파일이 없습니다.');
+
+		// set module class path
 		$pwd_class = Util::checkUserFile($pwd.$moduleName.'.class.php');
 
-		if ($pwd_class && $pwd_setting)
+		if ($pwd_class)
 		{
 			require_once($pwd_class);
-			$settings = Util::jsonToArray(Util::openFile($pwd_setting));
 
 			// check install
 			if (($settings['install'] && !in_array($moduleName, $goose->modules)) && !$install)
