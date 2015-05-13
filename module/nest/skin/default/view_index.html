@@ -52,7 +52,6 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 		?>
 				<li>
 					<div class="wrap">
-						<figure class="thumnail">thumnail</figure>
 						<div class="body">
 							<a href="<?=$url?>">
 								<strong class="hd"><?=$appName?><?=$v['name']?><em class="gs-brk-cnt"><?=$v['countArticle']?></em></strong>
@@ -64,7 +63,7 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 								<span><b>Nest skin</b><?=$v['json']['nestSkin']?></span>
 								<span><b>Article skin</b><?=$v['json']['articleSkin']?></span>
 							</div>
-							<nav class="btns">
+							<nav>
 								<?php
 								if ($this->isAdmin)
 								{

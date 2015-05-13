@@ -1,7 +1,59 @@
 // Variables
+$color-blur: #666;
+$color-key: #469fc0;
+$color-title: #b68250;
 
+// Functions
+@function prefix($property, $prefixes: (webkit moz o ms)) {
+	$vendor-prefixed-properties: transform background-clip background-size;
+	$result: ();
+	@each $prefix in $prefixes {
+		@if index($vendor-prefixed-properties, $property) {
+			$property: -#{$prefix}-#{$property}
+		}
+		$result: append($result, $property);
+	}
+	@return $result;
+}
+@function trans-prefix($transition, $prefix: moz) {
+	$prefixed: ();
+	@each $trans in $transition {
+		$prop-name: nth($trans, 1);
+		$vendor-prop-name: prefix($prop-name, $prefix);
+		$prop-vals: nth($trans, 2);
+		$prefixed: append($prefixed, ($vendor-prop-name $prop-vals), comma);
+	}
+	@return $prefixed;
+}
 
 // Mixin
+@mixin transform($value) {
+	-webkit-transform: $value;
+	transform: $value;
+}
+@mixin transition($args...) {
+	$transitions: ();
+	@each $declaration in $args {
+		$prop: nth($declaration, 1);
+		$prop-opts: ();
+		$length: length($declaration);
+		@for $i from 2 through $length {
+			$prop-opts: append($prop-opts, nth($declaration, $i));
+		}
+		$trans: ($prop, $prop-opts);
+		$transitions: append($transitions, $trans, comma);
+	}
+	-webkit-transition: trans-prefix($transitions, webkit);
+	transition: $args;
+}
+@mixin perspective($value) {
+	-webkit-perspective: $value;
+	perspective: $value;
+}
+@mixin backfaceVisibility($value) {
+	-webkit-backface-visibility: $value;
+	backface-visibility: $value;
+}
 @mixin linearGradient_h($color, $start, $end) {
 	background: $color;
 	background: -moz-linear-gradient(left, $start, $end);
@@ -42,6 +94,13 @@
 @mixin align-items($value) {
 	-webkit-align-items: $value;
 	align-items: $value;
+}
+@mixin multiline-overflow($size, $column) {
+	line-height: $size; max-height: $size * $column;
+	overflow: hidden; text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: $column;
+	-webkit-box-orient: vertical;
 }
 
 
@@ -130,6 +189,7 @@ button.gs-button {
 
 // Buttons group
 .gs-btn-group {
+	margin: 15px 0;
 	font-size: 0;
 	&.right {text-align: right;}
 
@@ -147,14 +207,14 @@ button.gs-button {
 
 // Headding
 .gs-headding {
-	padding: 0 10px; position: relative;
+	padding: 0 10px 5px; position: relative;
 	border-bottom: 1px solid #ccc;
 	h1 {
 		font-size: 24px; margin: 0; line-height: 28px;
 		color: #111;
 		a {text-decoration: none; color: #111;}
 	}
-	> p {margin: 0 0 8px; font-size: 12px; color: #666;}
+	> p {margin: 0 0 3px; font-size: 12px; color: #666;}
 
 	@media all and (max-width:640px) {
 		margin-bottom: 0; padding-left: 10px;
@@ -197,4 +257,16 @@ button.gs-button {
 	}
 	a {text-decoration: none; background: #a5acb0;}
 	strong {background: #72b3ca;}
+}
+
+
+// text parenthesis
+em[class^=gs-brk-] {font-style: normal;}
+.gs-brk-type {
+	&:before {content: '['}
+	&:after {content: ']'}
+}
+.gs-brk-cnt {
+	&:before {content: '('}
+	&:after {content: ')'}
 }

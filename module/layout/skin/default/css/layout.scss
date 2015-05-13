@@ -7,7 +7,7 @@
 	background: #a2a5a4;
 	> * {display: table-cell; vertical-align: middle;}
 	h1 {
-		width: 110px; margin: 0; padding: 0 0 0 15px;
+		width: 110px; margin: 0; padding: 0 0 0 20px;
 		font-size: 24px;
 		a {
 			display: block; padding: 5px 0;
@@ -105,8 +105,8 @@
 	}
 	li {display: inline-block;}
 	a {
-		display: inline-block; padding: 5px;
-		font-size: 12px; color: #666; text-decoration: none;
+		display: inline-block; padding: 5px 6px;
+		font-size: 13px; color: #666; text-decoration: none;
 	}
 	li.active a {font-weight: bold; color: #469fc0; text-decoration: underline;}
 	em {
@@ -119,5 +119,179 @@
 
 /* Index document */
 .idx-document {
-	
+
+	@extend %ul;
+	@extend %clearfix;
+
+	a {text-decoration: none;}
+	.wrap {
+		@include flexbox();
+		@include align-items(center);
+	}
+	.figure {
+		@include flex(initial);
+		$width: 100px; $height: 100px;
+		width: $width; height: $height;
+		img {
+			display: block;
+			height: 100%; width: 100%;
+			object-fit: cover;
+		}
+		.noimg {
+			position: relative; display: block;
+			width: 100%; height: 100%; line-height: $height;
+			font-family: 'Helvetica', sans-serif;
+			font-size: 12px; color: #fff;
+			text-align: center; text-transform: uppercase;
+			background: #ccc;
+			overflow: hidden;
+			&:before, &:after {
+				content: '';
+				position: absolute; left: 50%; top: 50%;
+				z-index: 1;
+				width: 200%; height: 1px;
+				margin-left: -100%;
+				background: #e1e1e1; background: rgba(255,255,255,.3);
+			}
+			&:before {@include transform(rotate(45deg));}
+			&:after {@include transform(rotate(-45deg));}
+
+		}
+		@media all and (max-width:640px) {
+			$width: 80px; $height: 80px;
+			width: $width; height: $height;
+			.noimg {line-height: $height;}
+		}
+	}
+	.body {
+		@include flex(1);
+		.hd {
+			display: block; padding: 0 0 3px;
+			font-size: 16px; font-weight: bold; color: $color-title;
+			white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+		}
+		.inf {
+			font-size: 0;
+			span {
+				display: inline-block; margin: 0 5px 0 0;
+				font-size: 12px; color: $color-blur;
+				&:after {content: ',';}
+				&:last-child:after {content:'';}
+			}
+			b {
+				font-weight: normal;
+				&:after {content: ':'; margin: 0 2px;}
+			}
+		}
+		nav {
+			font-size: 0;
+			a {
+				display: inline-block; padding: 5px 4px 2px;
+				font-size: 13px; color: $color-blur;
+				&:first-child {padding-left: 0;}
+			}
+		}
+	}
+
+	&.list {
+		padding: 0 1px;
+		li {
+			padding: 8px 10px; width: 100%;
+			border-bottom: 1px dashed #ddd;
+		}
+		.figure {margin-right: 15px;}
+		.body {
+			padding: 0;
+			.inf {
+				font-size: 12px;
+				@include multiline-overflow(1.2em, 2);
+			}
+		}
+	}
+	&.card {
+		padding: 10px 0;
+		border-bottom: 1px dashed #ddd;
+		li {float: left; padding: 10px 10px; width: 100%;}
+		.wrap {
+			box-shadow: 1px 1px 3px 1px rgba(0,0,0,.1);
+			&:hover {background: #fafafa;}
+		}
+		.body {
+			padding: 8px 10px 8px 12px;
+			.hd {font-size: 14px;}
+			.inf {}
+
+		}
+	}
+	&.thumnail {
+		padding: 10px 0;
+		border-bottom: 1px dashed #ddd;
+		li {float: left; padding: 10px 10px; width: 100%;}
+		.wrap {
+			display: block;
+			box-shadow: 1px 1px 3px 1px rgba(0,0,0,.1);
+			&:hover {background: #fafafa;}
+		}
+		.figure {
+			$height: 150px;
+			display: block; width: auto; height: $height;
+			.noimg {
+				line-height: $height;
+				&:before {@include transform(rotate(34deg));}
+				&:after {@include transform(rotate(-34deg));}
+			}
+		}
+		.body {
+			display: block;
+			padding: 12px 10px;
+			.hd {font-size: 14px; padding-bottom: 5px;}
+			.inf {
+				font-size: 12px;
+				line-height: 1.2em; height: 1.2em * 3;
+				span {
+					display: block;
+					&:after {display: none;}
+				}
+			}
+		}
+	}
+
+	@media all and (min-width:480px) {
+		&.card li {}
+		&.thumnail li {width: 33.33%;}
+	}
+	@media all and (min-width:768px) {
+		&.card li {width: 50%;}
+		&.thumnail li {width: 25%;}
+	}
+	@media all and (min-width:1024px) {
+		&.card li {width: 33.33%;}
+		&.thumnail li {width: 20%;}
+	}
+	@media all and (min-width:1440px) {
+		&.card li {width: 25%;}
+		&.thumnail li {width: 16.66%;}
+	}
+	@media all and (min-width:1600px) {
+		&.card li {}
+		&.thumnail li {width: 14.28%;}
+	}
+	@media all and (min-width:1920px) {
+		&.card li {width: 20%;}
+		&.thumnail li {width: 12.5%;}
+	}
+	@media all and (min-width:2000px) {
+		&.card li {width: 16.66%;}
+		&.thumnail li {width: 10%;}
+	}
+
+	.empty {
+		padding: 30px 0 !important;
+		float: none !important;
+		width: auto !important;
+		text-align: center;
+		font-size: 16px;
+		color: $color-blur;
+		text-align: center;
+	}
 }
