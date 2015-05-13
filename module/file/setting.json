@@ -1,6 +1,6 @@
 {
 	"name" : "file",
-	"description" : "",
+	"description" : "첨부된 파일들의 목록입니다.",
 	"permission" : 100,
 	"adminPermission" : 100,
 	"install" : true,

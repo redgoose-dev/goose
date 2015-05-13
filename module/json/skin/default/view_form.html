@@ -5,17 +5,18 @@ if (!defined('__GOOSE__')) exit();
 $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 ?>
 
-<section class="goose-form">
-	<div class="hgroup">
+<section>
+	<div class="gs-headding">
 		<h1>JSON <?=$titleType?></h1>
+		<p><?=$this->set['description']?></p>
 	</div>
+
 	<form action="<?=__GOOSE_ROOT__.'json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="json_srl" value="<?=$repo['json']['srl']?>" />
 		<input type="hidden" name="json" />
 
-		<fieldset>
-			<legend class="blind">JSON<?=$titleType?></legend>
-			<dl class="table">
+		<fieldset class="form-group">
+			<dl class="gs-webz">
 				<dt><label for="name">이름</label></dt>
 				<dd><input type="text" name="name" id="name" size="22" maxlength="50" value="<?=$repo['json']['name']?>" class="block"/></dd>
 			</dl>
@@ -27,9 +28,9 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			</dl>
 		</fieldset>
 
-		<nav class="btngroup">
-			<span><button type="submit" class="ui-button btn-highlight"><?=$titleType?></button></span>
-			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		<nav class="gs-btn-group right">
+			<button type="submit" class="gs-button col-key"><?=$titleType?></button>
+			<button type="button" class="gs-button" onclick="history.back(-1)">뒤로가기</button>
 		</nav>
 	</form>
 </section>

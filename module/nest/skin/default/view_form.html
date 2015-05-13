@@ -6,22 +6,23 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 ?>
 
 <section>
-	<div class="ui-headding">
+	<!-- headding -->
+	<div class="gs-headding">
 		<h1>둥지<?=$titleType?></h1>
 		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
 	</div>
+	<!-- // headding -->
 
 	<form action="<?=__GOOSE_ROOT__.'nest/'.$this->param['action'].'/'?>" method="post" id="regster-form">
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 
-		<fieldset>
-			<legend class="blind">둥지<?=$titleType?></legend>
+		<fieldset class="form-group">
 			<?php
 			$nowSkin = ($repo['nest']['json']['nestSkin']) ? $repo['nest']['json']['nestSkin'] : $this->set['skin'];
 			$nowSkin = ($_GET['skin']) ? $_GET['skin'] : $nowSkin;
 			?>
-			<dl class="ui-table">
+			<dl class="gs-webz">
 				<dt><label for="nestSkin">Nest Skin</label></dt>
 				<dd>
 					<select name="nestSkin" id="nestSkin">
@@ -35,11 +36,11 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 						}
 						?>
 					</select>
-					<p class="txt-color-red">스킨을 바꾸면 페이지가 이동합니다.</p>
+					<p class="gs-color-red">스킨을 바꾸면 페이지가 이동합니다.</p>
 				</dd>
 			</dl>
 
-			<dl class="ui-table">
+			<dl class="gs-webz">
 				<dt><label for="articleSkin">Article Skin</label></dt>
 				<dd>
 					<select name="articleSkin" id="articleSkin">
@@ -60,7 +61,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			if (count($repo['app']))
 			{
 			?>
-				<dl class="ui-table">
+				<dl class="gs-webz">
 					<dt><label for="app_srl">App</label></dt>
 					<dd>
 						<select name="app_srl" id="app_srl">
@@ -80,7 +81,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			}
 			?>
 
-			<dl class="table">
+			<dl class="gs-webz">
 				<?
 				$attr = (isset($repo['nest']['id'])) ? ' value="'.$repo['nest']['id'].'" readonly' : '';
 				?>
@@ -91,7 +92,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 				</dd>
 			</dl>
 
-			<dl class="table">
+			<dl class="gs-webz">
 				<dt><label for="name">둥지이름</label></dt>
 				<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$repo['nest']['name']?>"/></dd>
 			</dl>
@@ -99,7 +100,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			<?php
 			$listCount = ($repo['nest']['json']['listCount']) ? $repo['nest']['json']['listCount'] : $this->set['countArticle'];
 			?>
-			<dl class="table">
+			<dl class="gs-webz">
 				<dt><label for="listCount">목록수</label></dt>
 				<dd>
 					<input type="tel" name="listCount" id="listCount" maxlength="3" size="4" value="<?=$listCount?>"/>
@@ -107,7 +108,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 				</dd>
 			</dl>
 
-			<dl class="table">
+			<dl class="gs-webz">
 				<?
 				$nest['json']['useCategory'] = ($repo['nest']['json']['useCategory']) ? $repo['nest']['json']['useCategory'] : null;
 				$useCategoryYes = ($repo['nest']['json']['useCategory'] == 1) ? ' checked = "checked"' : '';
@@ -121,9 +122,9 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			</dl>
 		</fieldset>
 
-		<nav class="btngroup">
-			<span><button type="submit" class="ui-button btn-highlight"><?=$titleType?></button></span>
-			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		<nav class="gs-btn-group right">
+			<button type="submit" class="gs-button col-key"><?=$titleType?></button>
+			<button type="button" class="gs-button" onclick="history.back(-1)">뒤로가기</button>
 		</nav>
 	</form>
 </section>

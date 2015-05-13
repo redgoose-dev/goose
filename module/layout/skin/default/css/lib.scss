@@ -2,6 +2,7 @@
 $color-blur: #666;
 $color-key: #469fc0;
 $color-title: #b68250;
+$font-eng: 'Helvetica', Arial, sans-serif;
 
 // Functions
 @function prefix($property, $prefixes: (webkit moz o ms)) {
@@ -136,7 +137,7 @@ $color-title: #b68250;
 }
 body {
 	margin:0; padding:0;
-	font-size: 16px; color: #333;
+	font-size: 16px; color: #111;
 	font-family: 'Apple SD Gothic Neo', 'NanumGothic', 'MalgunGothic', 'Helvetica', sans-serif;
 	min-width: 320px;
 	-webkit-text-size-adjust: none;
@@ -147,7 +148,7 @@ table {
 	border-collapse: collapse; border-spacing: 0;
 	th, td {padding: 0;}
 }
-form, figure {margin: 0;}
+form, figure, dl, dd {margin: 0;}
 fieldset {margin: 0; padding: 0; border: none;}
 ul, ol {margin: 15px 0; padding: 0 0 0 25px;}
 a {color: #2281d8;}
@@ -166,16 +167,25 @@ hr {
 .clearfix {}
 
 
+// text color
+.gs-color-red {color: #e80000;}
+
+
 // Forms
 input[type=email], input[type=text], input[type=password], input[type=number], input[type=tel], textarea {
 	margin: 2px 3px; padding: 8px 8px;
 	font-size: 14px; color: #333; vertical-align: middle;
 	background: white; border: 1px solid #acacac;
-	box-shadow:inset 0 2px 3px 0 rgba(0,0,0,.2);
+	box-shadow:inset 0 2px 3px 0 rgba(0,0,0,.15);
 	border-radius: 0;
 	&.no-margin {margin: 0;}
 	&.block {width: 100%; margin-left: 0; margin-right: 0;}
 	&[disabled], &[readonly] {background: #ddd;}
+}
+select {
+	height: 30px;
+	font-size: 13px;
+	border: 1px solid #aaa; border-radius: .1em;
 }
 
 
@@ -190,9 +200,9 @@ button.gs-button {
 // Buttons group
 .gs-btn-group {
 	margin: 15px 0;
+	padding: 0 8px;
 	font-size: 0;
 	&.right {text-align: right;}
-
 	@media all and (max-width:640px) {
 		@include flexbox();
 		> * {
@@ -202,6 +212,7 @@ button.gs-button {
 			&:first-child {margin-left: 0;}
 		}
 	}
+	.gs-webz & {margin-bottom:0;}
 }
 
 
@@ -214,7 +225,7 @@ button.gs-button {
 		color: #111;
 		a {text-decoration: none; color: #111;}
 	}
-	> p {margin: 0 0 3px; font-size: 12px; color: #666;}
+	> p {margin: 4px 0 3px; font-size: 12px; color: #666;}
 
 	@media all and (max-width:640px) {
 		margin-bottom: 0; padding-left: 10px;
@@ -239,24 +250,33 @@ button.gs-button {
 }
 
 
-// Webzine
-.gs-webz {
-	display: table;
-	width: 100%;
-	> * {display: table-cell; vertical-align: middle;}
-}
-
-
 // Paginate
 .gs-paginate {
+	margin: 15px 0;
 	font-size: 0;
 	a, strong {
-		margin: 0 2px; display: inline-block; padding: 9px 13px 6px;
+		margin: 0 2px; display: inline-block; padding: 10px 13px;
 		color: #fff; text-align: center;
 		font-size: 14px;
 	}
 	a {text-decoration: none; background: #a5acb0;}
 	strong {background: #72b3ca;}
+	@media all and (max-width:640px) {
+		text-align: center;
+	}
+	.gs-webz & {margin-bottom: 0;}
+}
+
+
+// Webzine
+.gs-webz {
+	display: table; width: 100%;
+	> * {display: table-cell; vertical-align: middle;}
+	@media all and (max-width:640px) {
+		display: block; width: auto;
+		> * {display: block;}
+	}
+	&.top > * {vertical-align: top;}
 }
 
 
@@ -269,4 +289,8 @@ em[class^=gs-brk-] {font-style: normal;}
 .gs-brk-cnt {
 	&:before {content: '('}
 	&:after {content: ')'}
+}
+.gs-brk-quot {
+	&:before {content: '"'}
+	&:after {content: '"'}
 }

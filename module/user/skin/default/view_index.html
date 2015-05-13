@@ -5,7 +5,7 @@ $gooseAdmin = $this->parent->goose->isAdmin;
 ?>
 
 <section>
-	<div class="hgroup">
+	<div class="gs-headding">
 		<h1><a href="<?=__GOOSE_ROOT__?>user/index/">사용자 목록</a></h1>
 	</div>
 	<?php
@@ -13,7 +13,7 @@ $gooseAdmin = $this->parent->goose->isAdmin;
 	{
 	?>
 		<!-- index -->
-		<ul class="goose-index list">
+		<ul class="idx-document list">
 			<?php
 			foreach ($repo['user'] as $k=>$v)
 			{
@@ -21,20 +21,20 @@ $gooseAdmin = $this->parent->goose->isAdmin;
 				{
 			?>
 					<li>
-						<dl>
-							<dd>
-								<strong class="big"><?=$v['name']?></strong>
+						<div class="wrap">
+							<div class="body">
+								<strong class="hd"><?=$v['name']?></strong>
 								<div class="inf">
-									<span>Email : <?=$v['email']?></span>
-									<span>Date : <?=Util::convertDate($v['regdate'])?></span>
-									<span>Level : <?=$v['level']?></span>
+									<span><b>Email</b><?=$v['email']?></span>
+									<span><b>Date</b><?=Util::convertDate($v['regdate'])?></span>
+									<span><b>Level</b><?=$v['level']?></span>
 								</div>
 								<nav>
 									<a href="<?=__GOOSE_ROOT__.'user/modify/'.$v['srl'].'/'?>">수정</a>
 									<a href="<?=__GOOSE_ROOT__.'user/remove/'.$v['srl'].'/'?>">삭제</a>
 								</nav>
-							</dd>
-						</dl>
+							</div>
+						</div>
 					</li>
 			<?php
 				}
@@ -45,15 +45,8 @@ $gooseAdmin = $this->parent->goose->isAdmin;
 	<?php
 	}
 	?>
-	<nav class="btngroup">
-		<span><a href="<?=__GOOSE_ROOT__?>user/index/" class="ui-button">목록</a></span>
-		<?php
-		if ($gooseAdmin)
-		{
-		?>
-			<span><a href="<?= __GOOSE_ROOT__ ?>user/create/" class="ui-button btn-highlight">사용자 등록</a></span>
-		<?php
-		}
-		?>
+	<nav class="gs-btn-group right">
+		<a href="<?=__GOOSE_ROOT__?>user/index/" class="gs-button">목록</a>
+		<?=($gooseAdmin) ? '<a href="'.__GOOSE_ROOT__.'user/create/" class="gs-button col-key">사용자 등록</a>' : ''?>
 	</nav>
 </section>

@@ -1,11 +1,11 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
-$categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['category']['name'].'</em>&nbsp;' : '';
+$categoryName = ($repo['category']['name']) ? '<em class="gs-brk-type">'.$repo['category']['name'].'</em>&nbsp;' : '';
 ?>
 
 <section>
-	<div class="hgroup detail">
+	<div class="gs-headding">
 		<h1><?=$categoryName.$repo['article']['title']?></h1>
 		<p>
 			<span><?=Util::convertDate($repo['article']['regdate']).'&nbsp;'.Util::convertTime($repo['article']['regdate'])?></span>
@@ -19,9 +19,9 @@ $categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['cat
 	$content = nl2br($content);
 	?>
 	<style>
-	.articleBody {margin-top: 20px; margin-bottom: 20px;}
+	/*.articleBody {margin-top: 20px; margin-bottom: 20px;}*/
 	</style>
-	<div class="articleBody">
+	<div class="gs-article-body">
 		<?=$content?>
 	</div>
 	<!-- // body -->
@@ -31,7 +31,7 @@ $categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['cat
 	{
 	?>
 		<!-- attach files -->
-		<article class="attach-files">
+		<article class="attach-files box">
 			<h1>Attach files</h1>
 			<ul>
 				<?php
@@ -39,7 +39,7 @@ $categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['cat
 				{
 					$url = __GOOSE_ROOT__.$v['loc'];
 					$size = Util::getFileSize($v['size']);
-					echo "<li><a href=\"$url\" target=\"_blank\">$v[name] <em class=\"ui-text-count\">$size</em></a></li>";
+					echo "<li><a href=\"$url\" target=\"_blank\">$v[name] <em class=\"gs-brk-cnt\">$size</em></a></li>";
 				}
 				?>
 			</ul>
@@ -52,7 +52,7 @@ $categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['cat
 	<hr />
 
 	<!-- bottom navigation -->
-	<nav class="btngroup">
+	<nav class="gs-btn-group right">
 		<?php
 		if ($_GET['m'])
 		{
@@ -66,14 +66,14 @@ $categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['cat
 			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 		}
 		?>
-		<span><a href="<?=$url?>" class="ui-button">목록</a></span>
+		<a href="<?=$url?>" class="gs-button">목록</a>
 		<?php
 		$url = __GOOSE_ROOT__.'article/create/';
 		$url .= ($repo['nest']['srl']) ? $repo['nest']['srl'].'/' : '';
 		$url .= ($category_srl) ? $category_srl.'/' : '';
 		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
-		<span><a href="<?=$url?>" class="ui-button">글쓰기</a></span>
+		<a href="<?=$url?>" class="gs-button">글쓰기</a>
 		<?php
 		$url = __GOOSE_ROOT__.'article/modify/';
 		$url .= ($category_srl) ? $category_srl.'/' : '';
@@ -81,7 +81,7 @@ $categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['cat
 		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
-		<span><a href="<?=$url?>" class="ui-button btn-highlight">수정</a></span>
+		<a href="<?=$url?>" class="gs-button col-key">수정</a>
 		<?php
 		$url = __GOOSE_ROOT__.'article/remove/';
 		$url .= ($category_srl) ? $category_srl.'/' : '';
@@ -89,7 +89,7 @@ $categoryName = ($repo['category']['name']) ? '<em class="category">'.$repo['cat
 		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 		?>
-		<span><a href="<?=$url?>" id="docDelete" class="ui-button">삭제</a></span>
+		<a href="<?=$url?>" id="docDelete" class="gs-button">삭제</a>
 	</nav>
 	<!-- // bottom navigation -->
 </section>

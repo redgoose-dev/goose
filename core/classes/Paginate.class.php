@@ -51,7 +51,7 @@ class Paginate {
 	{
 		$op = null;
 		if($this->total > $this->size) {
-			$op = "<div class='paginate'>\n";
+			$op = "<div class='gs-paginate'>\n";
 			if($this->block > 0) {
 				$prev_block = ($this->block - 1) * $this->scale + 1;
 				$str = ($prev_block == 1) ? "" : "page=$prev_block";

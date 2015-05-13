@@ -3,10 +3,15 @@ if (!defined('__GOOSE__')) exit();
 ?>
 
 <section>
-	<div class="hgroup">
+	<!-- headding -->
+	<div class="gs-headding">
 		<h1>Script 목록</h1>
+		<p><?=$this->set['description']?></p>
 	</div>
-	<ul class="goose-index list">
+	<!-- // headding -->
+
+	<!-- index -->
+	<ul class="idx-document list">
 		<?php
 		if (count($repo['run']) > 0)
 		{
@@ -15,16 +20,15 @@ if (!defined('__GOOSE__')) exit();
 				$img = ($v['loc']) ? '<img src="'.__GOOSE_ROOT__.$v['loc'].'" alt="'.$v['name'].'"/>' : '<div class="noimg">noimg</div>';
 				?>
 				<li>
-					<dl>
-						<dt><?=$img?></dt>
-						<dd>
-							<strong><?=($v['meta']['name']) ? $v['meta']['name'] : $v['name']?></strong>
-							<?=($v['meta']['description']) ? '<p>'.$v['meta']['description'].'</p>' : ''?>
+					<div class="wrap">
+						<div class="body">
+							<strong class="hd"><?=($v['meta']['name']) ? $v['meta']['name'] : $v['name']?></strong>
+							<?=($v['meta']['description']) ? '<p class="description">'.$v['meta']['description'].'</p>' : ''?>
 							<nav>
 								<a href="<?=__GOOSE_ROOT__.'script/run/'.$v['name'].'/'?>">실행하기</a>
 							</nav>
-						</dd>
-					</dl>
+						</div>
+					</div>
 				</li>
 			<?php
 			}
@@ -35,4 +39,5 @@ if (!defined('__GOOSE__')) exit();
 		}
 		?>
 	</ul>
+	<!-- // index -->
 </section>

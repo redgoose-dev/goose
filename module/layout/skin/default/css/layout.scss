@@ -51,7 +51,7 @@
 
 /* Footer */
 #footer {
-	margin: 30px 15px 15px; text-align: right;
+	margin: 30px 20px 15px; text-align: right;
 	address {
 		padding: 0;
 		font-size: 12px; color: #666;
@@ -65,7 +65,6 @@
 /* Container */
 #container {
 	margin: 15px 10px;
-
 	@media all and (max-width:640px) {
 		margin-left: 0;
 		margin-right: 0;
@@ -87,7 +86,6 @@
 		}
 		input {margin: 0;}
 	}
-
 	@media all and (max-width:640px) {
 		margin-left: 10px;
 		margin-right: 10px;
@@ -170,6 +168,10 @@
 			font-size: 16px; font-weight: bold; color: $color-title;
 			white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 		}
+		.description {
+			margin: 2px 0 6px;
+			font-size: 12px;
+		}
 		.inf {
 			font-size: 0;
 			span {
@@ -184,11 +186,13 @@
 			}
 		}
 		nav {
+			margin-top: 6px;
 			font-size: 0;
 			a {
-				display: inline-block; padding: 5px 4px 2px;
-				font-size: 13px; color: $color-blur;
+				display: inline-block; padding: 6px 4px 2px;
+				font-size: 13px; color: $color-blur; font-weight: bold;
 				&:first-child {padding-left: 0;}
+				&:hover {text-decoration: underline;}
 			}
 		}
 	}
@@ -289,9 +293,140 @@
 		padding: 30px 0 !important;
 		float: none !important;
 		width: auto !important;
-		text-align: center;
-		font-size: 16px;
-		color: $color-blur;
+		font-size: 16px; color: $color-blur;
 		text-align: center;
 	}
 }
+
+
+/* form group */
+.form-group {
+	input[type=text], input[type=tel], input[type=email], input[type=password], textarea {margin: 0;}
+	select {margin-left: 0;}
+	legend {
+		width: 100%;
+		padding: 6px 0 6px 10px; margin-bottom: 0;
+		font-size: 16px; font-weight: bold; color: #333;
+		border-bottom: 1px solid #ccc;
+	}
+	label {
+		> input, > span {vertical-align: middle;}
+	}
+	> legend {
+		display: block; margin-bottom: 5px;
+		font-size: 18px;
+	}
+	> dl {
+		border-bottom: 1px dashed #ccc;
+		> dt, > dd {padding: 0 10px;}
+		> dt {
+			margin-top: 12px;
+			margin-bottom: 10px;
+			font-size: 14px; font-weight: 600;
+			&:before {
+				@extend %gs-icon;
+				content: "\e601";
+				margin: 0 3px 0 0;
+				font-size: 9px; color: $color-key;
+				vertical-align: middle;
+				line-height: 0;
+			}
+			> label {vertical-align: middle;}
+		}
+		> dd {
+			margin-bottom: 8px;
+			font-size: 13px; color: $color_blur;
+			> p {margin: 4px 0 0 0;}
+			.error {color: #e80000;}
+			label.error {display: block; margin: 4px 0 0 0;}
+		}
+	}
+
+	.gs-webz {
+		> dt, > dd {padding: 8px 10px;}
+		> dt {width: 130px;}
+		> dd {margin: 3px 0 0 0; padding-left: 0;}
+	}
+	.message {
+		color: $color-blur; font-size: 16px; margin: 0; padding: 30px 10px;
+		border-bottom: 1px dashed #ddd;
+	}
+	.attach-files {
+
+	}
+	.checkboxes {
+		margin: 0;
+		label {
+			display: block;
+			margin: 1px 0;
+			padding: 6px 8px;
+			background: #eee;
+		}
+		input, span {vertical-align: middle;}
+		span {font-size: 13px;}
+	}
+
+	&.margin {margin: 15px 0;}
+
+	@media all and (max-width:640px) {
+		.gs-webz {
+			border-bottom: none;
+			margin: 15px 10px;
+			> dt {padding: 0; margin: 0 0 4px;}
+			> dd {padding: 0;}
+		}
+	}
+}
+
+
+/* article body */
+.gs-article-body {
+	margin: 15px 10px 30px;
+	font-size: 14px; line-height: 1.48;
+}
+
+
+/* attach files */
+.attach-files {
+	h1 {
+		margin: 0 0 8px;
+		font-size: 14px; color: #111;
+	}
+	ul {
+		@extend %ul;
+		margin: 5px 0 0;
+		font-family: $font-eng; font-size: 12px;
+	}
+	li {margin: 3px 0;}
+	a {
+		display: inline-block; margin-left: 4px;
+		text-decoration: none;
+	}
+	&.box {
+		margin: 0 0 12px; padding: 15px;
+		background: #f5f5f5;
+		border-radius: .1em;
+		ul {
+			color: #888;
+			line-height: 1.6;
+		}
+		a {
+			margin-left: 0;
+			padding-left: .6em;
+			text-indent: -.6em;
+			&:before {content: '- '}
+		}
+	}
+}
+
+
+/* JSON code */
+.json-code {
+	margin: 15px 10px 30px;
+	font-size: 13px;
+}
+
+
+/* patch - plugin snippet */
+.snippet-wrap pre.sh_sourceCode {box-shadow: 0 0 0 !important;}
+

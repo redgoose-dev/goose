@@ -2,27 +2,28 @@
 if (!defined('__GOOSE__')) exit();
 ?>
 
+<link type="text/css" rel="stylesheet" href="<?=__GOOSE_ROOT__?>ext/snippet/jquery.snippet.min.css"/>
+
 <section>
-	<div class="hgroup">
+	<div class="gs-headding">
 		<h1><?=$repo['json']['name']?></h1>
 		<p><?=Util::convertDate($repo['json']['regdate']).'&nbsp;'.Util::convertTime($repo['json']['regdate'])?></p>
 	</div>
 
 	<!-- body -->
-	<div class="jsonCode">
+	<div class="json-code">
 		<pre class="js" id="jsonData"></pre>
 	</div>
 	<!-- // body -->
 
 	<!-- bottom navigation -->
-	<nav class="btngroup">
-		<span><a href="<?=__GOOSE_ROOT__?>json/index/" class="ui-button">목록</a></span>
-		<span><a href="<?=__GOOSE_ROOT__?>json/modify/<?=$json_srl?>/" class="ui-button btn-highlight">수정</a></span>
-		<span><a href="<?=__GOOSE_ROOT__?>json/remove/<?=$json_srl?>/" class="ui-button">삭제</a></span>
+	<nav class="gs-btn-group right">
+		<a href="<?=__GOOSE_ROOT__?>json/index/" class="gs-button">목록</a>
+		<a href="<?=__GOOSE_ROOT__?>json/modify/<?=$json_srl?>/" class="gs-button col-key">수정</a>
+		<a href="<?=__GOOSE_ROOT__?>json/remove/<?=$json_srl?>/" class="gs-button">삭제</a>
 	</nav>
 </section>
 
-<link type="text/css" rel="stylesheet" href="<?=__GOOSE_ROOT__?>ext/snippet/jquery.snippet.min.css"/>
 <script type="text/javascript" src="<?=__GOOSE_ROOT__?>ext/snippet/jquery.snippet.min.js"></script>
 <script>
 $(function(){

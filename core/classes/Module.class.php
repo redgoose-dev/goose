@@ -77,19 +77,19 @@ class Module {
 			// check install
 			if (($settings['install'] && !in_array($moduleName, $goose->modules)) && !$install)
 			{
-				return array('error' => '인스톨이 필요한 모듈입니다.');
+				return array('state' => 'error', 'message' => '인스톨이 필요한 모듈입니다.');
 			}
 
 			// check permission
 			if (($settings['permission'] && $settings['permission'] > $_SESSION['goose_level']) && !$goose->isAdmin)
 			{
-				return array('error' => '접근 권한이 없습니다.');
+				return array('state' => 'error', 'message' => '접근 권한이 없습니다.');
 			}
 
 			// check setting
 			if (!$settings)
 			{
-				return array('error' => 'error setting.json');
+				return array('state' => 'error', 'message' => 'error setting.json');
 			}
 
 			// set module class

@@ -3,21 +3,24 @@ if (!defined('__GOOSE__')) exit();
 ?>
 
 <section class="goose-form">
-	<div class="hgroup">
+	<!-- headding -->
+	<div class="gs-headding">
 		<h1>분류삭제</h1>
+		<p><?=$this->set['description']?></p>
 	</div>
+	<!-- // headding -->
+
 	<form action="<?=__GOOSE_ROOT__.'category/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
 		<input type="hidden" name="category_srl" value="<?=$category_srl?>"/>
 
-		<fieldset class="delete">
-			<legend class="blind">APP 삭제</legend>
-			<p class="message">"<?=$repo['category']['name']?>" 분류를 삭제하시겠습니까? 삭제된 분류는 복구할 수 없습니다.</p>
+		<fieldset class="form-group">
+			<p class="message"><em class="gs-brk-quot"><?=$repo['category']['name']?></em> 분류를 삭제하시겠습니까? 삭제된 분류는 복구할 수 없습니다.</p>
 		</fieldset>
 
-		<nav class="btngroup">
-			<span><button type="submit" class="ui-button btn-highlight">삭제하기</button></span>
-			<span><button type="button" class="ui-button" onclick="history.back(-1)">돌아가기</button></span>
+		<nav class="gs-btn-group right">
+			<button type="submit" class="gs-button col-key">삭제하기</button>
+			<button type="button" class="gs-button" onclick="history.back(-1)">돌아가기</button>
 		</nav>
 	</form>
 </section>

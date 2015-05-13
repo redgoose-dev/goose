@@ -2,12 +2,14 @@
 if (!defined('__GOOSE__')) exit();
 
 $titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
-$nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : "";
+$nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ' : '';
 ?>
 
-<section class="goose-form">
-	<div class="hgroup">
+<section>
+
+	<div class="gs-headding">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
+		<p><?=$this->set['description']?></p>
 	</div>
 
 	<form name="writeForm" action="<?=__GOOSE_ROOT__.'article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
@@ -18,13 +20,12 @@ $nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : ""
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="m" value="<?=$_GET['m']?>" />
 
-		<fieldset>
-			<legend class="blind">문서<?=$titleType?></legend>
+		<fieldset class="form-group">
 			<?php
 			if (count($repo['category']))
 			{
 			?>
-				<dl class="table">
+				<dl class="gs-webz">
 					<dt><label for="category">분류</label></dt>
 					<dd>
 						<select name="category_srl" id="category">
@@ -42,7 +43,7 @@ $nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : ""
 			<?php
 			}
 			?>
-			<dl class="table">
+			<dl class="gs-webz">
 				<dt><label for="title">제목</label></dt>
 				<dd><input type="text" id="title" name="title" class="block" value="<?=$repo['article']['title']?>" /></dd>
 			</dl>
@@ -50,7 +51,7 @@ $nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : ""
 				<dt><label for="content">내용</label></dt>
 				<dd><textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars($repo['article']['content'])?></textarea></dd>
 			</dl>
-			<dl>
+			<dl class="gs-webz">
 				<dt><label for="upload">파일 업로드</label></dt>
 				<dd>
 					<input type="file" name="upload[]" id="upload" multiple/>
@@ -60,28 +61,30 @@ $nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : ""
 			if (count($repo['file']))
 			{
 			?>
-				<dl>
+				<dl class="gs-webz">
 					<dt><label for="upload">첨부 파일목록</label></dt>
 					<dd>
 						<p>체크한 이미지는 삭제됩니다.</p>
-						<ul>
-							<?php
-							foreach($repo['file'] as $k=>$v)
-							{
-								$url = __GOOSE_ROOT__.$v['loc'];
-								$size = Util::getFileSize($v['size']);
-							?>
-								<li>
-									<label>
-										<input type="checkbox" name="removeFiles[]" value="<?=$v['srl']?>"/>
-										<span><?=$v['name']?></span>
-									</label>
-									<a href="<?=$url?>" target="_blank">open file</a>
-								</li>
-							<?php
-							}
-							?>
-						</ul>
+						<article class="attach-files">
+							<ul>
+								<?php
+								foreach($repo['file'] as $k=>$v)
+								{
+									$url = __GOOSE_ROOT__.$v['loc'];
+									$size = Util::getFileSize($v['size']);
+								?>
+									<li>
+										<label>
+											<input type="checkbox" name="removeFiles[]" value="<?=$v['srl']?>"/>
+											<span><?=$v['name']?></span>
+										</label>
+										<a href="<?=$url?>" target="_blank" class="gs-brk-type">open file</a>
+									</li>
+								<?php
+								}
+								?>
+							</ul>
+						</article>
 					</dd>
 				</dl>
 			<?php
@@ -89,9 +92,9 @@ $nestName = ($repo['nest']['name']) ? "<em>".$repo['nest']['name']."</em> " : ""
 			?>
 		</fieldset>
 
-		<nav class="btngroup">
-			<span><button type="submit" class="ui-button btn-highlight"><?=$titleType?></button></span>
-			<span><button type="button" class="ui-button" onclick="history.back(-1)">뒤로가기</button></span>
+		<nav class="gs-btn-group right">
+			<button type="submit" class="gs-button col-key"><?=$titleType?></button>
+			<button type="button" class="gs-button" onclick="history.back(-1)">뒤로가기</button>
 		</nav>
 	</form>
 </section>

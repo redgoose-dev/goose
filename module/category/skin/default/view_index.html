@@ -3,15 +3,20 @@ if (!defined('__GOOSE__')) exit();
 ?>
 
 <section>
-	<div class="hgroup">
-		<h1><?=($repo['nest']['name']) ? '<em>'.$repo['nest']['name']."</em> " : ""?>분류목록</h1>
+	<!-- headding -->
+	<div class="gs-headding">
+		<h1><?=($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name']."</em> " : ""?>분류목록</h1>
+		<p><?=$this->set['description']?></p>
 	</div>
+	<!-- // headding -->
+
+	<!-- index -->
 	<form action="<?=__GOOSE_ROOT__?>category/sort/" method="post" name="listForm" id="listForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
 			<legend class="blind">분류목록</legend>
-			<ul id="index" class="goose-index list">
+			<ul id="index" class="idx-document list">
 				<?php
 				if (count($repo['category']) > 0)
 				{
@@ -21,44 +26,48 @@ if (!defined('__GOOSE__')) exit();
 						$param .= $v['srl'].'/';
 				?>
 						<li data-srl="<?=$v['srl']?>">
-							<dl>
-								<dd>
-									<strong class="big"><?=$v['srl']?>. <?=$v['name']?>(<?=$v['countArticle']?>)</strong>
+							<div class="wrap">
+								<div class="body">
+									<strong class="hd"><?=$v['srl']?>. <?=$v['name']?>(<?=$v['countArticle']?>)</strong>
 									<nav>
 										<a href="<?=__GOOSE_ROOT__.'category/modify/'.$param?>">수정</a>
 										<a href="<?=__GOOSE_ROOT__.'category/remove/'.$param?>">삭제</a>
 									</nav>
-								</dd>
-							</dl>
+								</div>
+							</div>
 						</li>
 				<?php
 					}
 				}
 				else
 				{
-					echo "<li class=\"empty\">데이터가 없습니다.</li>";
+					echo '<li class="empty">데이터가 없습니다.</li>';
 				}
 				?>
 			</ul>
 		</fieldset>
-		<nav class="btngroup">
+
+		<!-- buttons -->
+		<nav class="gs-btn-group right">
 			<?php
 			$param = ($nest_srl) ? $nest_srl.'/' : '';
 			?>
-			<span><a href="<?=__GOOSE_ROOT__.'category/create/'.$param?>" class="ui-button btn-highlight">분류추가</a></span>
-			<span><a href="#" id="submitSortForm" class="ui-button">순서변경</a></span>
-			<span><a href="<?=__GOOSE_ROOT__.'article/index/'.$param?>" class="ui-button">문서목록</a></span>
+			<a href="<?=__GOOSE_ROOT__.'category/create/'.$param?>" class="gs-button col-key">분류추가</a>
+			<a href="#" id="submitSortForm" class="gs-button">순서변경</a>
+			<a href="<?=__GOOSE_ROOT__.'article/index/'.$param?>" class="gs-button">문서목록</a>
 			<?php
 			$url = __GOOSE_ROOT__.'nest/index/';
 			$url .= ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
 			?>
-			<span><a href="<?=$url?>" class="ui-button">둥지목록</a></span>
+			<a href="<?=$url?>" class="gs-button">둥지목록</a>
 		</nav>
+		<!-- // buttons -->
 	</form>
+	<!-- // index -->
 </section>
 
-<script type="text/javascript" src="<?=__GOOSE_ROOT__?>/ext/dragsort/jquery.dragsort-0.5.1.min.js"></script>
-<script type="text/javascript">
+<script src="<?=__GOOSE_ROOT__?>/ext/dragsort/jquery.dragsort-0.5.1.min.js"></script>
+<script>
 jQuery(function($){
 	var objs = {};
 	objs.lst = $('#index');
