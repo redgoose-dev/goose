@@ -1,7 +1,7 @@
 {
 	"name" : "json",
 	"description" : "JSON데이터를 관리하는 모듈입니다.",
-	"permission" : 100,
+	"permission" : 0,
 	"adminPermission" : 100,
 	"install" : true,
 	"skin" : "default",

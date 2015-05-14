@@ -1,6 +1,6 @@
 {
 	"name" : "page",
 	"description" : "일반 페이지를 관리하는 모듈입니다.",
-	"permission" : 100,
+	"permission" : 0,
 	"pagePerCount" : 30
 }

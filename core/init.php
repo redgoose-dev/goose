@@ -1,6 +1,6 @@
 <?php
 /* Copyright Redgoose <http://redgoose.me> */
-
+if (!defined('__GOOSE__')) exit();
 
 // set error reporting
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
@@ -11,9 +11,6 @@ else
 {
 	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
 }
-
-
-if (!defined('__GOOSE__')) exit();
 
 
 // Set Timezone as server time

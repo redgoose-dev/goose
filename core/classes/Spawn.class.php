@@ -26,9 +26,8 @@ class Spawn {
 	 */
 	public function connect($config)
 	{
-		global $goose;
 		try {
-			$goose->spawn->db = new PDO($config[0], $config[1], $config[2]);
+			$this->db = new PDO($config[0], $config[1], $config[2]);
 			self::action("set names utf8");
 		} catch (PDOException $e) {
 			echo 'Connection failed: '.$e->getMessage();
@@ -41,8 +40,7 @@ class Spawn {
 	 */
 	public function disconnect()
 	{
-		global $goose;
-		$goose->spawn->db = null;
+		$this->db = null;
 	}
 
 	/**

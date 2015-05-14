@@ -2,9 +2,9 @@
 if (!defined('__GOOSE__')) exit();
 
 /**
- * Module - auth
+ * Module - Auth
  */
-class auth {
+class Auth {
 
 	public $goose, $set, $layout;
 	public $skinPath, $pwd_container, $path;
@@ -72,16 +72,14 @@ class auth {
 	 */
 	public function loginForm()
 	{
-		// create layout module
-		$this->layout = Module::load('layout');
-
 		// set view path
 		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
 
 		// set container path
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'login-form.html';
 
-		// require layout
+		// set layout module print
+		$this->layout = Module::load('layout');
 		require_once($this->layout->getUrl());
 	}
 

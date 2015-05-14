@@ -75,20 +75,16 @@
 /* Auth */
 .form-auth {
 	fieldset {
-		margin: 15px 0 10px; padding: 0;
+		margin: 15px 0 10px; padding: 0 10px;
 		label {
 			display: block; margin: 5px 0 12px;
 			font-size: 14px;
-			strong {
-				display: block;
-				margin-bottom: 5px;
-			}
+			strong {display: block; margin-bottom: 5px;}
 		}
 		input {margin: 0;}
 	}
 	@media all and (max-width:640px) {
-		margin-left: 10px;
-		margin-right: 10px;
+		margin-left: 0; margin-right: 0;
 	}
 }
 

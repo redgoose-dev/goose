@@ -99,12 +99,6 @@ class Module {
 				return array('state' => 'error', 'message' => '접근 권한이 없습니다.');
 			}
 
-			// check setting
-			if (!$settings)
-			{
-				return array('state' => 'error', 'message' => 'error setting.json');
-			}
-
 			// set module class
 			$settings['skin'] = ($settings['skin']) ? $settings['skin'] : 'default';
 			$tmpModule =  new $moduleName(array(

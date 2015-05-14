@@ -1,7 +1,7 @@
 {
 	"name" : "nest",
 	"description" : "둥지를 관리하는 모듈입니다. 둥지는 article모듈의 그룹입니다.",
-	"permission" : 100,
+	"permission" : 0,
 	"adminPermission" : 100,
 	"install" : true,
 	"skin" : "default",

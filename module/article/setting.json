@@ -1,7 +1,7 @@
 {
 	"name" : "article",
 	"description" : "글 목록을 관리하는 모듈입니다.",
-	"permission" : 100,
+	"permission" : 0,
 	"adminPermission" : 100,
 	"install" : true,
 	"skin" : "default",
