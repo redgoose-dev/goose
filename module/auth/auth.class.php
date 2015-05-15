@@ -93,7 +93,7 @@ class Auth {
 			,'where' => "email='$_POST[email]'"
 		));
 
-		if ($user && $user['pw'] == md5($_POST['password']))
+		if ($user && $user['pw'] === md5($_POST['password']))
 		{
 			$_SESSION['goose_name'] = $user['name'];
 			$_SESSION['goose_email'] = $user['email'];
