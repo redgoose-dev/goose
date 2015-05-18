@@ -194,6 +194,7 @@ class Module {
 	/**
 	 * get install module
 	 *
+	 * @return array()
 	 */
 	public static function getInstallModule()
 	{

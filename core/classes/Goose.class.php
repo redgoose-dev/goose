@@ -26,16 +26,6 @@ class Goose {
 	}
 
 	/**
-	 * create spawn
-	 *
-	 * @param array $config
-	 */
-	public function createSpawn($config)
-	{
-		$this->spawn = new Spawn($config);
-	}
-
-	/**
 	 * return static goose object (singleton)
 	 *
 	 * @return object instance
@@ -51,6 +41,14 @@ class Goose {
 	}
 
 	/**
+	 * create spawn
+	 */
+	public function createSpawn()
+	{
+		$this->spawn = new Spawn();
+	}
+
+	/**
 	 * Installed check
 	 *
 	 * @return boolean
@@ -63,7 +61,7 @@ class Goose {
 	/**
 	 * end goose
 	 *
-	 * @param boolean $log 디버그 로그 출력여부를 정한다.
+	 * @param boolean $is_log 디버그 로그 출력여부를 정한다.
 	 */
 	public static function end($is_log=true)
 	{
