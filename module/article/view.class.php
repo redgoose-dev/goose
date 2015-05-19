@@ -90,9 +90,6 @@ class View extends Article {
 				$data = $category->getItems( array('where' => $param) );
 				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 			}
-
-			// set skin path
-			$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], 'default');
 		}
 
 		// set article params
@@ -136,7 +133,13 @@ class View extends Article {
 		}
 
 		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_index.html';
+		$this->pwd_container = Util::isFile(array(
+			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_index.html',
+			__GOOSE_PWD__.$this->skinPath.'view_index.html'
+		));
+
+		// set skin path
+		$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
 
 		require_once($this->layout->getUrl());
 	}
@@ -193,7 +196,13 @@ class View extends Article {
 		}
 
 		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_read.html';
+		$this->pwd_container = Util::isFile(array(
+			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_read.html',
+			__GOOSE_PWD__.$this->skinPath.'view_read.html'
+		));
+
+		// set skin path
+		$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
 
 		require_once($this->layout->getUrl());
 	}
@@ -231,8 +240,14 @@ class View extends Article {
 			$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 		}
 
-		// set container pwd
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
+		// set pwd_container
+		$this->pwd_container = Util::isFile(array(
+			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_form.html',
+			__GOOSE_PWD__.$this->skinPath.'view_index.html'
+		));
+
+		// set skin path
+		$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
 
 		require_once($this->layout->getUrl());
 	}
@@ -293,7 +308,13 @@ class View extends Article {
 		}
 
 		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
+		$this->pwd_container = Util::isFile(array(
+			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_form.html',
+			__GOOSE_PWD__.$this->skinPath.'view_index.html'
+		));
+
+		// set skin path
+		$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
 
 		require_once($this->layout->getUrl());
 	}
@@ -337,7 +358,13 @@ class View extends Article {
 		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
 
 		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_remove.html';
+		$this->pwd_container = Util::isFile(array(
+			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_remove.html',
+			__GOOSE_PWD__.$this->skinPath.'view_remove.html'
+		));
+
+		// set skin path
+		$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
 
 		require_once($this->layout->getUrl());
 	}

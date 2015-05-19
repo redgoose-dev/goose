@@ -1,6 +1,8 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
+global $accessLevel;
+
 // set title type
 $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 ?>
@@ -123,11 +125,14 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			</dl>
 
 			<dl class="gs-webz">
+				<?php
+				$thumnailSize_width = ($repo['nest']['json']['thumnail']['size'][0]) ? $repo['nest']['json']['thumnail']['size'][0] : $this->set['thumnailSize'][0];
+				$thumnailSize_height = ($repo['nest']['json']['thumnail']['size'][1]) ? $repo['nest']['json']['thumnail']['size'][1] : $this->set['thumnailSize'][1];
+				?>
 				<dt><label for="thumWidth">썸네일사이즈</label></dt>
 				<dd>
-					<label><span>가로 :</span> <input type="number" name="thumWidth" id="thumWidth" maxlength="4" size="5" min="10" max="1000" value="<?=$repo['nest']['json']['thumnail']['size'][0]?>"/></label>
-					&nbsp;
-					<label><span>세로 :</span> <input type="number" name="thumHeight" maxlength="4" size="5" min="10" max="1000" value="<?=$repo['nest']['json']['thumnail']['size'][1]?>"/></label>
+					<label><span>가로 :</span> <input type="number" name="thumWidth" id="thumWidth" size="3" min="10" max="999" value="<?=$thumnailSize_width?>"/></label><br/>
+					<label><span>세로 :</span> <input type="number" name="thumHeight" size="3" min="10" max="999" value="<?=$thumnailSize_height?>"/></label>
 				</dd>
 			</dl>
 
@@ -148,21 +153,21 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 				?>
 				<dt><label for="thumType">썸네일 축소방식</label></dt>
 				<dd>
-					<label><input type="radio" name="thumType" id="thumType" value="crop"<?=$thumType1?>/> <span>자르기</span></label>
+					<label class="dis-ib"><input type="radio" name="thumType" id="thumType" value="crop"<?=$thumType1?>/> <span>자르기</span></label>
 					&nbsp;
-					<label><input type="radio" name="thumType" value="resize"<?=$thumType2?>/> <span>리사이즈</span></label>
+					<label class="dis-ib"><input type="radio" name="thumType" value="resize"<?=$thumType2?>/> <span>리사이즈</span></label>
 					&nbsp;
-					<label><input type="radio" name="thumType" value="resizeWidth"<?=$thumType3?>/> <span>리사이즈(가로기준)</span></label>
+					<label class="dis-ib"><input type="radio" name="thumType" value="resizeWidth"<?=$thumType3?>/> <span>리사이즈(가로기준)</span></label>
 					&nbsp;
-					<label><input type="radio" name="thumType" value="resizeHeight"<?=$thumType4?>/> <span>리사이즈(세로기준)</span></label>
+					<label class="dis-ib"><input type="radio" name="thumType" value="resizeHeight"<?=$thumType4?>/> <span>리사이즈(세로기준)</span></label>
 				</dd>
 			</dl>
 
 			<dl class="gs-webz">
-				<dt><label for="listCount">List type</label></dt>
+				<dt><label for="articleListType">List type</label></dt>
 				<dd>
-					<select name="listType" id="listType">
-						<?
+					<select name="articleListType" id="articleListType">
+						<?php
 						foreach($this->set['articleListTypes'] as $k=>$v)
 						{
 							$selected = ($v == $repo['nest']['json']['articleListType']) ? ' selected' : '';
@@ -172,6 +177,17 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 						?>
 					</select>
 					<p>Article 목록에서 출력되는 방식입니다.</p>
+				</dd>
+			</dl>
+
+			<dl class="gs-webz">
+				<?php
+				$permission = ($repo['nest']['json']['permission']) ? $repo['nest']['json']['permission'] : $this->set['permission'];
+				?>
+				<dt><label for="permission">접근권한</label></dt>
+				<dd>
+					<input type="number" name="permission" id="permission" size="4" min="0" max="<?=$this->set['adminPermission']?>" value="<?=$permission?>"/>
+					<p>숫자가 높을수록 권한이 높습니다.</p>
 				</dd>
 			</dl>
 		</fieldset>
@@ -209,10 +225,16 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 		}
 		,submitHandler : function(form) {
 			var json = {
-				nestSkin : form.nestSkin.value
-				,articleSkin : form.articleSkin.value
-				,listCount : (form.listCount) ? form.listCount.value : 15
-				,useCategory : $(form.useCategory).filter(':checked').val()
+				nestSkin : form.nestSkin.value,
+				articleSkin : form.articleSkin.value,
+				listCount : (form.listCount) ? parseInt(form.listCount.value) : 15,
+				useCategory : parseInt($(form.useCategory).filter(':checked').val()),
+				thumnail : {
+					size : [parseInt(form.thumWidth.value), parseInt(form.thumHeight.value)],
+					type : $(form.thumType).filter(':checked').val()
+				},
+				articleListType : form.articleListType.value,
+				permission : parseInt(form.permission.value)
 			};
 			form.json.value = encodeURIComponent(JSON.stringify(json));
 			form.submit();

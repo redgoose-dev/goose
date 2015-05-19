@@ -1,7 +1,7 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 ?>
-
+in markdown
 <section>
 	<!-- headding -->
 	<?php
@@ -49,7 +49,10 @@ if (!defined('__GOOSE__')) exit();
 	?>
 
 	<!-- index -->
-	<ul class="idx-document card">
+	<?php
+	$listType = ($repo['nest']['json']['articleListType']) ? $repo['nest']['json']['articleListType'] : 'card';
+	?>
+	<ul class="idx-document <?=$listType?>">
 		<?php
 		if (count($repo['article']))
 		{

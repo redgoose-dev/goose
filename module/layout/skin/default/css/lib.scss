@@ -164,7 +164,7 @@ hr {
 	position: absolute; overflow: hidden; visibility: hidden;
 	width: 0; height: 0; font-size: 0; line-height: 0;
 }
-.clearfix {}
+.dis-ib {display: inline-block;}
 
 
 // text color
@@ -180,6 +180,7 @@ input[type=email], input[type=text], input[type=password], input[type=number], i
 	border-radius: 0;
 	&.no-margin {margin: 0;}
 	&.block {width: 100%; margin-left: 0; margin-right: 0;}
+	&.error {border: 1px solid #e80000; color: #e80000;}
 	&[disabled], &[readonly] {background: #ddd;}
 }
 select {
