@@ -90,6 +90,9 @@ class View extends Article {
 				$data = $category->getItems( array('where' => $param) );
 				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 			}
+
+			// set skin path
+			$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], 'default');
 		}
 
 		// set article params

@@ -5,5 +5,6 @@
 	"adminPermission" : 100,
 	"install" : true,
 	"skin" : "default",
-	"countArticle" : 15
+	"countArticle" : 15,
+	"articleListTypes" : ["list", "card", "thumnail"]
 }

@@ -206,6 +206,7 @@ class View extends Nest
 
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
+			__GOOSE_PWD__.$this->path.'skin/'.$_GET['skin'].'/view_form.html',
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['nestSkin'].'/view_form.html',
 			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_form.html'
 		));

@@ -8,7 +8,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 <section>
 	<!-- headding -->
 	<div class="gs-headding">
-		<h1>둥지<?=$titleType?></h1>
+		<h1>둥지<?=$titleType?>  aaaaaaaaaa</h1>
 		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
 	</div>
 	<!-- // headding -->
@@ -109,15 +109,69 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			</dl>
 
 			<dl class="gs-webz">
-				<?
+				<?php
 				$nest['json']['useCategory'] = ($repo['nest']['json']['useCategory']) ? $repo['nest']['json']['useCategory'] : null;
 				$useCategoryYes = ($repo['nest']['json']['useCategory'] == 1) ? ' checked = "checked"' : '';
 				$useCategoryNo = ($repo['nest']['json']['useCategory'] != 1) ? ' checked = "checked"' : '';
 				?>
 				<dt><label for="useCategory">분류사용</label></dt>
 				<dd>
-					<label><input type="radio" name="useCategory" id="useCategory" value="0" <?=$useCategoryNo?>/><span>사용안함</span></label>
-					<label><input type="radio" name="useCategory" value="1" <?=$useCategoryYes?>/><span>사용</span></label>
+					<label><input type="radio" name="useCategory" id="useCategory" value="0" <?=$useCategoryNo?>/> <span>사용안함</span></label>
+					&nbsp;
+					<label><input type="radio" name="useCategory" value="1" <?=$useCategoryYes?>/> <span>사용</span></label>
+				</dd>
+			</dl>
+
+			<dl class="gs-webz">
+				<dt><label for="thumWidth">썸네일사이즈</label></dt>
+				<dd>
+					<label><span>가로 :</span> <input type="number" name="thumWidth" id="thumWidth" maxlength="4" size="5" min="10" max="1000" value="<?=$repo['nest']['json']['thumnail']['size'][0]?>"/></label>
+					&nbsp;
+					<label><span>세로 :</span> <input type="number" name="thumHeight" maxlength="4" size="5" min="10" max="1000" value="<?=$repo['nest']['json']['thumnail']['size'][1]?>"/></label>
+				</dd>
+			</dl>
+
+			<dl class="gs-webz">
+				<?php
+				$thumType1 = $thumType2 = $thumType3 = $thumType4 = null;
+				if ($paramAction == "modify")
+				{
+					$thumType1 = ($repo['nest']['json']['thumnail']['type'] == "crop") ? ' checked = "checked"' : '';
+					$thumType2 = ($repo['nest']['json']['thumnail']['type'] == "resize") ? ' checked = "checked"' : '';
+					$thumType3 = ($repo['nest']['json']['thumnail']['type'] == "resizeWidth") ? ' checked = "checked"' : '';
+					$thumType4 = ($repo['nest']['json']['thumnail']['type'] == "resizeHeight") ? ' checked = "checked"' : '';
+				}
+				else
+				{
+					$thumType1 = ' checked = "checked"';
+				}
+				?>
+				<dt><label for="thumType">썸네일 축소방식</label></dt>
+				<dd>
+					<label><input type="radio" name="thumType" id="thumType" value="crop"<?=$thumType1?>/> <span>자르기</span></label>
+					&nbsp;
+					<label><input type="radio" name="thumType" value="resize"<?=$thumType2?>/> <span>리사이즈</span></label>
+					&nbsp;
+					<label><input type="radio" name="thumType" value="resizeWidth"<?=$thumType3?>/> <span>리사이즈(가로기준)</span></label>
+					&nbsp;
+					<label><input type="radio" name="thumType" value="resizeHeight"<?=$thumType4?>/> <span>리사이즈(세로기준)</span></label>
+				</dd>
+			</dl>
+
+			<dl class="gs-webz">
+				<dt><label for="listCount">List type</label></dt>
+				<dd>
+					<select name="listType" id="listType">
+						<?
+						foreach($this->set['articleListTypes'] as $k=>$v)
+						{
+							$selected = ($v == $repo['nest']['json']['articleListType']) ? ' selected' : '';
+							$selected = (!$repo['nest']['json']['articleListType'] && $v=='card') ? ' selected' : $selected;
+							echo "<option value=\"$v\"$selected>$v</option>";
+						}
+						?>
+					</select>
+					<p>Article 목록에서 출력되는 방식입니다.</p>
 				</dd>
 			</dl>
 		</fieldset>
