@@ -6,7 +6,7 @@ jQuery(function($){
 		,$manager : $('#queuesManager')
 		,uploadAction : userData.root + 'file/upload/'
 		,removeAction : userData.root + 'file/remove/'
-		,fileDir : userData.url + userData.originalPath
+		,fileDir : userData.url
 		,auto : false
 		,limit : 10
 		,thumnail : userData.thumnail

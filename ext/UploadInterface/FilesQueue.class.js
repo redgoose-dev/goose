@@ -176,10 +176,14 @@ var FilesQueue = function(getParent, $el) {
 	this.removeQueue = function($queue)
 	{
 		var action = parent.settings.removeAction;
-		var srls = $queue.map(function(){
+		var srls = [];
+		$queue.each(function(){
 			var item = self.getIndexItem($(this).attr('key'));
-			return item.type + ':' + item.srl;
-		}).get().join(',');
+			srls.push({
+				table : (item.type == 'session') ? 'file_tmp' : 'file',
+				srl : parseInt(item.srl)
+			});
+		});
 
 		if (action)
 		{
@@ -188,7 +192,7 @@ var FilesQueue = function(getParent, $el) {
 				,type : 'post'
 				,dataType : 'json'
 				,data : {
-					data : srls
+					data : JSON.stringify(srls)
 				}
 			});
 

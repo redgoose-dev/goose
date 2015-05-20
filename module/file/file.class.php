@@ -33,14 +33,44 @@ class File {
 	{
 		if ($this->param['method'] == 'POST')
 		{
+			$post = Util::getMethod();
+
 			switch($this->param['action'])
 			{
 				case 'upload':
-					$result = $this->actUploadFiles($_FILES['file'], 'data/upload/original/', 'file_tmp');
+					$result = $this->actUploadFiles(
+						$_FILES['file'],
+						$post['upload_loc'],
+						($post['table']) ? $post['table'] : $this->name
+					);
 					echo Util::arrayToJson($result);
 					break;
 				case 'remove':
+					$data = Util::jsonToArray($post['data'], true);
+					$fileSrls = $fileTmpSrls = array();
 
+					foreach($data as $k=>$v)
+					{
+						if ($v['table'] == 'file_tmp')
+						{
+							$fileTmpSrls[] = $v['srl'];
+						}
+						else if ($v['table'] == 'file')
+						{
+							$fileSrls[] = $v['srl'];
+						}
+					}
+
+					if (count($fileSrls))
+					{
+						$this->actRemoveFile($fileSrls, 'file');
+					}
+					if (count($fileTmpSrls))
+					{
+						$this->actRemoveFile($fileTmpSrls, 'file_tmp');
+					}
+
+					echo json_encode(array( 'state' => 'success' ));
 					break;
 			}
 			Goose::end(false);
@@ -271,7 +301,6 @@ class File {
 
 			// check filename
 			$file['name'][$i] = $this->checkFilename($file['name'][$i], false);
-
 			if (!$file['name'][$i])
 			{
 				$result[] = Array('state' => 'error', 'message' => 'This file is a format that is not allowed.');
@@ -375,7 +404,10 @@ class File {
 		for ($i=0; count($srls)>$i; $i++)
 		{
 			// get data
-			$data = $this->getItem( Array('where' => 'srl='.$srls[$i]) );
+			$data = $this->getItem(Array(
+				'table' => Spawn::getTableName($table),
+				'where' => 'srl='.$srls[$i]
+			));
 			$data = ($data['state'] == 'success') ? $data['data'] : null;
 
 			if (file_exists(__GOOSE_PWD__.$data['loc']))
@@ -487,4 +519,5 @@ class File {
 			return $queryResult.', '.$query2Result;
 		}
 	}
+
 }

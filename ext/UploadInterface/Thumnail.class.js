@@ -40,11 +40,11 @@ var Thumnail = function(parent, options) {
 		str += '<figure></figure>\n';
 		str += '<dl>\n';
 		str += '<dt>출력사이즈</dt>\n';
-		str += '<dd>가로:<em ar-text="width">0</em>px, 세로:<em ar-text="height">0</em>px</dd>\n';
+		str += '<dd>가로:<em data-text="width">0</em>px, 세로:<em data-text="height">0</em>px</dd>\n';
 		str += '</dl>\n';
 		str += '<nav>\n';
-		str += '<button type="button" rg-action="center" class="ui-button btn-highlight">중간으로</button>\n';
-		str += '<button type="button" rg-action="close" class="ui-button">닫기</button>\n';
+		str += '<button type="button" data-action="center" class="gs-button col-key">중간으로</button>\n';
+		str += '<button type="button" data-action="close" class="gs-button">닫기</button>\n';
 		str += '</nav>\n';
 		str += '</div>\n';
 		str += '</div>';
@@ -206,8 +206,8 @@ var Thumnail = function(parent, options) {
 		outputSize = getOutputSize($img, self.settings.type, self.settings.size);
 
 		// 윈도우 정보에 아웃풋 사이즈 입력
-		self.$window.find('[ar-text=width]').text(outputSize[0]);
-		self.$window.find('[ar-text=height]').text(outputSize[1]);
+		self.$window.find('[data-text=width]').text(outputSize[0]);
+		self.$window.find('[data-text=height]').text(outputSize[1]);
 
 		// 프리뷰 이미지 적정크기로 줄이기
 		resizePreview($img, maxImageSize, 0.7);
@@ -233,8 +233,8 @@ var Thumnail = function(parent, options) {
 			}
 		}, function(){
 			var jcrop = this;
-			var $btnCenter = self.$window.find('button[rg-action=center]');
-			var $btnClose = self.$window.find('button[rg-action=close], div.bg');
+			var $btnCenter = self.$window.find('button[data-action=center]');
+			var $btnClose = self.$window.find('button[data-action=close], div.bg');
 			var $wrap = self.$window.find('div.wrap');
 	
 			$('body').addClass('thumnailWindowMode');

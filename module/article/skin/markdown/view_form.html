@@ -10,7 +10,7 @@ $extPath = __GOOSE_ROOT__.'ext/';
 <link rel="stylesheet" href="<?= $extPath.'/UploadInterface/UploadInterface.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'/Jcrop/jquery.Jcrop.min.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'/Parsedown/markdown.css' ?>" />
-in markdown
+
 <section>
 	<div class="gs-headding">
 		<h1><?=$nestName?>문서<?=$titleType?></h1>
@@ -86,7 +86,7 @@ in markdown
 						<input type="file" name="fileUpload" id="fileUpload" multiple />
 						<button type="button" id="fileUploadButton">업로드</button>
 					</div>
-					<div class="queuesManager" id="queuesManager"></div>
+					<div class="queuesManager" id="queuesManager" style="margin-top:8px"></div>
 				</dd>
 			</dl>
 		</fieldset>
@@ -114,8 +114,8 @@ var userData = {
 		,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
 		,url : '<?=$repo['article']['json']['thumnail']['url']?>'
 	}
-	,originalPath : ''
-	,pushData : ''
+	,originalPath : 'data/upload/original/'
+	,pushData : '<?=require_once('attachFiles.php');?>'
 };
 </script>
 <script src="<?=__GOOSE_ROOT__.$this->skinPath.'/js/markdown.min.js'?>"></script>

@@ -6,16 +6,19 @@
  * @param {String} action 파일처리 백엔드 url
  * @param {Object} queue
  * @param {File} file
+ * @param {String} uploadPath 파일업로드 경로
  * @return void
  */
-var FileUpload = function(parent, action, queue, file)
+var FileUpload = function(parent, action, queue, file, uploadPath)
 {
 	var xhr = new XMLHttpRequest();
 
 	if (typeof FormData === 'function' || typeof FormData === 'object')
 	{
 		var formData = new FormData();
-		formData.append('file', file);
+		formData.append('file', file)
+		formData.append('upload_loc', uploadPath);
+		formData.append('table', 'file_tmp');
 
 		xhr.open('post', action, true);
 		xhr.upload.addEventListener('progress', function(e){

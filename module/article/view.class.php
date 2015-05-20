@@ -243,7 +243,7 @@ class View extends Article {
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_form.html',
-			__GOOSE_PWD__.$this->skinPath.'view_index.html'
+			__GOOSE_PWD__.$this->skinPath.'view_form.html'
 		));
 
 		// set skin path

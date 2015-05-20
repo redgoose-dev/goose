@@ -169,6 +169,7 @@ var UploadInterface = function(el, options) {
 			,self.settings.uploadAction
 			,self.queue.index[item.key]
 			,item.file
+			,userData.originalPath
 		);
 	};
 
@@ -263,11 +264,11 @@ var UploadInterface = function(el, options) {
 			queue.srl = data.srl;
 			queue.location = data.loc;
 			queue.type = 'session';
-			queue.filename = data.filename;
+			queue.filename = data.name;
 			queue.filetype = data.type;
 
 			// edit queue
-			queue.element.find('span.name').text(data.filename);
+			queue.element.find('span.name').text(queue.filename);
 			queue.element.find('span.size').text(bytesToSize(queue.filesize));
 			queue.element.find('span.state').text(queue.state);
 
