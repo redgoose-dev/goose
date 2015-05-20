@@ -371,4 +371,16 @@ class Spawn {
 	{
 		return Spawn::action('drop table '.$tableName);
 	}
+
+	/**
+	 * get last idx
+	 * db에 입력된 마지막 번호를 가져온다.
+	 *
+	 * @return int
+	 */
+	public static function getLastIdx()
+	{
+		global $goose;
+		return $goose->spawn->db->lastInsertId();
+	}
 }

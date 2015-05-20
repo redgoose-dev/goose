@@ -53,7 +53,7 @@ if ($result != 'success')
 
 
 // get last insert srl
-$last_srl = $this->goose->spawn->db->lastInsertId();
+$last_srl = Spawn::getLastIdx();
 
 
 // file upload

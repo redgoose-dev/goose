@@ -31,9 +31,26 @@ class File {
 	 */
 	public function index()
 	{
-		require_once(__GOOSE_PWD__.$this->path.'view.class.php');
-		$view = new View($this);
-		$view->render();
+		if ($this->param['method'] == 'POST')
+		{
+			switch($this->param['action'])
+			{
+				case 'upload':
+					$result = $this->actUploadFiles($_FILES['file'], 'data/upload/original/', 'file_tmp');
+					echo Util::arrayToJson($result);
+					break;
+				case 'remove':
+
+					break;
+			}
+			Goose::end(false);
+		}
+		else
+		{
+			require_once(__GOOSE_PWD__.$this->path.'view.class.php');
+			$view = new View($this);
+			$view->render();
+		}
 	}
 
 	/**
@@ -190,10 +207,10 @@ class File {
 	 * api - action upload files
 	 * 다수의 파일을 업로드한다. 데이터페이스에 있는 정보도 추가한다.
 	 *
-	 * @param array $file
-	 * @param string|null $dir
-	 * @param string $table
-	 * @param int $article_srl
+	 * @param array $file 파일목록($_FILES['name'])
+	 * @param string|null $dir 업로드 디렉토리
+	 * @param string $table 업로드 테이블 (file|file_tmp)
+	 * @param int $article_srl 마지막 article번호. 테이블이 file_tmp라면 필요없음
 	 * @return array
 	 */
 	public function actUploadFiles($file=Array(), $dir=null, $table='', $article_srl=null)
@@ -328,7 +345,8 @@ class File {
 					'loc' => $path.$month.'/'.$file['name'][$i],
 					'name' => $file['name'][$i],
 					'size' => $file['size'][$i],
-					'type' => $file['type'][$i]
+					'type' => $file['type'][$i],
+					'srl' => (int)Spawn::getLastIdx()
 				);
 			}
 		}

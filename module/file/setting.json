@@ -9,6 +9,6 @@
 	"upPath_upload" : "data/upload",
 	"upPath_original" : "data/upload/original",
 	"upPath_make" : "data/upload/make",
-	"limitFileSize" : 1000000,
+	"limitFileSize" : 3000000,
 	"allowFileType" : ["jpg", "jpeg", "png", "gif", "txt"]
 }

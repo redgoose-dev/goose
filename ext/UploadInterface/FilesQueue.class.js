@@ -16,19 +16,19 @@ var FilesQueue = function(getParent, $el) {
 	 * @author : redgoose
 	 * @param {String} key
 	 * @param {String} filename
-	 * 	@param {String} status
+	 * 	@param {String} state
 	 * @param {String} type
 	 * @return {Object} : queue element
 	 */
-	this.template = function(key, filename, status, type)
+	this.template = function(key, filename, state, type)
 	{
 		var item = '<li key="' + key + '">\n';
 		item += '\t<div class="body">\n';
 		item += '\t\t<span class="name">' + filename + '</span>\n';
-		item += (status == 'ready') ? '\t\t<span class="size">0%</span>\n' : '';
-		item += '\t\t<span class="status">' + status + '</span>\n';
+		item += (state == 'ready') ? '\t\t<span class="size">0%</span>\n' : '';
+		item += '\t\t<span class="state">' + state + '</span>\n';
 		item += '\t</div>\n';
-		if (status == 'ready')
+		if (state == 'ready')
 		{
 			item += '\t<div class="progress">\n';
 			item += '\t\t<p class="graph"><span></span></p>\n';
@@ -96,14 +96,14 @@ var FilesQueue = function(getParent, $el) {
 	{
 		var idx = self.count;
 		var key = 'queue-' + idx;
-		var status = (file.status) ? file.status : 'ready';
-		var $dom = self.template(key, file.name, status, file.type);
+		var state = (file.state) ? file.state : 'ready';
+		var $dom = self.template(key, file.name, state, file.type);
 
 		self.index[key] = {
 			filename : file.name
 			,filesize : file.size
 			,filetype : file.type
-			,status : status
+			,state : state
 			,element : $dom
 			,location : file.loc
 			,type : file.type2
@@ -197,11 +197,11 @@ var FilesQueue = function(getParent, $el) {
 					log('AJAX ERROR');
 					if (o.error)
 					{
-						o.error(o.statusText);
+						o.error(o.stateText);
 					}
 				})
 				.done(function(o){
-					if (o.status == 'success')
+					if (o.state == 'success')
 					{
 						$queue.each(function(){
 							delete self.index[$(this).attr('key')];

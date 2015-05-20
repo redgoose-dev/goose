@@ -31,10 +31,10 @@ var UploadInterface = function(el, options) {
 	var controllerButton = function()
 	{
 		var dom = '';
-		dom += '<button type="button" rg-action="insertContents" class="ui-button btn-small btn-highlight">본문삽입</button>';
-		dom += '<button type="button" rg-action="selectAll" class="ui-button btn-small">모두선택</button>';
-		dom += '<button type="button" rg-action="deleteSelect" class="ui-button btn-small">선택삭제</button>';
-		dom += '<button type="button" rg-action="deleteAll" class="ui-button btn-small">모두삭제</button>';
+		dom += '<button type="button" rg-action="insertContents" class="gs-button size-small col-key">본문삽입</button>';
+		dom += '<button type="button" rg-action="selectAll" class="gs-button size-small">모두선택</button>';
+		dom += '<button type="button" rg-action="deleteSelect" class="gs-button size-small">선택삭제</button>';
+		dom += '<button type="button" rg-action="deleteAll" class="gs-button size-small">모두삭제</button>';
 
 		self.$controller
 			.append($(dom))
@@ -242,9 +242,9 @@ var UploadInterface = function(el, options) {
 	this.uploadProgress = function(loaded, total, queue)
 	{
 		var percent = parseInt(loaded / total * 100);
-		queue.status = 'loading';
+		queue.state = 'loading';
 		queue.element.find('span.size').text(percent + '%');
-		queue.element.find('span.status').text('Loading');
+		queue.element.find('span.state').text('Loading');
 		queue.element.find('div.progress span').width(percent + '%');
 	};
 
@@ -258,20 +258,21 @@ var UploadInterface = function(el, options) {
 	this.uploadComplete = function(response, queue)
 	{
 		try {
-			var data = JSON.parse(response);
-			queue.status = 'complete';
-			queue.srl = data.sess_srl;
+			var data = JSON.parse(response)[0];
+			queue.state = 'complete';
+			queue.srl = data.srl;
 			queue.location = data.loc;
 			queue.type = 'session';
 			queue.filename = data.filename;
+			queue.filetype = data.type;
 
 			// edit queue
 			queue.element.find('span.name').text(data.filename);
 			queue.element.find('span.size').text(bytesToSize(queue.filesize));
-			queue.element.find('span.status').text(queue.status);
+			queue.element.find('span.state').text(queue.state);
 
 			// hide progress
-			if (queue.status == 'complete')
+			if (queue.state == 'complete')
 			{
 				queue.element.find('div.progress').delay(200).fadeOut(400);
 			}
@@ -320,7 +321,7 @@ var UploadInterface = function(el, options) {
 				,loc : data[n].location
 				,srl : data[n].srl
 				,type2 : data[n].type
-				,status : data[n].status
+				,state : data[n].state
 			});
 			if (self.thumnail.data.srl == data[n].srl)
 			{

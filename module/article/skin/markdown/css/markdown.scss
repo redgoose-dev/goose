@@ -1,0 +1,39 @@
+%clear {
+	&:after {content: ''; display: block; clear: both;}
+}
+
+.articleBody {margin-top: 20px; margin-bottom: 20px;}
+
+// post
+.form-group {
+	.mk-editor {
+		border: 1px solid #ccc;
+		nav {
+			background: #eee;
+			border-bottom: 1px solid #ccc;
+			a {
+				display: inline-block;
+				padding: 10px 20px; margin-bottom: -1px;
+				font-size: 14px; color: #333;
+				text-decoration: none;
+				&.active {
+					background: #fff;
+					border-left: 1px solid #ccc;
+					border-right: 1px solid #ccc;
+					&:first-child {border-left: none;}
+				}
+			}
+		}
+		.body {
+			margin: 10px;
+			[role-target] {
+				display: none;
+				&.show {display: block;}
+			}
+			[role-target=preview] {
+				margin: 30px 15px;
+				min-height: 180px;
+			}
+		}
+	}
+}

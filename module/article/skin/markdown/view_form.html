@@ -24,6 +24,8 @@ in markdown
 		<input type="hidden" name="page" value="<?=$_GET['page']?>" />
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="m" value="<?=$_GET['m']?>" />
+		<input type="hidden" name="addQueue" />
+		<input type="hidden" name="thumnail_image" />
 
 		<fieldset class="form-group">
 			<?php
@@ -48,53 +50,45 @@ in markdown
 			<?php
 			}
 			?>
+
 			<dl class="gs-webz">
 				<dt><label for="title">제목</label></dt>
 				<dd><input type="text" id="title" name="title" class="block" value="<?=$repo['article']['title']?>" /></dd>
 			</dl>
+
 			<dl>
 				<dt><label for="content">내용</label></dt>
-				<dd><textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars($repo['article']['content'])?></textarea></dd>
-			</dl>
-			<dl class="gs-webz">
-				<dt><label for="upload">파일 업로드</label></dt>
 				<dd>
-					<input type="file" name="upload[]" id="upload" multiple/>
+					<div class="mk-editor">
+						<nav>
+							<a href="#" role-control="edit" class="active"><i class="icn-code"></i> Edit</a>
+							<a href="#" role-control="preview"><i class="icn-eye"></i> Preview</a>
+						</nav>
+						<div class="body">
+							<div class="show" role-target="edit">
+								<textarea name="content" id="content" rows="15" class="block"><?=htmlspecialchars(stripslashes($repo['article']['content']))?></textarea>
+								<p>
+									* 마크다운 한글 메뉴얼 : <a href="http://scriptogr.am/myevan/post/markdown-syntax-guide-for-scriptogram" target="_blank">link</a><br/>
+									* 존 그루버 마크다운 페이지 번역 : <a href="http://nolboo.github.io/blog/2013/09/07/john-gruber-markdown/" target="_blank">link</a><br/>
+									* Markdown Extra : <a href="https://michelf.ca/projects/php-markdown/extra/" target="_blank">link</a>
+								</p>
+							</div>
+							<div role-target="preview"></div>
+						</div>
+					</div>
 				</dd>
 			</dl>
-			<?php
-			if (count($repo['file']))
-			{
-			?>
-				<dl class="gs-webz">
-					<dt><label for="upload">첨부 파일목록</label></dt>
-					<dd>
-						<p>체크한 이미지는 삭제됩니다.</p>
-						<article class="attach-files">
-							<ul>
-								<?php
-								foreach($repo['file'] as $k=>$v)
-								{
-									$url = __GOOSE_ROOT__.$v['loc'];
-									$size = Util::getFileSize($v['size']);
-								?>
-									<li>
-										<label>
-											<input type="checkbox" name="removeFiles[]" value="<?=$v['srl']?>"/>
-											<span><?=$v['name']?></span>
-										</label>
-										<a href="<?=$url?>" target="_blank" class="gs-brk-type">open file</a>
-									</li>
-								<?php
-								}
-								?>
-							</ul>
-						</article>
-					</dd>
-				</dl>
-			<?php
-			}
-			?>
+
+			<dl>
+				<dt><label for="title">파일첨부</label></dt>
+				<dd>
+					<div>
+						<input type="file" name="fileUpload" id="fileUpload" multiple />
+						<button type="button" id="fileUploadButton">업로드</button>
+					</div>
+					<div class="queuesManager" id="queuesManager"></div>
+				</dd>
+			</dl>
 		</fieldset>
 
 		<nav class="gs-btn-group right">
@@ -110,22 +104,18 @@ in markdown
 <script src="<?= $extPath.'UploadInterface/Thumnail.class.min.js' ?>"></script>
 <script src="<?= $extPath.'UploadInterface/UploadInterface.class.min.js' ?>"></script>
 <script>
-<?
-/*
 var userData = {
-	root : '<?=GOOSE_ROOT?>'
-	,url : '<?=GOOSE_URL?>'
+	root : '<?=__GOOSE_ROOT__?>'
+	,url : '<?=__GOOSE_URL__?>'
 	,thumnail : {
-		type : '<?=$nest['json']['thumnail']['type']?>'
-		,size : '<?=$nest['json']['thumnail']['size'][0].'*'.$nest['json']['thumnail']['size'][1]?>'
-		,srl : '<?=$article['json']['thumnail']['srl']?>'
-		,coords : '<?=$article['json']['thumnail']['coords']?>'
-		,url : '<?=$article['json']['thumnail']['url']?>'
+		type : '<?=$repo['nest']['json']['thumnail']['type']?>'
+		,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'
+		,srl : '<?=$repo['article']['json']['thumnail']['srl']?>'
+		,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
+		,url : '<?=$repo['article']['json']['thumnail']['url']?>'
 	}
-	,originalPath : '<?=$dataOriginalDirectory?>'
-	,pushData : '<?=$pushData?>'
+	,originalPath : ''
+	,pushData : ''
 };
-*/
-?>
 </script>
 <script src="<?=__GOOSE_ROOT__.$this->skinPath.'/js/markdown.min.js'?>"></script>
