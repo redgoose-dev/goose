@@ -24,6 +24,14 @@ if ($errorValue)
 }
 
 
+// adjust value
+if (!$isExternalTransaction)
+{
+	$post['title'] = htmlspecialchars(addslashes($post['title']));
+	$post['content'] = htmlspecialchars($post['content']);
+}
+
+
 // insert data
 $result = Spawn::insert(array(
 	'table' => Spawn::getTableName($this->name),
@@ -32,7 +40,7 @@ $result = Spawn::insert(array(
 		'app_srl' => (int)$post['app_srl'],
 		'nest_srl' => (int)$post['nest_srl'],
 		'category_srl' => (int)$post['category_srl'],
-		'title' => htmlspecialchars($post['title']),
+		'title' => $post['title'],
 		'content' => $post['content'],
 		'hit' => 0,
 		'json' => $post['json'],

@@ -16,6 +16,7 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>" />
 		<input type="hidden" name="nest_srl" value="<?=$repo['nest']['srl']?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
+		<input type="hidden" name="skin" value="<?=$repo['nest']['json']['articleSkin']?>" />
 		<input type="hidden" name="page" value="<?=$_GET['page']?>" />
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="m" value="<?=$_GET['m']?>" />
@@ -62,6 +63,7 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 			{
 			?>
 				<dl class="gs-webz">
+					<dt><label for="upload">첨부 파일목록</label></dt>
 					<dt><label for="upload">첨부 파일목록</label></dt>
 					<dd>
 						<p>체크한 이미지는 삭제됩니다.</p>

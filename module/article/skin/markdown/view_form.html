@@ -7,9 +7,9 @@ $extPath = __GOOSE_ROOT__.'ext/';
 ?>
 
 <link rel="stylesheet" href="<?= __GOOSE_ROOT__.$this->skinPath.'css/markdown.css' ?>">
-<link rel="stylesheet" href="<?= $extPath.'/UploadInterface/UploadInterface.css' ?>">
-<link rel="stylesheet" href="<?= $extPath.'/Jcrop/jquery.Jcrop.min.css' ?>">
-<link rel="stylesheet" href="<?= $extPath.'/Parsedown/markdown.css' ?>" />
+<link rel="stylesheet" href="<?= $extPath.'UploadInterface/UploadInterface.css' ?>">
+<link rel="stylesheet" href="<?= $extPath.'Jcrop/jquery.Jcrop.css' ?>">
+<link rel="stylesheet" href="<?= $extPath.'Parsedown/markdown.css' ?>" />
 
 <section>
 	<div class="gs-headding">
@@ -21,6 +21,7 @@ $extPath = __GOOSE_ROOT__.'ext/';
 		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>" />
 		<input type="hidden" name="nest_srl" value="<?=$repo['nest']['srl']?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
+		<input type="hidden" name="skin" value="<?=$repo['nest']['json']['articleSkin']?>" />
 		<input type="hidden" name="page" value="<?=$_GET['page']?>" />
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="m" value="<?=$_GET['m']?>" />
