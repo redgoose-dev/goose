@@ -14,10 +14,10 @@ switch($this->param['action'])
 		$state = 'complete';
 		$type = 'session';
 		break;
-	case 'edit':
+	case 'modify':
 		$files = Spawn::items(array(
 			'table' => Spawn::getTableName('file'),
-			'where' => '',
+			'where' => 'article_srl='.(int)$article_srl,
 			'order' => 'srl',
 			'sort' => 'asc'
 		));

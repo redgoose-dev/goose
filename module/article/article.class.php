@@ -161,8 +161,6 @@ class Article {
 		if ($this->name != 'article') return array('state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.');
 		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
 
-		$json = Util::jsonToArray($post['json'], null, true);
-
 		$loc = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$post['skin'].'/transaction_'.$method.'.php',
 			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php'

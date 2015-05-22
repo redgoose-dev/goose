@@ -4,8 +4,10 @@ if (!defined('__GOOSE__')) exit();
 // 외부에서 불러들인 처리파일이라는 확인값
 $isExternalTransaction = true;
 
+
 // reset $_FILES
 $_FILES = $files = null;
+
 
 // adjust value
 $post['title'] = addslashes($post['title']);
@@ -19,7 +21,7 @@ $dbUpdateResult = require_once(__DIR__.'/../'.$this->set['skin'].'/transaction_'
 // include func
 require_once('func.php');
 
-// move data file_tmp to file
+
 if ($dbUpdateResult['state'] == 'success')
 {
 	// set article_srl
@@ -28,8 +30,8 @@ if ($dbUpdateResult['state'] == 'success')
 	// get article json
 	$article_json = getArticleJSON($article_srl);
 
-	// upload thumnail file
-	$thumnail_srl = fileUpload($post, $article_srl, $json['thumnail']['srl']);
+	// move file_tmp to file data
+	$thumnail_srl = fileUpload($post, $article_srl, $article_json['thumnail']['srl']);
 
 	// upload thumnail image
 	if ($thumnail_srl)
@@ -50,4 +52,6 @@ if ($dbUpdateResult['state'] == 'success')
 	}
 }
 
+
+// return
 return $dbUpdateResult;

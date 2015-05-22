@@ -31,7 +31,7 @@ function getArticleJSON($srl)
 function fileUpload($post, $art_srl, $thum_srl)
 {
 	$thumnail_srl = null;
-	if ($_POST['addQueue'])
+	if ($post['addQueue'])
 	{
 		$queue = explode(',', $post['addQueue']);
 		foreach($queue as $k=>$v)
@@ -41,7 +41,7 @@ function fileUpload($post, $art_srl, $thum_srl)
 				'table' => Spawn::getTableName('file_tmp'),
 				'where' => 'srl='.(int)$v
 			));
-			if ($tmpFile['state'] == 'success' && count($tmpFile['data']))
+			if (count($tmpFile))
 			{
 				// insert file
 				$result = Spawn::insert(array(
@@ -49,10 +49,10 @@ function fileUpload($post, $art_srl, $thum_srl)
 					'data' => array(
 						'srl' => null,
 						'article_srl' => $art_srl,
-						'name' => $tmpFile['data']['name'],
-						'loc' => $tmpFile['data']['loc'],
-						'type' => $tmpFile['data']['type'],
-						'size' => $tmpFile['data']['size'],
+						'name' => $tmpFile['name'],
+						'loc' => $tmpFile['loc'],
+						'type' => $tmpFile['type'],
+						'size' => $tmpFile['size'],
 						'regdate' => date("YmdHis")
 					)
 				));
@@ -62,7 +62,7 @@ function fileUpload($post, $art_srl, $thum_srl)
 					$thumnail_srl = Spawn::getLastIdx();
 				}
 				// remove tmp file
-				Spawn::delete(array(
+				$result = Spawn::delete(array(
 					'table' => Spawn::getTableName('file_tmp'),
 					'where' => 'srl='.(int)$v
 				));

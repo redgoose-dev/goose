@@ -434,7 +434,7 @@ var UploadInterface = function(el, options) {
 	this.refreshAddQueue = function()
 	{
 		var value = $.map(self.queue.index, function(obj, key){
-			if (obj.type !== 'modify')
+			if (obj.type !== 'edit')
 			{
 				return obj.srl;
 			}
