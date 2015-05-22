@@ -11,11 +11,13 @@
 		nav {
 			background: #eee;
 			border-bottom: 1px solid #ccc;
+			font-size: 0;
 			a {
 				display: inline-block;
 				padding: 10px 20px; margin-bottom: -1px;
 				font-size: 14px; color: #333;
 				text-decoration: none;
+				> * {vertical-align: middle;}
 				&.active {
 					background: #fff;
 					border-left: 1px solid #ccc;

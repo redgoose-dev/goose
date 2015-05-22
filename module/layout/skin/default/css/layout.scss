@@ -390,10 +390,15 @@
 	}
 	ul {
 		@extend %ul;
-		margin: 5px 0 0;
+		@extend %clearfix;
+		margin: 5px 0 0 -10px;
 		font-family: $font-eng; font-size: 12px;
 	}
-	li {margin: 3px 0;}
+	li {
+		margin: 0 10px;
+		padding: 3px 0;
+		float: left;
+	}
 	a {
 		display: inline-block; margin-left: 4px;
 		text-decoration: none;

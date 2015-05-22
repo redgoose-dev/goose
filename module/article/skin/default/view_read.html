@@ -2,6 +2,7 @@
 if (!defined('__GOOSE__')) exit();
 
 $categoryName = ($repo['category']['name']) ? '<em class="gs-brk-type">'.$repo['category']['name'].'</em>&nbsp;' : '';
+$content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchars($repo['article']['content']));
 ?>
 
 <section>
@@ -14,16 +15,7 @@ $categoryName = ($repo['category']['name']) ? '<em class="gs-brk-type">'.$repo['
 	</div>
 
 	<!-- body -->
-	<?php
-	$content = htmlspecialchars($repo['article']['content']);
-	$content = nl2br($content);
-	?>
-	<style>
-	/*.articleBody {margin-top: 20px; margin-bottom: 20px;}*/
-	</style>
-	<div class="gs-article-body">
-		<?=$content?>
-	</div>
+	<div class="gs-article-body"><?=$content?></div>
 	<!-- // body -->
 
 	<?php
