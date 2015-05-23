@@ -4,12 +4,14 @@ if (!defined('__GOOSE__')) exit();
 $titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
 $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ' : '';
 $extPath = __GOOSE_ROOT__.'ext/';
+
+$file = Module::load('file');
 ?>
 
-<link rel="stylesheet" href="<?= __GOOSE_ROOT__.$this->skinPath.'css/markdown.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'UploadInterface/UploadInterface.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'Jcrop/jquery.Jcrop.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'Parsedown/markdown.css' ?>" />
+<link rel="stylesheet" href="<?= __GOOSE_ROOT__.$this->skinPath.'css/slide.css' ?>">
 
 <section>
 	<div class="gs-headding">
@@ -27,12 +29,13 @@ $extPath = __GOOSE_ROOT__.'ext/';
 		<input type="hidden" name="m" value="<?=$_GET['m']?>" />
 		<input type="hidden" name="addQueue" />
 		<input type="hidden" name="thumnail_image" />
+		<input type="hidden" name="content" value="<?=$repo['article']['content']?>"/>
 
 		<fieldset class="form-group">
 			<?php
 			if (count($repo['category']))
 			{
-			?>
+				?>
 				<dl class="gs-webz">
 					<dt><label for="category">분류</label></dt>
 					<dd>
@@ -58,29 +61,6 @@ $extPath = __GOOSE_ROOT__.'ext/';
 			</dl>
 
 			<dl>
-				<dt><label for="content">내용</label></dt>
-				<dd>
-					<div class="mk-editor">
-						<nav>
-							<a href="#" role-control="edit" class="active"><i class="icn-code"></i> <span>Edit</span></a>
-							<a href="#" role-control="preview"><i class="icn-eye"></i> <span>Preview</span></a>
-						</nav>
-						<div class="body">
-							<div class="show" role-target="edit">
-								<textarea name="content" id="content" rows="20" class="block"><?=htmlspecialchars(stripslashes($repo['article']['content']))?></textarea>
-								<p>
-									* 마크다운 한글 메뉴얼 : <a href="http://scriptogr.am/myevan/post/markdown-syntax-guide-for-scriptogram" target="_blank">link</a><br/>
-									* 존 그루버 마크다운 페이지 번역 : <a href="http://nolboo.github.io/blog/2013/09/07/john-gruber-markdown/" target="_blank">link</a><br/>
-									* Markdown Extra : <a href="https://michelf.ca/projects/php-markdown/extra/" target="_blank">link</a>
-								</p>
-							</div>
-							<div role-target="preview"></div>
-						</div>
-					</div>
-				</dd>
-			</dl>
-
-			<dl>
 				<dt><label for="title">파일첨부</label></dt>
 				<dd>
 					<div>
@@ -100,23 +80,25 @@ $extPath = __GOOSE_ROOT__.'ext/';
 </section>
 
 <script src="<?= $extPath.'Jcrop/jquery.Jcrop.min.js' ?>"></script>
+<script src="<?= $extPath.'dragsort/jquery.dragsort-0.5.1.min.js' ?>"></script>
 <script src="<?= $extPath.'UploadInterface/FilesQueue.class.min.js' ?>"></script>
 <script src="<?= $extPath.'UploadInterface/FileUpload.class.min.js' ?>"></script>
 <script src="<?= $extPath.'UploadInterface/Thumnail.class.min.js' ?>"></script>
 <script src="<?= $extPath.'UploadInterface/UploadInterface.class.min.js' ?>"></script>
+<script src="<?=__GOOSE_ROOT__.$this->skinPath.'js/uploadInterface_edit.min.js'?>"></script>
 <script>
-var userData = {
-	root : '<?=__GOOSE_ROOT__?>'
-	,url : '<?=__GOOSE_URL__?>'
-	,thumnail : {
-		type : '<?=$repo['nest']['json']['thumnail']['type']?>'
-		,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'
-		,srl : '<?=$repo['article']['json']['thumnail']['srl']?>'
-		,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
-		,url : '<?=$repo['article']['json']['thumnail']['url']?>'
-	}
-	,originalPath : 'data/upload/original/'
-	,pushData : '<?=require_once('attachFiles.php');?>'
-};
+	var userData = {
+		root : '<?=__GOOSE_ROOT__?>'
+		,url : '<?=__GOOSE_URL__?>'
+		,thumnail : {
+			type : '<?=$repo['nest']['json']['thumnail']['type']?>'
+			,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'
+			,srl : '<?=$repo['article']['json']['thumnail']['srl']?>'
+			,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
+			,url : '<?=$repo['article']['json']['thumnail']['url']?>'
+		}
+		,originalPath : '<?=$file->set['upPath_original']?>'
+		,pushData : '<?=require_once(__DIR__.'/../markdown/attachFiles.php');?>'
+	};
 </script>
-<script src="<?=__GOOSE_ROOT__.$this->skinPath.'/js/markdown.min.js'?>"></script>
+<script src="<?=__GOOSE_ROOT__.$this->skinPath.'js/slide.min.js'?>"></script>

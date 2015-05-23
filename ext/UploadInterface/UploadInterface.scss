@@ -83,7 +83,7 @@
 				}
 			}
 		}
-		button[rg-action] {
+		button[data-action] {
 			display: block;
 			float: left;
 			margin: 0 0 0 1px; padding: 0;
@@ -102,7 +102,7 @@
 		@media all and (max-width: 640px) {
 			> figure {width: 80px; height: 80px;}
 			ul {margin-left: 90px; height: 150px;}
-			nav {position: static; margin-top: 0;}
+			nav {position: static; margin-top: 0; float: right;}
 			.body {padding-right: auto;}
 		}
 	}
