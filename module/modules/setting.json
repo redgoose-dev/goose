@@ -1,8 +1,0 @@
-{
-	"name" : "modules",
-	"description" : "모듈의 목록을 출력하고, 인스톨이나 언인스톨을 합니다. [설치해제]를 하면 모듈의 파일이 삭제되진 않습니다.",
-	"install" : false,
-	"skin" : "default",
-	"permission" : 100,
-	"adminPermission" : 100
-}

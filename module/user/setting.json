@@ -1,9 +1,0 @@
-{
-	"name" : "user",
-	"description" : "회원정보를 관리하는 모듈입니다.",
-	"permission" : 100,
-	"adminPermission" : 100,
-	"install" : true,
-	"skin" : "default",
-	"pagePerCount" : 15
-}
