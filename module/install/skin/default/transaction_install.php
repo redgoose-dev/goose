@@ -68,13 +68,6 @@ if ( checkPost() == true )
 		Goose::error(999, 'Failed to create the file data/modules.json');
 		Goose::end();
 	}
-
-	// create route.map.php
-	if ($this->tpl_routeMap() != 'success')
-	{
-		Goose::error(999, 'Failed to create the file data/route.map.php');
-		Goose::end();
-	}
 }
 else
 {

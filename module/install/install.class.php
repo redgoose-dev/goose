@@ -88,44 +88,6 @@ class Install {
 	}
 
 	/**
-	 * template - route.map.php
-	 *
-	 * @return string
-	 */
-	public static function tpl_routeMap()
-	{
-		$str = "<?php\n";
-		$str .= "if (!defined('__GOOSE__')) exit();\n";
-		$str .= "\n";
-		$str .= "\$router->map('/', null, array('methods' => 'GET'));\n";
-		$str .= "\$router->map('/:module/', null, array('methods' => 'GET'));\n";
-		$str .= "\$router->map('/:module/:action/', null, array('methods' => 'GET'));\n";
-		$str .= "\$router->map('/:module/:action/', null, array('methods' => 'POST'));\n";
-		$str .= "\$router->map(\n";
-		$str .= "\t'/:module/:action/:param0/',\n";
-		$str .= "\tnull,\n";
-		$str .= "\tarray()\n";
-		$str .= ");\n";
-		$str .= "\$router->map(\n";
-		$str .= "\t'/:module/:action/:param0/:param1/',\n";
-		$str .= "\tnull,\n";
-		$str .= "\tarray()\n";
-		$str .= ");\n";
-		$str .= "\$router->map(\n";
-		$str .= "\t'/:module/:action/:param0/:param1/:param2/',\n";
-		$str .= "\tnull,\n";
-		$str .= "\tarray()\n";
-		$str .= ");\n";
-		$str .= "\$router->map(\n";
-		$str .= "\t'/:module/:action/:param0/:prarm1/:param2/:param3/',\n";
-		$str .= "\tnull,\n";
-		$str .= "\tarray()\n";
-		$str .= ");\n";
-
-		return Util::fop(__GOOSE_PWD__.'data/route.map.php', 'w', $str, 0755);
-	}
-
-	/**
 	 * template - modules.json
 	 *
 	 * @return string
