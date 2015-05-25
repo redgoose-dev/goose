@@ -51,7 +51,6 @@ require_once(__GOOSE_PWD__.'core/classes/Util.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Goose.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Spawn.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Module.class.php');
-require_once(__GOOSE_PWD__.'core/classes/Router.class.php');
 
 
 // create Goose Instance
@@ -84,60 +83,9 @@ if ($goose->isInstalled())
 	// set admin
 	$goose->isAdmin = ($accessLevel['admin'] == $_SESSION['goose_level']) ? true : false;
 
-	// set route
-	$router = new Router();
-	$router->setBasePath(preg_replace('/\/$/', '', __GOOSE_ROOT__));
-	require_once(__GOOSE_PWD__.'data/route.map.php');
-	$route = $router->matchCurrentRequest();
-
-	// action route
-	if ($route)
-	{
-		$routeParameters = $route->getParameters();
-		$routeTarget = $route->getTarget();
-		$routeMethod = $route->getMethods();
-
-		$_module = (isset($routeParameters['module'])) ? $routeParameters['module'] : null;
-		$_action = (isset($routeParameters['action'])) ? $routeParameters['action'] : null;
-		$_method = (isset($routeMethod[0])) ? $routeMethod[0] : null;
-
-		// check access level
-		$auth = Module::load('auth', array(
-			'action' => $_action,
-			'method' => $_method
-		));
-		$auth->auth($accessLevel['login']);
-
-		// load module
-		$modName = ($_module) ? $_module : $basic_module;
-		$baseModule = Module::load(
-			$modName,
-			array(
-				'action' => $_action,
-				'method' => $_method,
-				'params' => array(
-					$routeParameters['param0'],
-					$routeParameters['param1'],
-					$routeParameters['param2'],
-					$routeParameters['param3']
-				)
-			)
-		);
-
-		// check module
-		if (!$baseModule) Goose::error(101, 'module error');
-		if (is_array($baseModule) && $baseModule['state'] == 'error') Goose::error(101, $baseModule['message']);
-
-		// check index method
-		if (!method_exists($baseModule, 'index')) Goose::error(101, $modName.'모듈의 index()메서드가 없습니다.');
-
-		// index module
-		if (method_exists($baseModule, 'index')) $baseModule->index();
-	}
-	else
-	{
-		Goose::error(404);
-	}
+	// act router module
+	$router = Module::load('router');
+	$router->init($accessLevel);
 }
 else
 {

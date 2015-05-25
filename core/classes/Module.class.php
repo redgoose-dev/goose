@@ -64,7 +64,7 @@ class Module {
 		{
 			$pwd = $existModule['pwd'];
 			$path = $existModule['path'];
-		}
+		};
 
 		// set setting data
 		$tmp_settingOriginal = Util::jsonToArray(Util::openFile($pwd.'setting.json'));
