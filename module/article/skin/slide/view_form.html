@@ -8,7 +8,8 @@ $extPath = __GOOSE_ROOT__.'ext/';
 $file = Module::load('file');
 ?>
 
-<link rel="stylesheet" href="<?= $extPath.'UploadInterface/UploadInterface.css' ?>">
+<!--<link rel="stylesheet" href="<?= $extPath.'UploadInterface/UploadInterface.css' ?>">-->
+<link rel="stylesheet" href="<?= __GOOSE_ROOT__.$this->skinPath.'css/UploadInterface.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'Jcrop/jquery.Jcrop.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'Parsedown/markdown.css' ?>" />
 <link rel="stylesheet" href="<?= __GOOSE_ROOT__.$this->skinPath.'css/slide.css' ?>">
@@ -87,18 +88,18 @@ $file = Module::load('file');
 <script src="<?= $extPath.'UploadInterface/UploadInterface.class.min.js' ?>"></script>
 <script src="<?=__GOOSE_ROOT__.$this->skinPath.'js/uploadInterface_edit.min.js'?>"></script>
 <script>
-	var userData = {
-		root : '<?=__GOOSE_ROOT__?>'
-		,url : '<?=__GOOSE_URL__?>'
-		,thumnail : {
-			type : '<?=$repo['nest']['json']['thumnail']['type']?>'
-			,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'
-			,srl : '<?=$repo['article']['json']['thumnail']['srl']?>'
-			,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
-			,url : '<?=$repo['article']['json']['thumnail']['url']?>'
-		}
-		,originalPath : '<?=$file->set['upPath_original']?>'
-		,pushData : '<?=require_once(__DIR__.'/../markdown/attachFiles.php');?>'
-	};
+var userData = {
+	root : '<?=__GOOSE_ROOT__?>'
+	,url : '<?=__GOOSE_URL__?>'
+	,thumnail : {
+		type : '<?=$repo['nest']['json']['thumnail']['type']?>'
+		,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'
+		,srl : '<?=$repo['article']['json']['thumnail']['srl']?>'
+		,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
+		,url : '<?=$repo['article']['json']['thumnail']['url']?>'
+	}
+	,originalPath : '<?=$file->set['upPath_original']?>/'
+	,pushData : '<?=require_once(__DIR__.'/../markdown/attachFiles.php');?>'
+};
 </script>
 <script src="<?=__GOOSE_ROOT__.$this->skinPath.'js/slide.min.js'?>"></script>

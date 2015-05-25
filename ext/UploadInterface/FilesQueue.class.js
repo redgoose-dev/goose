@@ -17,7 +17,7 @@ var FilesQueue = function(getParent, $el) {
  * @author : redgoose
  * @param {String} key
  * @param {String} filename
- * 	@param {String} state
+ * @param {String} state
  * @param {String} type
  * @return {Object} : queue element
  */
@@ -65,6 +65,7 @@ FilesQueue.prototype.queueEventInit = function(obj)
 	obj.find('nav > button').on('click', function(e){
 		e.stopPropagation();
 		var $queue = $(this).closest('li');
+		var queue = self.parent.queue.index[$queue.attr('key')];
 		switch($(this).attr('data-action'))
 		{
 			case 'delete':
@@ -74,8 +75,7 @@ FilesQueue.prototype.queueEventInit = function(obj)
 				}
 				break;
 			case 'thumnail':
-				var queue = self.parent.queue.index[$queue.attr('key')];
-				if (/^image/i.test(queue.filetype))
+				if (queue && /^image/i.test(queue.filetype))
 				{
 					self.parent.thumnail.open(queue);
 				}
@@ -261,13 +261,15 @@ FilesQueue.prototype.getItems = function()
 };
 
 /**
- * get thumnail item
+ * get item
  *
+ * @param {String} className
  * @return {Array}
  */
-FilesQueue.prototype.getThumnailItem = function()
+FilesQueue.prototype.getItem = function(className)
 {
-	return this.index[self.$index.children('li.thumnail').attr('key')];
+	var $queue = this.$index.children('li.' + className);
+	return ($queue.length) ? this.index[$queue.eq(0).attr('key')] : null;
 };
 
 /**
@@ -277,4 +279,4 @@ FilesQueue.prototype.updateThumnailClass = function($item)
 {
 	this.$index.children('li.thumnail').removeClass('thumnail');
 	$item.addClass('thumnail');
-}
+};

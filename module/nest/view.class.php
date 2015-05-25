@@ -87,7 +87,7 @@ class View extends Nest
 		$category = Module::load('category');
 
 		// get app items
-		$data = $app->getItems(array('field' => 'srl,name'));
+		$data = $app->getItems(array('field' => 'srl,name', 'sort' => 'asc'));
 		$repo['app'] = ($data['state'] == 'success') ? $data['data'] : array();
 		foreach($repo['app'] as $k=>$v)
 		{
@@ -144,7 +144,7 @@ class View extends Nest
 		$repo['articleSkin'] = Util::getDir(__GOOSE_PWD__.'module/article/skin/');
 
 		// get app data
-		$data = $app->getItems( array('order' => 'srl', 'sort' => 'desc') );
+		$data = $app->getItems( array('order' => 'srl', 'sort' => 'asc') );
 		$repo['app'] = ($data['state'] == 'success') ? $data['data'] : array();
 
 		// set skinPath
@@ -180,7 +180,7 @@ class View extends Nest
 		$repo['articleSkin'] = Util::getDir(__GOOSE_PWD__.'module/article/skin/');
 
 		// get app data
-		$data = $app->getItems( array('order' => 'srl', 'sort' => 'desc') );
+		$data = $app->getItems( array('order' => 'srl', 'sort' => 'asc') );
 		$repo['app'] = ($data['state'] == 'success') ? $data['data'] : array();
 
 		// get nest data

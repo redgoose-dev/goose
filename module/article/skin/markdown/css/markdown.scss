@@ -28,11 +28,11 @@
 		}
 		.body {
 			margin: 10px;
-			[role-target] {
+			[data-target] {
 				display: none;
 				&.show {display: block;}
 			}
-			[role-target=preview] {
+			[data-target=preview] {
 				margin: 30px 15px;
 				min-height: 180px;
 			}

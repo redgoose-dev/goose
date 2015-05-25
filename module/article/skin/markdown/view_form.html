@@ -4,6 +4,8 @@ if (!defined('__GOOSE__')) exit();
 $titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
 $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ' : '';
 $extPath = __GOOSE_ROOT__.'ext/';
+
+$file = Module::load('file');
 ?>
 
 <link rel="stylesheet" href="<?= __GOOSE_ROOT__.$this->skinPath.'css/markdown.css' ?>">
@@ -62,11 +64,11 @@ $extPath = __GOOSE_ROOT__.'ext/';
 				<dd>
 					<div class="mk-editor">
 						<nav>
-							<a href="#" role-control="edit" class="active"><i class="icn-code"></i> <span>Edit</span></a>
-							<a href="#" role-control="preview"><i class="icn-eye"></i> <span>Preview</span></a>
+							<a href="#" data-control="edit" class="active"><i class="icn-code"></i> <span>Edit</span></a>
+							<a href="#" data-control="preview"><i class="icn-eye"></i> <span>Preview</span></a>
 						</nav>
 						<div class="body">
-							<div class="show" role-target="edit">
+							<div class="show" data-target="edit">
 								<textarea name="content" id="content" rows="20" class="block"><?=htmlspecialchars(stripslashes($repo['article']['content']))?></textarea>
 								<p>
 									* 마크다운 한글 메뉴얼 : <a href="http://scriptogr.am/myevan/post/markdown-syntax-guide-for-scriptogram" target="_blank">link</a><br/>
@@ -74,7 +76,7 @@ $extPath = __GOOSE_ROOT__.'ext/';
 									* Markdown Extra : <a href="https://michelf.ca/projects/php-markdown/extra/" target="_blank">link</a>
 								</p>
 							</div>
-							<div role-target="preview"></div>
+							<div data-target="preview"></div>
 						</div>
 					</div>
 				</dd>
@@ -115,8 +117,8 @@ var userData = {
 		,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
 		,url : '<?=$repo['article']['json']['thumnail']['url']?>'
 	}
-	,originalPath : 'data/upload/original/'
+	,originalPath : '<?=$file->set['upPath_original']?>/'
 	,pushData : '<?=require_once('attachFiles.php');?>'
 };
 </script>
-<script src="<?=__GOOSE_ROOT__.$this->skinPath.'/js/markdown.min.js'?>"></script>
+<script src="<?= __GOOSE_ROOT__.$this->skinPath.'/js/markdown.min.js' ?>"></script>

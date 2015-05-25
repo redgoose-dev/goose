@@ -180,7 +180,7 @@ UploadInterface.prototype.events = function()
 		self.$drop.on('dragleave', function(e){
 			e.preventDefault();
 			e.stopPropagation();
-			$(this).removeClass('drag')
+			$(this).removeClass('drag');
 		});
 		self.$drop.on('drop', function(e){
 			var evt_dataTransfer = e.originalEvent.dataTransfer;
@@ -518,7 +518,7 @@ UploadInterface.prototype.thumnailImageCheck = function()
 		if (existImage && !self.settings.form.thumnail_image.value)
 		{
 			alert('썸네일 이미지를 만들지 않았습니다.');
-			self.queue.$index.find('[rg-action=thumnail]').eq(0).focus();
+			self.queue.$index.find('[data-action=thumnail]').eq(0).focus();
 			return true;
 		}
 		else

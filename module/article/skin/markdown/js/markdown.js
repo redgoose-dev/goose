@@ -80,17 +80,17 @@ jQuery(function($){
 
 	// toggle edit/preview
 	var $mkEditor = $('div.mk-editor');
-	var $mkEditorButtons = $mkEditor.find('a[role-control]');
+	var $mkEditorButtons = $mkEditor.find('a[data-control]');
 	$mkEditorButtons.on('click', function(){
 
-		var mode = $(this).attr('role-control');
-		var $target = $mkEditor.find('[role-target=' + mode + ']');
+		var mode = $(this).attr('data-control');
+		var $target = $mkEditor.find('[data-target=' + mode + ']');
 
 		if (!$(this).hasClass('active'))
 		{
 			$mkEditorButtons.removeClass('active');
 			$(this).addClass('active');
-			$mkEditor.find('[role-target]').removeClass('show');
+			$mkEditor.find('[data-target]').removeClass('show');
 			$target.addClass('show');
 
 			// load preview data

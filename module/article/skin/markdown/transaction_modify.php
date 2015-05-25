@@ -1,6 +1,10 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
+// 외부에서 불러들인 처리파일이라는 확인값
+$isExternalTransaction = true;
+
+
 // reset $_FILES
 $_FILES = $files = null;
 

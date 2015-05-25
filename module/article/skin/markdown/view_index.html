@@ -49,7 +49,10 @@ if (!defined('__GOOSE__')) exit();
 	?>
 
 	<!-- index -->
-	<ul class="idx-document list">
+	<?php
+	$listType = ($repo['nest']['json']['articleListType']) ? $repo['nest']['json']['articleListType'] : 'list';
+	?>
+	<ul class="idx-document <?=$listType?>">
 		<?php
 		if (count($repo['article']))
 		{
@@ -60,9 +63,19 @@ if (!defined('__GOOSE__')) exit();
 				$url .= $v['srl'].'/';
 				$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 				$categoryName = ($v['categoryName']) ? '<span><b>Category</b>'.$v['categoryName'].'</span> ' : '';
+				// thumnail image
+				if ($v['json']['thumnail']['url'] && file_exists(__GOOSE_PWD__.$v['json']['thumnail']['url']))
+				{
+					$thumnailImg = '<img src="'.__GOOSE_ROOT__.$v['json']['thumnail']['url'].'" alt="'.$v['title'].'"/>';
+				}
+				else
+				{
+					$thumnailImg = '<span class="noimg">no img</span>';
+				}
 		?>
 				<li>
 					<a class="wrap" href="<?=$url?>">
+						<figure class="figure"><?=$thumnailImg?></figure>
 						<div class="body">
 							<strong class="hd"><?=$v['title']?></strong>
 							<div class="inf">

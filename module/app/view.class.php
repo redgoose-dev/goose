@@ -67,7 +67,7 @@ class View extends App
 		$repo = array();
 
 		// get data
-		$data = $this->parent->getItems();
+		$data = $this->parent->getItems(array('sort' => 'asc'));
 		$repo['app'] = ($data['state'] == 'success') ? $data['data'] : array();
 
 		// set pwd_container

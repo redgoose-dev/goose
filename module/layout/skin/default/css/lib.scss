@@ -200,12 +200,12 @@ button.gs-button {
 
 // Buttons group
 .gs-btn-group {
-	margin: 15px 0;
-	padding: 0 8px;
+	margin: 15px 0; padding: 0 8px;
 	font-size: 0;
 	&.right {text-align: right;}
 	@media all and (max-width:640px) {
 		@include flexbox();
+		padding: 0;
 		> * {
 			margin: 0 0 0 1px; padding-left: 3px; padding-right: 3px;
 			text-align: center;

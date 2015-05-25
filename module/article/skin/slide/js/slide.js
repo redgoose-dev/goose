@@ -14,7 +14,6 @@ jQuery(function($){
 			{ label : 'Subject', name : 'subject', value : '' }
 		]
 	});
-	//log(uploadInterface.$queue);
 
 	if (!uploadInterface.ready)
 	{
@@ -42,6 +41,9 @@ jQuery(function($){
 					if (contentData[n].location == attachFiles[nn].location)
 					{
 						contentData[n].srl = attachFiles[nn].srl;
+						contentData[n].filesize = attachFiles[nn].filesize;
+						contentData[n].filetype = attachFiles[nn].filetype;
+						contentData[n].state = attachFiles[nn].state;
 						break;
 					}
 				}
@@ -68,8 +70,6 @@ jQuery(function($){
 			return false;
 		}
 
-		log('테스트 필요함');
-		return false;
 		// set thumnail data
 		var thumnailData = uploadInterface.thumnail.data;
 		var json = {
