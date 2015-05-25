@@ -1,1 +1,0 @@
-<p>help page</p>

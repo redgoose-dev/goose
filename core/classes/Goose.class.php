@@ -82,25 +82,24 @@ class Goose {
 	}
 
 	/**
-	 * error goose
+	 * error
 	 *
 	 * @param int $code error code
 	 * @param string $msg error message
 	 */
 	public static function error($code=null, $msg=null)
 	{
-        // act error
+		$error = Module::load('error');
+		// act error
 		switch($code)
 		{
 			case 101:
 				// custom error
-				$error = Module::load('error');
 				$error->render($code, $msg);
 				self::end();
 				break;
 			case 404:
 				// page not found
-				$error = Module::load('error');
 				$error->render(404, 'page not found');
 				self::end();
 				break;
@@ -109,5 +108,17 @@ class Goose {
 
 				break;
 		}
+	}
+
+	/**
+	 * error box
+	 *
+	 * @param int $code error code
+	 * @param string $msg error message
+	 */
+	public static function errorbox($code=null, $msg=null)
+	{
+		$error = Module::load('error');
+		$error->box($code, $msg);
 	}
 }

@@ -56,8 +56,7 @@ class Page {
 		$this->pwd_container = __GOOSE_PWD__.$this->path.'pages/'.$action.'.html';
 		if (!file_exists($this->pwd_container))
 		{
-			Util::back('페이지가 없습니다.');
-			Goose::end();
+			Goose::error(404);
 		}
 
 		require_once($this->layout->getUrl());

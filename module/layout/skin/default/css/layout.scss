@@ -432,3 +432,18 @@
 /* patch - plugin snippet */
 .snippet-wrap pre.sh_sourceCode {box-shadow: 0 0 0 !important;}
 
+
+/* error */
+.gs-error {
+	margin: 15px 0; padding: 15px;
+	background: $color-redgoose;
+	h1 {
+		margin: 0;
+		font-size: 18px; color: #fff;
+	}
+	p {
+		margin: 4px 0 0;
+		font-size: 13px;
+		color: #fff; color: rgba(255,255,255,.85);
+	}
+}

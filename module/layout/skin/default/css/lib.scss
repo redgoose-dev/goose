@@ -2,6 +2,7 @@
 $color-blur: #666;
 $color-key: #469fc0;
 $color-title: #b68250;
+$color-redgoose: #b31e37;
 $font-eng: 'Helvetica', Arial, sans-serif;
 
 // Functions
@@ -226,7 +227,7 @@ button.gs-button {
 		color: #111;
 		a {text-decoration: none; color: #111;}
 	}
-	> p {margin: 4px 0 3px; font-size: 12px; color: #666;}
+	> p {margin: 0 0 3px; font-size: 12px; color: #666;}
 
 	@media all and (max-width:640px) {
 		margin-bottom: 0; padding-left: 10px;

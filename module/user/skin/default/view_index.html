@@ -7,6 +7,7 @@ $gooseAdmin = $this->parent->goose->isAdmin;
 <section>
 	<div class="gs-headding">
 		<h1><a href="<?=__GOOSE_ROOT__?>user/index/">사용자 목록</a></h1>
+		<p><?=$this->set['description']?></p>
 	</div>
 	<?php
 	if (count($repo['user']))

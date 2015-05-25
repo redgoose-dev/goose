@@ -25,9 +25,9 @@
 	},
 	{
 		"name": "Help",
-		"url": "{GOOSE_ROOT}page/help/",
-		"target": "",
-		"permission" : "100"
+		"url": "http://redgoosedev.github.io/Documentation",
+		"target": "goose",
+		"permission" : "0"
 	},
 	{
 		"name": "Module",
