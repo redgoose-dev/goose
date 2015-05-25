@@ -48,24 +48,11 @@ class Error {
 	 */
 	public function render($code, $message)
 	{
-		require_once(__GOOSE_PWD__.$this->skinPath.'view_render.html');
+		require_once($this->skinPath.'view_render.html');
 	}
 
-	/**
-	 * render in layout
-	 * 레이아웃 속에 출력되는 에러메세지
-	 *
-	 * @param int $code error code
-	 * @param string $message error message
-	 */
-	public function renderInLayout($code, $message)
+	public function box($code, $message)
 	{
-		$this->layout = Module::load('layout');
-
-		// set container pwd
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_render_in_layout.html';
-
-		require_once($this->layout->getUrl());
+		require_once($this->skinPath.'view_box.html');
 	}
-
 }

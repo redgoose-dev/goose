@@ -3,15 +3,26 @@
 <head lang="ko">
 <meta charset="UTF-8">
 <title>Goose error</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no">
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>ext/iconFonts/style.css" />
 <link rel="stylesheet" href="<?=__GOOSE_ROOT__.$this->skinPath.'asset/css/render.css'?>"/>
+<script>function log(o){console.log(o);}</script>
 </head>
 <body>
 
-<div style="text-align: center;">
-	<p><?=$code?></p>
-	<p><?=$message?></p>
-	<p>풀화면으로 표시되는 에러페이지</p>
-</div>
+<main class="full-screen">
+	<section class="wrap">
+		<h1 class="logo icn-redgoose" title="Goose"></h1>
+		<p class="code"><?=$code?></p>
+		<p class="message"><?=$message?></p>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>" title="home">
+				<span class="ball"><i class="icn-home"></i></span>
+				<span class="text">Go to home</span>
+			</a>
+		</nav>
+	</section>
+</main>
 
 </body>
 </html>
