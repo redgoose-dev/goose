@@ -5,7 +5,8 @@
 <title>Project Goose</title>
 <link rel="stylesheet" href="./assets/css/layout.css"/>
 <script src="./assets/vendor/jquery/jquery-2.1.4.min.js"></script>
-<script src="./assets/vendor/react/react-0.13.3.min.js"></script>
+<script src="./assets/vendor/react/react-0.13.3.js"></script>
+<script src="./assets/vendor/react/JSXTransformer-0.13.3.js"></script>
 <script>function log(o){console.log(o);}</script>
 </head>
 <body>
@@ -13,14 +14,7 @@
 	<!-- header -->
 	<header id="header">
 		<h1><a href="#"><img src="#" alt="Goose"/></a></h1>
-		<nav>
-			<ul>
-				<li><a href="#">Introduce</a></li>
-				<li><a href="#">Documentation</a></li>
-				<li><a href="#">Download</a></li>
-				<li><a href="#">Issue</a></li>
-			</ul>
-		</nav>
+		<div id="comp-top-navigation"></div>
 	</header>
 	<!-- // header -->
 
@@ -34,7 +28,6 @@
 	</footer>
 	<!-- // footer -->
 </main>
-<script src="./assets/vendor/hashchange/jquery.ba-hashchange.min.js"></script>
-<script src="./assets/js/layout.min.js"></script>
+<script type="text/jsx" src="./assets/js/layout.jsx"></script>
 </body>
 </html>
