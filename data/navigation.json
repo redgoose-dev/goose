@@ -1,22 +1,30 @@
-{
-	"top" : [
-		{
-			"name" : "Introduce",
-			"url" : "#Introduce"
-		},
-		{
-			"name" : "Documentation",
-			"url" : "#Introduce"
-		},
-		{
-			"name" : "Download",
-			"url" : "https://github.com/RedgooseDev/goose",
-			"target" : "_blank"
-		},
-		{
-			"name" : "Issues",
-			"url" : "Introduce",
-			"target" : "_blank"
-		}
-	]
-}
+[
+	{
+		"name" : "Introduce",
+		"url" : "#Introduce"
+	},
+	{
+		"name" : "Documentation",
+		"url" : "#Introduce",
+		"child" : [
+			{
+				"name" : "child #1",
+				"url" : "child-1"
+			},
+			{
+				"name" : "child #2",
+				"url" : "child-2"
+			}
+		]
+	},
+	{
+		"name" : "Download",
+		"url" : "https://github.com/RedgooseDev/goose",
+		"target" : "_blank"
+	},
+	{
+		"name" : "Issues",
+		"url" : "Introduce",
+		"target" : "_blank"
+	}
+]
