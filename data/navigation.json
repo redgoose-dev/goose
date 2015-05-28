@@ -1,0 +1,22 @@
+{
+	"top" : [
+		{
+			"name" : "Introduce",
+			"url" : "#Introduce"
+		},
+		{
+			"name" : "Documentation",
+			"url" : "#Introduce"
+		},
+		{
+			"name" : "Download",
+			"url" : "https://github.com/RedgooseDev/goose",
+			"target" : "_blank"
+		},
+		{
+			"name" : "Issues",
+			"url" : "Introduce",
+			"target" : "_blank"
+		}
+	]
+}
