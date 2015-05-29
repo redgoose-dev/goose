@@ -4,6 +4,7 @@
 README.html
 *.codekit
 .idea
+.module-cache/
 
 # user files
 *.user

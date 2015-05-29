@@ -1,11 +1,11 @@
-[
-	{
+{
+	"Introduce" : {
 		"name" : "Introduce",
 		"url" : "#Introduce"
 	},
-	{
+	"Documentation" : {
 		"name" : "Documentation",
-		"url" : "#Introduce",
+		"url" : "#Documentation",
 		"child" : [
 			{
 				"name" : "child #1",
@@ -17,14 +17,14 @@
 			}
 		]
 	},
-	{
+	"Download" : {
 		"name" : "Download",
 		"url" : "https://github.com/RedgooseDev/goose",
 		"target" : "_blank"
 	},
-	{
+	"Issues" : {
 		"name" : "Issues",
-		"url" : "Introduce",
+		"url" : "https://github.com/RedgooseDev/goose/issues",
 		"target" : "_blank"
 	}
-]
+}
