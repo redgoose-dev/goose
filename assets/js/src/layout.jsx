@@ -1,25 +1,35 @@
 var navigationData = null;
 
+/**
+ * Object to Array
+ * object형식의 데이더를 array형식의 데이터로 변환시킨다. (only 1depth)
+ *
+ * @param {Object} obj
+ * @return {Array}
+ */
+var objectToArray = function(obj)
+{
+	var result = [];
+	for (var o in obj)
+	{
+		result.push(obj[o]);
+	}
+	return result;
+};
+
+// top navigation items
 var TopNavigationList = React.createClass({
 	render : function()
 	{
-		if (this.props.data)
-		{
-			// 변환된 배열로 출력하기
-			return <ul></ul>;
-		}
-		else
-		{
-			return <ul/>;
-		}
-
-		//var items = this.props.data.map(function(data){
-		//	return <li key={data.name}><a href={data.url} target={data.target}>{data.name}</a></li>;
-		//});
-		//return <ul>{items}</ul>;
+		if (!this.props.data) return <ul/>;
+		var items = this.props.data.map(function(data){
+			return <li key={data.name}><a href={data.url} target={data.target}>{data.name}</a></li>;
+		});
+		return <ul>{items}</ul>;
 	}
 });
 
+// top navigation wrap
 var TopNavigation = React.createClass({
 	getInitialState : function()
 	{
@@ -38,9 +48,7 @@ var TopNavigation = React.createClass({
 		// load navigation data
 		$.get(this.props.sourceUrl, function(data){
 			navigationData = data;
-			// 1dep메뉴 데이터는 배열로 변환하기
-			self.setState({ navData : data });
-
+			self.setState({ navData : objectToArray(data) });
 			$(window).trigger('hashchange');
 		});
 	},
@@ -55,11 +63,7 @@ var TopNavigation = React.createClass({
 	}
 });
 
-
-//{this.props.source.map(function(item){
-//	return <li key={item.name}><a href={item.url} target={item.target}>{item.name}</a></li>;
-//})}
-
+// side navigation
 var SideNavigation = React.createClass({
 	getInitialState : function()
 	{
@@ -70,7 +74,9 @@ var SideNavigation = React.createClass({
 	update : function(key)
 	{
 		//log(navigationData);
-		//log(key);
+		log(navigationData[key]);
+
+		// 페이지 호출하기
 	},
 	componentDidMount : function() {},
 	render : function(){
