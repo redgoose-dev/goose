@@ -5,17 +5,7 @@
 	},
 	"Documentation" : {
 		"name" : "Documentation",
-		"url" : "#Documentation",
-		"child" : [
-			{
-				"name" : "child #1",
-				"url" : "child-1"
-			},
-			{
-				"name" : "child #2",
-				"url" : "child-2"
-			}
-		]
+		"url" : "#Documentation"
 	},
 	"Download" : {
 		"name" : "Download",

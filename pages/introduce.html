@@ -1,10 +1,115 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-  <meta charset="UTF-8">
-  <title></title>
-</head>
-<body>
+<div data-content-group>
+	<section id="AboutTheGoose" data-content>
+		<h1>About the Goose</h1>
+		<p>
+			Goose는 서버 데이터베이스에 자료를 삽입, 수정, 삭제 작업을 처리하는 일을 쉽게 도와주기 위하여 만든 프로그램입니다.<br/>
+			XE나 Wordpress와 같은 CMS프로그램이라고 말할 수 있습니다.<br/>
+			Goose프로그램에서 글을 쓰거나 사진을 올리면 연동되어져 만들어진 사이트에서 업데이트가 되어 방문객에게 보여줄 수 있습니다.
+		</p>
+		<figure>
+			.img
+		</figure>
+		<h2>One admin, multiple sites</h2>
+		<p>
+			Goose는 하나의 프로그램으로 다양한 스타일의 사이트를 만들어서 운영할 수 있습니다. 관리는 Goose 프로그램 한곳에서만 하면 되는것이죠!<br/>
+			하나의 도메인에서 목록형의 페이지가 필요할수도 있고, 갤러리형의 필요할수도 있습니다. 그리고 뭔가 독특한 형태로 데이터가 나열된 페이지를 만들수도 있는 경우에 Goose프로그램의 장점을 활용할 수 있습니다.
+		</p>
+		<div class="fig-group">
+			<figure>
+				<img src="#" alt="redgoose.me 사이트의 스크린샷"/>
+				<figcaption>Gallery style</figcaption>
+			</figure>
+			<figure>
+				<img src="#" alt="note.redgoose.me 스크린샷"/>
+				<figcaption>Documents list style</figcaption>
+			</figure>
+		</div>
+	</section>
 
-</body>
-</html>
+	<section id="Background" data-content>
+		<h1>Background</h1>
+		<p>
+			처음에는 XE를 통해서 개발하고 있었지만 모듈 제작에 대한 규칙이 너무 복잡하고 여려워서 불만을 가지고 있었습니다.<br/>
+			Wordpress는 한글로 된 자료가 적어서(핵심적인 부분은 한글자료가 어느정도 있지만 플러그인이나 다른 테마들은 세계적으로 분포되어 있음.) 손댈 엄두가 나질 않았습니다.<br/>
+			<br/>
+			어느날 NAS를 구입하게 되어 호스팅 비용도 아낄겸 NAS에다 웹서버를 구축하게 되었는데 XE는 쓸 수 없을정도로 페이지 반응속도가 느렸습니다. Wordpress 도 마찬가지로 아주 느리다보니 단순히 html 페이지만으로 많은양의 사진을 올릴 수 없었습니다.<br/>
+			무엇보다 글을쓰고 사진을 올리는데에 회원관리가 필요하고 거창한 기능들을 담고있는 프로그램을 사용할 필요가 없어 보였습니다.<br/>
+			<br/>
+			더이상 XE로 뭔가 만들기는 힘들다는것을 판단하고 글이나 사진과 같은 단순 데이터를 업로드하고 다른공간에다 출력을 할 수 있는 프로그램에 대해서 고민하기 시작했습니다.
+		</p>
+		<figure>
+			<img src="#" alt="Illustrations"/>
+		</figure>
+	</section>
+
+	<section id="FeaturesOfTheGoose" data-content>
+		<h1>Features of the Goose</h1>
+		<p>
+			Goose 프로그램은 다음과 같은 특징을 가지고 있습니다.
+		</p>
+		<h2>단순한 구조</h2>
+		<p>
+			관리자가 글을쓰고 다른 페이지에서 출력을 하는 방식에 촛점이 맞추어져 있기 때문에 구조 자체가 복잡한편은 아닙니다.
+		</p>
+		<h2>가벼운 프로그램</h2>
+		<p>
+			기능이 단순하기 때문에 가볍습니다.<br/>
+			새로 인스톨했을 경우 XE나 Wordpress보다는 더 빠릅니다.
+		</p>
+		<h2>하나의 관리 프로그램으로 다양한 스타일의 사이트 출력</h2>
+		<p>
+			보통 CMS프로그램들은 관리자 내부에서 방문객에게 노출하는 사이트 페이지를 같이 관리하는 방식입니다. 하지만 Goose는 조금 더 다른 공간에서 방문객에게 노출하는 사이트를 제작할 수 있습니다.
+		</p>
+		<figure><img src="#" alt="워드프레스,XE와 Goose의 디렉토리의 차이점"/></figure>
+		<p>
+			XE나 Wordpress의 경우는 one admin, one site<br/>
+			Goose는 one admin, multiple site
+		</p>
+		<h2>기능의 모듈화</h2>
+		<p>
+			찾는 사람에 요구에 따라서 Goose프로그램의 기능은 많이 빈약합니다.<br/>
+			goose의 대부분 기능들은 모듈로 나누어져서 필요할때에 불러와서 사용되거나 다른 모듈과 상호작용을 할 수 있습니다.<br/>
+			모듈을 만들고 db테이블을 설치하여 자유로운 형태로 새로운 관리자 컨텐츠를 만들어 관리할 수 있습니다.<br/>
+			<br/>
+			이것을 이용해서 원하면 쇼핑몰 관리자 프로그램도 충분히 만들어낼 수 있을거라고 생각합니다.
+		</p>
+		<h2>자유로운 모듈과 스킨개발</h2>
+		<p>
+			모듈을 추가하여 자신만의 모듈을 만들 수 있습니다. 많은 제약이나 규칙이 없다보니 모듈 개발의 자유도는 높은 편이라서 컨텐츠에 따라 개발 난이도가 크게 변합니다.<br/>
+			모듈에서 db를 만들어 관리할 수 있으며, 인스톨이나 언인스톨 프로그램을 만들어서 배포할 수 있습니다. 그리고 주요 모듈들은 대부분 스킨을 골라서 다른 테마로 출력할 수 있기때문에 취향에 따라 다양한 관리자 디자인을 만들 수 있습니다.
+		</p>
+		<h2>API 지원</h2>
+		<p>
+			프로그램에서 rest api형식으로 지원합니다.<br/>
+			이것을 이용하여 다른 도메인이나 디바이스에서도 goose 관리자에 쌓인 데이터를 열람할 수 있습니다.<br/>
+			하지만 보안에 대단히 위험한 방식이어서 접근할 수 있는 db의 필드나 테이블을 모듈에서 선택적으로 제한할 수 있습니다.<br/>
+			인증방식에 대하여 많은 고민을 했지만 아직 개인적으로 사용할일이 없어서 제대로 구현할 엄두가 안나서 열람은 오픈해뒀지만 글쓰기나 수정, 삭제는 API단계에서의 기능은 제공하지 않습니다.<br/>
+			만약 글쓰기, 수정, 삭제에 대한 API가 필요하면 개별적인 모듈개발이나 수정이 필요합니다.
+		</p>
+	</section>
+
+	<section id="Modules" data-content>
+		<h1>Modules</h1>
+		<p>
+			Goose에서의 모듈들은 아주 중요한 역할을 합니다.<br/>
+			예를들자면 모듈은 레고의 블럭 하나와 같습니다. 하지만 조합에 의해서 형태와 기능이 달라질 수 있습니다.
+		</p>
+		<figure><img src="#" alt="Lego blocks"/></figure>
+		<p>
+			기본으로 제공되어있는 모듈을 사용할수도 있고, 그것을 다른형태로 변형하거나 새로운 기능을 더 추가할 수도 있습니다. 원하는 기능이 필요하다면 새로운 모듈을 만들수도 있습니다.<br/>
+			<br/>
+			<a href="#Documentation">Develop module 바로가기</a>
+		</p>
+	</section>
+
+	<section id="UseInGoose" data-content>
+		<h1>Use in goose</h1>
+		<p>Goose를 이용하여 만든 사이트들입니다.</p>
+		<ul>
+			<li><a href="http://redgoose.me" target="_blank">http://redgoose.me</a></li>
+			<li><a href="http://note.redgoose.me" target="_blank">http://note.redgoose.me</a></li>
+			<li><a href="http://laluzjd.com/design" target="_blank">http://laluzjd.com/design</a></li>
+			<li><a href="http://chunghwe.com" target="_blank">http://chunghwe.com</a></li>
+		</ul>
+	</section>
+</div>
