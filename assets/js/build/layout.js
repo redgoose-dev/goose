@@ -177,19 +177,20 @@ function Navigation(url)
 	/**
 	 * RENDER AREA
 	 */
+	if (url)
+	{
+		// top
+		this.top = React.render(
+			React.createElement(this.CompTop, {sourceUrl: url}),
+			document.getElementById('comp-top-navigation')
+		);
 
-	// top
-	this.top = React.render(
-		React.createElement(this.CompTop, {sourceUrl: "./data/navigation.json"}),
-		document.getElementById('comp-top-navigation')
-	);
-
-	// side
-	this.side = React.render(
-		React.createElement(this.CompSide, {key: "side"}),
-		document.getElementById('comp-side-navigation')
-	);
-
+		// side
+		this.side = React.render(
+			React.createElement(this.CompSide, {key: "side"}),
+			document.getElementById('comp-side-navigation')
+		);
+	}
 }
 
 
@@ -198,11 +199,16 @@ function Navigation(url)
  */
 function Contents()
 {
+	this.firstTime = true;
+
 	this.gotoScroll = function(target)
 	{
+		var speed = 0;
 		if (target)
 		{
-			$('html, body').animate({ scrollTop: $('#' + target).offset().top }, '300');
+			speed = (!this.firstTime) ? 400 : 0;
+			this.firstTime = (this.firstTime) ? false : this.firstTime;
+			$('html, body').animate({ scrollTop: $('#' + target).offset().top }, speed);
 		}
 	}
 }
