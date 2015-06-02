@@ -4,6 +4,7 @@
 README.html
 *.codekit
 .idea
+*.psd
 
 # user files
 /data
