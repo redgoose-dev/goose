@@ -1,6 +1,13 @@
 // variables
 $color-key: #b31e36;
 
+
+// mixins
+@mixin ul(){
+	margin: 0; padding: 0; list-style: none;
+}
+
+
 // elements
 *, *:before, *:after {
 	-webkit-box-sizing: border-box;

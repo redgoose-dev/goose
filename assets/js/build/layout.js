@@ -26,6 +26,8 @@ function Navigation(url)
 	var self = this;
 	this.data = null;
 	this.page = null;
+	this.$sideNavigation = $('#comp-side-navigation');
+	this.$topNavigation = $('#comp-top-navigation');
 
 
 	/**
@@ -54,7 +56,6 @@ function Navigation(url)
 		{
 			return (
 				React.createElement("nav", {className: "lay-top-navigation"}, 
-					React.createElement("h1", null, "top navigation"), 
 					React.createElement(self.CompTopList, {data: this.state.navData})
 				)
 			);
@@ -87,6 +88,7 @@ function Navigation(url)
 		render : function(){
 			return (
 				React.createElement("nav", {className: "lay-side-navigation"}, 
+					React.createElement("h1", null, self.page), 
 					React.createElement(self.CompSideList, {data: this.state.items})
 				)
 			);
@@ -110,7 +112,7 @@ function Navigation(url)
 	 */
 
 	// change hash event
-	$(window).on('hashchange', function() {
+	$(window).on('hashchange.goose', function() {
 		var params = (location.hash) ? location.hash.replace(/^#/gi, '').split('/') : ['Introduce'];
 		if (self.data[params[0]] && (params[0] !== self.page))
 		{
@@ -166,6 +168,20 @@ function Navigation(url)
 		}
 	});
 
+	// scroll event
+	$(window).on('scroll.sideNavigation', function(){
+		var st = $(this).scrollTop();
+		var ot = self.$sideNavigation.offset().top;
+
+		if (ot > st)
+		{
+			self.$sideNavigation.removeClass('fixed');
+		}
+		else
+		{
+			self.$sideNavigation.addClass('fixed');
+		}
+	});
 
 	/**
 	 * RENDER AREA
@@ -175,13 +191,13 @@ function Navigation(url)
 		// top
 		this.top = React.render(
 			React.createElement(this.CompTop, {sourceUrl: url}),
-			document.getElementById('comp-top-navigation')
+			this.$topNavigation.get(0)
 		);
 
 		// side
 		this.side = React.render(
 			React.createElement(this.CompSide, {key: "side"}),
-			document.getElementById('comp-side-navigation')
+			this.$sideNavigation.get(0)
 		);
 	}
 }
