@@ -1,5 +1,6 @@
 // variables
 $color-key: #b31e36;
+$font-eng: 'Helvetica Neue', sans-serif;
 
 
 // mixins
@@ -56,4 +57,12 @@ hr {margin: 15px 0; height: 1px; background: #e1e1e1; border: 0;}
 	position: absolute;
 	overflow:hidden; width:0; height:0; visibility:hidden;
 	font-size:0; line-height:0;
+}
+
+
+%right-bar {
+	position: absolute; content: '';
+	right: 0; top: 0;
+	width: 10px; height: 2px;
+	background: #222;
 }

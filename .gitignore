@@ -5,8 +5,8 @@ README.html
 *.codekit
 .idea
 .module-cache/
+*.psd
 
 # user files
 *.user
 *.user.*
-*.psd

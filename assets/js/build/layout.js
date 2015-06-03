@@ -15,6 +15,44 @@ var objectToArray = function(obj)
 	return result;
 };
 
+/**
+ * Get Last Item
+ * 배열에서 마지막 요소를 가져옵니다.
+ *
+ * @param {Array} arr
+ * @return {*}
+ */
+var getLastItem = function(arr)
+{
+	return arr[arr.length-1];
+};
+
+/**
+ * Get Last Item
+ * 중첩되어있는 배열의 특정값을 다른 하나의 배열에 나란히 담는다.
+ *
+ * @param {Array} src 소스배열
+ * @param {Array} out 출력되는 배열
+ * @param {String} key_target 가져오려는 key 이름
+ * @param {String} key_child 자식 key 이름
+ * @return {*}
+ */
+var setArrayItem = function(src, out, key_target, key_child)
+{
+	for (var i=0; i<src.length; i++)
+	{
+		if (src[i][key_target])
+		{
+			out.push(src[i][key_target]);
+		}
+		if (src[i][key_child])
+		{
+			setArrayItem(src[i][key_child], out, key_target, key_child);
+		}
+	}
+};
+
+
 
 /**
  * Navigation
@@ -100,7 +138,12 @@ function Navigation(url)
 		render : function(){
 			if (!this.props.data) return React.createElement("ul", null);
 			var items = this.props.data.map(function(data){
-				return React.createElement("li", {key: data.name}, React.createElement("a", {href: '#' + data.url}, data.name));
+				return (
+					React.createElement("li", {key: data.name}, 
+						React.createElement("a", {href: '#' + data.url}, data.name), 
+						React.createElement(self.CompSideList, {data: data.child})
+					)
+				);
 			});
 			return React.createElement("ul", null, items);
 		}
@@ -118,6 +161,7 @@ function Navigation(url)
 		{
 			var item = self.data[params[0]];
 			var children = null;
+			var idList = null;
 			self.page = params[0];
 
 			// set children from navigation data
@@ -141,34 +185,54 @@ function Navigation(url)
 					if ($contentsGroup.length)
 					{
 						children = [];
-						$contentsGroup.find('[data-content]').each(function(){
-							var id = $(this).attr('id');
-							var name = $(this).children('h1').text();
-							children.push({
-								name : name,
-								url : self.page + '/' + id
+						$contentsGroup.children('section[id]').each(function(){
+							var url = self.page + '/' + $(this).attr('id');
+							var item = {
+								name : $(this).children('h1').text(),
+								id : $(this).attr('id'),
+								url : url
+							};
+
+							var child = [];
+							$(this).children('section[id]').each(function(){
+								child.push({
+									name : $(this).children('h1').text(),
+									id : $(this).attr('id'),
+									url : url + '/' + $(this).attr('id')
+								});
 							});
+							if (child.length)
+							{
+								item.child = child;
+							}
+
+							children.push(item);
 						});
+
+						// set section tree
+						contents.setSectionTree(children);
 					}
 
 					// update side navigation
 					self.side.update(children);
 
 					// go to scroll
-					if (params[1])
+					if (getLastItem(params))
 					{
-						contents.gotoScroll(params[1]);
+						contents.gotoScroll(getLastItem(params));
 					}
 				}
 			});
 		}
-		else if (params[1])
+		else if (getLastItem(params))
 		{
-			contents.gotoScroll(params[1]);
+			contents.gotoScroll(getLastItem(params));
 		}
 	});
 
 	// scroll event
+	var current = null;
+	var list = null;
 	$(window).on('scroll.sideNavigation', function(){
 		var st = $(this).scrollTop();
 		var ot = self.$sideNavigation.offset().top;
@@ -180,6 +244,18 @@ function Navigation(url)
 		else
 		{
 			self.$sideNavigation.addClass('fixed');
+		}
+
+		current = $(contents.sectionTree).map(function(o){
+			if (($(this).offset().top - $(window).scrollTop()) < 0)
+			{
+				return this;
+			}
+		});
+		current = $( current ).eq( current.length - 1 );
+		if ( current && current.length )
+		{
+
 		}
 	});
 
@@ -208,12 +284,27 @@ function Navigation(url)
  */
 function Contents()
 {
+	var self = this;
 	this.firstTime = true;
+	this.sectionTree = null;
+
+	// get section tree
+	this.setSectionTree = function(data)
+	{
+		var arr = [];
+		setArrayItem(data, arr, 'id', 'child');
+		self.sectionTree = arr.map(function(o){
+			if ($('#'+o).length)
+			{
+				return $('#'+o)[0];
+			}
+		});
+	};
 
 	this.gotoScroll = function(target)
 	{
 		var speed = 0;
-		if (target)
+		if (target && $('#' + target).length)
 		{
 			speed = (!this.firstTime) ? 400 : 0;
 			this.firstTime = (this.firstTime) ? false : this.firstTime;
