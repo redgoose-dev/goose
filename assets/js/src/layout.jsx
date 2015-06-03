@@ -89,12 +89,11 @@ function Navigation(url)
 				$(window).trigger('hashchange');
 			});
 		},
-
 		render : function()
 		{
 			return (
-				<nav className="lay-top-navigation">
-					<self.CompTopList data={this.state.navData} />
+				<nav className='lay-top-navigation'>
+					<self.CompTopList data={this.state.navData} ref='list' />
 				</nav>
 			);
 		}
@@ -102,11 +101,22 @@ function Navigation(url)
 
 	// top list
 	this.CompTopList = React.createClass({
+		prev : null,
+		updateSelected : function(name)
+		{
+			if (this.refs[name])
+			{
+				if (this.prev) this.prev.className = '';
+				this.refs[name].getDOMNode().className = 'active';
+				this.prev = this.refs[name].getDOMNode();
+			}
+		},
 		render : function()
 		{
 			if (!this.props.data) return <ul/>;
+			var top = this;
 			var items = this.props.data.map(function(data){
-				return <li key={data.name}><a href={data.url} target={data.target}>{data.name}</a></li>;
+				return <li key={data.name} ref={data.name}><a href={data.url} target={data.target}>{data.name}</a></li>;
 			});
 			return <ul>{items}</ul>;
 		}
@@ -125,9 +135,9 @@ function Navigation(url)
 		componentDidMount : function() {},
 		render : function(){
 			return (
-				<nav className="lay-side-navigation">
+				<nav className='lay-side-navigation'>
 					<h1>{self.page}</h1>
-					<self.CompSideList data={this.state.items} />
+					<self.CompSideList data={this.state.items} ref='list' />
 				</nav>
 			);
 		}
@@ -135,13 +145,29 @@ function Navigation(url)
 
 	// side list
 	this.CompSideList = React.createClass({
+		$prev : null,
+		updateSelected : function(name)
+		{
+			if (this.$prev)
+			{
+				this.$prev.removeClass('active');
+				this.$prev.parent().parent().filter('[data-ref]').removeClass('active');
+				this.$prev = null;
+			}
+			this.$prev = $(this.getDOMNode()).find('[data-ref=' + name + ']');
+			this.$prev.parent().parent().filter('[data-ref]').addClass('active');
+			if (this.$prev)
+			{
+				this.$prev.addClass('active');
+			}
+		},
 		render : function(){
 			if (!this.props.data) return <ul/>;
 			var items = this.props.data.map(function(data){
 				return (
-					<li key={data.name}>
+					<li data-ref={data.id}>
 						<a href={'#' + data.url}>{data.name}</a>
-						<self.CompSideList data={data.child} />
+						{(data.child) ? <self.CompSideList data={data.child} /> : null}
 					</li>
 				);
 			});
@@ -161,7 +187,6 @@ function Navigation(url)
 		{
 			var item = self.data[params[0]];
 			var children = null;
-			var idList = null;
 			self.page = params[0];
 
 			// set children from navigation data
@@ -213,6 +238,9 @@ function Navigation(url)
 						contents.setSectionTree(children);
 					}
 
+					// update top navigation list
+					self.top.refs.list.updateSelected(self.page);
+
 					// update side navigation
 					self.side.update(children);
 
@@ -222,11 +250,13 @@ function Navigation(url)
 						contents.gotoScroll(getLastItem(params));
 					}
 				}
+				contents.firstTime = false;
 			});
 		}
 		else if (getLastItem(params))
 		{
 			contents.gotoScroll(getLastItem(params));
+			contents.firstTime = false;
 		}
 	});
 
@@ -240,6 +270,7 @@ function Navigation(url)
 		if (ot > st)
 		{
 			self.$sideNavigation.removeClass('fixed');
+
 		}
 		else
 		{
@@ -247,7 +278,7 @@ function Navigation(url)
 		}
 
 		current = $(contents.sectionTree).map(function(o){
-			if (($(this).offset().top - $(window).scrollTop()) < 0)
+			if (($(this).offset().top - $(window).scrollTop()) < 10)
 			{
 				return this;
 			}
@@ -255,7 +286,7 @@ function Navigation(url)
 		current = $( current ).eq( current.length - 1 );
 		if ( current && current.length )
 		{
-
+			self.side.refs.list.updateSelected(current.attr('id'));
 		}
 	});
 

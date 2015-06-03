@@ -61,9 +61,13 @@ main {
 			padding-left: 15px;
 		}
 		h1 {
-			margin: 0; padding: 20px 0 10px 15px;
+			margin: 0; padding: 25px 0 10px 15px;
 			font-family: 'HelveticaNeue-CondensedBold', sans-serif;
-			font-size: 26px; color: $color-key;
+			font-size: 22px; color: $color-key;
+			letter-spacing: -1px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		a {
 			display: block;
@@ -72,7 +76,7 @@ main {
 			color: #222; font-size: 14px;
 			&:hover {text-decoration: underline;}
 		}
-		.active a {color: #aaa;}
+		.active > a {color: #aaa;}
 	}
 	#contents {
 		position: relative;
