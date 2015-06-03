@@ -66,10 +66,10 @@ main {
 		&.fixed nav {position: fixed; top: 0;}
 		ul {
 			@include ul();
-			padding-left: 15px;
+			padding-left: 20px;
 		}
 		h1 {
-			margin: 0; padding: 28px 0 10px 15px;
+			margin: 0; padding: 25px 0 10px 20px;
 			font-family: 'HelveticaNeue-CondensedBold', sans-serif;
 			font-size: 24px; color: $color-key;
 			white-space: nowrap;
@@ -99,7 +99,7 @@ main {
 /* basic page */
 .page {
 	$basic-margin: 10px;
-	font-size: 13px; color: #222;
+	font-size: 14px; color: #222;
 	line-height: 1.6;
 	p {margin: $basic-margin 0;}
 	ul, ol {
@@ -112,8 +112,8 @@ main {
 		margin: 0 0 100px;
 		> h1 {
 			position: relative; margin: 0 0 20px; padding: 10px 0 0;
-			font-size: 36px; color: #222;
-			font-family: 'HelveticaNeue-CondensedBold', sans-serif;
+			font-size: 33px; color: #222;
+			font-family: 'HelveticaNeue-CondensedBold', $font-eng;
 			&:before {
 				content: ''; position: absolute;
 				left: 0; top: 0;
@@ -123,7 +123,8 @@ main {
 		}
 		> h2 {
 			margin: 30px 0 15px;
-			font-family: $font-eng;
+			font-size: 22px;
+			font-family: 'HelveticaNeue-CondensedBold', $font-eng;
 		}
 	}
 	figure {margin: $basic-margin 0;}
@@ -149,7 +150,7 @@ main {
 		margin: 25px 0 40px;
 		text-align: center;
 		> img {display: block; margin: 0 auto;}
-		figcaption {margin-top: 12px; text-align: left;}
+		figcaption {margin-top: 5px; text-align: left;}
 	}
 	.fig-group {
 		margin: 24px 0 40px;

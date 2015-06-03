@@ -1,6 +1,6 @@
 <div class="Documentation page" data-content-group>
-	<section id="DocStart">
-		<h1>Start</h1>
+	<section id="DocStartDocumentation">
+		<h1>Start Documentation</h1>
 		<p>이 매뉴얼을 보기위한 참고사항입니다.</p>
 		<ul>
 			<li><strong>{goose}</strong> : goose를 설치한 경로입니다. ex) http://domain.com/goose</li>
@@ -269,6 +269,62 @@
 			Goose의 작동방식은 다음과 같은 절차로 실행되어 페이지를 표현합니다.<br/>
 			이것은 관리자에 대한 작동방식이며, 방문객에게 보여지는 사이트는 조금 다른방식으로 구현할 수 있습니다.
 		</p>
-		...
+		<figure class="fig-center">
+			<img src="./assets/img/img-documentation-01.png" alt=""/>
+			<figcaption>Goose 동작 flow</figcaption>
+		</figure>
+		<ol>
+			<li>
+				<strong>index.php 접근</strong>
+				 <p>서버 세팅에 의해서 관리자 경로로 접근하면 {goose}/index.php가 실행됩니다. </p>
+			</li>
+			<li>
+				<strong>core/init.php 실행</strong>
+				 <p>여기서 기초적인 작업이 다 이루어집니다. </p>
+			</li>
+			<li>
+				<strong>각종 기본 상수와 변수설정 </strong>
+				 <p>자주 사용되는 상수를 초기화합니다.</p>
+			</li>
+			<li>
+				<strong>환경설정 가져오기</strong>
+				 <p>goose 설치가 되었으면 <code>{goose}/data/config.php</code> 파일을 불러옵니다.</p>
+			</li>
+			<li>
+				<strong>core 클래스 로드</strong>
+				 <p> goose 프로그램에 필요한 클래스들을 가져옵니다. </p>
+			</li>
+			<li>
+				<strong>$goose 인스턴스 변수 만들기</strong>
+				 <p>goose의 핵심적인 클래스인 Goose를 인스턴스 객체화 합니다. db접속이나 프로그램 종료, 각종 중요한 역할에 사용됩니다.</p>
+			</li>
+			<li>
+				<strong>인스톨 검사db접속 및 초기화</strong>
+				 <p>$goose 객체에서 Spawn클래스를 이용하여 db를 접속하고 $goose->spawn 객체로 만듭니다.</p>
+			</li>
+			<li>
+				<strong>주소 라우트 초기화</strong>
+				 <p>Route 클래스를 이용하여 $router 객체를 만들어 주소를 검사하여 주소에 의한 변수를 초기화 합니다.</p>
+			</li>
+			<li>
+				<strong>기본 시작모듈 초기화</strong>
+				 <p>{goose}/data/config.php에 설정된 시작 모듈의 클래스를 객체화 합니다.</p>
+			</li>
+			<li>
+				<strong>시작모듈 index()메서드 실행. 시작모듈 페이지 출력</strong>
+				 <p>
+					설정된 시작모듈에서 index()메서드가 존재하는지 검사하고 있으면 실행합니다.<br/>
+					index() 메서드에서 페이지를 출력하거나 어떤 행동을 처리합니다.
+				</p>
+			</li>
+		</ol>
+	</section>
+
+	<section id="DocCoreClass">
+		<h1>Core class</h1>
+		<p>
+			다음은 Goose 에서 핵심적으로 사용되는 클래스입니다. php용 App 개발시 필요한것들이 많으므로 꼭 불러와야 합니다.<br/>
+			매뉴얼에서는 클래스 메서드의 설명, 호출 예제까지 다루지만 인자값과 리턴값에 대한 정보는 소스의 주석을 확인해보시길 바랍니다.
+		</p>
 	</section>
 </div>
