@@ -66,3 +66,61 @@ hr {margin: 15px 0; height: 1px; background: #e1e1e1; border: 0;}
 	width: 10px; height: 2px;
 	background: #222;
 }
+
+
+/* web font */
+@font-face {
+	font-family: 'HelveticaNeue-CondensedBold';
+	src: local('HelveticaNeue-CondensedBold'),
+		url('../vendor/HelveticaNeue-CondensedBold/HelveticaNeue-CondensedBold.eot?#iefix') format('embedded-opentype'),
+		url('../vendor/HelveticaNeue-CondensedBold/HelveticaNeue-CondensedBold.otf') format('opentype'),
+		url('../vendor/HelveticaNeue-CondensedBold/HelveticaNeue-CondensedBold.woff') format('woff'),
+		url('../vendor/HelveticaNeue-CondensedBold/HelveticaNeue-CondensedBold.ttf') format('truetype'),
+		url('../vendor/HelveticaNeue-CondensedBold/HelveticaNeue-CondensedBold.svg#HelveticaNeue-CondensedBold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+/* table */
+.ui-table {
+	width: 100%; margin: 15px 0;
+	> caption {
+		padding: 0 0 4px;
+		text-align: left;
+		font-size: 12px; color: #333; font-weight: bold;
+	}
+	> thead, > tbody {
+		> tr {
+			> th, > td {
+				padding: 7px 10px;
+				border: 1px solid #ccc;
+			}
+		}
+	}
+	> thead > tr > th {background: #eee;}
+	> tbody > tr {
+		> th {text-align: center; font-weight: normal;}
+		> td {padding-top: 6px; padding-bottom: 6px;}
+	}
+}
+
+.ui-scroll-table {
+	margin: 15px 0;
+	.ui-table {margin: 0;}
+	@media all and (max-width:768px) {
+		position: relative;
+		&:before {
+			content: 'Scroll to the right';
+			display: block;
+			position: absolute; right: 0; top: 3px;
+			font-weight: bold;
+			font-size: 10px;
+			font-family: $font-eng;
+		}
+		> .wrap {overflow-x: auto; overflow-y: visible;}
+		.ui-table {
+			min-width: 768px;
+			white-space: nowrap;}
+	}
+}

@@ -23,11 +23,19 @@ main {
 		a {
 			display: inline-block; padding: 10px 20px;
 			font-family: 'Helvetica', 'Verdana', sans-serif;
-			font-size: 14px; text-decoration: none;
-			color: #222;
+			font-size: 14px; text-decoration: none; color: #222;
 			&:hover {text-decoration: underline;}
 		}
 		.active a {color: #aaa;}
+	}
+	@media all and (max-width:768px) {
+		nav {
+			li {width: 50%;}
+			a {
+				padding-top: 5px; padding-bottom: 5px;
+				padding-left: 5px; padding-right: 5px;
+			}
+		}
 	}
 }
 
@@ -61,10 +69,9 @@ main {
 			padding-left: 15px;
 		}
 		h1 {
-			margin: 0; padding: 25px 0 10px 15px;
+			margin: 0; padding: 28px 0 10px 15px;
 			font-family: 'HelveticaNeue-CondensedBold', sans-serif;
-			font-size: 22px; color: $color-key;
-			letter-spacing: -1px;
+			font-size: 24px; color: $color-key;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -91,20 +98,20 @@ main {
 
 /* basic page */
 .page {
-	p {
-		margin: 15px 0;
-		line-height: 1.6;
-		font-size: 13px; color: #222;
-	}
+	$basic-margin: 10px;
+	font-size: 13px; color: #222;
+	line-height: 1.6;
+	p {margin: $basic-margin 0;}
 	ul, ol {
 		padding-left: 24px;
-		line-height: 20px;
-		font-size: 13px;
+		> li {margin: 4px 0;}
+		p {
+			margin-top: $basic-margin * 0.3;}
 	}
 	> section {
 		margin: 0 0 100px;
 		> h1 {
-			position: relative; margin: 0 0 25px; padding: 10px 0 0;
+			position: relative; margin: 0 0 20px; padding: 10px 0 0;
 			font-size: 36px; color: #222;
 			font-family: 'HelveticaNeue-CondensedBold', sans-serif;
 			&:before {
@@ -116,14 +123,33 @@ main {
 		}
 		> h2 {
 			margin: 30px 0 15px;
-			font-weight: normal;
+			font-family: $font-eng;
 		}
 	}
-	figure {margin: 15px 0;}
+	figure {margin: $basic-margin 0;}
+	code {
+		margin: 0; padding: .2em 0;
+		background: #eee;
+		border-radius: 3px;
+		font-size: 12px;
+		font-family: Monaco, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+		&:before {letter-spacing: -0.2em; content: "\00a0";}
+		&:after {letter-spacing: -0.2em; content: "\00a0"; color:red;}
+	}
+	pre {
+		padding: 15px;
+		margin: $basic-margin 0;
+		overflow: auto; line-height: 1.45;
+		background: #eee;
+		> code {
+			background: transparent;
+		}
+	}
 	.fig-center {
-		margin: 24px 0 40px;
+		margin: 25px 0 40px;
 		text-align: center;
 		> img {display: block; margin: 0 auto;}
+		figcaption {margin-top: 12px; text-align: left;}
 	}
 	.fig-group {
 		margin: 24px 0 40px;
@@ -137,8 +163,6 @@ main {
 		img {border: 1px solid #e1e1e1;}
 	}
 	.not-list-style {
-		padding: 0;
-		list-style: none;
-		line-height: 20px;
+		padding-left: 0; list-style: none;
 	}
 }

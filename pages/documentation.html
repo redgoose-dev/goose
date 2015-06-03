@@ -1,6 +1,274 @@
 <div class="Documentation page" data-content-group>
-	<section id="AboutTheGoose">
-		<h1>About the Goose</h1>
-		<p>ndigdspgsdgdsg</p>
+	<section id="DocStart">
+		<h1>Start</h1>
+		<p>이 매뉴얼을 보기위한 참고사항입니다.</p>
+		<ul>
+			<li><strong>{goose}</strong> : goose를 설치한 경로입니다. ex) http://domain.com/goose</li>
+			<li><strong>{nest_srl}</strong> : 둥지의 고유번호</li>
+			<li><strong>{app_srl}</strong> : App의 고유번호</li>
+			<li><strong>{article_srl}</strong> : Article의 고유번호</li>
+			<li><strong>{category_srl}</strong> : Article 분류의 고유번호</li>
+		</ul>
+	</section>
+
+	<section id="DocInstallation">
+		<h1>Installation</h1>
+		<p>
+			Goose는 설치형 cms입니다. 그래서 직접 서버에 설치하는 작업을 해줘야합니다. 설치는 아래의 환경을 확인하고 설치 바랍니다.
+		</p>
+		<h2>Environment</h2>
+		<p>Goose는 아래와 같은 환경에서 설치할 수 있습니다. 되도록이면 높은버전의 설치를 권장합니다.</p>
+		<ul>
+			<li>Apache & Nginx</li>
+			<li>PHP 5.3+ (5.5+ 권장)</li>
+			<li>MySQL (5.x)</li>
+			<li>git</li>
+		</ul>
+		<h2>Process</h2>
+		<p>
+			버전 업데이트를 이유로 git를 이용하여 설치하시는것을 추천드립니다.<br/>
+			이 가이드는 git를 이용하여 설치합니다.
+		</p>
+		<ol>
+			<li>
+				git를 이용할 수 있는 터미널에서 웹서버 경로에서 설치를 원하는 곳으로 이동하여 아래 명령을 실행해줍니다.  
+				<pre class="code"><code>cd /www git clone https://github.com/RedgooseDev/goose.git </code></pre>
+				 github에서 복제받으면 /www/goose/ 경로로 소스가 복제됩니다. 
+
+			</li>
+			<li>브라우저에서 <code>http://xxx.com/www/goose/</code>경로로 이동합니다. </li>
+			<li>인스톨 입력폼의 항목을 입력합니다. 입력이 필요한 항목은 데이터베이스의 정보, 설치시 만들어지는 관리자 정보가 필요합니다. </li>
+			<li>항목을 전부 입력했으면 INSTALL 버튼을 누르면 아래 그림과 같이 설치한 항목이 출력이 됩니다. </li>
+			<li>다시 <code>http://xxx.com/www/goose/</code>경로로 접속하면 아래 그림과 같이 인트로 Goose 관리페이지를 볼 수 있습니다.</li>
+		</ol>
+	</section>
+
+	<section id="DocUseGoose">
+		<h1>Use Goose</h1>
+		<p>
+			이 섹션은 Goose의 기본 개념과 사용법을 안내합니다.<br/>
+			<br/>
+			Goose를 설치하고 관리자로 접속을 하면 아래와 같은 화면이 나옵니다. (레이아웃 스킨에 따라 형태가 다를 수 있습니다.)
+		</p>
+		<figure class="fig-center">
+			<img src="#" alt=""/>
+			<figcaption>Goose 페이지 인트로 화면</figcaption>
+		</figure>
+
+		<h2>Menu guide</h2>
+		<ul>
+			<li><strong>Nest</strong> : 글에대한 둥지입니다. 컴퓨터 파일들의 폴더라고 볼 수 있습니다.</li>
+			<li><strong>User</strong> : 등록된 사용자 목록입니다. 공동으로 게시물을 올리고 관리할때 사용자를 관리할 수 있습니다.</li>
+			<li><strong>JSON</strong> : 다목적으로 사용할 수 있는 json 데이터에 대한 목록입니다.</li>
+			<li><strong>Help</strong> : 현재 보고있는 페이지로 이동합니다.</li>
+			<li><strong>Module</strong> : 현재 서버에 올라온 모듈의 목록을 출력합니다. 설치가 필요한 모듈은 설치/설치해제 버튼이 나옵니다.</li>
+		</ul>
+
+		<h2>Module address</h2>
+		<p>
+			각 모듈에 접근할 수 있는 주소입니다.<br/>
+			자세한 모든 모듈은 <strong>[Develop module - Basic modules list]</strong> 섹션을 참고해주세요.
+		</p>
+		<div class="ui-scroll-table">
+			<div class="wrap">
+				<table class="ui-table">
+					<caption class="ui-text-right">Goose 접근경로 표</caption>
+					<thead>
+						<tr>
+							<th>이름</th>
+							<th>주소</th>
+							<th>설명</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>App</th>
+							<td>{goose}/app/index/</td>
+							<td>둥지의 그룹 모듈</td>
+						</tr>
+						<tr>
+							<th>Article</th>
+							<td>{goose}/article/index/{nest_srl}/</td>
+							<td>게시글 모듈</td>
+						</tr>
+						<tr>
+							<th>Category</th>
+							<td>{goose}/category/index/{nest_srl}/</td>
+							<td>게시글의 분류 모듈</td>
+						</tr>
+						<tr>
+							<th>File</th>
+							<td>{goose}/file/index/</td>
+							<td>게시글의 첨부파일 모듈</td>
+						</tr>
+						<tr>
+							<th>Intro</th>
+							<td>{goose}/</td>
+							<td>첫페이지 출력 모듈</td>
+						</tr>
+						<tr>
+							<th>JSON</th>
+							<td>{goose}/json/index/</td>
+							<td>json데이터 관리 모듈</td>
+						</tr>
+						<tr>
+							<th>Modules</th>
+							<td>{goose}/modules/index/</td>
+							<td>모듈의 목록</td>
+						</tr>
+						<tr>
+							<th>Nest</th>
+							<td>{goose}/nest/index/</td>
+							<td>article의 그룹이 되는 둥지 모듈</td>
+						</tr>
+						<tr>
+							<th>Page</th>
+							<td>{goose}/page/</td>
+							<td>일반적인 형식의 페이지 모듈</td>
+						</tr>
+						<tr>
+							<th>User</th>
+							<td>{goose}/user/index</td>
+							<td>사용자 데이터 관리 모듈</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<h2>Basic structure</h2>
+		<p>Goose 의 데이터의 기본구조를 알면 사용에 많은 도움이 됩니다. 글쓰는데 필요한 모듈의 데이터의 관계는 아래 그림과 같습니다.</p>
+		<figure class="fig-center">
+			<img src="#" alt=""/>
+			<figcaption>
+				App모듈 데이터의 하위 구성요소는 Nest모듈의 데이터이고, Nest 데이터의 하위 구성요소는 Article모듈의 데이터입니다.<br/>
+				Category모듈의 데이터는 Article데이터를 종류별로 묶을때 사용합니다.
+			</figcaption>
+		</figure>
+		<p>다음은 각 모듈에 들어있는 데이터에 대한 설명입니다.</p>
+		<ul>
+			<li>
+				<strong>App</strong>
+				<p>여러가지의 둥지를 그룹화를 할대 App 모듈의 데이터를 씁니다. 여러가지 둥지를 한번에 접근하기 편하기 위해 만들어진 모듈 데이터입니다.<br><u>프로젝트 구분용으로 쓰는것을 권장합니다.</u></p>
+			</li>
+			<li>
+				<strong>Nest</strong>
+				<p>둥지는 게시글의 종류를 정의하고 관리해주는 역할을 합니다.<br/>일반 게시판으로 보자면 A게시판, B게시판을 볼 수 있습니다. 그 속에 게시글의 목록이 있습니다.</p>
+			</li>
+			<li>
+				<strong>Article</strong>
+				<p>일반적인 게시판의 게시글이라고 볼 수 있습니다. 또는 블로그의 글이라고 할수도 있습니다.</p>
+			</li>
+			<li>
+				<strong>Category</strong>
+				<p>article의 분류 데이터입니다. 게시판의 분류라고 볼 수 있습니다.</p>
+			</li>
+			<li>
+				<strong>File</strong>
+				<p>article의 첨부파일 입니다.</p>
+			</li>
+		</ul>
+
+		<h2>Make nest</h2>
+		<p>글을 쓰기 이전에 둥지를 만들어 줘야합니다.</p>
+		<ol>
+			<li>"Nest"메뉴를 선택해줍니다. 메뉴에서 선택하여 들어가도 되고, <code>{goose}/nest/index/</code> 주소를 통해 들어가도 됩니다.</li>
+			<li>Nest 목록 화면 아래쪽에 "둥지만들기" 버튼을 선택하면 둥지만들기 작성폼으로 이동합니다.</li>
+			<li>항목을 입력하고 "만들기" 버튼을 누르면 목록에 새로운 둥지가 생깁니다.</li>
+		</ol>
+		<h3>둥지 만들기 폼 주요항목</h3>
+		<ul>
+			<li>
+				<strong>Nest skin </strong>
+				<p>둥지의 모듈 스킨을 선택합니다.<br/>스킨에 따라서 항목이 변할수도 있습니다. 둥지 수정에서 이 항목을 변경하면 이전 항목의 설정값이 사라질 수 있으니 주의해주세요. </p>
+			</li>
+			<li>
+				<strong>Article skin</strong>
+				<p> 둥지 하위의 데이터인 Article 모듈의 스킨입니다. 다양한 스타일의 article 모듈 스킨 중 하나를 선택하세요. </p>
+			</li>
+			<li>
+				<strong>App</strong>
+				<p> 둥지의 그룹에 해당되는 데이터입니다. 여러 둥지를 묶을때 사용됩니다. </p>
+			</li>
+			<li>
+				<strong>아이디 </strong>
+				<p>둥지의 고유이름을 지정합니다. app을 개발할때 고유 이름으로 둥지를 접근할때 좋은 수단이 됩니다. </p>
+			</li>
+			<li>
+				<strong>둥지이름</strong>
+				 <p>둥지를 설명하는 이름입니다. </p>
+			</li>
+			<li>
+				<strong>목록수</strong>
+				<p> article 목록에서 표시되는 글 갯수를 정합니다. </p>
+			</li>
+			<li>
+				<strong>분류사용</strong>
+				<p> article의 분류를 사용하는지에 대한 여부를 선택합니다. 분류는 category 모듈의 데이터입니다.</p>
+			</li>
+		</ul>
+
+		<h2>Make article</h2>
+		<p>
+			둥지를 만들고나면 글을 게시글을 작성할 수 있습니다.<br/>
+			둥지에서 article skin에 따라 형태나 내용이 바뀔수도 있습니다.
+		</p>
+		<ol>
+			<li>둥지 목록에서 만들어진 둥지를 선택합니다.</li>
+			<li>article 목록에서 "글쓰기" 버튼을 선택합니다.</li>
+			<li>글쓰기 폼에서 나와있는 항목을 입력하고, 필요하면 파일첨부를 합니다. article 모듈 스킨에 따라 입력폼의 종류가 바뀝니다.</li>
+			<li>항목을 작성하면 "만들기" 버튼을 누르면 목록에서 글이 추가됩니다.</li>
+		</ol>
+
+		<h2>Edit Navigation</h2>
+		<p>
+			인스톨을 한 Goose에서 기본적으로 제공하는 메뉴가 있지만 메뉴를 직접 편집할 수 있습니다.<br/>
+			각 모듈의 주소는 [Module address] 섹션에서 확인할 수 있습니다.
+		</p>
+		<ol>
+			<li><strong>[JSON]</strong> 메뉴를 선택합니다.</li>
+			<li>json 목록에서 "Goose Navigation" 글에서 [수정] 버튼을 누릅니다.</li>
+			<li>이미 메뉴의 트리가 만들어져 있으므로 수정해서 사용하면 됩니다.</li>
+		</ol>
+	</section>
+
+	<section id="DocPreference">
+		<h1>Preference</h1>
+		<p>
+			Goose를 설치하면 <code>{goose}/data/config.php</code>파일을 만들면서 설정값들이 입력됩니다.<br/>
+			이 파일은 텍스트 에디터같은것으로 직접 수정해야합니다.
+		</p>
+
+		<h2>상수 설정값</h2>
+		<ul>
+			<li>
+				<strong>__GOOSE_URL__</strong>
+				<p>goose가 설치된 경로주소. 도메인 이름까지 모두 포함된 주소입니다. ex) http://domain.com/goose/ </p>
+			</li>
+			<li>
+				<strong>__GOOSE_ROOT__</strong>
+				<p>goose가 설치된 상대경로 주소. 주로 js나 css, 페이지 링크에서 사용됩니다.</p>
+			</li>
+		</ul>
+
+		<h2>변수 설정값</h2>
+		<ul>
+			<li>$dbConfig : 데이터베이스 접속 정보</li>
+			<li>$table_prefix : db 테이블 이름 앞에붙는 고정값 </li>
+			<li>$apiKey : api 키값. 이값을 암호화하여 사용됩니다.</li>
+			<li>$basic_module : goose 첫페이지에 접속하면 출력되는 모듈이름 </li>
+			<li>$accessLevel : 권한설정 (설정된 숫자보다 높으면 접근하거나 이용할 수 있습니다.)</li>
+			<li>$accessLevel => login : goose 접근 레벨</li>
+			<li>$accessLevel => admin : 관리자로 인식하는 레벨.</li>
+		</ul>
+	</section>
+
+	<section id="DocActionProcess">
+		<h1>Action process</h1>
+		<p>
+			Goose의 작동방식은 다음과 같은 절차로 실행되어 페이지를 표현합니다.<br/>
+			이것은 관리자에 대한 작동방식이며, 방문객에게 보여지는 사이트는 조금 다른방식으로 구현할 수 있습니다.
+		</p>
+		...
 	</section>
 </div>
