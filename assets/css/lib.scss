@@ -105,6 +105,7 @@ hr {margin: 15px 0; height: 1px; background: #e1e1e1; border: 0;}
 	}
 }
 
+/* scroll table for mobile */
 .ui-scroll-table {
 	margin: 15px 0;
 	.ui-table {margin: 0;}
@@ -126,3 +127,7 @@ hr {margin: 15px 0; height: 1px; background: #e1e1e1; border: 0;}
 }
 
 
+/* center text */
+.ui-text-left {text-align: left;}
+.ui-text-center {text-align: center;}
+.ui-text-right {text-align: right;}

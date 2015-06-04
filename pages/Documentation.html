@@ -32,7 +32,7 @@
 		<ol>
 			<li>
 				git를 이용할 수 있는 터미널에서 웹서버 경로에서 설치를 원하는 곳으로 이동하여 아래 명령을 실행해줍니다.  
-				<pre class="code"><code>cd /www git clone https://github.com/RedgooseDev/goose.git </code></pre>
+				<pre class="code"><code>git clone https://github.com/RedgooseDev/goose.git </code></pre>
 				 github에서 복제받으면 /www/goose/ 경로로 소스가 복제됩니다. 
 
 			</li>
@@ -495,4 +495,188 @@ $paginate->createNavigation();</code></pre>
 			</p>
 		</section>
 	</section>
+
+	<!-- Develop module -->
+	<section id="DocDevelopModule">
+		<h1>Develop module</h1>
+		<p>
+			goose에서 사용하는 모듈이라는것은 마치 레고블럭과 같습니다.<br/>
+			레고블럭은 다양한 모양이 있으면서 끼우는 홈의 갯수나 위치가 틀리고, 색상도 가지각색입니다. 이것들을 이용해서 또다른 조합된 블럭이나 도구를 만들어서 완성된 뭔가를 만드는것이죠.(성이나 건물, 자동차 등등...)<br/>
+			이것과 같은 방향성을 목표로 가지고 있는것이 이 모듈입니다.
+		</p>
+		<figure class="fig-center">
+			<img src="./assets/img/img-documentation-04.jpg" alt="lego"/>
+			<figcaption>레고 조립의 과정</figcaption>
+		</figure>
+
+		<section id="DocDevelopModuleProcess">
+			<h1>Work process</h1>
+			<p>
+				goose 프로그램은 여러가지 모듈들에 의해서 만들어지는 프로그램입니다.<br/>
+				다음은 모듈을 불러올때 작동하는 과정입니다.
+			</p>
+			<figure class="fig-center">
+				<img src="./assets/img/img-documentation-02.png" alt="모듈 실행과정"/>
+			</figure>
+			<ol>
+				<li>
+					<strong>Module::load() 메서드 실행</strong>
+					<p>$apple = Module::load('apple'); 형식으로 실행 시작합니다.</p>
+				</li>
+				<li>
+					<strong>{module}/setting.json 파일 로드</strong>
+					<p>환경설정 json 데이터입니다.</p>
+				</li>
+				<li>
+					<strong>{module}/{module}.class 파일 로드</strong>
+					<p>모듈 메인 클래스 파일을 불러옵니다.</p>
+				</li>
+				<li>
+					<strong>인스톨 여부와 권한 검사</strong>
+					<p>인스톨이 필요한 모듈이며 인스톨이 되어있는지 접근할 수 있는 권한이 있는지 검사합니다.</p>
+				</li>
+				<li>
+					<strong>모듈 클래스를 인스턴스 객체로 제작</strong>
+				</li>
+				<li>
+					<strong>모듈 객체에 필요한 변수들 삽입</strong>
+					<p>setting.json에서 가져온 설정 변수, $goose 객체나 기타 다른 변수들을 모듈 객체로 삽입</p>
+				</li>
+				<li>
+					<strong>모듈 객체 리턴</strong>
+					<p>위의 과정을 거친 객체를 리턴시켜 호출한 영역에서 사용할 수 있습니다.</p>
+				</li>
+			</ol>
+		</section>
+
+		<section id="DocDevelopModuleList">
+			<h1>Modules list</h1>
+			<p>기본적으로 사용되는 모듈의 목록입니다. 일부분의 모듈은 필수로 들어가야하는 모듈입니다.</p>
+			<div class="ui-scroll-table">
+				<div class="wrap">
+					<table class="ui-table">
+						<caption class="ui-text-right">기본으로 제공되는 모듈목록</caption>
+						<colgroup>
+							<col width="14%"/>
+							<col width="8%"/>
+							<col width="8%"/>
+							<col width=""/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>이름</th>
+								<th>DB</th>
+								<th>필수</th>
+								<th>사용용도</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>api</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">X</td>
+								<td>외부에서 데이터를 읽고쓰는 기능을 하는 모듈</td>
+							</tr>
+							<tr>
+								<th>app</th>
+								<td class="ui-text-center">O</td>
+								<td class="ui-text-center">X</td>
+								<td>nest모듈의 데이터를 그룹화 하는 모듈. 프로젝트 이름으로 쓰는것을 권장합니다.</td>
+							</tr>
+							<tr>
+								<th>article</th>
+								<td class="ui-text-center">O</td>
+								<td class="ui-text-center">X</td>
+								<td>글 목록을 관리하는 모듈</td>
+							</tr>
+							<tr>
+								<th>auth</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">O</td>
+								<td> 관리 프로그램의 접근을 담당하는 모듈 (로그인)</td>
+							</tr>
+							<tr>
+								<th>category</th>
+								<td class="ui-text-center">O</td>
+								<td class="ui-text-center">X</td>
+								<td>article의 분류를 관리하는 모듈</td>
+							</tr>
+							<tr>
+								<th>error</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">O</td>
+								<td>각종 에러메세지를 출력하는 모듈</td>
+							</tr>
+							<tr>
+								<th>file</th>
+								<td class="ui-text-center">O</td>
+								<td class="ui-text-center">X</td>
+								<td>첨부파일을 관리하는 모듈</td>
+							</tr>
+							<tr>
+								<th>install</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">O</td>
+								<td>goose 프로그램 설치에 관한 모듈</td>
+							</tr>
+							<tr>
+								<th>intro</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">X</td>
+								<td>goose 관리자 첫페이지 모듈</td>
+							</tr>
+							<tr>
+								<th>json</th>
+								<td class="ui-text-center">O</td>
+								<td class="ui-text-center">X</td>
+								<td>json데이터를 관리하는 모듈</td>
+							</tr>
+							<tr>
+								<th>layout</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">X</td>
+								<td>페이지 레이아웃 겉면을 출력하는 모듈</td>
+							</tr>
+							<tr>
+								<th>modules</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">X</td>
+								<td>모듈의 목록을 출력하는 모듈. 모듈의 정보나 설치여부를 알 수 있고, 모듈 설치나 삭제도 가능하다.</td>
+							</tr>
+							<tr>
+								<th>nest</th>
+								<td class="ui-text-center">O</td>
+								<td class="ui-text-center">X</td>
+								<td>article 모듈의 그룹단위의 모듈. 글들이 담겨있는 폴더라고 할 수 있다.</td>
+							</tr>
+							<tr>
+								<th>page</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">X</td>
+								<td> 단순 페이지를 출력하는 모듈</td>
+							</tr>
+							<tr>
+								<th>script</th>
+								<td class="ui-text-center">X</td>
+								<td class="ui-text-center">X</td>
+								<td>특정한 기능을 실행하기만 할때 쓰는 모듈</td>
+							</tr>
+							<tr>
+								<th>user</th>
+								<td class="ui-text-center">O</td>
+								<td class="ui-text-center">O</td>
+								<td>사용자 정보를 관리하는 모듈</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<section id="DocDevelopModuleCreate">
+			<h1>Make Module</h1>
+			<p>모듈 만들기..</p>
+		</section>
+	</section>
+	<!-- // Develop module -->
 </div>
