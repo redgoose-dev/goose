@@ -50,37 +50,40 @@
 			<br/>
 			Goose를 설치하고 관리자로 접속을 하면 아래와 같은 화면이 나옵니다. (레이아웃 스킨에 따라 형태가 다를 수 있습니다.)
 		</p>
-		<figure class="fig-center">
-			<img src="#" alt=""/>
+		<figure class="fig-center border">
+			<img src="./assets/img/img-documentation-03.png" alt=""/>
 			<figcaption>Goose 페이지 인트로 화면</figcaption>
 		</figure>
 
-		<h2>Menu guide</h2>
-		<ul>
-			<li><strong>Nest</strong> : 글에대한 둥지입니다. 컴퓨터 파일들의 폴더라고 볼 수 있습니다.</li>
-			<li><strong>User</strong> : 등록된 사용자 목록입니다. 공동으로 게시물을 올리고 관리할때 사용자를 관리할 수 있습니다.</li>
-			<li><strong>JSON</strong> : 다목적으로 사용할 수 있는 json 데이터에 대한 목록입니다.</li>
-			<li><strong>Help</strong> : 현재 보고있는 페이지로 이동합니다.</li>
-			<li><strong>Module</strong> : 현재 서버에 올라온 모듈의 목록을 출력합니다. 설치가 필요한 모듈은 설치/설치해제 버튼이 나옵니다.</li>
-		</ul>
+		<section id="DocUseGooseMenuGuide">
+			<h1>Menu guide</h1>
+			<ul>
+				<li><strong>Nest</strong> : 글에대한 둥지입니다. 컴퓨터 파일들의 폴더라고 볼 수 있습니다.</li>
+				<li><strong>User</strong> : 등록된 사용자 목록입니다. 공동으로 게시물을 올리고 관리할때 사용자를 관리할 수 있습니다.</li>
+				<li><strong>JSON</strong> : 다목적으로 사용할 수 있는 json 데이터에 대한 목록입니다.</li>
+				<li><strong>Help</strong> : 현재 보고있는 페이지로 이동합니다.</li>
+				<li><strong>Module</strong> : 현재 서버에 올라온 모듈의 목록을 출력합니다. 설치가 필요한 모듈은 설치/설치해제 버튼이 나옵니다.</li>
+			</ul>
+		</section>
 
-		<h2>Module address</h2>
-		<p>
-			각 모듈에 접근할 수 있는 주소입니다.<br/>
-			자세한 모든 모듈은 <strong>[Develop module - Basic modules list]</strong> 섹션을 참고해주세요.
-		</p>
-		<div class="ui-scroll-table">
-			<div class="wrap">
-				<table class="ui-table">
-					<caption class="ui-text-right">Goose 접근경로 표</caption>
-					<thead>
+		<section id="DocUseGooseModuleAddress">
+			<h1>Module address</h1>
+			<p>
+				각 모듈에 접근할 수 있는 주소입니다.<br/>
+				자세한 모든 모듈은 <strong>[Develop module - Basic modules list]</strong> 섹션을 참고해주세요.
+			</p>
+			<div class="ui-scroll-table">
+				<div class="wrap">
+					<table class="ui-table">
+						<caption class="ui-text-right">Goose 접근경로 표</caption>
+						<thead>
 						<tr>
 							<th>이름</th>
 							<th>주소</th>
 							<th>설명</th>
 						</tr>
-					</thead>
-					<tbody>
+						</thead>
+						<tbody>
 						<tr>
 							<th>App</th>
 							<td>{goose}/app/index/</td>
@@ -131,105 +134,114 @@
 							<td>{goose}/user/index</td>
 							<td>사용자 데이터 관리 모듈</td>
 						</tr>
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
 			</div>
-		</div>
+		</section>
 
-		<h2>Basic structure</h2>
-		<p>Goose 의 데이터의 기본구조를 알면 사용에 많은 도움이 됩니다. 글쓰는데 필요한 모듈의 데이터의 관계는 아래 그림과 같습니다.</p>
-		<figure class="fig-center">
-			<img src="#" alt=""/>
-			<figcaption>
-				App모듈 데이터의 하위 구성요소는 Nest모듈의 데이터이고, Nest 데이터의 하위 구성요소는 Article모듈의 데이터입니다.<br/>
-				Category모듈의 데이터는 Article데이터를 종류별로 묶을때 사용합니다.
-			</figcaption>
-		</figure>
-		<p>다음은 각 모듈에 들어있는 데이터에 대한 설명입니다.</p>
-		<ul>
-			<li>
-				<strong>App</strong>
-				<p>여러가지의 둥지를 그룹화를 할대 App 모듈의 데이터를 씁니다. 여러가지 둥지를 한번에 접근하기 편하기 위해 만들어진 모듈 데이터입니다.<br><u>프로젝트 구분용으로 쓰는것을 권장합니다.</u></p>
-			</li>
-			<li>
-				<strong>Nest</strong>
-				<p>둥지는 게시글의 종류를 정의하고 관리해주는 역할을 합니다.<br/>일반 게시판으로 보자면 A게시판, B게시판을 볼 수 있습니다. 그 속에 게시글의 목록이 있습니다.</p>
-			</li>
-			<li>
-				<strong>Article</strong>
-				<p>일반적인 게시판의 게시글이라고 볼 수 있습니다. 또는 블로그의 글이라고 할수도 있습니다.</p>
-			</li>
-			<li>
-				<strong>Category</strong>
-				<p>article의 분류 데이터입니다. 게시판의 분류라고 볼 수 있습니다.</p>
-			</li>
-			<li>
-				<strong>File</strong>
-				<p>article의 첨부파일 입니다.</p>
-			</li>
-		</ul>
+		<section id="DocUseGooseBasicStructure">
+			<h1>Basic structure</h1>
+			<p>Goose 의 데이터의 기본구조를 알면 사용에 많은 도움이 됩니다. 글쓰는데 필요한 모듈의 데이터의 관계는 아래 그림과 같습니다.</p>
+			<figure class="fig-center">
+				<img src="#" alt=""/>
+				<figcaption>
+					App모듈 데이터의 하위 구성요소는 Nest모듈의 데이터이고, Nest 데이터의 하위 구성요소는 Article모듈의 데이터입니다.<br/>
+					Category모듈의 데이터는 Article데이터를 종류별로 묶을때 사용합니다.
+				</figcaption>
+			</figure>
+			<p>다음은 각 모듈에 들어있는 데이터에 대한 설명입니다.</p>
+			<ul>
+				<li>
+					<strong>App</strong>
+					<p>여러가지의 둥지를 그룹화를 할대 App 모듈의 데이터를 씁니다. 여러가지 둥지를 한번에 접근하기 편하기 위해 만들어진 모듈 데이터입니다.<br><u>프로젝트 구분용으로 쓰는것을 권장합니다.</u></p>
+				</li>
+				<li>
+					<strong>Nest</strong>
+					<p>둥지는 게시글의 종류를 정의하고 관리해주는 역할을 합니다.<br/>일반 게시판으로 보자면 A게시판, B게시판을 볼 수 있습니다. 그 속에 게시글의 목록이 있습니다.</p>
+				</li>
+				<li>
+					<strong>Article</strong>
+					<p>일반적인 게시판의 게시글이라고 볼 수 있습니다. 또는 블로그의 글이라고 할수도 있습니다.</p>
+				</li>
+				<li>
+					<strong>Category</strong>
+					<p>article의 분류 데이터입니다. 게시판의 분류라고 볼 수 있습니다.</p>
+				</li>
+				<li>
+					<strong>File</strong>
+					<p>article의 첨부파일 입니다.</p>
+				</li>
+			</ul>
+		</section>
 
-		<h2>Make nest</h2>
-		<p>글을 쓰기 이전에 둥지를 만들어 줘야합니다.</p>
-		<ol>
-			<li>"Nest"메뉴를 선택해줍니다. 메뉴에서 선택하여 들어가도 되고, <code>{goose}/nest/index/</code> 주소를 통해 들어가도 됩니다.</li>
-			<li>Nest 목록 화면 아래쪽에 "둥지만들기" 버튼을 선택하면 둥지만들기 작성폼으로 이동합니다.</li>
-			<li>항목을 입력하고 "만들기" 버튼을 누르면 목록에 새로운 둥지가 생깁니다.</li>
-		</ol>
-		<h3>둥지 만들기 폼 주요항목</h3>
-		<ul>
-			<li>
-				<strong>Nest skin </strong>
-				<p>둥지의 모듈 스킨을 선택합니다.<br/>스킨에 따라서 항목이 변할수도 있습니다. 둥지 수정에서 이 항목을 변경하면 이전 항목의 설정값이 사라질 수 있으니 주의해주세요. </p>
-			</li>
-			<li>
-				<strong>Article skin</strong>
-				<p> 둥지 하위의 데이터인 Article 모듈의 스킨입니다. 다양한 스타일의 article 모듈 스킨 중 하나를 선택하세요. </p>
-			</li>
-			<li>
-				<strong>App</strong>
-				<p> 둥지의 그룹에 해당되는 데이터입니다. 여러 둥지를 묶을때 사용됩니다. </p>
-			</li>
-			<li>
-				<strong>아이디 </strong>
-				<p>둥지의 고유이름을 지정합니다. app을 개발할때 고유 이름으로 둥지를 접근할때 좋은 수단이 됩니다. </p>
-			</li>
-			<li>
-				<strong>둥지이름</strong>
-				 <p>둥지를 설명하는 이름입니다. </p>
-			</li>
-			<li>
-				<strong>목록수</strong>
-				<p> article 목록에서 표시되는 글 갯수를 정합니다. </p>
-			</li>
-			<li>
-				<strong>분류사용</strong>
-				<p> article의 분류를 사용하는지에 대한 여부를 선택합니다. 분류는 category 모듈의 데이터입니다.</p>
-			</li>
-		</ul>
+		<section id="DocUseGooseMakeNest">
+			<h1>Make nest</h1>
+			<p>글을 쓰기 이전에 둥지를 만들어 줘야합니다.</p>
+			<ol>
+				<li>"Nest"메뉴를 선택해줍니다. 메뉴에서 선택하여 들어가도 되고, <code>{goose}/nest/index/</code> 주소를 통해 들어가도 됩니다.</li>
+				<li>Nest 목록 화면 아래쪽에 "둥지만들기" 버튼을 선택하면 둥지만들기 작성폼으로 이동합니다.</li>
+				<li>항목을 입력하고 "만들기" 버튼을 누르면 목록에 새로운 둥지가 생깁니다.</li>
+			</ol>
+			<h2>둥지 만들기 폼 주요항목</h2>
+			<ul>
+				<li>
+					<strong>Nest skin </strong>
+					<p>둥지의 모듈 스킨을 선택합니다.<br/>스킨에 따라서 항목이 변할수도 있습니다. 둥지 수정에서 이 항목을 변경하면 이전 항목의 설정값이 사라질 수 있으니 주의해주세요. </p>
+				</li>
+				<li>
+					<strong>Article skin</strong>
+					<p> 둥지 하위의 데이터인 Article 모듈의 스킨입니다. 다양한 스타일의 article 모듈 스킨 중 하나를 선택하세요. </p>
+				</li>
+				<li>
+					<strong>App</strong>
+					<p> 둥지의 그룹에 해당되는 데이터입니다. 여러 둥지를 묶을때 사용됩니다. </p>
+				</li>
+				<li>
+					<strong>아이디 </strong>
+					<p>둥지의 고유이름을 지정합니다. app을 개발할때 고유 이름으로 둥지를 접근할때 좋은 수단이 됩니다. </p>
+				</li>
+				<li>
+					<strong>둥지이름</strong>
+					 <p>둥지를 설명하는 이름입니다. </p>
+				</li>
+				<li>
+					<strong>목록수</strong>
+					<p> article 목록에서 표시되는 글 갯수를 정합니다. </p>
+				</li>
+				<li>
+					<strong>분류사용</strong>
+					<p> article의 분류를 사용하는지에 대한 여부를 선택합니다. 분류는 category 모듈의 데이터입니다.</p>
+				</li>
+			</ul>
+		</section>
 
-		<h2>Make article</h2>
-		<p>
-			둥지를 만들고나면 글을 게시글을 작성할 수 있습니다.<br/>
-			둥지에서 article skin에 따라 형태나 내용이 바뀔수도 있습니다.
-		</p>
-		<ol>
-			<li>둥지 목록에서 만들어진 둥지를 선택합니다.</li>
-			<li>article 목록에서 "글쓰기" 버튼을 선택합니다.</li>
-			<li>글쓰기 폼에서 나와있는 항목을 입력하고, 필요하면 파일첨부를 합니다. article 모듈 스킨에 따라 입력폼의 종류가 바뀝니다.</li>
-			<li>항목을 작성하면 "만들기" 버튼을 누르면 목록에서 글이 추가됩니다.</li>
-		</ol>
+		<section id="DocUseGooseMakeArticle">
+			<h1>Make article</h1>
+			<p>
+				둥지를 만들고나면 글을 게시글을 작성할 수 있습니다.<br/>
+				둥지에서 article skin에 따라 형태나 내용이 바뀔수도 있습니다.
+			</p>
+			<ol>
+				<li>둥지 목록에서 만들어진 둥지를 선택합니다.</li>
+				<li>article 목록에서 "글쓰기" 버튼을 선택합니다.</li>
+				<li>글쓰기 폼에서 나와있는 항목을 입력하고, 필요하면 파일첨부를 합니다. article 모듈 스킨에 따라 입력폼의 종류가 바뀝니다.</li>
+				<li>항목을 작성하면 "만들기" 버튼을 누르면 목록에서 글이 추가됩니다.</li>
+			</ol>
+		</section>
 
-		<h2>Edit Navigation</h2>
-		<p>
-			인스톨을 한 Goose에서 기본적으로 제공하는 메뉴가 있지만 메뉴를 직접 편집할 수 있습니다.<br/>
-			각 모듈의 주소는 [Module address] 섹션에서 확인할 수 있습니다.
-		</p>
-		<ol>
-			<li><strong>[JSON]</strong> 메뉴를 선택합니다.</li>
-			<li>json 목록에서 "Goose Navigation" 글에서 [수정] 버튼을 누릅니다.</li>
-			<li>이미 메뉴의 트리가 만들어져 있으므로 수정해서 사용하면 됩니다.</li>
-		</ol>
+		<section id="DocUseGooseEditNavigation">
+			<h1>Edit Navigation</h1>
+			<p>
+				인스톨을 한 Goose에서 기본적으로 제공하는 메뉴가 있지만 메뉴를 직접 편집할 수 있습니다.<br/>
+				각 모듈의 주소는 [Module address] 섹션에서 확인할 수 있습니다.
+			</p>
+			<ol>
+				<li><strong>[JSON]</strong> 메뉴를 선택합니다.</li>
+				<li>json 목록에서 "Goose Navigation" 글에서 [수정] 버튼을 누릅니다.</li>
+				<li>이미 메뉴의 트리가 만들어져 있으므로 수정해서 사용하면 됩니다.</li>
+			</ol>
+		</section>
 	</section>
 
 	<section id="DocPreference">
@@ -326,5 +338,161 @@
 			다음은 Goose 에서 핵심적으로 사용되는 클래스입니다. php용 App 개발시 필요한것들이 많으므로 꼭 불러와야 합니다.<br/>
 			매뉴얼에서는 클래스 메서드의 설명, 호출 예제까지 다루지만 인자값과 리턴값에 대한 정보는 소스의 주석을 확인해보시길 바랍니다.
 		</p>
+
+		<section id="DocCoreClassGoose">
+			<h1>Goose.class.php</h1>
+			<p>
+				시스템 관련 클래스입니다.<br/>
+				db관련 객체, 인스톨 확인여부, 프로그램 종료, 에러처리 등의 기능을 가지고 있습니다.
+			</p>
+			<ul>
+				<li>
+					<strong>Goose::getInstance();</strong>
+					 <p>싱글톤 객체로 인스턴스 변수를 가져옵니다. </p>
+				</li>
+				<li>
+					<strong>$object->createSpawn();</strong>
+					 <p> Spawn클래스를 인스턴스 객체화합니다. 이 메서드를 실행하면 <code>$goose->spawn</code> 형식으로 접근 가능합니다. </p>
+				</li>
+				<li>
+					<strong>Goose::isInstalled() ;</strong>
+					 <p>인스톨이 됐는지 확인합니다. </p>
+				</li>
+				<li>
+					<strong>Goose::end();</strong>
+					 <p> 프로그램을 종료할때 사용합니다. </p>
+				</li>
+				<li>
+					<strong>Goose::error();</strong>
+					 <p> 프로그램이 오류가 났을때의 처리 메서드입니다.</p>
+				</li>
+			</ul>
+		</section>
+
+		<section id="DocCoreClassModule">
+			<h1>Module.class.php</h1>
+			<p>
+				모듈처리에 관련된 클래스입니다.<br/>
+				모듈 불러오기, 모듈 존재여부 확인, 모듈설치, 모듈제거 등의 처리를 합니다.
+			</p>
+			<ul>
+				<li>
+					<strong>Module::existModule();</strong>
+					<p>모듈이 존재하는지 체크하고 경로를 반환합니다. </p>
+				</li>
+				<li>
+					<strong>Module::load();</strong>
+					<p>모듈을 불러와서 객체화시킵니다. </p>
+				</li>
+				<li>
+					<strong>Module::install();</strong>
+					<p>모듈을 인스톨합니다. </p>
+				</li>
+				<li>
+					<strong>Module::getInstallModule();</strong>
+					<p>설치되어있는 모듈의 목록을 가져옵니다. </p>
+				</li>
+				<li>
+					<strong>Module::setInstallModule();</strong>
+					<p>설치된 모듈목록의 원소를 추가하거나 제거합니다. </p>
+				</li>
+				<li>
+					<strong>Module::afterAction();</strong>
+					<p>특정 결과값에 의해서 페이지 뒤로가거나 alert 메세지를 띄우거나 특정한 페이지로 이동합니다.</p>
+				</li>
+			</ul>
+		</section>
+
+		<section id="DocCoreClassPaginate">
+			<h1>Paginate.class.php</h1>
+			<p>목록의 페이지번호에 관련된 처리를 담당합니다.</p>
+<pre><code>require_once('{goose}/core/classes/Paginate.class.php');
+$paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
+$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
+$paginate = new Paginate($count, $_GET['page'], $paginateParameter, 15, 5); 
+$originalParam = array(
+	'table' => Spawn::getTableName('nest'),
+	'order' => 'srl',
+	'sort' => 'desc',
+	'limit' => array($paginate->offset, $paginate->size)
+);
+
+// print paginavigation
+$paginate->createNavigation();</code></pre>
+		</section>
+
+		<section id="DocCoreClassSpawn">
+			<h1>Spawn.class.php</h1>
+			<p>데이터베이스 처리를 담당합니다.</p>
+			<ul>
+				<li>
+					<strong>$spawn->connect();</strong>
+					<p>db 접속합니다.</p>
+				</li>
+				<li>
+					<strong>$spawn->disconnect();</strong>
+					<p>db 접속 종료합니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::getTableName();</strong>
+					<p>설치시 table_prefix + module_name 형식으로 이루어진 테이블 이름을 가져옵니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::action();</strong>
+					<p>특정 sql 명령어를 실행합니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::getQuery();</strong>
+					<p>sql 쿼리를 가져옵니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::insert();</strong>
+					<p>데이터를 삽입합니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::update();</strong>
+					<p>데이터를 수정합니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::delete();</strong>
+					<p>데이터를 삭제합니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::items();</strong>
+					<p>여러개의 데이터를 가져옵니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::item();</strong>
+					<p>하나의 데이터를 가져옵니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::count();</strong>
+					<p>데이터의 갯수를 가져옵니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::arrayToCreateTableQuery();</strong>
+					<p>배열을 통하여 테이블을 만듭니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::dropTable();</strong>
+					<p>테이블을 삭제합니다.</p>
+				</li>
+				<li>
+					<strong>Spawn::getLastIdx();</strong>
+					<p>db에 입력된 데이터의 마지막 번호를 가져옵니다.</p>
+				</li>
+			</ul>
+		</section>
+
+		<section id="DocCoreClassUtil">
+			<h1>Util.class.php</h1>
+			<p>
+				함수형으로 사용할 수 있는 각종 메서드들을 모았습니다.<br/>
+				이 클래스의 메서드는 유동적으로 변할 수 있기 대문에 설명하지 않습니다. 소스의 주석을 참고해주세요.
+			</p>
+			<p>
+				<a href="https://github.com/RedgooseDev/goose/blob/master/core/classes/Util.class.php" target="_blank">Util.class.php</a>
+			</p>
+		</section>
 	</section>
 </div>

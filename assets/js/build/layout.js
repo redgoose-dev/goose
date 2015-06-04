@@ -223,7 +223,7 @@ function Navigation(url)
 								child.push({
 									name : $(this).children('h1').text(),
 									id : $(this).attr('id'),
-									url : url + '/' + $(this).attr('id')
+									url : self.page + '/' + $(this).attr('id')
 								});
 							});
 							if (child.length)
@@ -334,12 +334,19 @@ function Contents()
 
 	this.gotoScroll = function(target)
 	{
-		var speed = 0;
 		if (target && $('#' + target).length)
 		{
-			speed = (!this.firstTime) ? 400 : 0;
-			this.firstTime = (this.firstTime) ? false : this.firstTime;
-			$('html, body').animate({ scrollTop: $('#' + target).offset().top }, speed);
+			if (this.firstTime)
+			{
+				imagesLoaded( '#contents', function() {
+					$('html, body').scrollTop($('#' + target).offset().top);
+				});
+			}
+			else
+			{
+				this.firstTime = (this.firstTime) ? false : this.firstTime;
+				$('html, body').animate({ scrollTop: $('#' + target).offset().top }, 400);
+			}
 		}
 	}
 }

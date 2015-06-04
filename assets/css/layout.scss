@@ -108,12 +108,12 @@ main {
 		p {
 			margin-top: $basic-margin * 0.3;}
 	}
+	h1, h2, h3 {font-family: 'HelveticaNeue-CondensedBold', $font-eng;}
 	> section {
 		margin: 0 0 100px;
 		> h1 {
 			position: relative; margin: 0 0 20px; padding: 10px 0 0;
 			font-size: 33px; color: #222;
-			font-family: 'HelveticaNeue-CondensedBold', $font-eng;
 			&:before {
 				content: ''; position: absolute;
 				left: 0; top: 0;
@@ -124,7 +124,10 @@ main {
 		> h2 {
 			margin: 30px 0 15px;
 			font-size: 22px;
-			font-family: 'HelveticaNeue-CondensedBold', $font-eng;
+		}
+		> section {
+			> h1 {font-size: 24px; margin-bottom: 12px;}
+			> h2 {font-size: 18px;}
 		}
 	}
 	figure {margin: $basic-margin 0;}
@@ -135,7 +138,7 @@ main {
 		font-size: 12px;
 		font-family: Monaco, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 		&:before {letter-spacing: -0.2em; content: "\00a0";}
-		&:after {letter-spacing: -0.2em; content: "\00a0"; color:red;}
+		&:after {letter-spacing: -0.2em; content: "\00a0";}
 	}
 	pre {
 		padding: 15px;
@@ -144,13 +147,16 @@ main {
 		background: #eee;
 		> code {
 			background: transparent;
+			&:before {content: '';}
+			&:after {content: '';}
 		}
 	}
 	.fig-center {
 		margin: 25px 0 40px;
 		text-align: center;
 		> img {display: block; margin: 0 auto;}
-		figcaption {margin-top: 5px; text-align: left;}
+		figcaption {margin-top: 8px; text-align: left; font-size: 12px;}
+		&.border > img {border: 1px solid #ccc;}
 	}
 	.fig-group {
 		margin: 24px 0 40px;
