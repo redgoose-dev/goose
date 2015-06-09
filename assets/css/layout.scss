@@ -60,8 +60,7 @@ main {
 		float: left; width: #{$sideWidth - 15};
 		nav {
 			position: absolute;
-			margin-left: -10px;
-			width: #{$sideWidth - 15};
+			margin-left: -10px; width: #{$sideWidth - 15};
 		}
 		&.fixed nav {position: fixed; top: 0;}
 		ul {
@@ -72,18 +71,21 @@ main {
 			margin: 0; padding: 25px 0 10px 20px;
 			font-family: 'HelveticaNeue-CondensedBold', sans-serif;
 			font-size: 24px; color: $color-key;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
+			white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 		}
 		a {
-			display: block;
-			padding: 5px 0 5px 0;
+			display: block; padding: 5px 0 5px 0;
 			text-decoration: none;
 			color: #222; font-size: 14px;
 			&:hover {text-decoration: underline;}
 		}
 		.active > a {color: #aaa;}
+		nav {
+			> ul > li {
+				> ul {display: none;}
+				&.active > ul {display: block;}
+			}
+		}
 	}
 	#contents {
 		position: relative;
