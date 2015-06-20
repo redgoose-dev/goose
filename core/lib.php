@@ -1,5 +1,5 @@
 <?php
-if (!defined('__GOOSE__') || !defined('__GOOSE_PWD__')) return false;
+if (!defined('__GOOSE__')) return false;
 
 
 // set error reporting
@@ -27,6 +27,10 @@ if (__GOOSE_DEBUG__)
 }
 
 
+// set goose pwd
+define( '__GOOSE_PWD__', str_replace('core/lib.php', '', str_replace('\\', '/', __FILE__)) );
+
+
 // set session
 if (defined('__USE_GOOSE_SESSION__'))
 {
@@ -41,7 +45,6 @@ require_once(__GOOSE_PWD__.'core/classes/Util.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Goose.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Spawn.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Module.class.php');
-require_once(__GOOSE_PWD__.'core/classes/Router.class.php');
 
 
 // create Goose Instance
