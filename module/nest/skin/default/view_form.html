@@ -109,7 +109,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			</dl>
 
 			<dl class="gs-webz">
-				<?
+				<?php
 				$nest['json']['useCategory'] = ($repo['nest']['json']['useCategory']) ? $repo['nest']['json']['useCategory'] : null;
 				$useCategoryYes = ($repo['nest']['json']['useCategory'] == 1) ? ' checked = "checked"' : '';
 				$useCategoryNo = ($repo['nest']['json']['useCategory'] != 1) ? ' checked = "checked"' : '';
