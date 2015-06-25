@@ -107,12 +107,15 @@ main {
 	ul, ol {
 		padding-left: 24px;
 		> li {margin: 4px 0;}
-		p {
-			margin-top: $basic-margin * 0.3;}
+		p {margin-top: $basic-margin * 0.3;}
 	}
 	h1, h2, h3 {font-family: 'HelveticaNeue-CondensedBold', $font-eng;}
 	> section {
 		margin: 0 0 100px;
+		h1 {
+			> * {vertical-align: baseline;}
+			> a {font-size: 80%; text-decoration: none;}
+		}
 		> h1 {
 			position: relative; margin: 0 0 20px; padding: 10px 0 0;
 			font-size: 33px; color: #222;

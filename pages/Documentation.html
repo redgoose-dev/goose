@@ -1,6 +1,6 @@
 <div class="Documentation page" data-content-group>
 	<section id="DocStartDocumentation">
-		<h1>Start Documentation</h1>
+		<h1><span>Start Documentation</span></h1>
 		<p>이 매뉴얼을 보기위한 참고사항입니다.</p>
 		<ul>
 			<li><strong>{goose}</strong> : goose를 설치한 경로입니다. ex) http://domain.com/goose</li>
@@ -12,7 +12,7 @@
 	</section>
 
 	<section id="DocInstallation">
-		<h1>Installation</h1>
+		<h1><span>Installation</span></h1>
 		<p>
 			Goose는 설치형 cms입니다. 그래서 직접 서버에 설치하는 작업을 해줘야합니다. 설치는 아래의 환경을 확인하고 설치 바랍니다.
 		</p>
@@ -44,7 +44,7 @@
 	</section>
 
 	<section id="DocUseGoose">
-		<h1>Use Goose</h1>
+		<h1><span>Use Goose</span></h1>
 		<p>
 			이 섹션은 Goose의 기본 개념과 사용법을 안내합니다.<br/>
 			<br/>
@@ -56,7 +56,7 @@
 		</figure>
 
 		<section id="DocUseGooseMenuGuide">
-			<h1>Menu guide</h1>
+			<h1><span>Menu guide</span></h1>
 			<ul>
 				<li><strong>Nest</strong> : 글에대한 둥지입니다. 컴퓨터 파일들의 폴더라고 볼 수 있습니다.</li>
 				<li><strong>User</strong> : 등록된 사용자 목록입니다. 공동으로 게시물을 올리고 관리할때 사용자를 관리할 수 있습니다.</li>
@@ -67,7 +67,7 @@
 		</section>
 
 		<section id="DocUseGooseModuleAddress">
-			<h1>Module address</h1>
+			<h1><span>Module address</span></h1>
 			<p>
 				각 모듈에 접근할 수 있는 주소입니다.<br/>
 				자세한 모든 모듈은 <strong>[Develop module - Basic modules list]</strong> 섹션을 참고해주세요.
@@ -141,7 +141,7 @@
 		</section>
 
 		<section id="DocUseGooseBasicStructure">
-			<h1>Basic structure</h1>
+			<h1><span>Basic structure</span></h1>
 			<p>Goose 의 데이터의 기본구조를 알면 사용에 많은 도움이 됩니다. 글쓰는데 필요한 모듈의 데이터의 관계는 아래 그림과 같습니다.</p>
 			<figure class="fig-center">
 				<img src="#" alt=""/>
@@ -176,7 +176,7 @@
 		</section>
 
 		<section id="DocUseGooseMakeNest">
-			<h1>Make nest</h1>
+			<h1><span>Make nest</span></h1>
 			<p>글을 쓰기 이전에 둥지를 만들어 줘야합니다.</p>
 			<ol>
 				<li>"Nest"메뉴를 선택해줍니다. 메뉴에서 선택하여 들어가도 되고, <code>{goose}/nest/index/</code> 주소를 통해 들어가도 됩니다.</li>
@@ -217,7 +217,7 @@
 		</section>
 
 		<section id="DocUseGooseMakeArticle">
-			<h1>Make article</h1>
+			<h1><span>Make article</span></h1>
 			<p>
 				둥지를 만들고나면 글을 게시글을 작성할 수 있습니다.<br/>
 				둥지에서 article skin에 따라 형태나 내용이 바뀔수도 있습니다.
@@ -231,7 +231,7 @@
 		</section>
 
 		<section id="DocUseGooseEditNavigation">
-			<h1>Edit Navigation</h1>
+			<h1><span>Edit Navigation</span></h1>
 			<p>
 				인스톨을 한 Goose에서 기본적으로 제공하는 메뉴가 있지만 메뉴를 직접 편집할 수 있습니다.<br/>
 				각 모듈의 주소는 [Module address] 섹션에서 확인할 수 있습니다.
@@ -245,7 +245,7 @@
 	</section>
 
 	<section id="DocPreference">
-		<h1>Preference</h1>
+		<h1><span>Preference</span></h1>
 		<p>
 			Goose를 설치하면 <code>{goose}/data/config.php</code>파일을 만들면서 설정값들이 입력됩니다.<br/>
 			이 파일은 텍스트 에디터같은것으로 직접 수정해야합니다.
@@ -276,7 +276,7 @@
 	</section>
 
 	<section id="DocActionProcess">
-		<h1>Action process</h1>
+		<h1><span>Action process</span></h1>
 		<p>
 			Goose의 작동방식은 다음과 같은 절차로 실행되어 페이지를 표현합니다.<br/>
 			이것은 관리자에 대한 작동방식이며, 방문객에게 보여지는 사이트는 조금 다른방식으로 구현할 수 있습니다.
@@ -333,14 +333,14 @@
 	</section>
 
 	<section id="DocCoreClass">
-		<h1>Core class</h1>
+		<h1><span>Core class</span></h1>
 		<p>
 			다음은 Goose 에서 핵심적으로 사용되는 클래스입니다. php용 App 개발시 필요한것들이 많으므로 꼭 불러와야 합니다.<br/>
 			매뉴얼에서는 클래스 메서드의 설명, 호출 예제까지 다루지만 인자값과 리턴값에 대한 정보는 소스의 주석을 확인해보시길 바랍니다.
 		</p>
 
 		<section id="DocCoreClassGoose">
-			<h1>Goose.class.php</h1>
+			<h1><span>Goose.class.php</span></h1>
 			<p>
 				시스템 관련 클래스입니다.<br/>
 				db관련 객체, 인스톨 확인여부, 프로그램 종료, 에러처리 등의 기능을 가지고 있습니다.
@@ -370,7 +370,7 @@
 		</section>
 
 		<section id="DocCoreClassModule">
-			<h1>Module.class.php</h1>
+			<h1><span>Module.class.php</span></h1>
 			<p>
 				모듈처리에 관련된 클래스입니다.<br/>
 				모듈 불러오기, 모듈 존재여부 확인, 모듈설치, 모듈제거 등의 처리를 합니다.
@@ -404,7 +404,7 @@
 		</section>
 
 		<section id="DocCoreClassPaginate">
-			<h1>Paginate.class.php</h1>
+			<h1><span>Paginate.class.php</span></h1>
 			<p>목록의 페이지번호에 관련된 처리를 담당합니다.</p>
 <pre><code>require_once('{goose}/core/classes/Paginate.class.php');
 $paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
@@ -422,7 +422,7 @@ $paginate->createNavigation();</code></pre>
 		</section>
 
 		<section id="DocCoreClassSpawn">
-			<h1>Spawn.class.php</h1>
+			<h1><span>Spawn.class.php</span></h1>
 			<p>데이터베이스 처리를 담당합니다.</p>
 			<ul>
 				<li>
@@ -485,7 +485,7 @@ $paginate->createNavigation();</code></pre>
 		</section>
 
 		<section id="DocCoreClassUtil">
-			<h1>Util.class.php</h1>
+			<h1><span>Util.class.php</span></h1>
 			<p>
 				함수형으로 사용할 수 있는 각종 메서드들을 모았습니다.<br/>
 				이 클래스의 메서드는 유동적으로 변할 수 있기 대문에 설명하지 않습니다. 소스의 주석을 참고해주세요.
@@ -496,9 +496,57 @@ $paginate->createNavigation();</code></pre>
 		</section>
 	</section>
 
+	<!-- Create APP -->
+	<section id="DocCreateApp">
+		<h1><span>Create APP</span></h1>
+		<p>
+			이 섹션으로 간단히 목록과 글 상세 내용으로 이동하는 데모 프로그램을 만들겠습니다.<br/>
+			이것으로 Goose의 데이터를 가져와서 출력하는 방법에 대해서 이해할 수 있을거라고 믿습니다.
+		</p>
+
+		<section id="DocCreateAppReady">
+			<h1><span>Ready client app</span></h1>
+			<p>
+				앱을 만들기전에 먼저 준비해야하는 것들이 있습니다. 다음과 같은 것들은 앱 개발을 할때 최소한 꼭 필요한 것들입니다.
+			</p>
+			<h2>가져오려는 nest srl값이나 id값을 확인합니다.</h2>
+			<p>자료가 올라온 nest의 번호나 nest id를 알아야합니다. 값을 알 수 있는 방법은 아래 그림을 참고해주세요.</p>
+			<figure class="fig-center">
+				<img src="./assets/img/img-documentation-05.png" alt="Goose 문서목록 화면"/>
+				<figcaption>
+					nest 목록에서 둥지들 중 하나를 선택하면 문서목록에서 주소를 확인해보면 주소 끝부분에 숫지를 볼 수 있습니다.<br/>
+					그 숫자가 nest의 srl값입니다.
+				</figcaption>
+			</figure>
+			<figure class="fig-center">
+				<img src="./assets/img/img-documentation-06.png" alt="Goose 둥지목록 화면"/>
+				<figcaption>
+					위의 이미지는 둥지목록입니다.<br/>
+					빨간색 선으로 표시된 부분은 nest의 id값입니다. id는 둥지를 만든 사람이 직접지은 고유의 단어입니다.
+				</figcaption>
+			</figure>
+
+			<h2>goose가 설치된 경로를 확인합니다.</h2>
+			<p>
+				서버에서 goose를 설치한 경로를 확인합니다. 다음은 절대경로를 확인하는 터미널 명령입니다.<br/>
+			</p>
+<pre class="code"><code>$ cd goose
+$ pwd
+/Users/redgoose/dropbox/Sites/demos/goose</code></pre>
+			<p>절대경로로 사용해도 되고, 상대경로도 사용해도 됩니다. ex) <code>../goose</code></p>
+		</section>
+
+		<section id="DocCreateAppDevelop">
+			<h1><span>Develop client app</span></h1>
+			<p>이제 본격적으로 방문객에게 보여주는 앱을 만들어보겠습니다.</p>
+		</section>
+
+	</section>
+	<!-- // Create APP -->
+
 	<!-- Develop module -->
 	<section id="DocDevelopModule">
-		<h1>Develop module</h1>
+		<h1><span>Develop module</span></h1>
 		<p>
 			goose에서 사용하는 모듈이라는것은 마치 레고블럭과 같습니다.<br/>
 			레고블럭은 다양한 모양이 있으면서 끼우는 홈의 갯수나 위치가 틀리고, 색상도 가지각색입니다. 이것들을 이용해서 또다른 조합된 블럭이나 도구를 만들어서 완성된 뭔가를 만드는것이죠.(성이나 건물, 자동차 등등...)<br/>
@@ -510,7 +558,7 @@ $paginate->createNavigation();</code></pre>
 		</figure>
 
 		<section id="DocDevelopModuleProcess">
-			<h1>Work process</h1>
+			<h1><span>Work process</span></h1>
 			<p>
 				goose 프로그램은 여러가지 모듈들에 의해서 만들어지는 프로그램입니다.<br/>
 				다음은 모듈을 불러올때 작동하는 과정입니다.
@@ -550,7 +598,7 @@ $paginate->createNavigation();</code></pre>
 		</section>
 
 		<section id="DocDevelopModuleList">
-			<h1>Modules list</h1>
+			<h1><span>Modules list</span></h1>
 			<p>기본적으로 사용되는 모듈의 목록입니다. 일부분의 모듈은 필수로 들어가야하는 모듈입니다.</p>
 			<div class="ui-scroll-table">
 				<div class="wrap">
@@ -674,20 +722,15 @@ $paginate->createNavigation();</code></pre>
 		</section>
 
 		<section id="DocDevelopModuleCreate">
-			<h1>Make Module</h1>
+			<h1><span>Make Module</span></h1>
 			<p>모듈 만들기..</p>
 		</section>
 	</section>
 	<!-- // Develop module -->
 
-	<section id="DocCreateApp">
-		<h1>Create APP</h1>
-		<p>간한한 앨범형 앱 만들기 튜토리얼</p>
-	</section>
-
 	<!-- Tips -->
 	<section id="DocTips">
-		<h1>Tips</h1>
+		<h1><span>Tips</span></h1>
 		<p>참고할만한 팁들을 따로 모아둔 섹션입니다.</p>
 		<p>넣을예정..</p>
 		<ul>
