@@ -53,7 +53,6 @@ var setArrayItem = function(src, out, key_target, key_child)
 };
 
 
-
 /**
  * Navigation
  *
@@ -213,18 +212,23 @@ function Navigation(url)
 						$contentsGroup.children('section[id]').each(function(){
 							var url = self.page + '/' + $(this).attr('id');
 							var item = {
-								name : $(this).children('h1').text(),
+								name : $(this).children('h1').children('span').text(),
 								id : $(this).attr('id'),
 								url : url
 							};
 
+							// add hash link
+							$(this).children('h1').append(' <a href="#'+url+'">#</a>');
+
 							var child = [];
 							$(this).children('section[id]').each(function(){
+								var url = self.page + '/' + $(this).attr('id')
 								child.push({
 									name : $(this).children('h1').text(),
 									id : $(this).attr('id'),
-									url : self.page + '/' + $(this).attr('id')
+									url : url
 								});
+								$(this).children('h1').append(' <a href="#'+url+'">#</a>');
 							});
 							if (child.length)
 							{
@@ -247,7 +251,28 @@ function Navigation(url)
 					// go to scroll
 					if (getLastItem(params))
 					{
-						contents.gotoScroll(getLastItem(params));
+						if (params.length > 1)
+						{
+							var n = 0;
+							var total = $(this).find('img').length - 1;
+							$(this).find('img').one('load', function(){
+								n++;
+								if (total == n)
+								{
+									setTimeout(function(){
+										contents.firstTime = true;
+										contents.gotoScroll(getLastItem(params));
+										contents.firstTime = false;
+									}, 300);
+								}
+							}).each(function(){
+								if (this.complete) $(this).load();
+							});
+						}
+						else
+						{
+							contents.gotoScroll(getLastItem(params));
+						}
 					}
 				}
 				contents.firstTime = false;
@@ -350,6 +375,7 @@ function Contents()
 		}
 	}
 }
+
 
 var navigation = new Navigation('./data/navigation.json');
 var contents = new Contents();
