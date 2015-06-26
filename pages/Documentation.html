@@ -349,6 +349,9 @@
 				<li>
 					<strong>Goose::getInstance();</strong>
 					 <p>싱글톤 객체로 인스턴스 변수를 가져옵니다. </p>
+<pre class="code"><code>// $goose 인스턴스 변수를 만들고 초기화 합니다.
+$goose = Goose::getInstance();
+$goose->init();</code></pre>
 				</li>
 				<li>
 					<strong>$object->createSpawn();</strong>
@@ -536,9 +539,72 @@ $ pwd
 			<p>절대경로로 사용해도 되고, 상대경로도 사용해도 됩니다. ex) <code>../goose</code></p>
 		</section>
 
-		<section id="DocCreateAppDevelop">
-			<h1><span>Develop client app</span></h1>
-			<p>이제 본격적으로 방문객에게 보여주는 앱을 만들어보겠습니다.</p>
+		<section id="DocCreateAppLoadLibrary">
+			<h1><span>Load goose library</span></h1>
+			<p>
+				이제 본격적으로 방문객에게 보여주는 앱을 만들어보겠습니다.<br/>
+				앱으로 사용되는 폴더를 만들어서 <code>index.php</code>파일을 만들고 일단 다음과 같은 코드를 넣습니다.
+			</p>
+<pre class="code"><code>&lt;?php
+
+define('__GOOSE__', true); // goose 프로그램을 실행한다는 의미로 지정합니다.
+define('__PWD__', dirname(__FILE__)); // 현재 위치를 저장합니다.
+
+require_once('../goose/core/lib.php'); // goose의 경로. 절대경로가 될 수 있고 상대경로가 될 수 있습니다.
+</code></pre>
+			<p>
+				위의 코드는 goose 프로그램에서 사용되는 라이브러리를 사용하는데 꼭 필요한 부분입니다.<br/>
+				lib.php파일을 불러오는것은 goose 프로그램의 각종 클래스나 변수들을 초기화 합니다.
+			</p>
+			<pre class="code"><code>var_dump($goose);</code></pre>
+			<p>
+				위와과같은 명령어로 변수의 내용을 확인해보면 다음과 같은 내용을 볼 수 있다면 goose에서 사용되는 라이브러리를 정상적으로 불러오고 있다는 의미입니다.<br/>
+				이제 goose에서 사용되는 데이터베이스, 개발에 관련된 도구들을 사용할 수 있습니다.
+			</p>
+			<p>
+				다음은 goose 프로그램에서 사용되는 클래스나 기능, 팁이 안내되어있는 링크의 목록입니다. 개발시 꼭 참고할만한 것들이니 꼭 참고하시길 바랍니다.
+			</p>
+			<ul>
+				<li>Core class : <a href="#Documentation/DocCoreClass">바로가기</a></li>
+				<li>Tips : <a href="#Documentation/DocTips">바로가기</a></li>
+			</ul>
+		</section>
+
+		<section id="DocCreateAppPrintArticles">
+			<h1><span>Print articles</span></h1>
+			<p>이제는 글 데이터를 가져와 목록에 출력하도록 하겠습니다.</p>
+<pre class="code"><code>&lt;?php
+// article 모듈을 불러옵니다.
+$articles = Module::load('article');
+
+// 데이터를 가져옵니다.
+$item = $articles->getItems(array(
+	'where' => 'srl='.(int)$_GET['srl']
+));
+
+// for문으로 데이터를 출력합니다.
+echo "&lt;ul>";
+foreach ($items as $k=>$v)
+{
+	echo "&lt;li>$v['title']&lt;/li>";
+}
+echo "&lt;/ul>";
+</code></pre>
+			<p>
+				무언가 과정이 많이 생략된듯할 정도로 간단하게 목록이 출력되어 버렸습니다.<br/>
+				데이터베이스의 필드의 설명이나 모듈을 불러와서 어떻게 쓰는지에 대해서 이 섹션에서 설명하기 어렵습니다. 모든 모듈이 같은 방식으로 동작하기 않기 때문입니다.<br/>
+				그래서 각 모듈에 관한 자세한 설명서를 보려면 goose 프로그램에서 <code>Module</code>메뉴를 선택하고 <code>article</code> 모듈에서 <code>도움말</code> 링크를 선택하면 도움말 페이지를 보시는것을 권해드립니다.
+			</p>
+			<p>
+				일단 위의소스같은 경우는 article 모듈을 불러와서 <code>$article->getItems()</code> 메서드를 통해서 db에 있는 article데이터를 가져와서 foreach 문으로 목록형태로 출력하는 방식입니다.<br/>
+				이것이 가장 기초적인 형태이며 나머지는 각 모듈의 도움말 문서를 참고해가며 응용하며 제작해야합니다.
+			</p>
+			<p>
+				설명을 길게 늘여놓는것보다 직접 소스를 보고 판단하시는것이 좋은분을 위해 샘플소스를 마련했습니다.
+			</p>
+			<p>
+				<a href="./files/goose_demo.zip"><strong>goose demo 소스 다운로드</strong></a>
+			</p>
 		</section>
 
 	</section>
@@ -723,7 +789,7 @@ $ pwd
 
 		<section id="DocDevelopModuleCreate">
 			<h1><span>Make Module</span></h1>
-			<p>모듈 만들기..</p>
+			<p>모듈 만들기.. 준비중..</p>
 		</section>
 	</section>
 	<!-- // Develop module -->
