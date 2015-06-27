@@ -9,7 +9,10 @@ if (!defined('__GOOSE__')) exit();
 	$url .= ($nest_srl) ? $nest_srl.'/' : '';
 	?>
 	<div class="gs-headding">
-		<h1><a href="<?=$url?>"><?=($repo['nest']['name'])?'<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ':''?>문서목록</a></h1>
+		<h1>
+			<a href="<?=$url?>"><?=($repo['nest']['name'])?'<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ':''?>문서목록</a>
+			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
 	<!-- // headding -->

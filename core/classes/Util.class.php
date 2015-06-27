@@ -494,4 +494,16 @@ class Util {
 	{
 		return ($_SERVER['REQUEST_METHOD'] == 'POST') ? $_POST : $_GET;
 	}
+
+	/**
+	 * get extension
+	 * 파일 확장자를 가져온다.
+	 *
+	 * @param string $file
+	 * @return string
+	 */
+	public static function getExtension($file)
+	{
+		return pathinfo($file)['extension'];
+	}
 }
