@@ -8,5 +8,6 @@ README.html
 *.psd
 
 # user files
+/data
 *.user
 *.user.*
