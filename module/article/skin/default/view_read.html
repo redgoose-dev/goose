@@ -7,7 +7,10 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 
 <section>
 	<div class="gs-headding">
-		<h1><?=$categoryName.$repo['article']['title']?></h1>
+		<h1>
+			<span><?=$categoryName.$repo['article']['title']?></span>
+			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+		</h1>
 		<p>
 			<span><?=Util::convertDate($repo['article']['regdate']).'&nbsp;'.Util::convertTime($repo['article']['regdate'])?></span>
 			<span>HIT:<?=$repo['article']['hit']?></span>

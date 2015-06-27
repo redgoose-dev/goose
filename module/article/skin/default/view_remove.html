@@ -7,7 +7,10 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 <section class="form">
 
 	<div class="gs-headding">
-		<h1><?=$nestName?>문서삭제</h1>
+		<h1>
+			<span><?=$nestName?>문서삭제</span>
+			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+		</h1>
 	</div>
 
 	<form name="writeForm" action="<?=__GOOSE_ROOT__?>article/remove/" method="post">
