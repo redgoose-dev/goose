@@ -6,8 +6,10 @@ README.html
 .idea
 .module-cache/
 *.psd
+ext/
+module/
 
 # user files
-/data
+data/
 *.user
 *.user.*
