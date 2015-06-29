@@ -18,15 +18,15 @@
 		"permission" : "100"
 	},
 	{
-		"name": "Documentation",
-		"url": "http://redgoosedev.github.io/goose/#Documentation",
-		"target": "goose",
-		"permission" : "0"
-	},
-	{
 		"name": "Module",
 		"url": "{GOOSE_ROOT}modules/index/",
 		"target": "",
 		"permission" : "100"
+	},
+	{
+		"name": "Documentation",
+		"url": "http://redgoosedev.github.io/goose/#Documentation",
+		"target": "goose",
+		"permission" : "0"
 	}
 ]

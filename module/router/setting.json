@@ -1,5 +1,6 @@
 {
 	"name" : "router",
+	"title" : "Router",
 	"description" : "url 주소처리를 담당하는 모듈입니다.",
 	"permission" : 0,
 	"basicModule" : "intro"
