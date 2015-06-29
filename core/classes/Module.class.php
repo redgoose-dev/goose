@@ -129,12 +129,17 @@ class Module {
 	{
 		$mod = self::load($moduleName, null, true);
 
+		if (!$mod->set)
+		{
+			return array( 'state' => 'error', 'message' => 'not found ['.$moduleName.'->set]' );
+		}
+
 		if (!$mod->set['install'])
 		{
 			return array( 'state' => 'error', 'message' => 'can not install' );
 		}
 
-		$file = Util::checkUserFile(__GOOSE_PWD__.$mod->path.'install.json');
+		$file = Util::checkUserFile(__GOOSE_PWD__.'module/'.$moduleName.'/install.json');
 		$installData = Util::jsonToArray(Util::openFile($file));
 
 		if (method_exists($mod, 'install'))

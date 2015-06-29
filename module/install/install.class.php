@@ -110,11 +110,11 @@ class Install {
 
 		$result = Module::install($modName);
 
-		if ($result['error'])
+		if ($result['state'] == 'error')
 		{
-			return Array('state' => 'error', "message" => "[$modName] ERROR : $result[error]");
+			return Array('state' => 'error', "message" => "[$modName] ERROR : $result[message]");
 		}
-		else
+		else if ($result['state'] == 'success')
 		{
 			return Array('state' => 'success', "message" => "[$modName] $result[message]");
 		}
@@ -136,7 +136,7 @@ class Install {
 		{
 			return Array('state' => 'success', "message" => "[$modName] Complete uninstall");
 		}
-		else
+		else if ($result['state'] == 'error')
 		{
 			return Array('state' => 'error', "message" => "[$modName] ERROR : $result[message]");
 		}

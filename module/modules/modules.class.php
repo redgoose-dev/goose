@@ -40,7 +40,7 @@ class Modules {
 				{
 					Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
 				}
-				else
+				else if ($result['state'] == 'success')
 				{
 					Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
 				}
@@ -52,7 +52,7 @@ class Modules {
 				{
 					Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
 				}
-				else
+				else if ($result['state'] == 'success')
 				{
 					Module::afterAction(Array('message' => 'uninstall complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
 				}

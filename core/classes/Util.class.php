@@ -29,6 +29,7 @@ class Util {
 	 */
 	public static function alert($msg)
 	{
+		$msg = addslashes($msg);
 		echo self::tagScriptHead."alert('$msg');".self::tagScriptFoot;
 	}
 
@@ -39,6 +40,7 @@ class Util {
 	 */
 	public static function back($msg=null)
 	{
+		$msg = addslashes($msg);
 		echo self::tagScriptHead;
 		echo ($msg) ? "alert('$msg');" : "";
 		echo "history.back();";
@@ -53,6 +55,7 @@ class Util {
 	 */
 	public static function redirect($loc=null, $msg=null)
 	{
+		$msg = addslashes($msg);
 		echo self::tagScriptHead;
 		echo ($msg) ? "alert('$msg');" : "";
 		echo ($loc) ? "location.href='$loc';" : "";
