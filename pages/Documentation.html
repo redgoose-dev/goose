@@ -1107,6 +1107,68 @@ class Helloworld3 {
 				웹브라우저에서 "{goose}/modules/index/" 페이지로 접속합니다.<br/>
 				goose의 모듈들의 내역이 나옵니다. 지금까지 만든 helloworld 시리즈들을 볼 수 있는데 helloworld3는 설치 버튼이 있는것을 볼 수 있습니다.
 			</p>
+			<figure class="fig-center border">
+				<img src="./assets/img/img-documentation-09.png" alt=""/>
+				<figcaption>helloworld3모듈의 setting.json 파일에서 install값이 true면 설치 버튼이 나옵니다.</figcaption>
+			</figure>
+			<p>
+				"설치" 버튼을 눌러서 아무 이상이 없다면 "install complete"이라는 메세지가 볼 수 있습니다.<br/>
+				설치할때 db테이블을 만들기로 했으니 mysql 테이블을 확인해보면 아래 그림과 같이 helloworld3 이름의 테이블을 확인할 수 있습니다.
+			</p>
+			<figure class="fig-center border">
+				<img src="./assets/img/img-documentation-10.png" alt=""/>
+				<figcaption>phpMyAdmin에서의 테이블 목록. 새로 추가된 테이블을 확인할 수 있습니다.</figcaption>
+			</figure>
+			<h2>데이터 삽입하기</h2>
+			<p>
+				이번에는 간단하게 테이블에 데이터를 입력하고 조회하는 코드를 만들어서 실행해보겠습니다.<br/>
+				helloworld3.class.php 파일에서 다음과 같이 데이터를 입력하는 소스를 입력합니다.
+			</p>
+<pre class="code"><code>$result = Spawn::insert(array(
+	'table' => Spawn::getTableName('helloworld3'),
+	'data' => array(
+		'srl' => null,
+		'name' => "호랑이",
+		'title' => "어흥어흥~",
+		'regdate' => date('YmdHis')
+	)
+));
+var_dump($result);
+</code></pre>
+			<p class="ui-text-right">
+				<small>메서드의 설명은 <a href="#Documentation/DocCoreClassSpawn">Spawn.class.php</a> 부분에서 확인할 수 있습니다.</small>
+			</p>
+			<p>
+				브라우저에서 실행을 합니다. `string(7) "success"` 메세지가 출력되면 정상적으로 helloworld3 테이블에 입력이 되었을 겁니다.<br/>
+				데이터가 입력되었는지 확인해보고 다른 내용으로 2,3개 더 입력해봅니다.
+			</p>
+			<figure class="fig-center border">
+				<img src="./assets/img/img-documentation-11.png" alt=""/>
+				<figcaption>데이터를 몇개 추가하여 데이터가 입력되었는지 확인합니다.</figcaption>
+			</figure>
+			<h2>입력된 데이터 조회하기</h2>
+			<p>
+				이번에는 방금 입력한 데이터를 조회해 보겠습니다.
+			</p>
+<pre class="code"><code>$result = Spawn::items(array(
+	'table' => Spawn::getTablename('helloworld3')
+));
+echo "&lt;ul>";
+foreach ($result as $k=>$v)
+{
+	echo "&lt;li>$v[name] - $v[title]&lt;/li>";
+}
+echo "&lt;/ul>";
+</code></pre>
+			<p>위와같이 소스를 입력하고 실행하면 목록이 출력되는것을 확인할 수 있습니다.</p>
+			<p>
+				이로써 모듈을 만들고 활용하는것에 대해서 알아봤습니다. 모듈을 좀 더 편하고 관리된 형태로 제작하기 위하여 몇가지 규칙이 있을뿐 모듈 개발에 많은 제약이 없기 때문에 만들 수 있는 범위는 한계가 없다고 생각합니다.<br/>
+				그저 아이디어가 떠오르면 모듈을 제작하기만 하면 그만입니다. Goose 프로그램속에 들어있는 도구들을 활용해서 말이죠.
+			</p>
+			<p>
+				모듈 제작이나 만들어져 있는 모듈을 활용하는 법에 대한 설명은 이 페이지에 있는 다른 섹션이나 Goose 프로그램 모듈 도움말을 확인해주세요. 다양한 장소에서 많은 팁들을 얻을 수 있으며 궁금한 점이나 도움이 필요한 부분이 있다면
+				<a href="https://github.com/RedgooseDev/goose/issues" target="_blank">GitHub Issues</a>에서 이슈를 적어주시면 답변해드리겠습니다.
+			</p>
 		</section>
 	</section>
 	<!-- // Develop module -->
@@ -1115,8 +1177,9 @@ class Helloworld3 {
 	<section id="DocTips">
 		<h1><span>Tips</span></h1>
 		<p>참고할만한 팁들을 따로 모아둔 섹션입니다.</p>
-		<p>넣을예정..</p>
+		<p>작성예정..</p>
 		<ul>
+			<li>Util::console() 활용하기</li>
 			<li>db에서 데이터 가져오기</li>
 		</ul>
 	</section>
