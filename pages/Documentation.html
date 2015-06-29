@@ -3,7 +3,7 @@
 		<h1><span>Start Documentation</span></h1>
 		<p>이 매뉴얼을 보기위한 참고사항입니다.</p>
 		<ul>
-			<li><strong>{goose}</strong> : goose를 설치한 경로입니다. ex) http://domain.com/goose</li>
+			<li><strong>{goose}</strong> : goose 프로그램을 설치한 경로입니다. ex) http://domain.com/goose, 서버 경로라면 /goose</li>
 			<li><strong>{nest_srl}</strong> : 둥지의 고유번호</li>
 			<li><strong>{app_srl}</strong> : App의 고유번호</li>
 			<li><strong>{article_srl}</strong> : Article의 고유번호</li>
@@ -521,7 +521,7 @@ $paginate->createNavigation();</code></pre>
 					그 숫자가 nest의 srl값입니다.
 				</figcaption>
 			</figure>
-			<figure class="fig-center">
+			<figure class="fig-center border">
 				<img src="./assets/img/img-documentation-06.png" alt="Goose 둥지목록 화면"/>
 				<figcaption>
 					위의 이미지는 둥지목록입니다.<br/>
@@ -596,9 +596,13 @@ echo "&lt;/ul>";
 				그래서 각 모듈에 관한 자세한 설명서를 보려면 goose 프로그램에서 <code>Module</code>메뉴를 선택하고 <code>article</code> 모듈에서 <code>도움말</code> 링크를 선택하면 도움말 페이지를 보시는것을 권해드립니다.
 			</p>
 			<p>
-				일단 위의소스같은 경우는 article 모듈을 불러와서 <code>$article->getItems()</code> 메서드를 통해서 db에 있는 article데이터를 가져와서 foreach 문으로 목록형태로 출력하는 방식입니다.<br/>
+				일단 위의 예제소스와같은 경우는 article 모듈을 불러와서 <code>$article->getItems()</code> 메서드를 통해서 db에 있는 article 데이터를 가져와서 foreach 문으로 목록형태로 출력하는 방식입니다.<br/>
 				이것이 가장 기초적인 형태이며 나머지는 각 모듈의 도움말 문서를 참고해가며 응용하며 제작해야합니다.
 			</p>
+			<figure class="fig-center border">
+				<img src="./assets/img/img-documentation-07.png" alt="모듈화면"/>
+				<figcaption>각 모듈제목 옆에 <strong>"?"</strong> 아이콘을 클릭하면 해당 모듈의 도움말을 볼 수 있습니다.</figcaption>
+			</figure>
 			<p>
 				설명을 길게 늘여놓는것보다 직접 소스를 보고 판단하시는것이 좋은분을 위해 샘플소스를 마련했습니다.
 			</p>
@@ -665,7 +669,10 @@ echo "&lt;/ul>";
 
 		<section id="DocDevelopModuleList">
 			<h1><span>Modules list</span></h1>
-			<p>기본적으로 사용되는 모듈의 목록입니다. 일부분의 모듈은 필수로 들어가야하는 모듈입니다.</p>
+			<p>
+				Goose의 프로그램의 대부분은 모듈에 의해서 돌아가고 있습니다. 그래서 일부 모듈은 필수로 설치되어있어야 하는 모듈도 있습니다.<br/>
+				다음 표는 기본적으로 사용되는 모듈의 목록입니다.
+			</p>
 			<div class="ui-scroll-table">
 				<div class="wrap">
 					<table class="ui-table">
@@ -787,9 +794,319 @@ echo "&lt;/ul>";
 			</div>
 		</section>
 
-		<section id="DocDevelopModuleCreate">
-			<h1><span>Make Module</span></h1>
-			<p>모듈 만들기.. 준비중..</p>
+		<section id="DocDevelopModuleMakeBasicModule">
+			<h1><span>Make Basic Module</span></h1>
+			<p>
+				Goose 프로그램의 핵심적인 기능인 모듈을 만들도록 해보겠습니다.<br/>
+				모듈의 파일은 <code>{goose}/module/</code> 경로에 있습니다. <a href="#Documentation/DocDevelopModuleList">Module list</a> 섹션에 있는 폴더이름들을 볼 수 있습니다.
+			</p>
+			<h2>"helloworld"폴더를 만들고 파일구성</h2>
+			<p>
+				모듈의 작동구조 이해를 위하여 "helloworld" 키워드를 출력하는 모듈을 만들어보도록 하겠습니다.<br/>
+				과정은 콘솔에서 명령어를 치는 형식으로 하겠습니다.
+			</p>
+			<ol>
+				<li>
+					<p>goose가 설치된 경로로 이동하고, module 폴더로 이동하여 "helloworld"라는 폴더를 만듭니다.</p>
+<pre class="code"><code>$ pwd
+/demos/goose
+$ cd module
+$ mkdir helloworld
+$ cd helloworld
+$ pwd
+/demos/goose/module/helloworld
+</code></pre>
+				</li>
+				<li>
+					<p>"helloworld.class.php"파일을 만듭니다.</p>
+					<pre class="code"><code>$ vim helloworld.class.php</code></pre>
+					<p>
+						왜 <code>모듈이름.class.php</code>파일을 만들어야하는지에 대한 설명이 필요할거 같습니다.<br/>
+					</p>
+					<p>
+						모듈은 <code>Module::load('모듈이름');</code> 메서드를 통해 실행될때 <strong>{goose}/모듈이름/모듈이름.class.php파일이 먼저 include됩니다.</strong><br/>
+						<code>http://domainName.com/goose/모듈이름/</code>주소를 통해서 접근해도 <code>Module::load('모듈이름');</code> 메서드가 실행됩니다.<br/>
+						<code>모듈이름.class.php</code>파일은 모듈을 대표하는 클래스 파일이라고 생각하시면 됩니다.
+					</p>
+					<p><br/></p>
+
+					<p>helloworld.class.php 파일을 편집툴로 열어서 코드를 입력할 준비를 합니다.</p>
+					<pre class="code"><code>$ vim helloworld.class.php</code></pre>
+					<p>아래 코드를 적어넣고 저장합니다.</p>
+<pre class="code"><code>&lt;?php
+if (!defined('__GOOSE__')) exit();
+
+class Helloworld {
+
+	public $goose;
+
+	public function index()
+	{
+		echo "hello world";
+	}
+}
+</code></pre>
+				</li>
+			</ol>
+			<h2>setting.json 파일 만들기</h2>
+			<ol>
+				<li>
+					<p>웹브라우저에서 <code>{goose}/helloworld/</code> 주소로 접속합니다.</p>
+					<figure class="fig-center border">
+						<img src="./assets/img/img-documentation-08.png" alt="goose 101 error"/>
+					</figure>
+					<p>
+						역시 손쉽게 "helloworld"를 볼 수 없나봅니다.<br/>
+						"SETTING.JSON파일이 없습니다."라는 메세지를 볼 수 있는데 말그대로 모듈에 setting.json파일이 없다는 의미입니다.
+					</p>
+				</li>
+				<li>
+					<p>setting.json 파일을 만듭니다. 다음과 같이 콘솔에서 setting.json파일을 만듭니다.</p>
+					<pre class="code"><code>$ vim setting.json</code></pre>
+					<p>소스코드는 다음과 같이 적어넣습니다.</p>
+<pre class="code"><code>{
+	"name" : "helloworld",
+	"title" : "hello world",
+	"description" : "helloworld 메세지를 출력하는 모듈입니다.",
+	"permission" : 0
+}</code></pre>
+					<p>
+						여기에서 각 항목에 대한 설명이 필요한거 같습니다. setting.json에서 기본적으로 필요로하는 값입니다.<br/>
+						다음은 각 항목에 대한 설명입니다.
+					</p>
+					<ul>
+						<li>name : 모듈의 아이디입니다. 이름은 폴더이름과 똑같아야합니다. (필수)</li>
+						<li>title : 모듈의 이름입니다. 모듈 아이디와 달라도 됩니다.</li>
+						<li>description : 이 모듈이 어떤것인지에 대한 장문의 설명입니다.</li>
+						<li>permission : 접근 레벨값입니다. 회원정보에 레벨값이 있는데 높을수록 높은 권한을 가지고 있습니다. 0은 아무나 접근할 수 있습니다.</li>
+					</ul>
+				</li>
+			</ol>
+			<h2>hello world 메세지 확인하기</h2>
+			<p>
+				다시 웹브라우저에서 <code>{goose}/helloworld/</code> 주소로 접속합니다.<br/>
+				이번에는 브라우저 화면에서 "hello world"라는 키워드를 볼 수 있습니다.<br/>
+				<br/>
+				다음 링크는 helloworld 모듈을 다운로드할 수 있습니다.
+			</p>
+			<p><a href="./files/helloworld.zip"><strong>heloworld 모듈소스 다운로드</strong></a></p>
+		</section>
+
+		<section id="DocDevelopModuleAdv">
+			<h1><span>Advanced Module #1</span></h1>
+			<p>
+				모듈개발에 대해서 좀 더 자세하게 알아보겠습니다.<br/>
+				이전에 만들었던 helloworld 모듈에 이어서 helloworld2 모듈을 만들어 helloworld 모듈을 로드하여 참조할 수 있습니다.<br/>
+				이로써 모듈끼리 서로 연계할 수 있는법에 대해 알아보도록 하겠습니다.
+			</p>
+			<h2>helloworld2 모듈 만들기</h2>
+			<p>
+				<a href="#Documentation/DocDevelopModuleMakeBasicModule">Make Basic Module</a> 과정을 통하여 helloworld2 라는 이름으로 모듈을 하나 더 만듭니다.<br/>
+				helloworld 모듈을 복제하여 helloworld2를 만들었다면 helloworld2.class.php 파일의 소스는 아래와 같을겁니다.
+			</p>
+<pre class="code"><code>&lt;?php
+if (!defined('__GOOSE__')) exit();
+
+class Helloworld2 {
+
+	public $goose;
+
+	public function index()
+	{
+		echo "hello world second";
+	}
+}
+</code></pre>
+			<h2>helloworld 모듈에서 값 추가</h2>
+			<p>
+				테스트를 위하여 helloworld 모듈에서 배열 값 하나와 메서드 하나를 추가하겠습니다. helloworld.class.php 파일을 아래와 같이 수정해줍니다.
+			</p>
+<pre class="code"><code>&lt;?php
+if (!defined('__GOOSE__')) exit();
+
+class Helloworld {
+
+	public $goose;
+	public $fruits = array('apple', 'banana', 'mango', 'tomato');
+
+	public function index()
+	{
+		echo "hello world";
+	}
+
+	public function dudu()
+	{
+		echo "du du du du du";
+	}
+}
+</code></pre>
+			<p>
+				helloworld 모듈에 "fruits"라고 과일이름이 담긴 배열과 "dudu"라고 "du du du..."라고 출력하는 메서드를 추가했습니다.<br/>
+				이제 이 값들을 helloworld2 모듈에서 불러내보겠습니다.
+			</p>
+			<h2>helloworld 모듈 불러오기</h2>
+			<p>
+				이제 helloworld 모듈에서 helloworld 모듈을 불러오겠습니다.<br/>
+				helloworld2.class.php 파일을 엽니다. <code>Module::load()</code> 메서드를 이용하여 $hello라는 변수에 넣고 내용물을 확인해봅니다.
+			</p>
+<pre class="code"><code>
+public function index()
+{
+	$hello = Module::load('helloworld');
+	var_dump($hello);
+}
+</code></pre>
+			<p>친절하게 표시되어있지는 않지만 fruits 변수가 있다는것을 확인할 수 있습니다.</p>
+			<pre class="code"><code>object(Helloworld)#9 (2) { ["goose"]=> NULL ["fruits"]=> array(4) { [0]=> string(5) "apple" [1]=> string(6) "banana" [2]=> string(5) "mango" [3]=> string(6) "tomato" } }</code></pre>
+			<h2>helloworld 모듈의 fruits값을 가져오고, dudu() 메서드 실행하기</h2>
+			<p>
+				<code>$hello</code>라는 변수로 helloworld 모듈 인스턴스 객체로 가져왔으니 이제 사용하도록 하겠습니다.<br/>
+			</p>
+<pre class="code"><code>// helloworld2.class.php
+
+&lt;?php
+if (!defined('__GOOSE__')) exit();
+
+class Helloworld2 {
+
+	public $goose;
+
+	public function index()
+	{
+		$hello = Module::load('helloworld');
+
+		foreach($hello->fruits as $k=>$v)
+		{
+			echo $v.", ";
+		}
+
+		echo "&lt;hr/>";
+
+		$hello->dudu();
+	}
+}
+</code></pre>
+			<p>소스를 수정하고 확인하면 아래와 같은 값을 확인할 수 있습니다.</p>
+<pre class="code"><code>apple, banana, mango, tomato,
+---------------------
+du du du du du
+</code></pre>
+			<p>이것으로 다른 모듈을 불러와 객체화 시키는법에 대해서 알아봤습니다.</p>
+		</section>
+		<section id="DocDevelopModuleAdv2">
+			<h1><span>Advanced Module #2</span></h1>
+			<p>
+				이것으로 모듈제작 활용편을 마지막으로 데이터베이스 테이블을 만들고 모듈 인스톨을 하는 과정까지 알아보겠습니다.<br/>
+				데이터베이스를 활용하여 만든 모듈들이 article, nest 같은 모듈들입니다.
+			</p>
+			<h2>helloworld3 모듈 만들기</h2>
+			<p>
+				이전 섹션과 마찬가지로 helloworld 모듈을 복제하여 helloworld3모듈을 만듭니다.
+			</p>
+			<h2>setting.json 수정하기</h2>
+			<p>
+				아래와 같이 인스톨이 필요한 모듈이라는 표시를 해주기 위해서 항목을 추가해넣어줍니다.
+			</p>
+			<pre class="code"><code>"install" : true</code></pre>
+			<h2>install.json 파일 만들기</h2>
+			<p>
+				db 테이블을 만들기위한 테이블 구조의 설정 json파일을 만들어줘야합니다.<br/>
+				이것이 정석적인 방식은 아니며 테이블을 만들기 쉽게 만들기 위하여 고안된 방식입니다.<br/>
+				{goose}/helloworld3/install.json 파일을 만들고 다음과 같이 테이블 구조를 이루는 코드를 넣습니다. 필드는 srl, name, title, reg_date로 하겠습니다.
+			</p>
+<pre class="code"><code>[
+	{
+		"name": "srl",
+		"type": "int",
+		"length": 11,
+		"etc": "not null",
+		"auto": true,
+		"key": true
+	},
+	{
+		"name" : "name",
+		"type" : "varchar",
+		"length" : 120,
+		"etc" : "default null"
+	},
+	{
+		"name" : "title",
+		"type" : "varchar",
+		"length" : 255,
+		"etc" : "default null"
+	},
+	{
+		"name" : "regdate",
+		"type" : "varchar",
+		"length" : 14,
+		"etc" : "default null"
+	}
+]
+</code></pre>
+			<h2>install() 메서드 만들기</h2>
+			<p>
+				인스톨이라고 해서 모든것을 자동으로 처리해주지 않습니다. 아래 소스를 참고하여 install() 메서드와 uninstall() 메서드를 추가해줍니다.<br/>
+				여기에서 __construct() 메서드가 추가되었으며 name, set 값이 추가되었습니다.
+			</p>
+<pre class="code"><code>// helloworld3.class.php
+
+&lt;?php
+if (!defined('__GOOSE__')) exit();
+
+class Helloworld3 {
+
+	public $name, $path, $set;
+
+	/**
+	 * construct
+	 *
+	 * @param array $getter
+	 */
+	public function __construct($getter=array())
+	{
+		$this->name = $getter['name'];
+		$this->set = $getter['set'];
+	}
+
+	public function index()
+	{
+		echo "hello world";
+	}
+
+	/**
+	 * install
+	 *
+	 * @param array $installData install.json 데이터
+	 * @return string 문제없으면 "success" 출력한다.
+	 */
+	public function install($installData)
+	{
+		$query = Spawn::arrayToCreateTableQuery(array(
+			'tableName' => Spawn::getTableName($this->name),
+			'fields' => $installData
+		));
+
+		return Spawn::action($query);
+	}
+
+	/**
+	 * uninstall
+	 *
+	 * @param string $mod 모듈이름
+	 * @return string 문제없으면 "array('state' => true)" 출력
+	 */
+	public function uninstall($mod)
+	{
+		Spawn::dropTable(Spawn::getTableName($mod));
+		return array('state' => true);
+	}
+}
+</code></pre>
+			<h2>모듈 설치하기</h2>
+			<p>
+				웹브라우저에서 "{goose}/modules/index/" 페이지로 접속합니다.<br/>
+				goose의 모듈들의 내역이 나옵니다. 지금까지 만든 helloworld 시리즈들을 볼 수 있는데 helloworld3는 설치 버튼이 있는것을 볼 수 있습니다.
+			</p>
 		</section>
 	</section>
 	<!-- // Develop module -->

@@ -132,7 +132,10 @@ main {
 		}
 		> section {
 			> h1 {font-size: 24px; margin-bottom: 12px;}
-			> h2 {font-size: 18px;}
+			> h2 {
+				margin: 20px 0 5px;
+				font-size: 18px;
+			}
 		}
 	}
 	figure {margin: $basic-margin 0;}
@@ -148,7 +151,7 @@ main {
 	pre {
 		padding: 15px;
 		margin: $basic-margin 0;
-		overflow: auto; line-height: 1.45;
+		overflow: auto; line-height: 1.4;
 		background: #eee;
 		> code {
 			background: transparent;
