@@ -1176,10 +1176,35 @@ echo "&lt;/ul>";
 	<!-- Tips -->
 	<section id="DocTips">
 		<h1><span>Tips</span></h1>
-		<p>참고할만한 팁들을 따로 모아둔 섹션입니다.</p>
-		<p>작성예정..</p>
+		<p>
+			참고할만한 팁들을 따로 모아둔 섹션입니다.
+		</p>
+		<section id="DocTipsConsole">
+			<h1><span>console.log() 활용하기</span></h1>
+			<p>
+				자바스크립트에서 <code>console.log()</code> 메서드로 메세지를 출력하면 브라우저 개발자 도구의 콘솔화면에서 메세지를 확인할 수 있습니다.<br/>
+				브라우저 개발자도구의 콘솔의 기능이 대단히 강력합니다. 배열이나 객체를 아주 효과적이고 편리하게 보여주고, 페이지 내용에 직접적인 영향을 주지 않죠. 그래서 php에서도 console.log()를 활용할 수 있는 방법이 없을까 하고 고민하다가 <code>Util::console()</code>이라는 메서드를 만들었습니다.
+			</p>
+			<p><strong>이 모듈은 <code>{goose}/core/classes/Util.class.php</code> 파일이 require 되어있어야 합니다.</strong></p>
+			<p>example)</p>
+<pre class="code"><code>&lt;?php
+// 과일의 배열
+$fruits = ['mango', 'banana', 'apple'];
+Util::console($fruits);
+// 과일이름과 색깔이 들어있는 key=value 배열
+$fruits2 = ['mango' => 'green', 'banana' => 'yellow', 'apple' => 'red'];
+Util::console($fruits2);
+// load nest module
+$nest = Module::load('nest');
+Util::console($nest);
+</code></pre>
+			<p>위와같은 소스를 입력하고 브라우저에서 실행하면 아래 그림과 같이 결과를 출력합니다.</p>
+			<figure class="fig-center border">
+				<img src="./assets/img/img-documentation-12.png" alt=""/>
+				<figcaption>브라우저마다 조금씩 보이는 형태가 다릅니다.</figcaption>
+			</figure>
+		</section>
 		<ul>
-			<li>Util::console() 활용하기</li>
 			<li>db에서 데이터 가져오기</li>
 		</ul>
 	</section>
