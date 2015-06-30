@@ -427,62 +427,147 @@ $paginate->createNavigation();</code></pre>
 		<section id="DocCoreClassSpawn">
 			<h1><span>Spawn.class.php</span></h1>
 			<p>데이터베이스 처리를 담당합니다.</p>
+			<pre class="code"><code>$spawn = new Spawn();</code></pre>
 			<ul>
 				<li>
 					<strong>$spawn->connect();</strong>
 					<p>db 접속합니다.</p>
+					<pre class="code"><code>$spawn->connect(array('mysql:dbname=DB_NAME;host=localhost', 'USER_ID', 'USER_PASSWORD'));</code></pre>
 				</li>
 				<li>
 					<strong>$spawn->disconnect();</strong>
 					<p>db 접속 종료합니다.</p>
+					<pre class="code"><code>$spawn->disconnect();</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::getTableName();</strong>
-					<p>설치시 table_prefix + module_name 형식으로 이루어진 테이블 이름을 가져옵니다.</p>
+					<p>(설치시 {goose}/data/config.php파일에서 table_prefix값) + module_name 형식으로 이루어진 테이블 이름을 가져옵니다.</p>
+					<pre class="code"><code>$tableName = Spawn::getTableName('modName'); // $tableName : GOOSE_modName</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::action();</strong>
 					<p>특정 sql 명령어를 실행합니다.</p>
+					<pre class="code"><code>Spawn::action('drop table TABLE_NAME');</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::getQuery();</strong>
 					<p>sql 쿼리를 가져옵니다.</p>
+<pre class="code"><code>$qry = Spawn::getQuery(array(
+	'act' => 'select',
+	'table' => 'GOOSE_helloworld3',
+	'where' => 'srl=2'
+));
+var_dump($qry); // string(43) "select * from GOOSE_helloworld3 where srl=2"
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::insert();</strong>
 					<p>데이터를 삽입합니다.</p>
+<pre class="code"><code>$result = Spawn::insert(array(
+	'act' => 'select',
+	'table' => 'GOOSE_helloworld3',
+	'data' => array(
+		'srl' => null,
+		'name' => "원숭이",
+		'title' => "우끼끼끼~~~~",
+		'regdate' => date('YmdHis')
+	)
+));
+var_dump($result); // string(7) "success"
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::update();</strong>
 					<p>데이터를 수정합니다.</p>
+<pre class="code"><code>$result = Spawn::update(array(
+	'table' => 'GOOSE_helloworld3',
+	'data' => array(
+		"name='호랑이'",
+		"title='어흥어흥~'"
+	),
+	'where' => 'srl=1',
+));
+var_dump($result); // string(7) "success"
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::delete();</strong>
 					<p>데이터를 삭제합니다.</p>
+<pre class="code"><code>$result = Spawn::delete(array(
+	'table' => 'GOOSE_helloworld3',
+	'where' => 'srl=1'
+));
+var_dump($result); // string(7) "success"
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::items();</strong>
 					<p>여러개의 데이터를 가져옵니다.</p>
+<pre class="code"><code>$items = Spawn::items(array(
+	'table' => 'GOOSE_helloworld3',
+	'sort' => 'desc'
+));
+foreach ($items as $k=>$v)
+{
+	var_dump($v);
+}
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::item();</strong>
 					<p>하나의 데이터를 가져옵니다.</p>
+<pre class="code"><code>$item = Spawn::item(array(
+	'table' => 'GOOSE_helloworld3',
+	'where' => 'srl=1'
+));
+var_dump($item);
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::count();</strong>
 					<p>데이터의 갯수를 가져옵니다.</p>
+<pre class="code"><code>$count = Spawn::count(array(
+	'table' => 'GOOSE_helloworld3',
+	'where' => "name='호랑이'"
+));
+var_dump($count);
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::arrayToCreateTableQuery();</strong>
-					<p>배열을 통하여 테이블을 만듭니다.</p>
+					<p>배열을 통하여 테이블을 만드는 쿼리로 만들어줍니다.</p>
+<pre class="code"><code>$query = Spawn::arrayToCreateTableQuery(array(
+	'tableName' => 'GOOSE_helloworld4'
+	,'fields' => array(
+		array(
+			'name' => 'srl',
+			'type' => 'int',
+			'length' => 11,
+			'etc' => 'not null',
+			'auto' => true,
+			'key' => true
+		),
+		array(
+			'name' => 'name',
+			'type' => 'varchar',
+			'length' => 50,
+			'etc' => 'default null'
+		)
+	)
+));
+var_dump($query); // string(160) "create table `GOOSE_helloworld4` (`srl` int(11) not null auto_increment,`name` varchar(50) default null, primary key (`srl`)) engine=InnoDB default charset=utf8"
+Spawn::action($query);
+</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::dropTable();</strong>
 					<p>테이블을 삭제합니다.</p>
+					<pre class="code"><code>Spawn::dropTable('GOOSE_helloworld4');</code></pre>
 				</li>
 				<li>
 					<strong>Spawn::getLastIdx();</strong>
-					<p>db에 입력된 데이터의 마지막 번호를 가져옵니다.</p>
+					<p>db에서 가장 마지막에 입력된 데이터의 고유번호를 가져옵니다.</p>
+					<pre class="code"><code>$last_srl = Spawn::getLastIdx();</code></pre>
 				</li>
 			</ul>
 		</section>
