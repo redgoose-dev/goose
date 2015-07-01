@@ -1,6 +1,6 @@
 .markdown-body {
 	font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 14px; color: #000; line-height: 1.42857143; word-break: break-word;
+	font-size: 13px; color: #333; line-height: 1.42857143; word-break: normal;
 	width: 100%;
 }
 .markdown-body > *:first-child {
@@ -88,7 +88,7 @@
 
 .markdown-body table {
 	padding: 0; border-collapse: collapse; border-spacing: 0;
-	font-size: 1em; font: inherit;
+	font-size: inherit;
 	border: 0;
 }
 .markdown-body tbody {margin: 0; padding: 0; border: 0;}
