@@ -135,3 +135,4 @@
 .markdown-body .center {text-align: center;}
 .markdown-body .right {text-align: right;}
 .markdown-body img.center {display: block; margin:0 auto;}
+.markdown-body .border {border: 1px solid #ddd;}

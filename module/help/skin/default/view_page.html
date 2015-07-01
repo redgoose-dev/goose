@@ -14,17 +14,11 @@ if (Util::getExtension($this->pwd_page) == 'md')
 	// get page text
 	$contents = Util::openFile($this->pwd_page);
 
-	//$contents = str_replace('![](', '![]('.__GOOSE_ROOT__.'module/'.$this->page_modSet['name'].'/help/', $contents);
-	preg_match_all("/\!\[+[A-Za-z0-9 ]+\]/", $contents, $aaa, PREG_OFFSET_CAPTURE);
-	foreach ($aaa[0] as $k=>$v)
-	{
-		Util::console($v);
-	}
-
 	// convert markdown
-	//$contents = '<div class="markdown-body">'.$Parsedown->text($contents).'</div>';
+	$contents = str_replace('](./', ']('.__GOOSE_ROOT__.'module/'.$this->page_modSet['name'].'/help/', $contents);
+	$contents = '<div class="markdown-body">'.$Parsedown->text($contents).'</div>';
 
-	//echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'ext/Parsedown/markdown.css"/>';
+	echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'ext/Parsedown/markdown.css"/>';
 }
 else
 {
