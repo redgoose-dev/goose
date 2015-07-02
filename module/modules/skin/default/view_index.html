@@ -46,6 +46,11 @@ $systemModules = ['user'];
 					</div>
 					<nav>
 						<?php
+						$dir_helpFile = __GOOSE_PWD__.'module/'.$v['name'].'/help/index';
+						if (file_exists($dir_helpFile.'.html') || file_exists($dir_helpFile.'.md'))
+						{
+							echo "<a href=\"".__GOOSE_ROOT__."help/$set[name]/\">도움말</a>";
+						}
 						if ($set['install'] && !in_array($set['name'], $installModules))
 						{
 							echo "<a href=\"".__GOOSE_ROOT__."modules/install/$set[name]/\" data-action='confirm' data-message='설치하시겠습니까?'>설치</a>";

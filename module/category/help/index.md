@@ -1,21 +1,19 @@
-### 소개
-App 모듈은 Nest를 그룹으로 묶기위해 사용되는 모듈입니다.  
-[About the Goose](http://redgoosedev.github.io/goose/#Introduce/AboutTheGoose) 페이지에서 설명한대로 여러가지 스타일의 사이트나 앱을 만들때 nest나 article들을 묶어서 관리하기 위하여 만들었습니다.  
-프로젝트 이름으로 사용하는것을 권장합니다.
+### Introduce
+이 모듈은 Article 모듈의 글의 분류로 묶기위해 사용되며 nest 모듈에서 사용유무를 정할 수 있습니다.
 
 
 ### Address guide
-* `{goose}/app/`, `{goose}/app/index/`  
-모든 앱 목록
+* `{goose}/category/index/{nest_srl}/`  
+둥지를 선택한 분류의 목록
 
-* `{goose}/app/create/`  
-앱 만들기 페이지
+* `{goose}/category/create/{nest_srl}/`  
+분류 만들기 페이지
 
-* `{goose}/app/modify/{srl}/`  
-앱 수정 페이지
+* `{goose}/category/modify/{nest_srl}/{srl}/`  
+분류 수정 페이지
 
-* `{goose}/app/remove/{srl}/`  
-앱 삭제 페이지
+* `{goose}/category/remove/{nest_srl}/{srl}/`  
+분류 삭제 페이지
 
 
 ### setting.json
@@ -45,26 +43,25 @@ App 모듈은 Nest를 그룹으로 묶기위해 사용되는 모듈입니다.
 * __pagePerCount__  
 한페이지에 출력되는 글 갯수
 
-* __allowApi__  
-API 모듈을 통하여 데이터를 열람할 수 있는 권한설정값입니다. (기능확정되지 않았습니다.)
 
+### Database field
 
-### 데이터베이스 필드
-
-App 모듈을 설치할때 사용되는 db 필드들입니다.
+모듈을 설치할때 사용되는 db 필드들입니다.
 
 | Field      | Type       | Comment
 | : -------: | :--------: | :----------------------------
 | srl        | int        | 고유번호
-| id         | varchar    | 고유 id값
+| nest_srl   | int        | nest 모듈의 srl번호
+| turn       | int        | 츌력순서
 | name       | varchar    | 이름
 | regdate    | varchar    | 날짜
 
 
-### 모듈 API 안내
+### Module API
+
 모듈에서 제공하는 api입니다. 우선 다음과 같이 모듈 인스턴스 변수값에 담아야합니다.
 ```
-$mod = Module::load('app');
+$mod = Module::load('category');
 ```
 
 * __$mod->getCount()__  
@@ -93,5 +90,6 @@ $data = $mod->getItem(array(
 $result_make = $mod->transaction('create', $_POST); // make
 $result_modify = $mod->transaction('modify', $_POST); // modify
 $result_remove = $mod->transaction('remove', $_POST); // remove
+$result_sort = $mod->transaction('sort', $_POST); // sort
 ```
 $\_POST값에 대해서는 `{module}/skin/default/view_form.php` 파일을 참고해주세요.

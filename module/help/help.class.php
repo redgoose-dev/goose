@@ -56,12 +56,13 @@ class Help {
 		$repo['help'] = array();
 		foreach ($dirIndex as $k=>$v)
 		{
-			$dir_helpFile = __GOOSE_PWD__.'module/'.$v.'/help/index.html';
-			if (file_exists($dir_helpFile))
+			$dir_helpFile = __GOOSE_PWD__.'module/'.$v.'/help/index';
+			if (file_exists($dir_helpFile.'.html') || file_exists($dir_helpFile.'.md'))
 			{
 				$getSetting = Util::jsonToArray(Util::openFile(__GOOSE_PWD__.'module/'.$v.'/setting.json'), true);
 				array_push($repo['help'], array(
 					'name' => $v,
+					'title' => $getSetting['title'],
 					'description' => $getSetting['description'],
 					'url_index' => __GOOSE_ROOT__.$v.'/'
 				));

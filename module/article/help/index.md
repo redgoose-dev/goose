@@ -1,21 +1,20 @@
-### 소개
-App 모듈은 Nest를 그룹으로 묶기위해 사용되는 모듈입니다.  
-[About the Goose](http://redgoosedev.github.io/goose/#Introduce/AboutTheGoose) 페이지에서 설명한대로 여러가지 스타일의 사이트나 앱을 만들때 nest나 article들을 묶어서 관리하기 위하여 만들었습니다.  
-프로젝트 이름으로 사용하는것을 권장합니다.
+### Introduce
+Goose 프로그램에서 기본적으로 제공하는 모듈중에 가장 많이 사용되는 글 관리 모듈입니다.
 
 
 ### Address guide
-* `{goose}/app/`, `{goose}/app/index/`  
-모든 앱 목록
-
-* `{goose}/app/create/`  
-앱 만들기 페이지
-
-* `{goose}/app/modify/{srl}/`  
-앱 수정 페이지
-
-* `{goose}/app/remove/{srl}/`  
-앱 삭제 페이지
+* `{goose}/article/index/`  
+모든 article의 목록. 다음 항목과 같이 둥지를 통하여 접근하는것을 권장합니다.
+* `{goose}/article/index/{nest_srl}/`  
+둥지를 선택한 article의 목록
+* `{goose}/article/read/{srl}/`  
+글 본문 페이지 주소입니다.
+* `{goose}/article/create/{nest_srl}/`  
+글 작성 페이지
+* `{goose}/article/modify/{srl}/`  
+글 수정 페이지
+* `{goose}/article/remove/{srl}/`  
+글 삭제 페이지
 
 
 ### setting.json
@@ -45,26 +44,31 @@ App 모듈은 Nest를 그룹으로 묶기위해 사용되는 모듈입니다.
 * __pagePerCount__  
 한페이지에 출력되는 글 갯수
 
-* __allowApi__  
-API 모듈을 통하여 데이터를 열람할 수 있는 권한설정값입니다. (기능확정되지 않았습니다.)
+
+### Database field
+
+모듈을 설치할때 사용되는 db 필드들입니다.
+
+| Field         | Type       | Comment
+| : ----------: | :--------: | :----------------------------
+| srl           | bigint     | 고유번호
+| app_srl       | int        | app 모듈의 srl번호
+| nest_srl      | int        | nest 모듈의 srl번호
+| category_srl  | int        | category 모듈의 srl번호
+| title         | varchar    | 제목
+| content       | longtext   | 내용
+| hit           | int        | 조회수
+| json          | text       | json 데이터
+| ip            | varchar    | 작성자 ip주소
+| regdate       | varchar    | 등록날짜
+| modate        | varchar    | 수정날짜
 
 
-### 데이터베이스 필드
+### Module API
 
-App 모듈을 설치할때 사용되는 db 필드들입니다.
-
-| Field      | Type       | Comment
-| : -------: | :--------: | :----------------------------
-| srl        | int        | 고유번호
-| id         | varchar    | 고유 id값
-| name       | varchar    | 이름
-| regdate    | varchar    | 날짜
-
-
-### 모듈 API 안내
 모듈에서 제공하는 api입니다. 우선 다음과 같이 모듈 인스턴스 변수값에 담아야합니다.
 ```
-$mod = Module::load('app');
+$mod = Module::load('article');
 ```
 
 * __$mod->getCount()__  
