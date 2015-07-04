@@ -23,9 +23,9 @@ class Router {
 		$this->route->setBasePath(preg_replace('/\/$/', '', __GOOSE_ROOT__));
 	}
 
-	public function init($accessLevel)
+	public function init($pwd_map, $accessLevel)
 	{
-		require_once(Util::checkUserFile(__DIR__.'/map.php'));
+		require_once(Util::checkUserFile($pwd_map));
 		$this->match = $this->route->match();
 
 		if ($this->match) {
