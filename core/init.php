@@ -85,7 +85,7 @@ if ($goose->isInstalled())
 
 	// act router module
 	$router = Module::load('router');
-	$router->init($accessLevel);
+	$router->init(__GOOSE_PWD__.$router->path.'map.php', $accessLevel);
 }
 else
 {
