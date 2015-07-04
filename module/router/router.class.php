@@ -19,16 +19,19 @@ class Router {
 		$this->match = null;
 
 		require_once('vendor/autoload.php');
+
 		$this->route = new AltoRouter();
-		$this->route->setBasePath(preg_replace('/\/$/', '', __GOOSE_ROOT__));
 	}
 
 	public function init($pwd_map, $accessLevel)
 	{
+		$this->route->setBasePath(preg_replace('/\/$/', '', __GOOSE_ROOT__));
+
 		require_once(Util::checkUserFile($pwd_map));
 		$this->match = $this->route->match();
 
-		if ($this->match) {
+		if ($this->match)
+		{
 			$_module = (isset($this->match['params']['module'])) ? $this->match['params']['module'] : null;
 			$_action = (isset($this->match['params']['action'])) ? $this->match['params']['action'] : null;
 			$_method = $_SERVER['REQUEST_METHOD'];
