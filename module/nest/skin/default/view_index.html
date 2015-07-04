@@ -8,7 +8,7 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 	<!-- headding -->
 	<div class="gs-headding">
 		<h1>
-			<a href="<?=__GOOSE_ROOT__?>nest/index/">Nests</a>
+			<a href="<?=__GOOSE_ROOT__?>nest/index/"><?=$this->set['title']?></a>
 			<a href="<?=__GOOSE_ROOT__?>help/nest/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>

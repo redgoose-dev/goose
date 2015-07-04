@@ -15,7 +15,10 @@ if (Util::getExtension($this->pwd_page) == 'md')
 	$contents = Util::openFile($this->pwd_page);
 
 	// convert markdown
+	$contents = str_replace('](./', ']('.__GOOSE_ROOT__.'module/'.$this->page_modSet['name'].'/help/', $contents);
 	$contents = '<div class="markdown-body">'.$Parsedown->text($contents).'</div>';
+
+	echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'ext/Parsedown/markdown.css"/>';
 }
 else
 {
@@ -27,7 +30,7 @@ else
 	<!-- headding -->
 	<div class="gs-headding">
 		<h1>
-			<span>Help - <?=($this->page_modSet) ? $this->page_modSet['name'] : ''?></span>
+			<span>Help - <?=($this->page_modSet) ? $this->page_modSet['title'] : ''?></span>
 		</h1>
 		<?=($this->page_modSet) ? '<p>'.$this->page_modSet['description'].'</p>' : ''?>
 	</div>

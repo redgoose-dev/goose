@@ -1,5 +1,6 @@
 {
 	"name" : "file",
+	"title" : "File",
 	"description" : "첨부된 파일들의 목록입니다.",
 	"permission" : 0,
 	"adminPermission" : 100,

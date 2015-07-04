@@ -1,5 +1,6 @@
 {
 	"name" : "intro",
+	"title" : "Intro",
 	"description" : "Goose 첫화면을 출력하는 모듈입니다.",
 	"pagePerCount" : 15,
 	"skin" : "default"

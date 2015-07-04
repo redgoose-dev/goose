@@ -162,8 +162,8 @@ hr {
 
 // Attributes
 .blind {
-	position: absolute; overflow: hidden; visibility: hidden;
-	width: 0; height: 0; font-size: 0; line-height: 0;
+	position: absolute !important; overflow: hidden !important; visibility: hidden !important;
+	width: 0 !important; height: 0 !important; font-size: 0 !important; line-height: 0 !important;
 }
 .dis-ib {display: inline-block;}
 
@@ -227,7 +227,7 @@ button.gs-button {
 		font-size: 24px; color: #111;
 		a {text-decoration: none; color: #111; vertical-align: middle;}
 	}
-	> p {margin: 0 0 3px; font-size: 12px; color: #666;}
+	> p {margin: 3px 0; font-size: 12px; color: #666;}
 	.icn-help {
 		display: inline-block; margin-top: -2px; margin-left: 3px; padding: 4px;
 		font-size: 10px; color: #fff;

@@ -1,5 +1,6 @@
 {
 	"name" : "user",
+	"title" : "User",
 	"description" : "회원정보를 관리하는 모듈입니다.",
 	"permission" : 100,
 	"adminPermission" : 100,

@@ -1,5 +1,6 @@
 {
 	"name" : "category",
+	"title" : "Category",
 	"description" : "article의 분류를 관리하는 모듈입니다.",
 	"permission" : 0,
 	"adminPermission" : 100,

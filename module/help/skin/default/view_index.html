@@ -21,13 +21,12 @@ if (!defined('__GOOSE__')) exit();
 				<li>
 					<div class="wrap">
 						<div class="body">
-							<a href="<?=__GOOSE_ROOT__.'help/'.$v['name'].'/'?>">
-								<strong class="hd"><?=$v['name']?></strong>
-							</a>
+							<strong class="hd"><?=$v['title']?></strong>
 							<div class="inf">
 								<span><?=$v['description']?></span>
 							</div>
 							<nav>
+								<a href="<?=__GOOSE_ROOT__.'help/'.$v['name'].'/'?>">도움말</a>
 								<a href="<?=$v['url_index']?>">모듈 바로가기</a>
 							</nav>
 						</div>

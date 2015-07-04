@@ -1,21 +1,23 @@
-### 소개
-App 모듈은 Nest를 그룹으로 묶기위해 사용되는 모듈입니다.  
-[About the Goose](http://redgoosedev.github.io/goose/#Introduce/AboutTheGoose) 페이지에서 설명한대로 여러가지 스타일의 사이트나 앱을 만들때 nest나 article들을 묶어서 관리하기 위하여 만들었습니다.  
-프로젝트 이름으로 사용하는것을 권장합니다.
+### Introduce
+JSON 데이터를 관리하는 모듈입니다.  
+json데이터를 데이터베이스에 저장하여 추가, 수정, 삭제 할 수 있으며 이 데이터를 다양한 곳에 활용할 수 있는 멋진 모듈입니다.
 
 
 ### Address guide
-* `{goose}/app/`, `{goose}/app/index/`  
-모든 앱 목록
+* `{goose}/json/index/`  
+모든 json 데이터의 목록
 
-* `{goose}/app/create/`  
-앱 만들기 페이지
+* `{goose}/json/read/{srl}/`  
+json 데이터가 표시되는 상세내용 페이지
 
-* `{goose}/app/modify/{srl}/`  
-앱 수정 페이지
+* `{goose}/json/create/`  
+json 만들기 페이지
 
-* `{goose}/app/remove/{srl}/`  
-앱 삭제 페이지
+* `{goose}/json/modify/{srl}/`  
+json 수정 페이지
+
+* `{goose}/json/remove/{srl}/`  
+json 삭제 페이지
 
 
 ### setting.json
@@ -45,25 +47,22 @@ App 모듈은 Nest를 그룹으로 묶기위해 사용되는 모듈입니다.
 * __pagePerCount__  
 한페이지에 출력되는 글 갯수
 
-* __allowApi__  
-API 모듈을 통하여 데이터를 열람할 수 있는 권한설정값입니다. (기능확정되지 않았습니다.)
-
 
 ### Database field
 App 모듈을 설치할때 사용되는 db 필드들입니다.
 
-| Field      | Type       | Comment
-| : -------: | :--------: | :----------------------------
-| srl        | int        | 고유번호
-| id         | varchar    | 고유 id값
-| name       | varchar    | 이름
-| regdate    | varchar    | 날짜
+| Field      | Type         | Comment
+| : -------: | :----------: | :----------------------------
+| srl        | int          | 고유번호
+| name       | varchar      | 고유 id값
+| json       | mediumtext   | json 데이터
+| regdate    | varchar      | 날짜
 
 
 ### Module API
 모듈에서 제공하는 api입니다. 우선 다음과 같이 모듈 인스턴스 변수값에 담아야합니다.
 ```
-$mod = Module::load('app');
+$mod = Module::load('json');
 ```
 
 ##### $mod->getCount()

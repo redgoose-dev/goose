@@ -11,7 +11,6 @@ function checkPost()
 	$errorValue = Util::checkExistValue($_POST, array('goose_root', 'goose_url', 'dbId', 'dbName', 'email', 'name'));
 	if ($errorValue)
 	{
-
 		Util::back("[$errorValue]값이 없습니다.");
 		Goose::end();
 	}

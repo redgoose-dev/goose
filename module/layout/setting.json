@@ -1,5 +1,6 @@
 {
 	"name" : "layout",
+	"title" : "Layout",
 	"description" : "Goose의 레이아웃을 관리하는 모듈입니다.",
 	"permission" : 0,
 	"skin" : "default"
