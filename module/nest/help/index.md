@@ -97,7 +97,7 @@ article 목록타입
 $mod = Module::load('nest');
 ```
 
-* __$mod->getCount()__  
+##### $mod->getCount()  
 조건에 맞는 글 갯수를 가져옵니다.  
 ```
 $count = $mod->getCount(array(
@@ -105,15 +105,15 @@ $count = $mod->getCount(array(
 ));
 ```
 
-* __$mod->getItems()__  
-조건에 맞는 글들을 모음을 가져옵니다.
+##### $mod->getItems()  
+조건에 맞는 글들의 모음을 가져옵니다.
 ```
 $data = $mod->getItems(array(
 	'where' => 'app_srl=1'
 ));
 ```
 
-* __$mod->getItem()__  
+##### $mod->getItem()  
 조건에 맞는 글 한개만 가져옵니다.
 ```
 $data = $mod->getItem(array(
@@ -121,7 +121,7 @@ $data = $mod->getItem(array(
 ));
 ```
 
-* __$mod->transaction()__  
+##### $mod->transaction()  
 글을 등록하거나 수정, 삭제 처리합니다.
 ```
 $result_make = $nest->transaction('create', $_POST); // make
