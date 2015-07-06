@@ -140,7 +140,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			<dl class="gs-webz">
 				<?php
 				$thumType1 = $thumType2 = $thumType3 = $thumType4 = null;
-				if ($paramAction == "modify")
+				if ($this->param['action'] == "modify")
 				{
 					$thumType1 = ($repo['nest']['json']['thumnail']['type'] == "crop") ? ' checked = "checked"' : '';
 					$thumType2 = ($repo['nest']['json']['thumnail']['type'] == "resize") ? ' checked = "checked"' : '';
