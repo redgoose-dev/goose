@@ -46,13 +46,13 @@ class Error {
 	 * @param int $code error code
 	 * @param string $message error message
 	 */
-	public function render($code, $message)
+	public function render($code, $message, $url_home)
 	{
-		require_once($this->skinPath.'view_render.html');
+		require_once(__GOOSE_PWD__.$this->skinPath.'view_render.html');
 	}
 
 	public function box($code, $message)
 	{
-		require_once($this->skinPath.'view_box.html');
+		require_once(__GOOSE_PWD__.$this->skinPath.'view_box.html');
 	}
 }

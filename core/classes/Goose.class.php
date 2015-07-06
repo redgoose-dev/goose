@@ -67,7 +67,7 @@ class Goose {
 	{
 		global $goose;
 
-		if (__GOOSE_DEBUG__ && $is_log)
+		if (define(__GOOSE_DEBUG__) && $is_log)
 		{
 			$endTime = array_sum(explode(' ', microtime()));
 			$time = $endTime - __StartTime__;
@@ -87,7 +87,7 @@ class Goose {
 	 * @param int $code error code
 	 * @param string $msg error message
 	 */
-	public static function error($code=null, $msg=null)
+	public static function error($code=null, $msg=null, $url_home=__GOOSE_ROOT__)
 	{
 		$error = Module::load('error');
 		// act error
@@ -100,12 +100,11 @@ class Goose {
 				break;
 			case 404:
 				// page not found
-				$error->render(404, 'page not found');
+				$error->render(404, 'page not found', $url_home);
 				self::end();
 				break;
 			case 909:
 				// box error
-
 				break;
 		}
 	}
