@@ -20,6 +20,14 @@ if ($errorValue)
 }
 
 
+// adjust value
+if (!$isExternalTransaction)
+{
+	$post['title'] = htmlspecialchars(addslashes($post['title']));
+	$post['content'] = addslashes($post['content']);
+}
+
+
 // update data
 $result = Spawn::update(array(
 	'table' => Spawn::getTableName($this->name),
@@ -28,7 +36,7 @@ $result = Spawn::update(array(
 		"app_srl=".(int)$post['app_srl'],
 		"nest_srl=".(int)$post['nest_srl'],
 		"category_srl=".(int)$post['category_srl'],
-		"title='".htmlspecialchars($post['title'])."'",
+		"title='".$post['title']."'",
 		"content='$post[content]'",
 		"json='$post[json]'",
 		"modate='".date("YmdHis")."'"

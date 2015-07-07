@@ -28,7 +28,7 @@ if ($errorValue)
 if (!$isExternalTransaction)
 {
 	$post['title'] = htmlspecialchars(addslashes($post['title']));
-	$post['content'] = htmlspecialchars($post['content']);
+	$post['content'] = addslashes($post['content']);
 }
 
 
