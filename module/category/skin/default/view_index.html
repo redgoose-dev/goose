@@ -54,9 +54,14 @@ if (!defined('__GOOSE__')) exit();
 		<nav class="gs-btn-group right">
 			<?php
 			$param = ($nest_srl) ? $nest_srl.'/' : '';
+			if ($this->parent->isAdmin)
+			{
 			?>
-			<a href="<?=__GOOSE_ROOT__.'category/create/'.$param?>" class="gs-button col-key">분류추가</a>
-			<a href="#" id="submitSortForm" class="gs-button">순서변경</a>
+				<a href="<?=__GOOSE_ROOT__.'category/create/'.$param?>" class="gs-button col-key">분류추가</a>
+				<a href="#" id="submitSortForm" class="gs-button">순서변경</a>
+			<?php
+			}
+			?>
 			<a href="<?=__GOOSE_ROOT__.'article/index/'.$param?>" class="gs-button">문서목록</a>
 			<?php
 			$url = __GOOSE_ROOT__.'nest/index/';
