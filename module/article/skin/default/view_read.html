@@ -63,28 +63,27 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 		?>
 		<a href="<?=$url?>" class="gs-button">목록</a>
 		<?php
-		$url = __GOOSE_ROOT__.'article/create/';
-		$url .= ($repo['nest']['srl']) ? $repo['nest']['srl'].'/' : '';
-		$url .= ($category_srl) ? $category_srl.'/' : '';
-		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
+		if ($this->parent->isAdmin)
+		{
+			$url = __GOOSE_ROOT__.'article/create/';
+			$url .= ($repo['nest']['srl']) ? $repo['nest']['srl'].'/' : '';
+			$url .= ($category_srl) ? $category_srl.'/' : '';
+			$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
+			echo "<a href='$url' class='gs-button'>글쓰기</a>";
+			$url = __GOOSE_ROOT__.'article/modify/';
+			$url .= ($category_srl) ? $category_srl.'/' : '';
+			$url .= ($article_srl) ? $article_srl.'/' : '';
+			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
+			$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
+			echo "<a href='$url' class='gs-button col-key'>수정</a>";
+			$url = __GOOSE_ROOT__.'article/remove/';
+			$url .= ($category_srl) ? $category_srl.'/' : '';
+			$url .= ($article_srl) ? $article_srl.'/' : '';
+			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
+			$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
+			echo "<a href='$url' id='docDelete' class='gs-button'>삭제</a>";
+		}
 		?>
-		<a href="<?=$url?>" class="gs-button">글쓰기</a>
-		<?php
-		$url = __GOOSE_ROOT__.'article/modify/';
-		$url .= ($category_srl) ? $category_srl.'/' : '';
-		$url .= ($article_srl) ? $article_srl.'/' : '';
-		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
-		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
-		?>
-		<a href="<?=$url?>" class="gs-button col-key">수정</a>
-		<?php
-		$url = __GOOSE_ROOT__.'article/remove/';
-		$url .= ($category_srl) ? $category_srl.'/' : '';
-		$url .= ($article_srl) ? $article_srl.'/' : '';
-		$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
-		$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
-		?>
-		<a href="<?=$url?>" id="docDelete" class="gs-button">삭제</a>
 	</nav>
 	<!-- // bottom navigation -->
 </section>

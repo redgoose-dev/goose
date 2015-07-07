@@ -109,9 +109,7 @@ if (!defined('__GOOSE__')) exit();
 				$url = __GOOSE_ROOT__.'article/create/';
 				$url .= ($nest_srl) ? $nest_srl.'/' : '';
 				$url .= ($category_srl) ? $category_srl.'/' : '';
-				?>
-				<a href="<?=$url?>" class="gs-button col-key">글쓰기</a>
-				<?php
+				echo ($this->parent->isAdmin) ? "<a href=\"$url\" class=\"gs-button col-key\">글쓰기</a>" : '';
 				$url = __GOOSE_ROOT__.'nest/index/';
 				$url .= ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
 				?>

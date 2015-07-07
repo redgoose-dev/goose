@@ -180,17 +180,6 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 					<p>Article 목록에서 출력되는 방식입니다.</p>
 				</dd>
 			</dl>
-
-			<dl class="gs-webz">
-				<?php
-				$permission = ($repo['nest']['json']['permission']) ? $repo['nest']['json']['permission'] : $this->set['permission'];
-				?>
-				<dt><label for="permission">접근권한</label></dt>
-				<dd>
-					<input type="number" name="permission" id="permission" size="4" min="0" max="<?=$this->set['adminPermission']?>" value="<?=$permission?>"/>
-					<p>숫자가 높을수록 권한이 높습니다.</p>
-				</dd>
-			</dl>
 		</fieldset>
 
 		<nav class="gs-btn-group right">
@@ -234,8 +223,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 					size : [parseInt(form.thumWidth.value), parseInt(form.thumHeight.value)],
 					type : $(form.thumType).filter(':checked').val()
 				},
-				articleListType : form.articleListType.value,
-				permission : parseInt(form.permission.value)
+				articleListType : form.articleListType.value
 			};
 			form.json.value = encodeURIComponent(JSON.stringify(json));
 			form.submit();
