@@ -5,6 +5,5 @@
 	"permission" : 100,
 	"adminPermission" : 100,
 	"install" : true,
-	"skin" : "default",
-	"pagePerCount" : 15
+	"skin" : "default"
 }

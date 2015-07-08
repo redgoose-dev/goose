@@ -1,4 +1,4 @@
-### 소개
+### Introduce
 App 모듈은 Nest를 그룹으로 묶기위해 사용되는 모듈입니다.  
 [About the Goose](http://redgoosedev.github.io/goose/#Introduce/AboutTheGoose) 페이지에서 설명한대로 여러가지 스타일의 사이트나 앱을 만들때 nest나 article들을 묶어서 관리하기 위하여 만들었습니다.  
 프로젝트 이름으로 사용하는것을 권장합니다.
