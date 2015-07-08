@@ -17,4 +17,3 @@ if (!defined('__GOOSE__')) exit();
 
 <?php
 return Array('print' => 'complete script');
-?>
