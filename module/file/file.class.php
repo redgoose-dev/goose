@@ -275,7 +275,7 @@ class File {
 		$month = Date('Ym');
 
 		// set path
-		$path = ($dir) ? $dir : $this->set['upPath_original'];
+		$path = ($dir) ? $dir : $this->set['upPath_original'].'/';
 		$path_absolute = __GOOSE_PWD__.$path;
 
 		// make directory
