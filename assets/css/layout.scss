@@ -76,7 +76,7 @@ main {
 		a {
 			display: block; padding: 5px 0 5px 0;
 			text-decoration: none;
-			color: #222; font-size: 14px;
+			color: #222; font-size: 13px;
 			&:hover {text-decoration: underline;}
 		}
 		.active > a {color: #aaa;}
@@ -149,7 +149,7 @@ main {
 		&:after {letter-spacing: -0.2em; content: "\00a0";}
 	}
 	pre {
-		padding: 15px;
+		padding: 8px 10px;
 		margin: $basic-margin 0;
 		overflow: auto; line-height: 1.4;
 		background: #eee;

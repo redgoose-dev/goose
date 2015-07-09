@@ -242,6 +242,17 @@
 				<li>이미 메뉴의 트리가 만들어져 있으므로 수정해서 사용하면 됩니다.</li>
 			</ol>
 		</section>
+
+		<section id="DocUseGooseModuleHelp">
+			<h1><span>Module help</span></h1>
+			<p>
+				관리자에서 각 모듈마다 도움말 문서를 볼 수 있습니다.<br/>
+				모듈 도움말 문서는 <strong>모듈의 설정값이나 접근주소, db 필드, 모듈 api 설명</strong>을 볼 수 있습니다.
+			</p>
+			<h2>도움말 보는법</h2>
+			<p>관리자의 모듈화면에서 제목옆에 동그란 빨간색의 <b>"?"</b>버튼을 볼 수 있습니다. 그것을 누르면 해당 모듈의 도움말을 볼 수 있습니다.</p>
+			<p>다른 방법으로는 주소에서 <code>{goose}/module/index/</code> 경로로 접속하면 모듈의 목록을 볼 수 있습니다. 목록에서 도움말 문서가 있는 모듈이라면 설명 아래쪽에 <strong>[도움말]</strong> 버튼을 볼 수 있습니다.</p>
+		</section>
 	</section>
 
 	<section id="DocPreference">
@@ -464,7 +475,6 @@ var_dump($qry); // string(43) "select * from GOOSE_helloworld3 where srl=2"
 					<strong>Spawn::insert();</strong>
 					<p>데이터를 삽입합니다.</p>
 <pre class="code"><code>$result = Spawn::insert(array(
-	'act' => 'select',
 	'table' => 'GOOSE_helloworld3',
 	'data' => array(
 		'srl' => null,
@@ -1255,6 +1265,41 @@ echo "&lt;/ul>";
 				<a href="https://github.com/RedgooseDev/goose/issues" target="_blank">GitHub Issues</a>에서 이슈를 적어주시면 답변해드리겠습니다.
 			</p>
 		</section>
+		<section id="DocDevelopModuleHelp">
+			<h1><span>Make help</span></h1>
+			<p>
+				모듈을 만들고 남들에게 배포를 할때 이 모듈을 어떻게 사용할 수 있는지에 대하여 설명을 넣고 싶을겁니다.<br/>
+				그래서 도움말이라는 모듈을 통해서 도움말 문서를 출력할 수 있게 되었습니다.<br/>
+				모듈속에 도움말 문서를 같이 넣음으로 해서 관리자에서 도움말 문서로 바로 이동할 수 있고, 같이묶어 배포할 수 있게된것이죠.
+			</p>
+			<h2>도움말 문서 만들기</h2>
+			<p>
+				예제로 helloworld3 모듈의 도움말을 만들겠습니다.<br/>
+				ftp나 터미널에서 <code>{goose}/module/helloworld3/</code> 경로로 이동하고 <code>help</code> 이름의 폴더를 만들고 help 폴더로 들어갑니다.
+			</p>
+<pre class="code"><code>$ cd {goose}/module/helloworld3/
+$ mkdir help
+$ cd help
+</code></pre>
+			<p>
+				이제 index.html파일이나 index.md 파일을 만들고 내용을 작성합니다.<br/>
+				.html, .md 파일 두 포맷을 지원하며 파일 이름이 "index"라면 파일 이름을 적을 필요가 없습니다.
+			</p>
+			<p>.md 파일에 대한 자세한 내용은 <a href="http://blog.kalkin7.com/2014/02/10/lets-write-using-markdown/" target="_blank">이곳</a>을 참고해주세요.</p>
+			<h2>작성한 도움말 페이지 열기</h2>
+			<p>
+				help폴더속에 내용을 작성했으면 이제 열어서 확인해봅니다.<br/>
+				<code>help/index.md</code> 경로로 파일을 만들었다면 주소창에서 <code>{goose}/help/helloworld3/</code> 경로로 들어가면 index.md 파일의 내용을 확인할 수 있습니다.
+			</p>
+			<p>
+				<code>help/pagename.html</code> 경로로 파일을 만들었다면 <code>{goose}/help/helloworld3/pagename/</code> 경로로 들어가면 페이지에 접속할 수 있습니다.
+			</p>
+			<h2>.md파일에서 이미지나 css,js같은 외부파일 삽입하기</h2>
+			<p>
+				외부파일들을 help 폴더에 넣고 <code>![image comment](./img/page.png)</code> 형식으로 링크를 걸면 됩니다.
+			</p>
+		</section>
+
 	</section>
 	<!-- // Develop module -->
 
@@ -1262,7 +1307,8 @@ echo "&lt;/ul>";
 	<section id="DocTips">
 		<h1><span>Tips</span></h1>
 		<p>
-			참고할만한 팁들을 따로 모아둔 섹션입니다.
+			참고할만한 팁들을 따로 모아둔 섹션입니다.<br/>
+			팁을 작성할만한 내용이 생기면 추가로 작성할 예정입니다.
 		</p>
 		<section id="DocTipsConsole">
 			<h1><span>console.log() 활용하기</span></h1>
