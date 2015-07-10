@@ -97,13 +97,16 @@ class View extends Article {
 		$param .= ($nest_srl) ? ' nest_srl='.$nest_srl : '';
 		$param .= ($nest_srl && $category_srl) ? ' and' : '';
 		$param .= ($category_srl) ? ' category_srl='.$category_srl : '';
+		$param .= ($category_srl && $_GET['keyword']) ? ' and' : '';
+		$param .= ($_GET['keyword']) ? ' and (title LIKE \'%'.$_GET['keyword'].'%\' or content LIKE \'%'.$_GET['keyword'].'%\')' : '';
 
 		// get article count
 		$count = $this->parent->getCount( array('where' => $param) );
 		$count = $count['data'];
 
 		// get article data
-		if ($count)
+		//if ($count)
+		if (true)
 		{
 			// set listCount
 			$pagePerCount = ($repo['nest']['json']['listCount']) ? $repo['nest']['json']['listCount'] : $this->set['pagePerCount'];
