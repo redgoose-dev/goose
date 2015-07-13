@@ -48,6 +48,7 @@ class Error {
 	 */
 	public function render($code, $message, $url_home)
 	{
+		$url_home = ($url_home) ? $url_home : __GOOSE_ROOT__;
 		require_once(__GOOSE_PWD__.$this->skinPath.'view_render.html');
 	}
 

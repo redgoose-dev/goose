@@ -7,7 +7,19 @@ $repo = Array('article' => null);
 // load modules
 $article = Module::load('article');
 $nest = Module::load('nest');
-$category = Module::load('category');
+
+// check modules
+if ($article->state == 'error')
+{
+	Goose::errorbox(101, $article->message);
+	return false;
+}
+if ($nest->state == 'error')
+{
+	Goose::errorbox(101, $nest->message);
+	return false;
+}
+
 
 // get articles
 $data = $article->getItems(array( 'limit' => array(0, $this->set['pagePerCount']) ));
@@ -23,6 +35,7 @@ foreach($repo['article'] as $k=>$v)
 
 	if ($repo['article'][$k]['nest']['json']['useCategory'] && $v['category_srl'])
 	{
+		$category = Module::load('category');
 		$data = $category->getItem(array(
 			'field' => 'name',
 			'where' => 'srl='.(int)$v['category_srl']
