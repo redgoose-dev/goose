@@ -60,6 +60,7 @@ class Router {
 			);
 
 			// check module
+			if ($baseModule->state == 'error') Goose::error(403, $baseModule->message);
 			if (!$baseModule) Goose::error(101, 'module error');
 			if (is_array($baseModule) && $baseModule['state'] == 'error') Goose::error(101, $baseModule['message']);
 

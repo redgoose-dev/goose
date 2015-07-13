@@ -35,7 +35,7 @@ class Module {
 		}
 		else
 		{
-			return array('state' => 'error', 'message' => 'module not found');
+			return new Object(array('state' => 'error', 'message' => 'module not found'));
 		}
 		return array(
 			'pwd' => __GOOSE_PWD__.$path
@@ -78,7 +78,7 @@ class Module {
 			$settings = ($tmp_settingUser) ? $tmp_settingUser : null;
 			$settings = ($tmp_settingOriginal) ? $tmp_settingOriginal : $settings;
 		}
-		if (!$settings || !is_array($settings)) return array('state' => 'error', 'message' => 'setting.json파일이 없습니다.');
+		if (!$settings || !is_array($settings)) return new Object(array('state' => 'error', 'message' => '['.$moduleName.'] setting.json파일이 없습니다.'));
 
 		// set module class path
 		$pwd_class = Util::checkUserFile($pwd.$moduleName.'.class.php');
@@ -90,13 +90,13 @@ class Module {
 			// check install
 			if (($settings['install'] && !in_array($moduleName, $goose->modules)) && !$install)
 			{
-				return array('state' => 'error', 'message' => '인스톨이 필요한 모듈입니다.');
+				return new Object(array('state' => 'error', 'message' => '['.$moduleName.'] 인스톨이 필요한 모듈입니다.'));
 			}
 
 			// check permission
 			if (($settings['permission'] && $settings['permission'] > $_SESSION['goose_level']) && !$goose->isAdmin)
 			{
-				return array('state' => 'error', 'message' => '접근 권한이 없습니다.');
+				return new Object(array('state' => 'error', 'message' => '['.$moduleName.'] 접근 권한이 없습니다.'));
 			}
 
 			// set module class
@@ -115,7 +115,7 @@ class Module {
 		}
 		else
 		{
-			return array('state' => 'error', 'message' => '정상적인 모듈이 아닙니다.');
+			return new Object(array('state' => 'error', 'message' => '['.$moduleName.'] 정상적인 모듈이 아닙니다.'));
 		}
 	}
 

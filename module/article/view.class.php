@@ -97,13 +97,16 @@ class View extends Article {
 		$param .= ($nest_srl) ? ' nest_srl='.$nest_srl : '';
 		$param .= ($nest_srl && $category_srl) ? ' and' : '';
 		$param .= ($category_srl) ? ' category_srl='.$category_srl : '';
+		$param .= ($category_srl && $_GET['keyword']) ? ' and' : '';
+		$param .= ($_GET['keyword']) ? ' and (title LIKE \'%'.$_GET['keyword'].'%\' or content LIKE \'%'.$_GET['keyword'].'%\')' : '';
 
 		// get article count
 		$count = $this->parent->getCount( array('where' => $param) );
 		$count = $count['data'];
 
 		// get article data
-		if ($count)
+		//if ($count)
+		if (true)
 		{
 			// set listCount
 			$pagePerCount = ($repo['nest']['json']['listCount']) ? $repo['nest']['json']['listCount'] : $this->set['pagePerCount'];
@@ -173,26 +176,35 @@ class View extends Article {
 
 		// get file data
 		$file = Module::load('file');
-		$data = $file->getItems(array(
-			'where' => 'article_srl='.$article_srl,
-			'sort' => 'asc'
-		));
-		$repo['file'] = ($data['state'] == 'success') ? $data['data'] : null;
+		if ($file->name)
+		{
+			$data = $file->getItems(array(
+				'where' => 'article_srl='.$article_srl,
+				'sort' => 'asc'
+			));
+			$repo['file'] = ($data['state'] == 'success') ? $data['data'] : null;
+		}
 
 		// get nest data
 		if ($repo['article']['nest_srl'])
 		{
 			$nest = Module::load('nest');
-			$data = $nest->getItem(array('where' => 'srl='.(int)$repo['article']['nest_srl']));
-			$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+			if ($nest->name)
+			{
+				$data = $nest->getItem(array('where' => 'srl='.(int)$repo['article']['nest_srl']));
+				$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+			}
 		}
 
 		// get category data
 		if ($repo['nest']['json']['useCategory'] && $repo['article']['category_srl'])
 		{
 			$category = Module::load('category');
-			$data = $category->getItem( array('where' => 'srl='.(int)$repo['article']['category_srl']) );
-			$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
+			if ($category->name)
+			{
+				$data = $category->getItem(array('where' => 'srl=' . (int)$repo['article']['category_srl']));
+				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
+			}
 		}
 
 		// set pwd_container
@@ -225,19 +237,25 @@ class View extends Article {
 		if ($nest_srl)
 		{
 			$nest = Module::load('nest');
-			$data = $nest->getItem(array( 'where' => 'srl='.(int)$nest_srl ));
-			$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+			if ($nest->name)
+			{
+				$data = $nest->getItem(array('where' => 'srl=' . (int)$nest_srl));
+				$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+			}
 		}
 
 		if ($repo['nest']['json']['useCategory'])
 		{
 			$category = Module::load('category');
-			$data = $category->getItems(array(
-				'where' => 'nest_srl='.$repo['nest']['srl'],
-				'order' => 'turn',
-				'sort' => 'asc'
-			));
-			$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
+			if ($category->name)
+			{
+				$data = $category->getItems(array(
+					'where' => 'nest_srl=' . $repo['nest']['srl'],
+					'order' => 'turn',
+					'sort' => 'asc'
+				));
+				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
+			}
 		}
 
 		// set pwd_container
@@ -354,8 +372,11 @@ class View extends Article {
 
 		// get nest data
 		$nest = Module::load('nest');
-		$data = $nest->getItem(array('where' => 'srl='.$repo['article']['nest_srl']));
-		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+		if ($nest->name)
+		{
+			$data = $nest->getItem(array('where' => 'srl='.$repo['article']['nest_srl']));
+			$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+		}
 
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(

@@ -51,6 +51,7 @@ require_once(__GOOSE_PWD__.'core/classes/Util.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Goose.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Spawn.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Module.class.php');
+require_once(__GOOSE_PWD__.'core/classes/Object.class.php');
 
 
 // create Goose Instance

@@ -98,6 +98,10 @@ class Goose {
 				$error->render($code, $msg);
 				self::end();
 				break;
+			case 403:
+				$error->render($code, 'permission denied');
+				self::end();
+				break;
 			case 404:
 				// page not found
 				$error->render(404, 'page not found', $url_home);

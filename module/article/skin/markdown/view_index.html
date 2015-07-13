@@ -127,4 +127,21 @@ if (!defined('__GOOSE__')) exit();
 	</dl>
 	<!-- // buttons -->
 
+	<!-- search keyword form -->
+	<?php
+	$url = __GOOSE_ROOT__.'article/index/';
+	$url .= ($nest_srl) ? $nest_srl.'/' : '';
+	$url .= ($category_srl) ? $category_srl.'/' : '';
+	?>
+	<form action="<?=$url?>" method="get" class="gs-search">
+		<fieldset>
+			<legend>keyword search form</legend>
+			<div>
+				<input type="text" name="keyword" placeholder="검색어를 입력해주세요." value="<?=$_GET['keyword']?>" />
+				<button type="submit"><i></i><span>search</span></button>
+			</div>
+		</fieldset>
+	</form>
+	<!-- // search keyword form -->
+
 </section>

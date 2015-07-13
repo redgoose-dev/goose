@@ -1,5 +1,48 @@
 <?php
 if (!defined('__GOOSE__')) exit();
+
+// set repo
+$repo = Array('article' => null);
+
+// load modules
+$article = Module::load('article');
+$nest = Module::load('nest');
+
+// check modules
+if ($article->state == 'error')
+{
+	Goose::errorbox(101, $article->message);
+	return false;
+}
+if ($nest->state == 'error')
+{
+	Goose::errorbox(101, $nest->message);
+	return false;
+}
+
+
+// get articles
+$data = $article->getItems(array( 'limit' => array(0, $this->set['pagePerCount']) ));
+$repo['article'] = ($data['state'] == 'success') ? $data['data'] : array();
+
+foreach($repo['article'] as $k=>$v)
+{
+	$data = $nest->getItem(array(
+		'field' => 'name,json',
+		'where' => 'srl='.$v['nest_srl']
+	));
+	$repo['article'][$k]['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+
+	if ($repo['article'][$k]['nest']['json']['useCategory'] && $v['category_srl'])
+	{
+		$category = Module::load('category');
+		$data = $category->getItem(array(
+			'field' => 'name',
+			'where' => 'srl='.(int)$v['category_srl']
+		));
+		$repo['article'][$k]['categoryName'] = ($data['state'] == 'success') ? $data['data']['name'] : null;
+	}
+}
 ?>
 
 <section>

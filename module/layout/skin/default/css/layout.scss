@@ -429,3 +429,33 @@
 		font-size: 13px; color: #fff; color: rgba(255,255,255,.85);
 	}
 }
+
+
+/* search */
+.gs-search {
+	margin: 15px 0 30px;
+	text-align: center;
+	fieldset {
+		padding: 0 10px;
+		legend {@extend .blind;}
+		div {
+			position: relative;
+			input {
+				display: block; margin: 0; padding: 9px 35px 9px 10px;
+				width: 100%; border-radius: 2px;
+				font-size: 13px;
+			}
+			button {
+				position: absolute; right: 5px;top: 50%;
+				margin: -14px 0 0; padding: 4px 5px;
+				border: none; background: none; cursor: pointer;
+				i {
+					@extend %gs-icon;
+					font-size: 18px; color: #333;
+					&:after {content: '\e608';}
+				}
+				span {display: none;}
+			}
+		}
+	}
+}
