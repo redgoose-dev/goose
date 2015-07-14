@@ -72,7 +72,7 @@ button.gs-button.block { width: 100%; }
 .gs-table td.nowrap { white-space: nowrap; }
 .gs-table thead th { background: #f1f1f1; font-weight: bold; }
 
-.gs-paginate { margin: 15px 0; font-size: 0; }
+.gs-paginate { margin: 15px 0; padding: 0 8px; font-size: 0; }
 .gs-paginate a, .gs-paginate strong { margin: 0 2px; display: inline-block; padding: 10px 13px; color: #fff; text-align: center; font-size: 14px; }
 .gs-paginate a { text-decoration: none; background: #a5acb0; }
 .gs-paginate strong { background: #72b3ca; }
