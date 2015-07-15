@@ -340,31 +340,36 @@ Thumnail.prototype.close = function()
 	self.$window.remove();
 	self.$window = null;
 	self.queue = null;
-}
+};
 
 /**
  * get image data
+ * 이미지를 곧바로 축소를 하면 안티앨리어싱 문제 때문에 사선라인이 깨져보인다.
+ * 그래서 결과물을 2배 사이즈로 키우고 그것을 1/2 사이즈로 줄이는 과정을 거치면 사선의 표면이 부드러워진다.
  *
- * @param {String} img
+ * @param {String} img_src
  * @return {String}
  */
-Thumnail.prototype.getImageData = function(img)
+Thumnail.prototype.getImageData = function(img_src)
 {
-	var
-		self = this
-		,$canvas = $('<canvas width="' + self.outputSize[0] + '" height="' + self.outputSize[1] + '" />')
-		,context = $canvas.get(0).getContext('2d')
-		,$img = self.$window.find('figure > img')
-		,realSize = [$img.get(0).naturalWidth, $img.get(0).naturalHeight]
-		,coords = self.data.coords
-		,ratio = [realSize[0] / $img.width(), realSize[1] / $img.height()];
+	var self = this;
+	var $img = self.$window.find('figure > img');
 
-	// draw background
-	context.fillStyle = '#ffffff';
-	context.fillRect(0, 0, self.outputSize[0], self.outputSize[1]);
+	var bigCanvas = document.createElement('canvas');
+	var bigContext = bigCanvas.getContext('2d');
+	var canvas = document.createElement('canvas');
+	var context = canvas.getContext('2d');
 
-	// draw photo
-	context.drawImage(
+	var coords = self.data.coords;
+	var realSize = [$img.get(0).naturalWidth, $img.get(0).naturalHeight];
+	var ratio = [realSize[0] / $img.width(), realSize[1] / $img.height()];
+
+	// set big canvas size
+	bigCanvas.width = self.outputSize[0] * 2;
+	bigCanvas.height = self.outputSize[1] * 2;
+
+	// draw big photo
+	bigContext.drawImage(
 		$img.get(0)
 		,coords[0] * ratio[0] // x
 		,coords[1] * ratio[1] // y
@@ -372,9 +377,20 @@ Thumnail.prototype.getImageData = function(img)
 		,coords[5] * ratio[1] // y2
 		,0 // dx
 		,0 // dy
-		,self.outputSize[0] // dw
-		,self.outputSize[1] // dh
+		,self.outputSize[0] * 2 // dw
+		,self.outputSize[1] * 2 // dh
 	);
 
-	return $canvas.get(0).toDataURL("image/jpeg", self.settings.quality);
+	// set big canvas size
+	canvas.width = self.outputSize[0];
+	canvas.height = self.outputSize[1];
+
+	// draw background
+	context.fillStyle = '#ffffff';
+	context.fillRect(0, 0, self.outputSize[0], self.outputSize[1]);
+
+	// draw resize photo
+	context.drawImage(bigCanvas, 0, 0, bigCanvas.width * 0.5, bigCanvas.height * 0.5);
+
+	return canvas.toDataURL("image/jpeg", self.settings.quality);
 };
