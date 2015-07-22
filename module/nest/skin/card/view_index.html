@@ -82,10 +82,12 @@ function printSection($app_srl, $is_admin)
 		// get nest count
 		$data = $this->parent->getCount( ['where' => 'app_srl=0'] );
 		$app_count = ($data['state'] == 'success') ? $data['data'] : 0;
-		// print
-		echo "<li><strong>Not APP<em class='gs-brk-cnt'>$app_count</em></strong>";
-		printSection(0, $this->isAdmin);
-		echo "</li>";
+		if ($app_count > 0)
+		{
+			echo "<li><strong>Not APP<em class='gs-brk-cnt'>$app_count</em></strong>";
+			printSection(0, $this->isAdmin);
+			echo "</li>";
+		}
 
 		// get app items
 		$data = $app->getItems( ['field' => 'srl,name', 'sort' => 'asc'] );
