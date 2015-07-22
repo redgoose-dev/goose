@@ -68,9 +68,6 @@ class View extends Nest
 		// set app srl
 		$app_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 
-		// set repo
-		$repo = array();
-
 		// set session
 		if ($app_srl)
 		{
@@ -79,44 +76,6 @@ class View extends Nest
 		else
 		{
 			unset($_SESSION['app_srl']);
-		}
-
-		// load modules
-		$app = Module::load('app');
-		$article = Module::load('article');
-		$category = Module::load('category');
-
-		// get app items
-		$data = $app->getItems(array('field' => 'srl,name', 'sort' => 'asc'));
-		$repo['app'] = ($data['state'] == 'success') ? $data['data'] : array();
-		foreach($repo['app'] as $k=>$v)
-		{
-			$data = $this->parent->getCount( array('where' => 'app_srl='.(int)$v['srl']) );
-			$repo['app'][$k]['countNest'] = ($data['state'] == 'success') ? $data['data'] : 0;
-		}
-
-		// get total nest
-		$data = $this->parent->getCount();
-		$repo['totalNest'] = ($data['state'] == 'success') ? $data['data'] : 0;
-
-		// get nest items
-		$params = ($app_srl) ? 'app_srl='.$app_srl : '';
-		$data = $this->parent->getItems(array( 'where' => $params ));
-		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : array();
-		foreach($repo['nest'] as $k=>$v)
-		{
-			// get count of article
-			$data = $article->getCount( array('where' => 'nest_srl='.(int)$v['srl']) );
-			$repo['nest'][$k]['countArticle'] = ($data['state'] == 'success') ? $data['data'] : 0;
-			// get app name
-			$data = $app->getItem( array('field' => 'name', 'where' => 'srl='.(int)$v['app_srl']) );
-			$repo['nest'][$k]['appName'] = ($data['state'] == 'success') ? $data['data']['name'] : '';
-			// get category count
-			if ($v['json']['useCategory'] == 1)
-			{
-				$data = $category->getCount( array('where' => 'nest_srl='.(int)$v['srl']) );
-				$repo['nest'][$k]['countCategory'] = ($data['state'] == 'success') ? $data['data'] : 0;
-			}
 		}
 
 		// set pwd_container
@@ -153,7 +112,8 @@ class View extends Nest
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$_GET['skin'].'/view_form.html',
-			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_form.html'
+			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_form.html',
+			__GOOSE_PWD__.$this->path.'skin/default/view_form.html'
 		));
 
 		require_once($this->layout->getUrl());
@@ -208,7 +168,8 @@ class View extends Nest
 		$this->pwd_container = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$_GET['skin'].'/view_form.html',
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['nestSkin'].'/view_form.html',
-			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_form.html'
+			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_form.html',
+			__GOOSE_PWD__.$this->path.'skin/default/view_form.html',
 		));
 
 		require_once($this->layout->getUrl());
@@ -237,7 +198,8 @@ class View extends Nest
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['nestSkin'].'/view_remove.html',
-			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_remove.html'
+			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_remove.html',
+			__GOOSE_PWD__.$this->path.'skin/default/view_remove.html'
 		));
 
 		require_once($this->layout->getUrl());

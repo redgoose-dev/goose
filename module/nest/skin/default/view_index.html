@@ -1,6 +1,48 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
+// load modules
+$app = Module::load('app');
+$article = Module::load('article');
+$category = Module::load('category');
+
+// set repo
+$repo = array();
+
+// get app items
+$data = $app->getItems(array('field' => 'srl,name', 'sort' => 'asc'));
+$repo['app'] = ($data['state'] == 'success') ? $data['data'] : array();
+foreach($repo['app'] as $k=>$v)
+{
+	$data = $this->parent->getCount( array('where' => 'app_srl='.(int)$v['srl']) );
+	$repo['app'][$k]['countNest'] = ($data['state'] == 'success') ? $data['data'] : 0;
+}
+
+// get total nest
+$data = $this->parent->getCount();
+$repo['totalNest'] = ($data['state'] == 'success') ? $data['data'] : 0;
+
+// get nest items
+$params = ($app_srl) ? 'app_srl='.$app_srl : '';
+$data = $this->parent->getItems(array( 'where' => $params ));
+$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : array();
+foreach($repo['nest'] as $k=>$v)
+{
+	// get count of article
+	$data = $article->getCount( array('where' => 'nest_srl='.(int)$v['srl']) );
+	$repo['nest'][$k]['countArticle'] = ($data['state'] == 'success') ? $data['data'] : 0;
+	// get app name
+	$data = $app->getItem( array('field' => 'name', 'where' => 'srl='.(int)$v['app_srl']) );
+	$repo['nest'][$k]['appName'] = ($data['state'] == 'success') ? $data['data']['name'] : '';
+	// get category count
+	if ($v['json']['useCategory'] == 1)
+	{
+		$data = $category->getCount( array('where' => 'nest_srl='.(int)$v['srl']) );
+		$repo['nest'][$k]['countCategory'] = ($data['state'] == 'success') ? $data['data'] : 0;
+	}
+}
+
+// get total nests
 $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 ?>
 

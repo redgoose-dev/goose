@@ -175,10 +175,11 @@ class Nest {
 
 		$json = Util::jsonToArray($post['json'], null, true);
 
-		$loc = Util::isFile(array(
+		$loc = Util::isFile([
 			__GOOSE_PWD__.$this->path.'skin/'.$post['nestSkin'].'/transaction_'.$method.'.php',
-			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php'
-		));
+			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php',
+			__GOOSE_PWD__.$this->path.'skin/default/transaction_'.$method.'.php'
+		]);
 
 		if ($loc)
 		{
