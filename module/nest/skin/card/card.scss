@@ -1,0 +1,72 @@
+.card-index {
+	margin: 15px 0 0; padding: 0 5px; list-style: none;
+
+	.body {
+		padding: 12px;
+		border-radius: 1px;
+		box-shadow: 0 1px 3px 1px rgba(0,0,0,0.1);
+		a {text-decoration: none;}
+		> a {
+			display: block; padding: 0 0 3px;
+			color: #b68250; font-size: 14px;
+		}
+		nav {
+			margin: 1px 0 0;
+			font-size: 0;
+			a {
+				display: inline-block; padding: 6px 5px 2px;
+				font-size: 12px; color: #666; font-weight: bold;
+				&:first-child {padding-left: 0;}
+			}
+		}
+	}
+
+	> li {
+		margin: 30px 0;
+		&:first-child {margin-top: 0;}
+		> strong {
+			display: block; padding: 0 0 5px 5px;
+			font-size: 15px; color: #444;
+		}
+		> ul {
+			margin: 0; padding: 0; list-style: none;
+			&:after {content: ''; display: table; clear: both;}
+			> li {float: left; width: 100%; padding: 5px 5px;}
+		}
+	}
+
+	@media all and (min-width:640px) {
+		> li > ul > li {
+			width: 50%;
+			&:nth-child(2n+1) {clear: both;}
+		}
+	}
+	@media all and (min-width:768px) {
+		> li > ul > li {
+			width: 33.33333%;
+			&:nth-child(2n+1) {clear: none;}
+			&:nth-child(3n+1) {clear: both;}
+		}
+	}
+	@media all and (min-width:1024px) {
+		> li > ul > li {
+			width: 25%;
+			&:nth-child(3n+1) {clear: none;}
+			&:nth-child(4n+1) {clear: both;}
+		}
+	}
+	@media all and (min-width:1440px) {
+		> li > ul > li {
+			width: 20%;
+			&:nth-child(4n+1) {clear: none;}
+			&:nth-child(5n+1) {clear: both;}
+		}
+	}
+	@media all and (min-width:2000px) {
+		> li > ul > li {
+			width: 20%;
+			&:nth-child(4n+1) {clear: none;}
+			&:nth-child(5n+1) {clear: both;}
+		}
+	}
+}
