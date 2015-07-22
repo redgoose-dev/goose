@@ -31,8 +31,7 @@ define( '__GOOSE_PWD__', str_replace('core/init.php', '', str_replace('\\', '/',
 
 
 // set versions
-define( '__GOOSE_VERSION__', '0.5' );
-define( '__GOOSE_MIN_PHP_VERSION__', '5.3.0' );
+define( '__GOOSE_MIN_PHP_VERSION__', '5.4.0' );
 define( '__GOOSE_RECOMMEND_PHP_VERSION__', '5.5.0' );
 
 
