@@ -2,6 +2,20 @@
 /* Copyright Redgoose <http://redgoose.me> */
 if (!defined('__GOOSE__')) exit();
 
+
+// set versions
+define( '__GOOSE_MIN_PHP_VERSION__', '5.4.0' );
+define( '__GOOSE_RECOMMEND_PHP_VERSION__', '5.5.0' );
+
+
+// check php version
+if(version_compare(PHP_VERSION, __GOOSE_MIN_PHP_VERSION__) <= 0)
+{
+	echo "The current php version ".PHP_VERSION.". Please upgrade to ".__GOOSE_RECOMMEND_PHP_VERSION__." or later.";
+	exit;
+}
+
+
 // set error reporting
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
 {
@@ -28,15 +42,6 @@ if (__GOOSE_DEBUG__)
 
 // set absolute path
 define( '__GOOSE_PWD__', str_replace('core/init.php', '', str_replace('\\', '/', __FILE__)) );
-
-
-// set versions
-define( '__GOOSE_MIN_PHP_VERSION__', '5.4.0' );
-define( '__GOOSE_RECOMMEND_PHP_VERSION__', '5.5.0' );
-
-
-// set default module
-define( '__GOOSE_DEFAULT_MODULE__', 'layout' );
 
 
 // set session
