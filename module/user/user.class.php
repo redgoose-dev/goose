@@ -81,7 +81,7 @@ class User {
 		$data = Spawn::count(Util::extendArray($originalParam, $getParams));
 
 		// return data
-		return array( 'state' => 'success', 'data' => (int)$data );
+		return array( 'state' => 'success', 'data' => $data );
 	}
 
 	/**
