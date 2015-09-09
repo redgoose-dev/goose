@@ -170,7 +170,7 @@
 		.inf {
 			font-size: 0;
 			span {
-				display: inline-block; margin: 0 5px 0 0;
+				display: inline; margin: 0 5px 0 0;
 				font-size: 12px; color: $color-blur;
 				&:after {content: ',';}
 				&:last-child:after {content:'';}
