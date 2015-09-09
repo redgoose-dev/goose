@@ -25,7 +25,7 @@ gulp.task('layout-scss', function(){
 });
 // set watcher scss
 gulp.task('layout-scss:watch', function(){
-	gulp.watch(files.scss, ['scss']);
+	gulp.watch(source.layout + '/**/layout.scss', ['layout-scss']);
 });
 
 
