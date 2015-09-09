@@ -6,6 +6,7 @@ README.html
 .idea
 .module-cache/
 *.psd
+node_modules
 
 # user files
 /data
