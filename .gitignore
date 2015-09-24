@@ -8,6 +8,7 @@ README.html
 *.psd
 ext/
 module/
+node_modules/
 
 # user files
 data/

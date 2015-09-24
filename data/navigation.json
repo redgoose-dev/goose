@@ -16,5 +16,10 @@
 		"name" : "Issues",
 		"url" : "https://github.com/RedgooseDev/goose/issues",
 		"target" : "_blank"
+	},
+	"Resource" : {
+		"name" : "Resource(comming)",
+		"url" : "./",
+		"target" : "_blank"
 	}
 }
