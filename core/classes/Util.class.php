@@ -509,4 +509,16 @@ class Util {
 	{
 		return pathinfo($file)['extension'];
 	}
+
+	/**
+	 * get permission
+	 * 파일이나 디렉토리 권한값을 가져온다.
+	 *
+	 * @param string $loc 절대경로
+	 * @return string
+	 */
+	public static function getPermission($loc)
+	{
+		return substr(sprintf('%o', fileperms($loc)), -4);
+	}
 }
