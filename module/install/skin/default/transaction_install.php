@@ -31,6 +31,17 @@ function checkPost()
 // check post data
 if ( checkPost() == true )
 {
+	// change permission goose root
+	$root_permission = Util::getPermission(__GOOSE_PWD__);
+	if ($root_permission != '0777' && $root_permission != '0707')
+	{
+		if (!chmod(__GOOSE_PWD__, 0707))
+		{
+			echo '<p>Plase change the permission of `'.__GOOSE_PWD__.'` to 707 folder.</p>';
+			Goose::end();
+		}
+	}
+
 	// create directories
 	Util::createDirectory(__GOOSE_PWD__."data", 0755);
 
