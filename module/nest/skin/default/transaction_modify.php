@@ -29,7 +29,7 @@ $result = Spawn::update(array(
 	'table' => Spawn::getTableName('article'),
 	'where' => "nest_srl=".(int)$post['nest_srl'],
 	'data' => array(
-		"group_srl=".(int)$post['group_srl']
+		"app_srl=".(int)$post['app_srl']
 	)
 ));
 
