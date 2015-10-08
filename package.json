@@ -1,6 +1,6 @@
 {
-  "name": "goose",
-  "version": "1.0.4",
+  "name": "Goose",
+  "version": "1.0.5",
   "private": false,
   "dependencies": {
     "gulp": "^3.9.0",
