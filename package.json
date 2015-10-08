@@ -1,8 +1,16 @@
 {
-  "name": "goose",
-  "version": "1.0.4",
+  "name": "Goose",
+  "version": "1.0.5",
   "private": false,
-  "dependencies": {
+  "license" : "SEE LICENSE IN 'LICENSE'",
+  "homepage" : "http://redgoose.me",
+  "description" : "Contents management system",
+  "keywords" : "cms, contents, photo, blog, goose, redgoose",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/RedgooseDev/goose.git"
+  },
+  "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-rename": "^1.2.2",
