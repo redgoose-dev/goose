@@ -15,45 +15,57 @@ var getParams = function(optionKey)
 	return process.argv[o+1];
 };
 
-
-var source = {
-	layout : './module/layout'
+// get Dir
+var getDir = function(pwd)
+{
+	return pwd.replace(/[^\/]*$/, '');
 };
 
-// convert sass to css
-gulp.task('layout-scss', function(){
-	gulp.src([
-		source.layout + '/**/layout.scss'
-	])
-		.pipe(sourcemaps.init())
-		.pipe(scss({
-			//outputStyle: 'compact'
-			outputStyle: 'compressed'
-		}).on('error', scss.logError))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(source.layout))
+// get filename
+var getFilename = function(pwd)
+{
+	return pwd.replace(/^.*[\\\/]/, '');
+};
+
+
+// scss to css [watch]
+gulp.task('scss:watch', function(){
+	gulp.watch('**/*.scss')
+		.on('change', function(file){
+			// skip import file (xyz.src.scss)
+			if ( /src.scss$/.test(getFilename(file.path)) ) return;
+
+			// convert scss file
+			gulp.src(file.path)
+				.pipe(sourcemaps.init())
+				.pipe(scss({
+					//outputStyle: 'compact'
+					outputStyle: 'compressed'
+				}).on('error', scss.logError))
+				.pipe(sourcemaps.write('.'))
+				.pipe(gulp.dest( getDir(file.path) ))
+			;
+		})
 	;
 });
-// set watcher scss
-gulp.task('layout-scss:watch', function(){
-	gulp.watch(source.layout + '/**/layout.scss', ['layout-scss']);
-});
 
 
-// compress javascript
-gulp.task('javascript', function(){
-	if (!getParams('option'))
-	{
-		log('please parameter "--option [javascript location]"');
-		return false;
-	}
+// compress javascript [watch]
+gulp.task('js:watch', function(){
+	// do not compile script files
+	gulp.watch('**/*.js').on('change', function(file){
+		if ( /ext\/|node_module\/|gulpfile.js|min.js$/.test(file.path) )
+		{
+			return;
+		}
 
-	var path = getParams('option').replace(/[^\/]*$/, '');
-
-	return gulp.src(getParams('option'))
-		.pipe(uglify())
-		.pipe(rename({ extname : '.min.js' }))
-		.pipe(gulp.dest(path));
+		// convert script file
+		gulp.src(file.path)
+			.pipe(uglify())
+			.pipe(rename({ extname : '.min.js' }))
+			.pipe(gulp.dest( getDir(file.path) ))
+		;
+	});
 });
 
 

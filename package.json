@@ -2,13 +2,13 @@
   "name": "Goose",
   "version": "1.0.6",
   "private": false,
-  "license" : "SEE LICENSE IN 'LICENSE'",
-  "homepage" : "http://redgoose.me",
-  "description" : "Contents management system",
-  "keywords" : "cms, contents, photo, blog, goose, redgoose",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/RedgooseDev/goose.git"
+  "license": "SEE LICENSE IN 'LICENSE'",
+  "homepage": "http://redgoose.me",
+  "description": "Contents management system",
+  "keywords": "cms, contents, photo, blog, goose, redgoose",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RedgooseDev/goose.git"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
