@@ -57,14 +57,21 @@ jQuery(function($){
 			return false;
 		}
 
+		// set json
+		var json = {};
+
+		// get article json
+		if (userData.articleJSON)
+		{
+			json = JSON.parse(decodeURIComponent(userData.articleJSON));
+		}
+
 		// set json data
 		var coords = uploadInterface.thumnail.data.coords;
-		var json = {
-			thumnail : {
-				srl : uploadInterface.thumnail.data.srl
-				,coords : (coords) ? coords.toString() : ''
-				,url : uploadInterface.thumnail.data.url
-			}
+		json.thumnail = {
+			srl : uploadInterface.thumnail.data.srl
+			,coords : (coords) ? coords.toString() : ''
+			,url : uploadInterface.thumnail.data.url
 		};
 
 		// set thumnail image
