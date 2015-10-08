@@ -5,6 +5,8 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
 $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ' : '';
 $extPath = __GOOSE_ROOT__.'ext/';
 
+$articleJSON = (isset($repo['article']['json'])) ? Util::arrayToJson($repo['article']['json'], true) : '';
+
 $file = Module::load('file');
 ?>
 
@@ -94,6 +96,7 @@ $file = Module::load('file');
 var userData = {
 	root : '<?=__GOOSE_ROOT__?>'
 	,url : '<?=__GOOSE_URL__?>'
+	,articleJSON : '<?=$articleJSON?>'
 	,thumnail : {
 		type : '<?=$repo['nest']['json']['thumnail']['type']?>'
 		,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'

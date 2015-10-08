@@ -72,13 +72,24 @@ jQuery(function($){
 
 		// set thumnail data
 		var thumnailData = uploadInterface.thumnail.data;
-		var json = {
-			thumnail : {
-				srl : thumnailData.srl
-				,coords : (thumnailData.coords) ? thumnailData.coords.toString() : ''
-				,url : thumnailData.url
-			}
+
+		// set json
+		var json = {};
+
+		// get article json
+		if (userData.articleJSON)
+		{
+			json = JSON.parse(decodeURIComponent(userData.articleJSON));
+		}
+
+		// set json data
+		json.thumnail = {
+			srl : thumnailData.srl
+			,coords : (thumnailData.coords) ? thumnailData.coords.toString() : ''
+			,url : thumnailData.url
 		};
+
+		// set thumnail image
 		form.thumnail_image.value = (thumnailData.image) ? thumnailData.image : '';
 
 		// push slide data to content
