@@ -16,14 +16,10 @@ var getParams = function(optionKey)
 };
 
 
-var source = {
-	layout : './module/layout'
-};
-
 // convert sass to css
 gulp.task('layout-scss', function(){
 	gulp.src([
-		source.layout + '/**/layout.scss'
+		'./module/layout/**/layout.scss'
 	])
 		.pipe(sourcemaps.init())
 		.pipe(scss({
@@ -36,7 +32,9 @@ gulp.task('layout-scss', function(){
 });
 // set watcher scss
 gulp.task('layout-scss:watch', function(){
-	gulp.watch(source.layout + '/**/layout.scss', ['layout-scss']);
+	gulp.watch([
+		'./module/layout/**/layout.scss'
+	], ['layout-scss']);
 });
 
 
