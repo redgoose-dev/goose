@@ -54,10 +54,11 @@ gulp.task('scss:watch', function(){
 gulp.task('js:watch', function(){
 	// do not compile script files
 	gulp.watch('**/*.js').on('change', function(file){
-		if ( /ext\/|node_module\/|gulpfile.js|min.js$/.test(file.path) )
+		if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) )
 		{
 			return;
 		}
+		log(file);
 
 		// convert script file
 		gulp.src(file.path)
