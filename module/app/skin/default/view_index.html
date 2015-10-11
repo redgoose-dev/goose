@@ -7,7 +7,7 @@ if (!defined('__GOOSE__')) exit();
 	<div class="gs-headding">
 		<h1>
 			<span>APP 목록</span>
-			<a href="<?=__GOOSE_ROOT__?>help/app/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/app/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
@@ -33,8 +33,8 @@ if (!defined('__GOOSE__')) exit();
 								<span><b>ID</b><?=$v['id']?></span>
 							</div>
 							<nav>
-								<a href="<?=__GOOSE_ROOT__?>app/modify/<?=$v['srl']?>/">수정</a>
-								<a href="<?=__GOOSE_ROOT__?>app/remove/<?=$v['srl']?>/">삭제</a>
+								<a href="<?=__GOOSE_ROOT__?>/app/modify/<?=$v['srl']?>/">수정</a>
+								<a href="<?=__GOOSE_ROOT__?>/app/remove/<?=$v['srl']?>/">삭제</a>
 							</nav>
 						</div>
 					</div>
@@ -52,8 +52,8 @@ if (!defined('__GOOSE__')) exit();
 
 	<!-- buttons -->
 	<nav class="gs-btn-group right">
-		<a href="<?=__GOOSE_ROOT__?>app/create/" class="gs-button col-key">APP 만들기</a>
-		<a href="<?=__GOOSE_ROOT__?>nest/index/" class="gs-button">둥지목록</a>
+		<a href="<?=__GOOSE_ROOT__?>/app/create/" class="gs-button col-key">APP 만들기</a>
+		<a href="<?=__GOOSE_ROOT__?>/nest/index/" class="gs-button">둥지목록</a>
 	</nav>
 	<!-- // buttons -->
 </section>

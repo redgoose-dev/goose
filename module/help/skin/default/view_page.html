@@ -15,10 +15,10 @@ if (Util::getExtension($this->pwd_page) == 'md')
 	$contents = Util::openFile($this->pwd_page);
 
 	// convert markdown
-	$contents = str_replace('](./', ']('.__GOOSE_ROOT__.'module/'.$this->page_modSet['name'].'/help/', $contents);
+	$contents = str_replace('](./', ']('.__GOOSE_ROOT__.'/module/'.$this->page_modSet['name'].'/help/', $contents);
 	$contents = '<div class="markdown-body">'.$Parsedown->text($contents).'</div>';
 
-	echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'ext/Parsedown/markdown.css"/>';
+	echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'/ext/Parsedown/markdown.css"/>';
 }
 else
 {

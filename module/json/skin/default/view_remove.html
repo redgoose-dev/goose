@@ -8,7 +8,7 @@ if (!defined('__GOOSE__')) exit();
 		<p><?=$this->set['description']?></p>
 	</div>
 
-	<form action="<?=__GOOSE_ROOT__.'json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
+	<form action="<?=__GOOSE_ROOT__.'/json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="json_srl" value="<?=$repo['json']['srl']?>" />
 
 		<fieldset class="form-group">

@@ -10,12 +10,12 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 	<div class="gs-headding">
 		<h1>
 			<span><?=$nestName?>문서<?=$titleType?></span>
-			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/article/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
 
-	<form name="writeForm" action="<?=__GOOSE_ROOT__.'article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
+	<form name="writeForm" action="<?=__GOOSE_ROOT__.'/article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>" />
 		<input type="hidden" name="nest_srl" value="<?=$repo['nest']['srl']?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
@@ -74,7 +74,7 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 								<?php
 								foreach($repo['file'] as $k=>$v)
 								{
-									$url = __GOOSE_ROOT__.$v['loc'];
+									$url = __GOOSE_ROOT__.'/'.$v['loc'];
 									$size = Util::getFileSize($v['size']);
 								?>
 									<li>

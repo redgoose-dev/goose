@@ -15,7 +15,7 @@ $Parsedown = new ParsedownExtra();
 $repo['article']['content'] = '<div class="markdown-body">'.$Parsedown->text($repo['article']['content']).'</div>';
 
 // load stylesheet
-echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'ext/Parsedown/markdown.css" />';
+echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'/ext/Parsedown/markdown.css" />';
 
 // require view_read.html
 require_once(__DIR__.'/../'.$this->set['skin'].'/view_read.html');

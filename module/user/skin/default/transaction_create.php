@@ -76,5 +76,5 @@ if ($result != 'success')
 return array(
 	'state' => 'success',
 	'action' => 'redirect',
-	'url' => __GOOSE_ROOT__.$this->name.'/index/'
+	'url' => __GOOSE_ROOT__.'/'.$this->name.'/index/'
 );

@@ -7,14 +7,14 @@ if (!defined('__GOOSE__')) exit();
 	<div class="gs-headding">
 		<h1>
 			<span><?=($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name']."</em> " : ""?>분류목록</span>
-			<a href="<?=__GOOSE_ROOT__?>help/<?=$this->parent->name?>/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
 	<!-- // headding -->
 
 	<!-- index -->
-	<form action="<?=__GOOSE_ROOT__?>category/sort/" method="post" name="listForm" id="listForm">
+	<form action="<?=__GOOSE_ROOT__?>/category/sort/" method="post" name="listForm" id="listForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 		<input type="hidden" name="srls" value=""/>
 		<fieldset>
@@ -33,8 +33,8 @@ if (!defined('__GOOSE__')) exit();
 								<div class="body">
 									<strong class="hd"><?=$v['srl']?>. <?=$v['name']?>(<?=$v['countArticle']?>)</strong>
 									<nav>
-										<a href="<?=__GOOSE_ROOT__.'category/modify/'.$param?>">수정</a>
-										<a href="<?=__GOOSE_ROOT__.'category/remove/'.$param?>">삭제</a>
+										<a href="<?=__GOOSE_ROOT__.'/category/modify/'.$param?>">수정</a>
+										<a href="<?=__GOOSE_ROOT__.'/category/remove/'.$param?>">삭제</a>
 									</nav>
 								</div>
 							</div>
@@ -57,14 +57,14 @@ if (!defined('__GOOSE__')) exit();
 			if ($this->parent->isAdmin)
 			{
 			?>
-				<a href="<?=__GOOSE_ROOT__.'category/create/'.$param?>" class="gs-button col-key">분류추가</a>
+				<a href="<?=__GOOSE_ROOT__.'/category/create/'.$param?>" class="gs-button col-key">분류추가</a>
 				<a href="#" id="submitSortForm" class="gs-button">순서변경</a>
 			<?php
 			}
 			?>
-			<a href="<?=__GOOSE_ROOT__.'article/index/'.$param?>" class="gs-button">문서목록</a>
+			<a href="<?=__GOOSE_ROOT__.'/article/index/'.$param?>" class="gs-button">문서목록</a>
 			<?php
-			$url = __GOOSE_ROOT__.'nest/index/';
+			$url = __GOOSE_ROOT__.'/nest/index/';
 			$url .= ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
 			?>
 			<a href="<?=$url?>" class="gs-button">둥지목록</a>

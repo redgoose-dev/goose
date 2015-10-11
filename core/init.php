@@ -94,7 +94,7 @@ if ($goose->isInstalled())
 }
 else
 {
-	define( '__GOOSE_ROOT__', preg_replace('/index.php$/', '', $_SERVER['REQUEST_URI']) );
+	define( '__GOOSE_ROOT__', preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']) );
 	define('__dbPrefix__', ($_POST['dbPrefix']) ? $_POST['dbPrefix'] : null);
 
 	// load install module

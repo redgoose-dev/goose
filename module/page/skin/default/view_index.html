@@ -7,7 +7,7 @@ if (!defined('__GOOSE__')) exit();
 	<div class="gs-headding">
 		<h1>
 			<span>페이지 목록</span>
-			<a href="<?=__GOOSE_ROOT__?>help/page/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/page/" class="icn-help" title="go to help"></a>
 		</h1>
 	</div>
 	<!-- // headding -->
@@ -18,7 +18,7 @@ if (!defined('__GOOSE__')) exit();
 		{
 			foreach ($repo['pages'] as $k=>$v)
 			{
-				$url = __GOOSE_ROOT__.'page/'.(substr($v['filename'], 0, strrpos($v['filename'], '.'))).'/';
+				$url = __GOOSE_ROOT__.'/page/'.(substr($v['filename'], 0, strrpos($v['filename'], '.'))).'/';
 		?>
 				<li>
 					<a href="<?=$url?>" class="wrap">

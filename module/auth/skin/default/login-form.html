@@ -10,7 +10,7 @@ $userPassword = (isset($_GET['userPassword'])) ? $_GET['userPassword'] : '';
 		<h1>Admin authentication</h1>
 		<?=($this->message['headDescription']) ? '<p>'.$this->message['headDescription'].'</p>' : ''?>
 	</div>
-	<form action="<?=__GOOSE_ROOT__?>auth/login/" method="post" class="form-auth">
+	<form action="<?=__GOOSE_ROOT__?>/auth/login/" method="post" class="form-auth">
 		<input type="hidden" name="redir" value="<?=$_SERVER['REQUEST_URI']?>">
 		<fieldset>
 			<legend class="blind">authentication form</legend>

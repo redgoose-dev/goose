@@ -58,5 +58,5 @@ $param .= ($post['nest_srl'] && $post['category_srl']) ? $post['category_srl'].'
 return array(
 	'state' => 'success',
 	'action' => 'redirect',
-	'url' => __GOOSE_ROOT__.$this->name.'/index/'.$param
+	'url' => __GOOSE_ROOT__.'/'.$this->name.'/index/'.$param
 );
