@@ -84,11 +84,11 @@ class Util {
 		try {
 			if ($urlEncode)
 			{
-				return urlencode(json_encode($array));
+				return urlencode(json_encode($array, JSON_UNESCAPED_UNICODE));
 			}
 			else
 			{
-				return json_encode($array);
+				return json_encode($array, JSON_UNESCAPED_UNICODE);
 			}
 		} catch(Exception $e) {
 			return null;
