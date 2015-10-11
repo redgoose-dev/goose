@@ -308,10 +308,11 @@ Thumnail.prototype.open = function(item)
 
 		self.data.srl = item.srl;
 		self.data.location = item.location;
-		self.data.url = self.parent.settings.fileDir + item.location;
+		self.data.url = '';
 
+		log(self.parent.settings.fileDir + self.data.url);
 		var $figure = self.$window.find('figure');
-		var $img = $('<img src="' + self.data.url + '" />');
+		var $img = $('<img src="' + self.parent.settings.fileDir + self.data.location + '" />');
 		$figure.append($img);
 		$('body').append(self.$window);
 		$img.get(0).onload = function(){
