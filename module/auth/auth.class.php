@@ -30,7 +30,7 @@ class Auth {
 			case "login":
 				if ($this->param['method'] == 'POST')
 				{
-					self::loginTransaction();
+					$this->login($_POST['email'], $_POST['password'], $_POST['redir']);
 				}
 				else
 				{
@@ -84,45 +84,84 @@ class Auth {
 	}
 
 	/**
-	 * login transaction
+	 * login
+	 *
+	 * @param string $email
+	 * @param string $password
+	 * @param string $redir
+	 * @param boolean $return
+	 * @return boolean
+	 *
 	 */
-	private function loginTransaction()
+	public function login($email='', $password='', $redir=__GOOSE_ROOT__.'/', $return=false)
 	{
 		$user = Spawn::item(array(
 			'table' => Spawn::getTableName('user')
-			,'where' => "email='$_POST[email]'"
+			,'where' => "email='$email'"
 		));
 
-		if ($user && $user['pw'] === md5($_POST['password']))
+		if ($user && $user['pw'] === md5($password))
 		{
 			$_SESSION['goose_name'] = $user['name'];
 			$_SESSION['goose_email'] = $user['email'];
 			$_SESSION['goose_level'] = $user['level'];
-			$url = (strpos($_POST['redir'], 'auth/login')) ? __GOOSE_ROOT__.'/' : $_POST['redir'];
-			Util::redirect($url);
-			Goose::end();
+			$url = (strpos($redir, 'auth/login')) ? __GOOSE_ROOT__.'/' : $redir;
+			if ($return)
+			{
+				return json_encode([
+					'state' => 'success',
+					'message' => 'login complete',
+					'redir' => $redir
+				]);
+			}
+			else
+			{
+				Util::redirect($url);
+				return false;
+			}
 		}
 		else
 		{
-			Util::back('로그인정보가 맞지 않습니다.');
+			if ($return)
+			{
+				return json_encode([
+					'state' => 'error',
+					'message' => 'login fail'
+				]);
+			}
+			else
+			{
+				Util::back('로그인정보가 맞지 않습니다.');
+				return false;
+			}
 		}
-
-		Goose::end();
 	}
 
 	/**
 	 * logout
 	 *
 	 * @param string $url 로그아웃을 끝내고 이동하는 페이지 url
+	 * @return boolean
 	 */
-	public function logout($url=null)
+	public function logout($url=null, $return=false)
 	{
 		unset($_SESSION['goose_name']);
 		unset($_SESSION['goose_email']);
 		unset($_SESSION['goose_level']);
 
-		Util::redirect(($url) ? $url : __GOOSE_ROOT__.'/');
-		Goose::end();
+		if ($return)
+		{
+			return json_encode([
+				'state' => 'success',
+				'message' => 'success logout',
+				'redir' => ($url) ? $url : __GOOSE_ROOT__.'/'
+			]);
+		}
+		else
+		{
+			Util::redirect(($url) ? $url : __GOOSE_ROOT__.'/');
+			return false;
+		}
 	}
 
 }
