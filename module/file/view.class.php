@@ -30,20 +30,8 @@ class View extends File
 		// create layout module
 		$this->layout = Module::load('layout');
 
-		switch ($this->param['action']) {
-			case 'create':
-				// $this->view_create();
-				break;
-			case 'modify':
-				// $this->view_modify();
-				break;
-			case 'remove':
-				// $this->view_remove();
-				break;
-			default:
-				$this->view_index();
-				break;
-		}
+		// act index
+		$this->view_index();
 	}
 
 	/**
