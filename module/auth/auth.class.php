@@ -98,7 +98,7 @@ class Auth {
 			$_SESSION['goose_name'] = $user['name'];
 			$_SESSION['goose_email'] = $user['email'];
 			$_SESSION['goose_level'] = $user['level'];
-			$url = (strpos($_POST['redir'], 'auth/login')) ? __GOOSE_ROOT__ : $_POST['redir'];
+			$url = (strpos($_POST['redir'], 'auth/login')) ? __GOOSE_ROOT__.'/' : $_POST['redir'];
 			Util::redirect($url);
 			Goose::end();
 		}
@@ -121,7 +121,7 @@ class Auth {
 		unset($_SESSION['goose_email']);
 		unset($_SESSION['goose_level']);
 
-		Util::redirect(($url) ? $url : __GOOSE_ROOT__);
+		Util::redirect(($url) ? $url : __GOOSE_ROOT__.'/');
 		Goose::end();
 	}
 
