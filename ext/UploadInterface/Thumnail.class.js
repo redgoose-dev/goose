@@ -311,7 +311,7 @@ Thumnail.prototype.open = function(item)
 		self.data.url = '';
 
 		var $figure = self.$window.find('figure');
-		var $img = $('<img src="' + self.parent.settings.fileDir + self.data.location + '" />');
+		var $img = $('<img src="' + self.parent.settings.fileDir + '/' + self.data.location + '" crossOrigin="anonymous" />');
 		$figure.append($img);
 		$('body').append(self.$window);
 		$img.get(0).onload = function(){

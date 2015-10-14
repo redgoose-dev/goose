@@ -45,9 +45,10 @@ define( '__GOOSE_PWD__', str_replace('core/init.php', '', str_replace('\\', '/',
 
 
 // set session
+$sess_id = (isset($_POST['sess_id'])) ? $_POST['sess_id'] : ( (isset($_GET['sess_id'])) ? $_GET['sess_id'] : null );
+if ($sess_id) session_id($sess_id);
 session_cache_expire(30);
 session_start();
-session_save_path(__GOOSE_PWD__);
 
 
 // load classes

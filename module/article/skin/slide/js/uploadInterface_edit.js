@@ -143,7 +143,7 @@ UploadInterface.prototype.uploadComplete = function(response, queue)
 		// append image
 		if (/^image/i.test(queue.filetype))
 		{
-			queue.element.find('figure').html('<img src="' + self.settings.fileDir + data.loc + '" alt="" />');
+			queue.element.find('figure').html('<img src="' + self.settings.fileDir + '/' + data.loc + '" alt="" />');
 		}
 
 		// reset file input
@@ -301,7 +301,7 @@ FilesQueue.prototype.template = function(key, filename, state, type, src, formDa
 		item += '</div>';
 	}
 	item += '<figure>';
-	item += (src) ? '<img src="' + self.parent.settings.fileDir + src + '" alt="' + filename + '" />' : '';
+	item += (src) ? '<img src="' + self.parent.settings.fileDir + '/' + src + '" alt="' + filename + '" />' : '';
 	item += '</figure>';
 	item += '<div class="body">';
 	item += '<p class="title">';

@@ -329,6 +329,7 @@ UploadInterface.prototype.uploadComplete = function(response, queue)
 		}
 	} catch(e) {
 		// error upload
+		log(response);
 		alert('ERROR UPLOAD');
 		queue.element.remove();
 	}
@@ -386,7 +387,7 @@ UploadInterface.prototype.insertContent = function($queue)
 		for (var i=0; i<items.length; i++)
 		{
 			params.push({
-				url : self.settings.fileDir + items[i].location
+				url : self.settings.fileDir + '/' + items[i].location
 				,type : items[i].filetype
 				,name : items[i].filename
 			});
@@ -403,11 +404,11 @@ UploadInterface.prototype.insertContent = function($queue)
 		{
 			if (/^image/.test(items[i].filetype))
 			{
-				keyword += '<img src="' + self.settings.fileDir + items[i].location + '" alt="" />\n';
+				keyword += '<img src="' + self.settings.fileDir + '/' + items[i].location + '" alt="" />\n';
 			}
 			else
 			{
-				keyword += '<a href="' + self.settings.fileDir + items[i].location + '">' + items[i].filename + '</a>\n';
+				keyword += '<a href="' + self.settings.fileDir + '/' + items[i].location + '">' + items[i].filename + '</a>\n';
 			}
 		}
 		$content.val(content.substr(0, position) + keyword + content.substr(position));

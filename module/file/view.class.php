@@ -32,13 +32,13 @@ class View extends File
 
 		switch ($this->param['action']) {
 			case 'create':
-				$this->view_create();
+				// $this->view_create();
 				break;
 			case 'modify':
-				$this->view_modify();
+				// $this->view_modify();
 				break;
 			case 'remove':
-				$this->view_remove();
+				// $this->view_remove();
 				break;
 			default:
 				$this->view_index();

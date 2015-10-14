@@ -4,8 +4,8 @@ jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		form : form
 		,$manager : $('#queuesManager')
-		,uploadAction : userData.root + 'file/upload/'
-		,removeAction : userData.root + 'file/remove/'
+		,uploadAction : userData.root + '/file/upload/'
+		,removeAction : userData.root + '/file/remove/'
 		,fileDir : userData.url
 		,auto : false
 		,limit : 30
