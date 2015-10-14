@@ -93,7 +93,7 @@ class Auth {
 	 * @return boolean
 	 *
 	 */
-	public function login($email='', $password='', $redir=__GOOSE_ROOT__.'/', $return=false)
+	public function login($email='', $password='', $redir='', $return=false)
 	{
 		$user = Spawn::item(array(
 			'table' => Spawn::getTableName('user')
