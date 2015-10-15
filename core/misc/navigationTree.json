@@ -28,5 +28,11 @@
 		"url": "http://redgoosedev.github.io/goose/#Documentation",
 		"target": "goose",
 		"permission" : "0"
+	},
+	{
+		"name": "Resource",
+		"url": "http://resource.redgoose.me",
+		"target": "goose_resource",
+		"permission" : "0"
 	}
 ]
