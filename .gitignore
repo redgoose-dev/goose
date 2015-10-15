@@ -8,7 +8,25 @@ README.html
 *.psd
 ext/
 module/
-node_modules/
+
+
+# node module
+node_modules/*
+
+!node_modules/jquery/
+node_modules/jquery/*
+!node_modules/jquery/dist/
+
+!node_modules/react/
+node_modules/react/*
+!node_modules/react/dist/
+
+!node_modules/imagesloaded/
+node_modules/imagesloaded/*
+!node_modules/imagesloaded/imagesloaded.js
+!node_modules/imagesloaded/imagesloaded.pkgd.js
+!node_modules/imagesloaded/imagesloaded.pkgd.min.js
+
 
 # user files
 data/
