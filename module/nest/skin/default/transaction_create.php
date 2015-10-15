@@ -62,7 +62,7 @@ if ($result != 'success')
 
 
 // redirect url
-$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'] : '';
+$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
 
 return array(
 	'state' => 'success',
