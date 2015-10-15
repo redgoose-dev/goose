@@ -1,6 +1,6 @@
 .markdown-body {
-	font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 13px; color: #333; line-height: 1.42857143; word-break: normal;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px; color: #333; line-height: 1.42857143; word-break: normal;
 	width: 100%;
 }
 .markdown-body > *:first-child {
@@ -26,7 +26,7 @@
 	word-break: break-all;
 }
 
-.markdown-body p {margin: 0.7em 0;}
+.markdown-body p {margin: 1em 0;}
 
 .markdown-body table,
 .markdown-body pre,
@@ -135,4 +135,5 @@
 .markdown-body .center {text-align: center;}
 .markdown-body .right {text-align: right;}
 .markdown-body img.center {display: block; margin:0 auto;}
+.markdown-body img.border-center {display: block; margin:0 auto; border:1px solid #ddd;}
 .markdown-body .border {border: 1px solid #ddd;}
