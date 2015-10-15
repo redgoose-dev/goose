@@ -18,8 +18,8 @@
 		"target" : "_blank"
 	},
 	"Resource" : {
-		"name" : "Resource(comming)",
-		"url" : "./",
+		"name" : "Resource",
+		"url" : "http://resource.redgoose.me",
 		"target" : "_blank"
 	}
 }
