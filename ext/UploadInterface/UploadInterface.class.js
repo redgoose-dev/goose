@@ -297,6 +297,18 @@ UploadInterface.prototype.uploadComplete = function(response, queue)
 
 	try {
 		var data = JSON.parse(response)[0];
+
+		if (data.state == 'error')
+		{
+			log(data);
+			if (data.message)
+			{
+				alert(data.message);
+			}
+			queue.element.remove();
+			return false;
+		}
+
 		queue.state = 'complete';
 		queue.srl = data.srl;
 		queue.location = data.loc;
