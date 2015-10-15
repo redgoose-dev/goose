@@ -71,19 +71,19 @@ Goose 프로그램에서 기본적으로 제공하는 모듈중에 가장 많이
 $mod = Module::load('article');
 ```
 
-* __$mod->getCount()__  
+#### $mod->getCount()
 조건에 맞는 글 갯수를 가져옵니다.  
 ```
 $count = $mod->getCount();
 ```
 
-* __$mod->getItems()__  
+#### $mod->getItems()
 조건에 맞는 글들을 모음을 가져옵니다.
 ```
 $data = $mod->getItems();
 ```
 
-* __$mod->getItem()__  
+#### $mod->getItem()
 조건에 맞는 글 한개만 가져옵니다.
 ```
 $data = $mod->getItem(array(
@@ -91,11 +91,17 @@ $data = $mod->getItem(array(
 ));
 ```
 
-* __$mod->transaction()__  
+#### $mod->transaction()
 글을 등록하거나 수정, 삭제 처리합니다.
 ```
 $result_make = $mod->transaction('create', $_POST); // make
 $result_modify = $mod->transaction('modify', $_POST); // modify
 $result_remove = $mod->transaction('remove', $_POST); // remove
 ```
-$\_POST값에 대해서는 `{module}/skin/default/view_form.php` 파일을 참고해주세요.
+$_POST값에 대해서는 `{module}/skin/default/view_form.php` 파일을 참고해주세요.
+
+#### $mod->updateHit()
+해당글의 조회수를 조절합니다.
+```
+$result = $mod->updateHit(1234, 1); // (article_srl, 조절하는 숫자)
+```

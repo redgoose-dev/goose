@@ -6,5 +6,6 @@
 	"adminPermission" : 100,
 	"install" : true,
 	"skin" : "default",
-	"pagePerCount" : 15
+	"pagePerCount" : 15,
+	"enableUpdateHit" : false
 }

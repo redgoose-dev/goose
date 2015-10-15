@@ -180,6 +180,58 @@ class Article {
 		}
 	}
 
+	/**
+	 * api - update hit (작업예정)
+	 *
+	 * @param number $srl
+	 * @param number $count
+	 * @param string $cookieLoc
+	 * @return array
+	 */
+	public function updateHit($srl, $count, $cookieLoc)
+	{
+		$article = $this->getItem([
+			'field' => 'hit',
+			'where' => 'srl='.$srl
+		]);
+		$articleCount = (isset($article['data'])) ? $article['data']['hit'] : null;
+		$articleCount += $count;
+
+		if (!isset($_COOKIE['hit-'.$srl]))
+		{
+			// set cookie
+			setcookie('hit-'.$srl, 1, time()+3600*24, __GOOSE_ROOT__.'/');
+
+			// update hit
+			$result = Spawn::update(array(
+				'table' => Spawn::getTableName('article')
+				,'where' => 'srl='.$srl
+				,'data' => [ 'hit='.$articleCount ]
+			));
+			if ($result == 'success')
+			{
+				return Util::arrayToJson([
+					'state' => 'success',
+					'message' => 'success update hit.'
+				]);
+			}
+			else
+			{
+				return Util::arrayToJson([
+					'state' => 'error',
+					'message' => 'db error'
+				]);
+			}
+		}
+		else
+		{
+			return Util::arrayToJson([
+				'state' => 'error',
+				'message' => 'cookie error'
+			]);
+		}
+	}
+
 
 	/**********************************************
 	 * INSTALL AREA
