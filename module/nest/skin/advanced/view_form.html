@@ -202,7 +202,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 
 	// check validate
 	$.validator.addMethod("alphanumeric", function(value, element) {
-		return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+		return this.optional(element) || /^[a-zA-Z0-9_-]+$/.test(value);
 	});
 	$('#regster-form').validate({
 		rules : {

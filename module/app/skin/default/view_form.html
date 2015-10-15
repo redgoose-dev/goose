@@ -42,7 +42,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 jQuery(function($){
 	// check validate
 	$.validator.addMethod("alphanumeric", function(value, element) {
-		return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+		return this.optional(element) || /^[a-zA-Z0-9_-]+$/.test(value);
 	});
 	$('#regsterForm').validate({
 		rules : {
