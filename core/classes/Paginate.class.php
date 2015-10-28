@@ -57,7 +57,7 @@ class Paginate {
 				$str = ($prev_block == 1) ? "" : "page=$prev_block";
 				$amp = ($this->tails && $str) ? "&" : "";
 				$str = ($str || $this->tails) ? "?".$this->tails.$amp.$str : "";
-				$op.="<a href=\"./$str\">Prev</a>\n";
+				$op.="<a href=\"./$str\" class=\"prev\">Prev</a>\n";
 			} else {
 				$op.="";
 			}
@@ -75,7 +75,7 @@ class Paginate {
 			}
 			if($this->page_max > ($this->block + 1) * $this->scale) {
 				$next_block = ($this->block + 1) * $this->scale + 1;
-				$op.="<a href=\"./?{$this->tails}page=$next_block\">Next</a>\n";
+				$op.="<a href=\"./?{$this->tails}page=$next_block\" class=\"next\">Next</a>\n";
 			} else {
 				$op.="";
 			}

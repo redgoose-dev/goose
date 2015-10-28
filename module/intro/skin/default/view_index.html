@@ -59,8 +59,8 @@ foreach($repo['article'] as $k=>$v)
 		{
 			foreach ($repo['article'] as $k=>$v)
 			{
-				$url = __GOOSE_ROOT__.'article/read/'.$v['srl'].'/?m=1';
-				$img = ($v['json']['thumnail']['url']) ? __GOOSE_ROOT__.$v['json']['thumnail']['url'] : null;
+				$url = __GOOSE_ROOT__.'/article/read/'.$v['srl'].'/?m=1';
+				$img = ($v['json']['thumnail']['url']) ? __GOOSE_ROOT__.'/'.$v['json']['thumnail']['url'] : null;
 				$categoryName = ($v['categoryName']) ? "<span><b>Category</b>$v[categoryName]</span>" : '';
 		?>
 				<li>

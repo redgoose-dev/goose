@@ -41,6 +41,7 @@ if (defined('__USE_GOOSE_SESSION__'))
 
 
 // load classes
+require_once(__GOOSE_PWD__.'core/classes/Object.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Util.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Goose.class.php');
 require_once(__GOOSE_PWD__.'core/classes/Spawn.class.php');
@@ -73,4 +74,18 @@ if ($goose->isInstalled())
 
 	// set admin
 	$goose->isAdmin = ($accessLevel['admin'] == $_SESSION['goose_level']) ? true : false;
+
+	// set user info
+	if ($_SESSION['goose_name'])
+	{
+		$goose->user = new Object([
+			'name' => $_SESSION['goose_name'],
+			'email' => $_SESSION['goose_email'],
+			'level' => (int)$_SESSION['goose_level']
+		]);
+	}
+	else
+	{
+		$goose->user = null;
+	}
 }

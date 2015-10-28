@@ -152,6 +152,8 @@ class View extends Article {
 	 */
 	private function view_read()
 	{
+		$article_srl = null;
+
 		// set srl
 		if ($this->param['params'][1])
 		{
@@ -168,6 +170,12 @@ class View extends Article {
 		{
 			Util::back('article_srl값이 없습니다.');
 			Goose::end();
+		}
+
+		// update hit
+		if ($this->set['enableUpdateHit'] && $article_srl)
+		{
+			$this->parent->updateHit($article_srl, 1, __GOOSE_ROOT__.'/');
 		}
 
 		// get article data

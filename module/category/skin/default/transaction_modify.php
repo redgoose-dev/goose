@@ -47,5 +47,5 @@ $params = ($post['nest_srl']) ? $post['nest_srl'].'/' : '';
 return array(
 	'state' => 'success',
 	'action' => 'redirect',
-	'url' => __GOOSE_ROOT__.$this->name.'/index/'.$params
+	'url' => __GOOSE_ROOT__.'/'.$this->name.'/index/'.$params
 );

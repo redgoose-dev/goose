@@ -4,8 +4,8 @@ jQuery(function($){
 	var uploadInterface = new UploadInterface($('#fileUpload'), {
 		form : form
 		,$manager : $('#queuesManager')
-		,uploadAction : userData.root + 'file/upload/'
-		,removeAction : userData.root + 'file/remove/'
+		,uploadAction : userData.root + '/file/upload/'
+		,removeAction : userData.root + '/file/remove/'
 		,fileDir : userData.url
 		,auto : false
 		,limit : 10
@@ -121,7 +121,7 @@ jQuery(function($){
 	var getPreviewData = function(complete)
 	{
 		var req = $.ajax({
-			url : userData.root + 'script/run/markdown_preview/'
+			url : userData.root + '/script/run/markdown_preview/'
 			,type : 'post'
 			,data : {
 				title : '...'

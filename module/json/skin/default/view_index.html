@@ -5,7 +5,10 @@ if (!defined('__GOOSE__')) exit();
 <section>
 	<!-- headding -->
 	<div class="gs-headding">
-		<h1><a href="<?=__GOOSE_ROOT__?>json/index/">JSON 목록</a></h1>
+		<h1>
+			<a href="<?=__GOOSE_ROOT__?>/json/index/">JSON 목록</a>
+			<a href="<?=__GOOSE_ROOT__?>/help/json/" class="icn-help" title="go to help"></a>
+		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
 	<!-- // headding -->
@@ -21,15 +24,15 @@ if (!defined('__GOOSE__')) exit();
 				<li>
 					<div class="wrap">
 						<div class="body">
-							<a href="<?=__GOOSE_ROOT__.'json/read/'.$v['srl'].'/'?>">
+							<a href="<?=__GOOSE_ROOT__.'/json/read/'.$v['srl'].'/'?>">
 								<strong class="hd"><?=$v['name']?></strong>
 							</a>
 							<div class="inf">
 								<span><b>Date</b><?=Util::convertDate($v['regdate'])?></span>
 							</div>
 							<nav>
-								<a href="<?=__GOOSE_ROOT__.'json/modify/'.$v['srl'].'/'?>">수정</a>
-								<a href="<?=__GOOSE_ROOT__.'json/remove/'.$v['srl'].'/'?>">삭제</a>
+								<a href="<?=__GOOSE_ROOT__.'/json/modify/'.$v['srl'].'/'?>">수정</a>
+								<a href="<?=__GOOSE_ROOT__.'/json/remove/'.$v['srl'].'/'?>">삭제</a>
 							</nav>
 						</div>
 					</div>
@@ -47,8 +50,8 @@ if (!defined('__GOOSE__')) exit();
 
 	<!-- buttons -->
 	<nav class="gs-btn-group right">
-		<a href="<?=__GOOSE_ROOT__?>json/index/" class="gs-button">목록</a>
-		<a href="<?=__GOOSE_ROOT__?>json/create/" class="gs-button col-key">JSON만들기</a>
+		<a href="<?=__GOOSE_ROOT__?>/json/index/" class="gs-button">목록</a>
+		<a href="<?=__GOOSE_ROOT__?>/json/create/" class="gs-button col-key">JSON만들기</a>
 	</nav>
 	<!-- // buttons -->
 </section>

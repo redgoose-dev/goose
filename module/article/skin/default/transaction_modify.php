@@ -77,5 +77,5 @@ $param .= ($post['m']) ? '?m=1' : '';
 return array(
 	'state' => 'success',
 	'action' => 'redirect',
-	'url' =>  __GOOSE_ROOT__.'article/read/'.$param
+	'url' => ($post['redir']) ? $post['redir'] : __GOOSE_ROOT__.'/article/read/'.$param
 );

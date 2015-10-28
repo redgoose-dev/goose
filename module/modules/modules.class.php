@@ -42,7 +42,7 @@ class Modules {
 				}
 				else if ($result['state'] == 'success')
 				{
-					Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
+					Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'/modules/index/'));
 				}
 				break;
 			case 'uninstall':
@@ -54,7 +54,7 @@ class Modules {
 				}
 				else if ($result['state'] == 'success')
 				{
-					Module::afterAction(Array('message' => 'uninstall complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'modules/index/'));
+					Module::afterAction(Array('message' => 'uninstall complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'/modules/index/'));
 				}
 				break;
 			default:

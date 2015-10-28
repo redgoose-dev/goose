@@ -9,7 +9,7 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 	<div class="gs-headding">
 		<h1>
 			<span><?=$categoryName.$repo['article']['title']?></span>
-			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/article/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p>
 			<span><?=Util::convertDate($repo['article']['regdate']).'&nbsp;'.Util::convertTime($repo['article']['regdate'])?></span>
@@ -32,7 +32,7 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 				<?php
 				foreach($repo['file'] as $k=>$v)
 				{
-					$url = __GOOSE_ROOT__.$v['loc'];
+					$url = __GOOSE_ROOT__.'/'.$v['loc'];
 					$size = Util::getFileSize($v['size']);
 					echo "<li><a href=\"$url\" target=\"_blank\">$v[name] <em class=\"gs-brk-cnt\">$size</em></a></li>";
 				}
@@ -51,11 +51,11 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 		<?php
 		if ($_GET['m'])
 		{
-			$url = __GOOSE_ROOT__;
+			$url = __GOOSE_ROOT__.'/';
 		}
 		else
 		{
-			$url = __GOOSE_ROOT__.'article/index/';
+			$url = __GOOSE_ROOT__.'/article/index/';
 			$url .= ($repo['nest']['srl']) ? $repo['nest']['srl'].'/' : '';
 			$url .= ($category_srl) ? $category_srl.'/' : '';
 			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
@@ -65,18 +65,18 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 		<?php
 		if ($this->parent->isAdmin)
 		{
-			$url = __GOOSE_ROOT__.'article/create/';
+			$url = __GOOSE_ROOT__.'/article/create/';
 			$url .= ($repo['nest']['srl']) ? $repo['nest']['srl'].'/' : '';
 			$url .= ($category_srl) ? $category_srl.'/' : '';
 			$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 			echo "<a href='$url' class='gs-button'>글쓰기</a>";
-			$url = __GOOSE_ROOT__.'article/modify/';
+			$url = __GOOSE_ROOT__.'/article/modify/';
 			$url .= ($category_srl) ? $category_srl.'/' : '';
 			$url .= ($article_srl) ? $article_srl.'/' : '';
 			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 			$url .= ($_GET['m']) ? '?m='.$_GET['m'] : '';
 			echo "<a href='$url' class='gs-button col-key'>수정</a>";
-			$url = __GOOSE_ROOT__.'article/remove/';
+			$url = __GOOSE_ROOT__.'/article/remove/';
 			$url .= ($category_srl) ? $category_srl.'/' : '';
 			$url .= ($article_srl) ? $article_srl.'/' : '';
 			$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';

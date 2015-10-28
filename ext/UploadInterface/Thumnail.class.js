@@ -307,10 +307,11 @@ Thumnail.prototype.open = function(item)
 		}
 
 		self.data.srl = item.srl;
-		self.data.location = self.parent.settings.fileDir + item.location;
+		self.data.location = item.location;
+		self.data.url = '';
 
 		var $figure = self.$window.find('figure');
-		var $img = $('<img src="' + self.data.location + '" />');
+		var $img = $('<img src="' + self.parent.settings.fileDir + '/' + self.data.location + '" crossOrigin="anonymous" />');
 		$figure.append($img);
 		$('body').append(self.$window);
 		$img.get(0).onload = function(){
@@ -332,7 +333,7 @@ Thumnail.prototype.close = function()
 
 	if (self.data.srl !== thumnail_srl || self.data.coords.toString() !== thumnail_coords)
 	{
-		self.data.image = self.getImageData(self.data.location);
+		self.data.image = self.getImageData(self.data.url);
 		self.parent.queue.updateThumnailClass(self.queue.element);
 	}
 

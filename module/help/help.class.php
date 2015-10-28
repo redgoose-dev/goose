@@ -64,7 +64,7 @@ class Help {
 					'name' => $v,
 					'title' => $getSetting['title'],
 					'description' => $getSetting['description'],
-					'url_index' => __GOOSE_ROOT__.$v.'/'
+					'url_index' => __GOOSE_ROOT__.'/'.$v.'/'
 				));
 			}
 		}

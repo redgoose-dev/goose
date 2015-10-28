@@ -6,12 +6,12 @@ if (!defined('__GOOSE__')) exit();
 	<div class="gs-headding">
 		<h1>
 			<span>둥지삭제</span>
-			<a href="<?=__GOOSE_ROOT__?>help/nest/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/nest/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
 
-	<form action="<?=__GOOSE_ROOT__.'nest/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
+	<form action="<?=__GOOSE_ROOT__.'/nest/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>
 		<input type="hidden" name="nestSkin" value="<?=$repo['nest']['json']['nestSkin']?>"/>
 		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>"/>

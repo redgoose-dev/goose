@@ -62,10 +62,10 @@ if ($result != 'success')
 
 
 // redirect url
-$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'] : '';
+$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
 
 return array(
 	'state' => 'success',
 	'action' => 'redirect',
-	'url' => __GOOSE_ROOT__.'nest/index/'.$params
+	'url' => __GOOSE_ROOT__.'/nest/index/'.$params
 );

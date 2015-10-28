@@ -2,7 +2,7 @@
 if (!defined('__GOOSE__')) exit();
 ?>
 
-<link type="text/css" rel="stylesheet" href="<?=__GOOSE_ROOT__?>ext/snippet/jquery.snippet.min.css"/>
+<link type="text/css" rel="stylesheet" href="<?=__GOOSE_ROOT__?>/ext/snippet/jquery.snippet.min.css"/>
 
 <section>
 	<div class="gs-headding">
@@ -18,13 +18,13 @@ if (!defined('__GOOSE__')) exit();
 
 	<!-- bottom navigation -->
 	<nav class="gs-btn-group right">
-		<a href="<?=__GOOSE_ROOT__?>json/index/" class="gs-button">목록</a>
-		<a href="<?=__GOOSE_ROOT__?>json/modify/<?=$json_srl?>/" class="gs-button col-key">수정</a>
-		<a href="<?=__GOOSE_ROOT__?>json/remove/<?=$json_srl?>/" class="gs-button">삭제</a>
+		<a href="<?=__GOOSE_ROOT__?>/json/index/" class="gs-button">목록</a>
+		<a href="<?=__GOOSE_ROOT__?>/json/modify/<?=$json_srl?>/" class="gs-button col-key">수정</a>
+		<a href="<?=__GOOSE_ROOT__?>/json/remove/<?=$json_srl?>/" class="gs-button">삭제</a>
 	</nav>
 </section>
 
-<script type="text/javascript" src="<?=__GOOSE_ROOT__?>ext/snippet/jquery.snippet.min.js"></script>
+<script type="text/javascript" src="<?=__GOOSE_ROOT__?>/ext/snippet/jquery.snippet.min.js"></script>
 <script>
 $(function(){
 	var json = '<?=$repo['json']['json']?>';

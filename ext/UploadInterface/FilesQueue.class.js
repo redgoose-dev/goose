@@ -148,7 +148,7 @@ FilesQueue.prototype.selectQueue = function(queue)
 
 		if (/^image/i.test(queue.filetype) && self.$preview.length)
 		{
-			self.$preview.html('<img src="' + self.parent.settings.fileDir + queue.location + '" alt="" />');
+			self.$preview.html('<img src="' + self.parent.settings.fileDir + '/' + queue.location + '" alt="" />');
 		}
 	}
 };
@@ -197,7 +197,8 @@ FilesQueue.prototype.removeQueue = function($queue)
 			,type : 'post'
 			,dataType : 'json'
 			,data : {
-				data : JSON.stringify(srls)
+				data : JSON.stringify(srls),
+				sess_id : (userData.sess_id) ? userData.sess_id : ''
 			}
 		});
 
@@ -219,6 +220,10 @@ FilesQueue.prototype.removeQueue = function($queue)
 						$(this).remove();
 					});
 					self.parent.refreshAddQueue();
+				}
+				else
+				{
+					log(o);
 				}
 			})
 		;

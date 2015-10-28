@@ -3,7 +3,18 @@ if (!defined('__GOOSE__')) exit();
 
 $files = null;
 
-switch($this->param['action'])
+// check action keyword
+if ($this && isset($this->param['action']))
+{
+	$action = $this->param['action'];
+}
+else if (!isset($action))
+{
+	return "[]";
+}
+
+
+switch($action)
 {
 	case 'create':
 		$files = Spawn::items(array(

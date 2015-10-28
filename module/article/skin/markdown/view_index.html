@@ -5,13 +5,13 @@ if (!defined('__GOOSE__')) exit();
 <section>
 	<!-- headding -->
 	<?php
-	$url = __GOOSE_ROOT__.'article/index/';
+	$url = __GOOSE_ROOT__.'/article/index/';
 	$url .= ($nest_srl) ? $nest_srl.'/' : '';
 	?>
 	<div class="gs-headding">
 		<h1>
 			<a href="<?=$url?>"><?=($repo['nest']['name'])?'<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ':''?>문서목록</a>
-			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/article/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
@@ -27,7 +27,7 @@ if (!defined('__GOOSE__')) exit();
 		<nav class="idx-category">
 			<ul>
 				<?php
-				$url = __GOOSE_ROOT__.'article/index/';
+				$url = __GOOSE_ROOT__.'/article/index/';
 				$url .= ($nest_srl) ? $nest_srl.'/' : '';
 				?>
 				<li<?=(!$category_srl) ? ' class="active"' : ''?>><a href="<?=$url?>">All<em><?=$articleCount?></em></a></li>
@@ -37,7 +37,7 @@ if (!defined('__GOOSE__')) exit();
 					$cnt = $this->parent->getCount( array('where' => 'category_srl='.$v['srl']) );
 					$cnt = ($cnt['data']) ? $cnt['data'] : 0;
 
-					$url = __GOOSE_ROOT__.'article/index/';
+					$url = __GOOSE_ROOT__.'/article/index/';
 					$url .= ($nest_srl) ? $nest_srl.'/' : '0/';
 					$url .= $v['srl'].'/';
 					$active = ($category_srl == $v['srl']) ? " class='active'" : "";
@@ -61,7 +61,7 @@ if (!defined('__GOOSE__')) exit();
 		{
 			foreach ($repo['article'] as $k=>$v)
 			{
-				$url = __GOOSE_ROOT__.'article/read/';
+				$url = __GOOSE_ROOT__.'/article/read/';
 				$url .= ($category_srl) ? $category_srl.'/' : '';
 				$url .= $v['srl'].'/';
 				$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
@@ -69,7 +69,7 @@ if (!defined('__GOOSE__')) exit();
 				// thumnail image
 				if ($v['json']['thumnail']['url'] && file_exists(__GOOSE_PWD__.$v['json']['thumnail']['url']))
 				{
-					$thumnailImg = '<img src="'.__GOOSE_ROOT__.$v['json']['thumnail']['url'].'" alt="'.$v['title'].'"/>';
+					$thumnailImg = '<img src="'.__GOOSE_ROOT__.'/'.$v['json']['thumnail']['url'].'" alt="'.$v['title'].'"/>';
 				}
 				else
 				{
@@ -106,18 +106,18 @@ if (!defined('__GOOSE__')) exit();
 		<dd>
 			<nav class="gs-btn-group right">
 				<?php
-				$url = __GOOSE_ROOT__.'article/create/';
+				$url = __GOOSE_ROOT__.'/article/create/';
 				$url .= ($nest_srl) ? $nest_srl.'/' : '';
 				$url .= ($category_srl) ? $category_srl.'/' : '';
 				echo ($this->parent->isAdmin) ? "<a href=\"$url\" class=\"gs-button col-key\">글쓰기</a>" : '';
-				$url = __GOOSE_ROOT__.'nest/index/';
+				$url = __GOOSE_ROOT__.'/nest/index/';
 				$url .= ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
 				?>
 				<a href="<?=$url?>" class="gs-button">둥지목록</a>
 				<?php
 				if ($repo['nest']['json']['useCategory'])
 				{
-					$url = __GOOSE_ROOT__.'category/index/';
+					$url = __GOOSE_ROOT__.'/category/index/';
 					$url .= ($nest_srl) ? $nest_srl.'/' : '';
 					echo "<a href='$url' class='gs-button'>분류목록</a>";
 				}
@@ -129,7 +129,7 @@ if (!defined('__GOOSE__')) exit();
 
 	<!-- search keyword form -->
 	<?php
-	$url = __GOOSE_ROOT__.'article/index/';
+	$url = __GOOSE_ROOT__.'/article/index/';
 	$url .= ($nest_srl) ? $nest_srl.'/' : '';
 	$url .= ($category_srl) ? $category_srl.'/' : '';
 	?>

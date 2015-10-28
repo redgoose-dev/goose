@@ -45,9 +45,10 @@ define( '__GOOSE_PWD__', str_replace('core/init.php', '', str_replace('\\', '/',
 
 
 // set session
+$sess_id = (isset($_POST['sess_id'])) ? $_POST['sess_id'] : ( (isset($_GET['sess_id'])) ? $_GET['sess_id'] : null );
+if ($sess_id) session_id($sess_id);
 session_cache_expire(30);
 session_start();
-session_save_path(__GOOSE_PWD__);
 
 
 // load classes
@@ -94,7 +95,7 @@ if ($goose->isInstalled())
 }
 else
 {
-	define( '__GOOSE_ROOT__', preg_replace('/index.php$/', '', $_SERVER['REQUEST_URI']) );
+	define( '__GOOSE_ROOT__', preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']) );
 	define('__dbPrefix__', ($_POST['dbPrefix']) ? $_POST['dbPrefix'] : null);
 
 	// load install module

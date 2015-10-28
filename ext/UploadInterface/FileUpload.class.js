@@ -19,6 +19,7 @@ var FileUpload = function(parent, action, queue, file, uploadPath)
 		formData.append('file', file)
 		formData.append('upload_loc', uploadPath);
 		formData.append('table', 'file_tmp');
+		formData.append('sess_id', (userData.sess_id) ? userData.sess_id : '');
 
 		xhr.open('post', action, true);
 		xhr.upload.addEventListener('progress', function(e){

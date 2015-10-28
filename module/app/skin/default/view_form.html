@@ -10,12 +10,12 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 	<div class="gs-headding">
 		<h1>
 			<span>APP <?=$titleType?></span>
-			<a href="<?=__GOOSE_ROOT__?>help/app/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/app/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
 
-	<form action="<?=__GOOSE_ROOT__.'app/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
+	<form action="<?=__GOOSE_ROOT__.'/app/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
 		<input type="hidden" name="app_srl" value="<?=$app_srl?>"/>
 		<fieldset class="form-group">
 			<dl class="gs-webz first">
@@ -36,13 +36,13 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 
 </section>
 
-<script src="<?=__GOOSE_ROOT__?>ext/validation/jquery.validate.min.js"></script>
-<script src="<?=__GOOSE_ROOT__?>ext/validation/localization/messages_ko.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/ext/validation/jquery.validate.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/ext/validation/localization/messages_ko.js"></script>
 <script>
 jQuery(function($){
 	// check validate
 	$.validator.addMethod("alphanumeric", function(value, element) {
-		return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+		return this.optional(element) || /^[a-zA-Z0-9_-]+$/.test(value);
 	});
 	$('#regsterForm').validate({
 		rules : {

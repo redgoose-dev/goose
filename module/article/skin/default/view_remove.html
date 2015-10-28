@@ -9,11 +9,11 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 	<div class="gs-headding">
 		<h1>
 			<span><?=$nestName?>문서삭제</span>
-			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/article/" class="icn-help" title="go to help"></a>
 		</h1>
 	</div>
 
-	<form name="writeForm" action="<?=__GOOSE_ROOT__?>article/remove/" method="post">
+	<form name="writeForm" action="<?=__GOOSE_ROOT__?>/article/remove/" method="post">
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
 		<input type="hidden" name="nest_srl" value="<?=$repo['article']['nest_srl']?>" />
 		<input type="hidden" name="category_srl" value="<?=$category_srl?>" />

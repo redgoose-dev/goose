@@ -18,10 +18,10 @@ if (!defined('__GOOSE__')) exit();
 			foreach ($repo['file'] as $k=>$v)
 			{
 				$is_img = ($v['loc'] && (preg_match("/^image/", $v['type'])));
-				$img = ($is_img) ? '<img src="'.__GOOSE_ROOT__.$v['loc'].'" alt="'.$v['name'].'"/>' : '<span class="noimg">noimg</span>';
+				$img = ($is_img) ? '<img src="'.__GOOSE_ROOT__.'/'.$v['loc'].'" alt="'.$v['name'].'"/>' : '<span class="noimg">noimg</span>';
 				?>
 				<li>
-					<a class="wrap" href="<?=__GOOSE_ROOT__.$v['loc']?>" target="_blank">
+					<a class="wrap" href="<?=__GOOSE_ROOT__.'/'.$v['loc']?>" target="_blank">
 						<figure class="figure"><?=$img?></figure>
 						<div class="body">
 							<strong class="hd"><?=$v['name']?></strong>
@@ -49,7 +49,7 @@ if (!defined('__GOOSE__')) exit();
 		<?=($repo['file'] > 0) ? '<dt>'.$paginate->createNavigation().'</dt>' : '';?>
 		<dd>
 			<nav class="gs-btn-group right">
-				<a href="<?=__GOOSE_ROOT__?>file/index/" class="gs-button">목록</a>
+				<a href="<?=__GOOSE_ROOT__?>/file/index/" class="gs-button">목록</a>
 			</nav>
 		</dd>
 	</dl>

@@ -3,14 +3,14 @@ if (!defined('__GOOSE__')) exit();
 
 $titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
 $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ' : '';
-$extPath = __GOOSE_ROOT__.'ext/';
+$extPath = __GOOSE_ROOT__.'/ext/';
 
 $articleJSON = (isset($repo['article']['json'])) ? Util::arrayToJson($repo['article']['json'], true) : '';
 
 $file = Module::load('file');
 ?>
 
-<link rel="stylesheet" href="<?= __GOOSE_ROOT__.$this->skinPath.'css/markdown.css' ?>">
+<link rel="stylesheet" href="<?= __GOOSE_ROOT__.'/'.$this->skinPath.'css/markdown.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'UploadInterface/UploadInterface.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'Jcrop/jquery.Jcrop.css' ?>">
 <link rel="stylesheet" href="<?= $extPath.'Parsedown/markdown.css' ?>" />
@@ -19,12 +19,12 @@ $file = Module::load('file');
 	<div class="gs-headding">
 		<h1>
 			<span><?=$nestName?>문서<?=$titleType?></span>
-			<a href="<?=__GOOSE_ROOT__?>help/article/" class="icn-help" title="go to help"></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/article/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</div>
 
-	<form name="writeForm" action="<?=__GOOSE_ROOT__.'article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
+	<form name="writeForm" action="<?=__GOOSE_ROOT__.'/article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>" />
 		<input type="hidden" name="nest_srl" value="<?=$repo['nest']['srl']?>" />
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
@@ -126,4 +126,4 @@ var userData = {
 	,pushData : '<?=require_once('attachFiles.php');?>'
 };
 </script>
-<script src="<?= __GOOSE_ROOT__.$this->skinPath.'/js/markdown.min.js' ?>"></script>
+<script src="<?= __GOOSE_ROOT__.'/'.$this->skinPath.'/js/markdown.min.js' ?>"></script>
