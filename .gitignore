@@ -13,3 +13,4 @@ node_modules
 *.user
 *.user.*
 robot.txt
+.htaccess
