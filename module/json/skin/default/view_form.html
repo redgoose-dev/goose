@@ -35,11 +35,11 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 	</form>
 </section>
 
-<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/ext/JSONEditor/css/JSONEditor.css" media="screen" />
-<script src="<?=__GOOSE_ROOT__?>/ext/JSONEditor/js/JSONEditor.class.js"></script>
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/ext/JSONEditor/dist/css/JSONEditor.css" media="screen" />
+<script src="<?=__GOOSE_ROOT__?>/ext/JSONEditor/dist/js/JSONEditor.class.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/ext/validation/jquery.validate.min.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/ext/validation/localization/messages_ko.js"></script>
-<script src="<?=__GOOSE_ROOT__?>/ext/JSONEditor/js/jquery-sortable.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/ext/JSONEditor/vendor/jquery-sortable/jquery-sortable.js"></script>
 <script>
 jQuery(function($){
 	var $jsonEditor = $('#JSONEditor');
@@ -48,21 +48,18 @@ jQuery(function($){
 	var jsonEditor = new JSONEditor($jsonEditor);
 
 	// import json
+	var json;
 	try {
-		var json = JSON.parse(decodeURIComponent(jsonData.replace(/\+/g, '%20')));
+		json = JSON.parse(decodeURIComponent(jsonData.replace(/\+/g, '%20')));
 	}
 	catch(e) {
-		var json = {};
+		json = {};
 	}
-	if (Array.isArray(json))
-	{
-		jsonEditor.typeItem($jsonEditor.find('li[loc=root]'), 'Array');
-	}
-	jsonEditor.importJSON(json);
+	jsonEditor.replace(json);
 
 	// submit form
 	$form.on('submit', function(){
-		$(this).find('input[name=json]').val(jsonEditor.exportJSON(0));
+		$(this).find('input[name=json]').val(jsonEditor.export(false));
 	});
 
 	// value validate
