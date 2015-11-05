@@ -55,6 +55,7 @@ Goose 프로그램에서 기본적으로 제공하는 모듈중에 가장 많이
 | app_srl       | int        | app 모듈의 srl번호
 | nest_srl      | int        | nest 모듈의 srl번호
 | category_srl  | int        | category 모듈의 srl번호
+| user_srl      | int        | user 모듈의 srl번호
 | title         | varchar    | 제목
 | content       | longtext   | 내용
 | hit           | int        | 조회수

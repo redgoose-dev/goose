@@ -40,6 +40,7 @@ $result = Spawn::insert(array(
 		'app_srl' => (int)$post['app_srl'],
 		'nest_srl' => (int)$post['nest_srl'],
 		'category_srl' => (int)$post['category_srl'],
+		'user_srl' => $_SESSION['goose_srl'],
 		'title' => $post['title'],
 		'content' => $post['content'],
 		'hit' => 0,
