@@ -102,9 +102,10 @@ class Auth {
 
 		if ($user && $user['pw'] === md5($password))
 		{
+			$_SESSION['goose_srl'] = (int)$user['srl'];
 			$_SESSION['goose_name'] = $user['name'];
 			$_SESSION['goose_email'] = $user['email'];
-			$_SESSION['goose_level'] = $user['level'];
+			$_SESSION['goose_level'] = (int)$user['level'];
 			$url = (strpos($redir, 'auth/login')) ? __GOOSE_ROOT__.'/' : $redir;
 			if ($return)
 			{

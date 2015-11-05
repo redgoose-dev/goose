@@ -26,6 +26,12 @@
 		"etc" : "default null"
 	},
 	{
+		"name" : "user_srl",
+		"type" : "int",
+		"length" : 11,
+		"etc" : "default null"
+	},
+	{
 		"name" : "title",
 		"type" : "varchar",
 		"length" : 255,

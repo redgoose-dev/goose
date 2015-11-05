@@ -79,6 +79,7 @@ if ($goose->isInstalled())
 	if ($_SESSION['goose_name'])
 	{
 		$goose->user = new Object([
+			'srl' => $_SESSION['goose_srl'],
 			'name' => $_SESSION['goose_name'],
 			'email' => $_SESSION['goose_email'],
 			'level' => (int)$_SESSION['goose_level']
