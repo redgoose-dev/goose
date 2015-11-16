@@ -56,6 +56,7 @@ if ( checkPost() == true )
 			,'name' => $_POST['dbId']
 			,'password' => $_POST['dbPassword']
 			,'host' => $_POST['dbHost']
+			,'port' => $_POST['dbPort']
 			,'prefix' => $_POST['dbPrefix']
 		)
 		,'level' => array(

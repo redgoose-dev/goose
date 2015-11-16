@@ -59,6 +59,10 @@ $apikeyPrefix = '__' . Util::generateRandomString(15) . '__';
 				<span><input type="text" name="dbHost" id="dbHost" size="12" maxlength="40" value="localhost" /></span>
 			</label>
 			<label>
+				<strong>DB port</strong>
+				<span><input type="text" name="dbPort" id="dbPort" size="4" maxlength="4" value="3306" /></span>
+			</label>
+			<label>
 				<strong>Table name prefix</strong>
 				<span><input type="text" name="dbPrefix" id="dbPrefix" size="12" maxlength="20" value="goose_" /></span>
 			</label>
@@ -135,6 +139,7 @@ jQuery(function($){
 			,dbPassword2 : { equalTo: '#dbPassword' }
 			,dbName : { required: true }
 			,dbHost : { required: true }
+			,dbPort : { required: true }
 			,dbPrefix : { required: true }
 			,email : { required: true }
 			,name : { required: true }
