@@ -7,6 +7,7 @@ README.html
 .module-cache/
 *.psd
 node_modules
+npm-debug.log
 
 # user files
 /data
