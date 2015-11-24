@@ -5,8 +5,8 @@ if (!defined('__GOOSE__')) exit();
 $externalLoad = true;
 
 // load parsedown class
-require_once(__GOOSE_PWD__.'ext/Parsedown/Parsedown.class.php');
-require_once(__GOOSE_PWD__.'ext/parsedown-extra/ParsedownExtra.php');
+require_once(__GOOSE_PWD__.'vendor/Parsedown/Parsedown.class.php');
+require_once(__GOOSE_PWD__.'vendor/parsedown-extra/ParsedownExtra.php');
 
 // get instance parsedown
 $Parsedown = new ParsedownExtra();
@@ -15,7 +15,7 @@ $Parsedown = new ParsedownExtra();
 $repo['article']['content'] = '<div class="markdown-body">'.$Parsedown->text($repo['article']['content']).'</div>';
 
 // load stylesheet
-echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'/ext/Parsedown/markdown.css" />';
+echo '<link rel="stylesheet" href="'.__GOOSE_ROOT__.'/vendor/Parsedown/markdown.css" />';
 
 // require view_read.html
 require_once(__DIR__.'/../'.$this->set['skin'].'/view_read.html');

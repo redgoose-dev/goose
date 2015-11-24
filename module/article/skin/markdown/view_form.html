@@ -3,7 +3,7 @@ if (!defined('__GOOSE__')) exit();
 
 $titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
 $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ' : '';
-$extPath = __GOOSE_ROOT__.'/ext/';
+$extPath = __GOOSE_ROOT__.'/vendor/';
 
 $articleJSON = (isset($repo['article']['json'])) ? Util::arrayToJson($repo['article']['json'], true) : '';
 
@@ -76,7 +76,6 @@ $file = Module::load('file');
 							<div class="show" data-target="edit">
 								<textarea name="content" id="content" rows="20" class="block"><?=htmlspecialchars($repo['article']['content'])?></textarea>
 								<p>
-									* 마크다운 한글 메뉴얼 : <a href="http://scriptogr.am/myevan/post/markdown-syntax-guide-for-scriptogram" target="_blank">link</a><br/>
 									* 존 그루버 마크다운 페이지 번역 : <a href="http://nolboo.github.io/blog/2013/09/07/john-gruber-markdown/" target="_blank">link</a><br/>
 									* Markdown Extra : <a href="https://michelf.ca/projects/php-markdown/extra/" target="_blank">link</a>
 								</p>
