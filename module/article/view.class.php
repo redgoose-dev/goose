@@ -71,7 +71,7 @@ class View extends Article {
 		$category_srl = ($this->param['params'][1]) ? (int)$this->param['params'][1] : null;
 
 		// set repo
-		$repo = array('article' => null, 'category' => null, 'nest' => null);
+		$repo = [ 'article' => null, 'category' => null, 'nest' => null ];
 
 		// load modules
 		$nest = Module::load('nest');
@@ -80,14 +80,18 @@ class View extends Article {
 		// get nest data
 		if ($nest_srl)
 		{
-			$data = $nest->getItem( array( 'where' => 'srl='.$nest_srl ) );
+			$data = $nest->getItem([ 'where' => 'srl='.$nest_srl ]);
 			$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
 
 			// get category data
 			if ($repo['nest']['json']['useCategory'])
 			{
 				$param = ($repo['nest']['srl']) ? 'nest_srl='.(int)$repo['nest']['srl'] : null;
-				$data = $category->getItems( array('where' => $param) );
+				$data = $category->getItems([
+					'where' => $param,
+					'order' => 'turn',
+					'sort' => 'asc'
+				]);
 				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 			}
 		}

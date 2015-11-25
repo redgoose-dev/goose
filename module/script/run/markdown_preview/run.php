@@ -3,8 +3,8 @@ if (!defined('__GOOSE__')) exit();
 
 $post = Util::getMethod();
 
-require_once(__GOOSE_PWD__.'/ext/Parsedown/Parsedown.class.php');
-require_once(__GOOSE_PWD__.'/ext/parsedown-extra/ParsedownExtra.php');
+require_once(__GOOSE_PWD__.'/vendor/Parsedown/Parsedown.class.php');
+require_once(__GOOSE_PWD__.'/vendor/parsedown-extra/ParsedownExtra.php');
 
 $parsedown = new ParsedownExtra();
 
