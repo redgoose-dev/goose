@@ -55,7 +55,7 @@ $systemModules = ['user'];
 						{
 							echo "<a href=\"".__GOOSE_ROOT__."/modules/install/$set[name]/\" data-action='confirm' data-message='설치하시겠습니까?'>설치</a>";
 						}
-						else if ($set['install'] && in_array($set['name'], $installModules) && !in_array($set['name'], $systemModules))
+						else if ($set['install'] && in_array($set['name'], $installModules) && !in_array($set['name'], $systemModules) && Module::existMethod($set['name'], 'uninstall'))
 						{
 							echo "<a href=\"".__GOOSE_ROOT__."/modules/uninstall/$set[name]/\" data-action='confirm' data-message='정말 설치해제하시겠습니까?'>설치해제</a>";
 						}
