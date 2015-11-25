@@ -44,6 +44,19 @@ class Module {
 	}
 
 	/**
+	 * check exist module method
+	 *
+	 * @param string $moduleName
+	 * @param string $methodName
+	 * @return boolean
+	 */
+	public static function existMethod($moduleName, $methodName)
+	{
+		$mod = Module::load($moduleName);
+		return method_exists($mod, $methodName);
+	}
+
+	/**
 	 * get module
 	 *
 	 * @param string $moduleName
