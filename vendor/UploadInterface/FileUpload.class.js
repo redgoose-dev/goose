@@ -61,7 +61,7 @@ var FileUpload = function(parent, action, queue, file, uploadPath)
 					}
 					break;
 				case 404:
-					parent.uploadError('404 - File not fount', queue);
+					parent.uploadError('404 - File not found', queue);
 					break;
 				case 403:
 					parent.uploadError('403 - Forbidden file type', queue);
