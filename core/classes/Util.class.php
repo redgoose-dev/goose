@@ -524,4 +524,25 @@ class Util {
 	{
 		return substr(sprintf('%o', fileperms($loc)), -4);
 	}
+
+	/**
+	 * merge json data
+	 * json 데이터를 전부 합쳐서 그 값을 리턴해준다.
+	 *
+	 * @param array $files json 파일들
+	 * @return array
+	 */
+	public static function mergeJson($files=[])
+	{
+		$result = [];
+		foreach($files as $k=>$v)
+		{
+			if (file_exists($v))
+			{
+				$result = Util::extendArray($result, Util::jsonToArray(Util::openFile($v), true));
+			}
+		}
+		return $result;
+	}
+
 }

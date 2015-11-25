@@ -19,13 +19,18 @@ $systemModules = ['user'];
 		foreach ($repo['modules'] as $k=>$v)
 		{
 			$set = self::getSetting($v['name']);
+			//Util::console($set);
 		?>
 			<li>
 				<div class="body">
-					<strong class="hd"><?=$set['name']?></strong>
+					<strong class="hd"><?=($set['title']) ? $set['title'] : $set['name']?></strong>
 					<?=($set['description']) ? '<p class="description">'.$set['description'].'</p>' : ''?>
 					<div class="inf">
 						<?php
+						if ($set['name'])
+						{
+							echo "<span><b>Name</b>$set[name]</span>";
+						}
 						if (in_array($set['name'], $installModules))
 						{
 							echo "<span><b>Install</b>설치됨</span>";

@@ -161,8 +161,11 @@ class Modules {
 	private function getSetting($modName=null)
 	{
 		$loc = Module::existModule($modName);
-		$file = Util::checkUserFile($loc['pwd'].'setting.json');
-		return Util::jsonToArray(Util::openFile($file), true);
+		$settings = Util::mergeJson([
+			Util::isFile([$loc['pwd'].'setting.json']),
+			Util::isFile([$loc['pwd'].'setting.user.json'])
+		]);
+		return $settings;
 	}
 
 }

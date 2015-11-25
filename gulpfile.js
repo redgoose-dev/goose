@@ -35,6 +35,8 @@ gulp.task('scss:watch', function(){
 			// skip import file (xyz.src.scss)
 			if ( /src.scss$/.test(getFilename(file.path)) ) return;
 
+			log(file.path);
+
 			// convert scss file
 			gulp.src(file.path)
 				.pipe(sourcemaps.init())
