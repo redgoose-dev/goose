@@ -86,7 +86,7 @@ $data = $mod->getItem(array(
 ));
 ```
 
-##### $mod->transaction()__
+##### $mod->transaction()
 글을 등록하거나 수정, 삭제 처리합니다.
 ```
 $result_make = $mod->transaction('create', $_POST); // make

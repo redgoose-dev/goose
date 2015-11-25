@@ -6,7 +6,7 @@ if (!defined('__GOOSE__')) exit();
  */
 class JSON {
 
-	public $name, $goose, $param, $method, $repo, $layout, $isAdmin;
+	public $name, $goose, $param, $method, $repo, $isAdmin;
 	public $path, $skinPath, $pwd_container;
 
 	/**

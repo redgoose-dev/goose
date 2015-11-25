@@ -5,6 +5,7 @@ class View extends JSON
 {
 
 	private $parent;
+	public $layout;
 
 	/**
 	 * construct
