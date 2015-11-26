@@ -82,6 +82,7 @@ class Modules {
 		switch($this->param['action'])
 		{
 			case 'editSetting':
+				// check module
 				$_module = $this->param['params'][0];
 				if (Module::existModule($_module)['state'] != 'success')
 				{
@@ -96,8 +97,6 @@ class Modules {
 				break;
 
 			default:
-
-
 				// get module data
 				$result = $this->getModuleIndex('name');
 				$repo['modules'] = ($result['data']) ? $result['data'] : [];
