@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'goose-icons';
-	src:url('fonts/goose-icons.eot?gi3kob');
-	src:url('fonts/goose-icons.eot?#iefixgi3kob') format('embedded-opentype'),
-		url('fonts/goose-icons.ttf?gi3kob') format('truetype'),
-		url('fonts/goose-icons.woff?gi3kob') format('woff'),
-		url('fonts/goose-icons.svg?gi3kob#goose-icons') format('svg');
+	src:url('fonts/goose-icons.eot?xmmghv');
+	src:url('fonts/goose-icons.eot?xmmghv#iefix') format('embedded-opentype'),
+		url('fonts/goose-icons.ttf?xmmghv') format('truetype'),
+		url('fonts/goose-icons.woff?xmmghv') format('woff'),
+		url('fonts/goose-icons.svg?xmmghv#goose-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icn-setting:before {
+	content: "\e900";
+}
 .icn-help:before {
 	content: "\e60f";
 }
@@ -77,3 +80,4 @@
 .icn-redgoose:before {
 	content: "\e607";
 }
+
