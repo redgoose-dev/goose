@@ -9,6 +9,7 @@
 	<form action="<?=__GOOSE_ROOT__.'/modules/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="module" value="<?=$repo['setting']['name']?>"/>
 		<input type="hidden" name="json" value="<?=Util::arrayToJson($repo['setting'], true)?>"/>
+		<input type="hidden" name="referer" value="<?=$_SERVER['HTTP_REFERER']?>">
 		<fieldset class="form-group">
 			<legend class="blind">edit setting</legend>
 			<dl>

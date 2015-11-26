@@ -85,11 +85,7 @@ class Module {
 		};
 
 		// set setting data
-		$settings = Util::mergeJson([
-			$pwd.'setting.json',
-			$pwd.'setting.user.json',
-			__GOOSE_PWD__.'data/settings/'.$moduleName.'.json'
-		]);
+		$settings = Module::getSetting($moduleName);
 		if (!$settings || !is_array($settings)) return new Object(array('state' => 'error', 'message' => '['.$moduleName.'] setting.json파일이 없습니다.'));
 
 		// set module class path
@@ -305,9 +301,8 @@ class Module {
 	{
 		$loc = self::existModule($modName);
 		$settings = Util::mergeJson([
-			Util::isFile([$loc['pwd'].'setting.json']),
-			Util::isFile([$loc['pwd'].'setting.user.json']),
-			Util::isFile(__GOOSE_PWD__.'/data/settings/'.$modName.'.json')
+			Util::isFile([ $loc['pwd'].'setting.json' ]),
+			Util::isFile([ __GOOSE_PWD__.'data/settings/'.$modName.'.json' ])
 		]);
 		return $settings;
 	}

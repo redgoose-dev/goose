@@ -32,34 +32,46 @@ class Modules {
 	public function index()
 	{
 		// action
-		switch($this->param['action'])
+		if ($this->param['method'] == 'GET')
 		{
-			case 'install':
-				$result = self::actInstall();
-				if ($result['state'] == 'error')
-				{
-					Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
-				}
-				else if ($result['state'] == 'success')
-				{
-					Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'/modules/index/'));
-				}
-				break;
-			case 'uninstall':
-				$result = self::actUninstall();
+			switch($this->param['action'])
+			{
+				case 'install':
+					$result = self::actInstall();
+					if ($result['state'] == 'error')
+					{
+						Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
+					}
+					else if ($result['state'] == 'success')
+					{
+						Module::afterAction(Array('message' => 'install complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'/modules/index/'));
+					}
+					break;
+				case 'uninstall':
+					$result = self::actUninstall();
 
-				if ($result['state'] == 'error')
-				{
-					Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
-				}
-				else if ($result['state'] == 'success')
-				{
-					Module::afterAction(Array('message' => 'uninstall complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'/modules/index/'));
-				}
-				break;
-			default:
-				self::viewIndex();
-				break;
+					if ($result['state'] == 'error')
+					{
+						Module::afterAction(Array('action' => 'back', 'message' => $result['message']));
+					}
+					else if ($result['state'] == 'success')
+					{
+						Module::afterAction(Array('message' => 'uninstall complete', 'action' => 'redirect', 'url' => __GOOSE_ROOT__.'/modules/index/'));
+					}
+					break;
+				default:
+					self::viewIndex();
+					break;
+			}
+		}
+		else if ($this->param['method'] == 'POST')
+		{
+			switch($this->param['action'])
+			{
+				case 'editSetting':
+					self::editSetting();
+					break;
+			}
 		}
 	}
 
@@ -73,6 +85,8 @@ class Modules {
 	 */
 	private function viewIndex()
 	{
+		global $goose;
+
 		// load layout module
 		$this->layout = Module::load('layout');
 
@@ -91,6 +105,13 @@ class Modules {
 
 				// set setting data
 				$repo['setting'] = Module::getSetting($_module);
+
+				// check permission
+				if (!$goose->isAdmin && !($_SESSION['goose_level'] >= $repo['setting']['adminPermission']))
+				{
+					Util::back('You do not have permission.');
+					Goose::end();
+				}
 
 				// set pwd_container
 				$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'/view_editSetting.html';
@@ -130,6 +151,11 @@ class Modules {
 
 		return array( 'state' => 'success', 'data' => $result );
 	}
+
+
+	/**********************************************
+	 * PRIVATE FUNCTION
+	 *********************************************/
 
 	/**
 	 * install
@@ -177,4 +203,22 @@ class Modules {
 		return $install->unInstallModule($mod);
 	}
 
+	/**
+	 * edit setting
+	 */
+	private function editSetting()
+	{
+		$pwd = __GOOSE_PWD__.'data/settings/'.$_POST['module'].'.json';
+		$json = Util::jsonToArray($_POST['json']);
+		$json = Util::arrayToJson($json, false, true, '  ');
+		$result = Util::fop($pwd, 'w', $json, 0755);
+		if ($result)
+		{
+			Util::redirect($_POST['referer']);
+		}
+		else
+		{
+			Util::back('error');
+		}
+	}
 }

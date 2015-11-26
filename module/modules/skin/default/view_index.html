@@ -8,11 +8,14 @@ $systemModules = ['user'];
 <section>
 	<!-- headding -->
 	<div class="gs-headding">
-		<h1>모듈목록</h1>
+		<h1><?=$this->set['title']?></h1>
 		<p>
 			<?=$this->set['description']?><br/>
 			인스톨이 가능한 모듈은 [설치]버튼이 활성화 됩니다. [설치해제]를 한다고 모듈이 삭제되지 않습니다.
 		</p>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
 	</div>
 	<!-- // headding -->
 
