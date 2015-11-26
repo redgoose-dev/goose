@@ -63,8 +63,13 @@ class Modules {
 		}
 	}
 
+
+	/**********************************************
+	 * VIEW AREA
+	 *********************************************/
+
 	/**
-	 * view - index
+	 * view
 	 */
 	private function viewIndex()
 	{
@@ -72,14 +77,35 @@ class Modules {
 		$this->layout = Module::load('layout');
 
 		// set repo
-		$repo = Array();
+		$repo = [];
 
-		// get module data
-		$result = $this->getModuleIndex('name');
-		$repo['modules'] = ($result['data']) ? $result['data'] : array();
+		switch($this->param['action'])
+		{
+			case 'editSetting':
+				$_module = $this->param['params'][0];
+				if (Module::existModule($_module)['state'] != 'success')
+				{
+					Goose::error(404);
+				}
 
-		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'/view_index.html';
+				// set setting data
+				$repo['setting'] = Module::getSetting($_module);
+
+				// set pwd_container
+				$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'/view_editSetting.html';
+				break;
+
+			default:
+
+
+				// get module data
+				$result = $this->getModuleIndex('name');
+				$repo['modules'] = ($result['data']) ? $result['data'] : [];
+
+				// set pwd_container
+				$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'/view_index.html';
+				break;
+		}
 
 		// require layout
 		require_once($this->layout->getUrl());
@@ -150,22 +176,6 @@ class Modules {
 
 		// install module
 		return $install->unInstallModule($mod);
-	}
-
-	/**
-	 * get setting
-	 *
-	 * @param string $modName
-	 * @return array
-	 */
-	private function getSetting($modName=null)
-	{
-		$loc = Module::existModule($modName);
-		$settings = Util::mergeJson([
-			Util::isFile([$loc['pwd'].'setting.json']),
-			Util::isFile([$loc['pwd'].'setting.user.json'])
-		]);
-		return $settings;
 	}
 
 }

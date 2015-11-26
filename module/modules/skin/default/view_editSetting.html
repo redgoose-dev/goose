@@ -1,0 +1,25 @@
+<?php
+Util::console($repo['setting']);
+//$setting = Module::getSetting()
+
+$aa = Util::arrayToJson($repo['setting'], false, false, '	');
+?>
+
+<pre><?=$aa?></pre>
+
+<section>
+	<!-- headding -->
+	<div class="gs-headding">
+		<h1>[<?=$repo['setting']['title']?>] 모듈 환경설정</h1>
+		<p>모듈의 설정을 수정합니다.</p>
+	</div>
+	<!-- // headding -->
+
+	<form action="#" method="post">
+		<fieldset>
+			<legend>edit setting</legend>
+			<textarea name="content" id="" cols="30" rows="10"></textarea>
+		</fieldset>
+	</form>
+
+</section>

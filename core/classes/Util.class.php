@@ -78,21 +78,19 @@ class Util {
 	 * @param array $array
 	 * @param boolean $urlEncode
 	 * @param boolean $pretty
+	 * @param string $space
 	 * @return string
 	 */
-	public static function arrayToJson($array, $urlEncode=false, $pretty=false)
+	public static function arrayToJson($array, $urlEncode=false, $pretty=false, $space='    ')
 	{
 		try {
 			$options = ($pretty && !$urlEncode) ? JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT : JSON_UNESCAPED_UNICODE;
 
-			if ($urlEncode)
-			{
-				return urlencode(json_encode($array, $options));
-			}
-			else
-			{
-				return json_encode($array, $options);
-			}
+			$result = ($urlEncode) ? urlencode(json_encode($array, $options)) : json_encode($array, $options);
+			$result = ($pretty && !$urlEncode) ? preg_replace("/    /", $space, $result) : $result;
+
+			return $result;
+
 		} catch(Exception $e) {
 			return null;
 		}

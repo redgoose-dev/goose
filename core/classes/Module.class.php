@@ -20,7 +20,7 @@ class Module {
 	 * 모듈이 존재하는지 체크하고 경로를 반환한다.
 	 *
 	 * @param string $moduleName
-	 * @return string
+	 * @return array
 	 */
 	public static function existModule($moduleName)
 	{
@@ -35,12 +35,17 @@ class Module {
 		}
 		else
 		{
-			return new Object(array('state' => 'error', 'message' => 'module not found'));
+			return [
+				'state' => 'error',
+				'message' => 'module not found'
+			];
 		}
-		return array(
-			'pwd' => __GOOSE_PWD__.$path
-			,'path' => $path
-		);
+
+		return [
+			'state' => 'success',
+			'pwd' => __GOOSE_PWD__.$path,
+			'path' => $path
+		];
 	}
 
 	/**
@@ -288,6 +293,23 @@ class Module {
 		{
 			return $result['data'];
 		}
+	}
+
+	/**
+	 * get setting
+	 *
+	 * @param string $modName
+	 * @return array
+	 */
+	public static function getSetting($modName=null)
+	{
+		$loc = self::existModule($modName);
+		$settings = Util::mergeJson([
+			Util::isFile([$loc['pwd'].'setting.json']),
+			Util::isFile([$loc['pwd'].'setting.user.json']),
+			Util::isFile(__GOOSE_PWD__.'/data/settings/'.$modName.'.json')
+		]);
+		return $settings;
 	}
 
 }
