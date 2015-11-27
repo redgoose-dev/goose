@@ -95,7 +95,8 @@ jQuery(function($){
 
 	// submit form
 	$form.on('submit', function(){
-		$(this).find('input[name=json]').val(jsonEditor.export(false));
+		var str = encodeURIComponent(jsonEditor.export(false));
+		$(this).find('input[name=json]').val(str);
 	});
 
 	// value validate
