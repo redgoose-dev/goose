@@ -20,7 +20,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 
 	<form action="<?=__GOOSE_ROOT__.'/json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="json_srl" value="<?=$repo['json']['srl']?>" />
-		<input type="hidden" name="json" value="<?=$repo['json']['json']?>" />
+		<input type="hidden" name="json" value='<?=$repo['json']['json']?>' />
 
 		<fieldset class="form-group">
 			<dl class="gs-webz">
