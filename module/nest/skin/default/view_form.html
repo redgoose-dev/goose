@@ -3,6 +3,7 @@ if (!defined('__GOOSE__')) exit();
 
 // set title type
 $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
+$form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['action'];
 ?>
 
 <section>
@@ -19,7 +20,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 	</div>
 	<!-- // headding -->
 
-	<form action="<?=__GOOSE_ROOT__.'/nest/'.$this->param['action'].'/'?>" method="post" id="regster-form">
+	<form action="<?=__GOOSE_ROOT__.'/nest/'.$form_action.'/'?>" method="post" id="regster-form">
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 
@@ -37,7 +38,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 						foreach($repo['skin'] as $k=>$v)
 						{
 							$selected = ($v == $nowSkin) ? ' selected' : '';
-							$selected = (!$nowSkin && $v=='basic') ? ' selected' : $selected;
+							$selected = (!$nowSkin && $v=='default') ? ' selected' : $selected;
 							echo "<option value=\"$v\"$selected>$v</option>";
 						}
 						?>
@@ -89,12 +90,12 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 
 			<dl class="gs-webz">
 				<?php
-				$attr = (isset($repo['nest']['id'])) ? ' value="'.$repo['nest']['id'].'" readonly' : '';
+				$attr = (isset($repo['nest']['id']) && $form_action == 'modify') ? ' value="'.$repo['nest']['id'].'" readonly' : '';
 				?>
 				<dt><label for="id">아이디</label></dt>
 				<dd>
 					<input type="text" name="id" id="id" maxlength="20" size="22" placeholder="영문과 숫자 입력가능"<?=$attr?>/>
-					<p>이 항목은 한번정하면 변경할 수 없습니다.</p>
+					<p>이 항목은 한번 정하면 변경할 수 없습니다.</p>
 				</dd>
 			</dl>
 
