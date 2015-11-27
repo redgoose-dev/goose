@@ -78,21 +78,19 @@ class Util {
 	 * @param array $array
 	 * @param boolean $urlEncode
 	 * @param boolean $pretty
+	 * @param string $space
 	 * @return string
 	 */
-	public static function arrayToJson($array, $urlEncode=false, $pretty=false)
+	public static function arrayToJson($array, $urlEncode=false, $pretty=false, $space='    ')
 	{
 		try {
 			$options = ($pretty && !$urlEncode) ? JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT : JSON_UNESCAPED_UNICODE;
 
-			if ($urlEncode)
-			{
-				return urlencode(json_encode($array, $options));
-			}
-			else
-			{
-				return json_encode($array, $options);
-			}
+			$result = ($urlEncode) ? urlencode(json_encode($array, $options)) : json_encode($array, $options);
+			$result = ($pretty && !$urlEncode) ? preg_replace("/    /", $space, $result) : $result;
+
+			return $result;
+
 		} catch(Exception $e) {
 			return null;
 		}
@@ -524,4 +522,25 @@ class Util {
 	{
 		return substr(sprintf('%o', fileperms($loc)), -4);
 	}
+
+	/**
+	 * merge json data
+	 * json 데이터를 전부 합쳐서 그 값을 리턴해준다.
+	 *
+	 * @param array $files json 파일들
+	 * @return array
+	 */
+	public static function mergeJson($files=[])
+	{
+		$result = [];
+		foreach($files as $k=>$v)
+		{
+			if (file_exists($v))
+			{
+				$result = Util::extendArray($result, Util::jsonToArray(Util::openFile($v), true));
+			}
+		}
+		return $result;
+	}
+
 }

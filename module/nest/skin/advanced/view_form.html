@@ -3,6 +3,7 @@ if (!defined('__GOOSE__')) exit();
 
 // set title type
 $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
+$form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['action'];
 ?>
 
 <section>
@@ -10,13 +11,16 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 	<div class="gs-headding">
 		<h1>
 			<span>둥지<?=$titleType?></span>
-			<a href="<?=__GOOSE_ROOT__?>/help/nest/" class="icn-help" title="go to help"></a>
 		</h1>
 		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/help/nest/" class="help" title="go to help"><i class="icn-help"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
 	</div>
 	<!-- // headding -->
 
-	<form action="<?=__GOOSE_ROOT__.'/nest/'.$this->param['action'].'/'?>" method="post" id="regster-form">
+	<form action="<?=__GOOSE_ROOT__.'/nest/'.$form_action.'/'?>" method="post" id="regster-form">
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>" />
 
@@ -86,9 +90,9 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 
 			<dl class="gs-webz">
 				<?php
-				$attr = (isset($repo['nest']['id'])) ? ' value="'.$repo['nest']['id'].'" readonly' : '';
+				$attr = (isset($repo['nest']['id']) && $form_action == 'modify') ? ' value="'.$repo['nest']['id'].'" readonly' : '';
 				?>
-				<dt><label for="id">아이디</label></dt>
+				<dt><label for="id">ID</label></dt>
 				<dd>
 					<input type="text" name="id" id="id" maxlength="20" size="22" placeholder="영문과 숫자 입력가능"<?=$attr?>/>
 					<p>이 항목은 한번정하면 변경할 수 없습니다.</p>
@@ -96,7 +100,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			</dl>
 
 			<dl class="gs-webz">
-				<dt><label for="name">둥지이름</label></dt>
+				<dt><label for="name">Name</label></dt>
 				<dd><input type="text" name="name" id="name" maxlength="100" size="22" value="<?=$repo['nest']['name']?>"/></dd>
 			</dl>
 
@@ -140,7 +144,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			<dl class="gs-webz">
 				<?php
 				$thumType1 = $thumType2 = $thumType3 = $thumType4 = null;
-				if ($this->param['action'] == "modify")
+				if (isset($repo['nest']['json']['thumnail']['type']))
 				{
 					$thumType1 = ($repo['nest']['json']['thumnail']['type'] == "crop") ? ' checked = "checked"' : '';
 					$thumType2 = ($repo['nest']['json']['thumnail']['type'] == "resize") ? ' checked = "checked"' : '';

@@ -39,6 +39,9 @@ class View extends Nest
 			case 'modify':
 				$this->view_modify();
 				break;
+			case 'clone':
+				$this->view_modify();
+				break;
 			case 'remove':
 				$this->view_remove();
 				break;

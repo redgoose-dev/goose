@@ -8,8 +8,13 @@ $systemModules = ['user'];
 <section>
 	<!-- headding -->
 	<div class="gs-headding">
-		<h1>모듈목록</h1>
-		<p><?=$this->set['description']?></p>
+		<h1><?=$this->set['title']?></h1>
+		<p>
+			<?=$this->set['description']?> 인스톨이 가능한 모듈은 [설치]버튼이 활성화 됩니다. [설치해제]를 한다고 모듈이 삭제되지 않습니다.
+		</p>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
 	</div>
 	<!-- // headding -->
 
@@ -18,11 +23,11 @@ $systemModules = ['user'];
 		<?php
 		foreach ($repo['modules'] as $k=>$v)
 		{
-			$set = self::getSetting($v['name']);
+			$set = Module::getSetting($v['name']);
 		?>
 			<li>
 				<div class="body">
-					<strong class="hd"><?=$set['name']?></strong>
+					<strong class="hd">[<?=$set['name']?>] <?=($set['title']) ? $set['title'] : ''?></strong>
 					<?=($set['description']) ? '<p class="description">'.$set['description'].'</p>' : ''?>
 					<div class="inf">
 						<?php
@@ -51,6 +56,7 @@ $systemModules = ['user'];
 						{
 							echo "<a href=\"".__GOOSE_ROOT__."/help/$set[name]/\">도움말</a>";
 						}
+						echo "<a href=\"".__GOOSE_ROOT__."/modules/editSetting/$set[name]/\">설정</a>";
 						if ($set['install'] && !in_array($set['name'], $installModules))
 						{
 							echo "<a href=\"".__GOOSE_ROOT__."/modules/install/$set[name]/\" data-action='confirm' data-message='설치하시겠습니까?'>설치</a>";

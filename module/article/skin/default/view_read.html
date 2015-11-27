@@ -9,12 +9,15 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 	<div class="gs-headding">
 		<h1>
 			<span><?=$categoryName.$repo['article']['title']?></span>
-			<a href="<?=__GOOSE_ROOT__?>/help/article/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p>
 			<span><?=Util::convertDate($repo['article']['regdate']).'&nbsp;'.Util::convertTime($repo['article']['regdate'])?></span>
 			<span>Hit:<?=$repo['article']['hit']?></span>
 		</p>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
 	</div>
 
 	<!-- body -->

@@ -59,7 +59,7 @@ class Help {
 			$dir_helpFile = __GOOSE_PWD__.'module/'.$v.'/help/index';
 			if (file_exists($dir_helpFile.'.html') || file_exists($dir_helpFile.'.md'))
 			{
-				$getSetting = Util::jsonToArray(Util::openFile(__GOOSE_PWD__.'module/'.$v.'/setting.json'), true);
+				$getSetting = Module::getSetting($v);
 				array_push($repo['help'], array(
 					'name' => $v,
 					'title' => $getSetting['title'],
@@ -89,7 +89,7 @@ class Help {
 		if (file_exists($this->pwd_page))
 		{
 			// get module setting
-			$this->page_modSet = Util::jsonToArray(Util::openFile(__GOOSE_PWD__.'module/'.$this->moduleName.'/setting.json'));
+			$this->page_modSet = Module::getSetting($this->moduleName);
 
 			// set pwd_container
 			$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_page.html';

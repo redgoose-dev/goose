@@ -1,5 +1,221 @@
 @import "lib.src";
 
+
+// Elements
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body {
+	margin:0; padding:0;
+	font-size: 16px; color: #111;
+	font-family: 'Apple SD Gothic Neo', 'NanumGothic', 'MalgunGothic', 'Helvetica', sans-serif;
+	min-width: 320px;
+	-webkit-text-size-adjust: none;
+}
+img, video, iframe {max-width: 100%;}
+img {border: none;}
+table {
+	border-collapse: collapse; border-spacing: 0;
+	th, td {padding: 0;}
+}
+form, figure, dl, dd {margin: 0;}
+fieldset {margin: 0; padding: 0; border: none;}
+ul, ol {margin: 15px 0; padding: 0 0 0 25px;}
+a {color: #2281d8;}
+hr {
+	border: none; height: 1px; clear: both; background: #ccc;
+	&.space {background: none; margin: 12px 0;}
+	&.clear {margin: 0; height: 0; clear: both;}
+}
+
+
+// Attributes
+.blind {
+	position: absolute !important; overflow: hidden !important; visibility: hidden !important;
+	width: 0 !important; height: 0 !important; font-size: 0 !important; line-height: 0 !important;
+}
+.dis-ib {display: inline-block;}
+
+
+// text color
+.gs-color-red {color: #e80000;}
+
+
+// Forms
+input[type=email], input[type=text], input[type=password], input[type=number], input[type=tel], textarea {
+	margin: 2px 3px; padding: 8px 8px;
+	font-size: 14px; color: #333; vertical-align: middle;
+	background: white; border: 1px solid #acacac;
+	box-shadow:inset 0 2px 3px 0 rgba(0,0,0,.15);
+	border-radius: 0;
+	&.no-margin {margin: 0;}
+	&.block {width: 100%; margin-left: 0; margin-right: 0;}
+	&.error {border: 1px solid #e80000; color: #e80000;}
+	&[disabled], &[readonly] {background: #ddd;}
+}
+select {
+	height: 30px;
+	font-size: 13px;
+	border: 1px solid #aaa; border-radius: .1em;
+}
+
+
+// Button
+.gs-button {@extend %button;}
+button.gs-button {
+	-webkit-appearance:none; border:none;
+	&.block {width: 100%;}
+}
+
+
+// Buttons group
+.gs-btn-group {
+	margin: 15px 0; padding: 0 8px;
+	font-size: 0;
+	&.center {text-align: center;}
+	&.right {text-align: right;}
+	@media all and (max-width:640px) {
+		@include flexbox();
+		padding: 0;
+		> * {
+			margin: 0 0 0 1px; padding-left: 3px; padding-right: 3px;
+			text-align: center;
+			@include flex(1);
+			&:first-child {margin-left: 0;}
+		}
+	}
+	.gs-webz & {margin-bottom:0;}
+}
+
+
+// Headding
+.gs-headding {
+	padding: 5px 80px 5px 10px; position: relative;
+	border-bottom: 1px solid #ccc;
+	h1 {
+		margin: 0; line-height: 28px;
+		font-size: 24px; color: #111;
+		a {text-decoration: none; color: #111; vertical-align: middle;}
+	}
+	> p {
+		margin: 3px 0; font-size: 12px; color: #666;
+		span {
+			display: inline-block;
+			&:before {content: ','; display: inline-block; margin-right: 8px;}
+			&:first-child:before {margin-right: 0; content: '';}
+		}
+	}
+	> nav {
+		$size : 28px;
+		position: absolute; right: 10px; top: 50%;
+		margin-top: 0-($size*0.5);
+		@extend %clearfix;
+		a {
+			display: block; float: left;
+			width: $size; height: $size;
+			border-radius: 50%; background: #444;
+			text-align: center; text-decoration: none;
+			margin-left: 5px;
+			i {
+				font-size: 12px; color: #fff;
+				line-height: $size;
+			}
+			&.help {background: $color-redgoose;}
+		}
+	}
+	@media all and (max-width:640px) {
+		margin-bottom: 0; padding-left: 10px;
+		h1 {font-size: 20px;}
+		//.icn-help {font-size: 9px; padding: 3px;}
+	}
+}
+
+
+// Table
+.gs-table {
+	width: 100%;
+	caption {padding: 0 0 8px; text-align: left;}
+	th, td {
+		border: 1px solid #ccc;
+		padding: 8px 10px;
+	}
+	td {
+		&.center {text-align: center;}
+		&.nowrap {white-space: nowrap;}
+	}
+	thead th {background: #f1f1f1; font-weight: bold;}
+}
+
+
+// Paginate
+.gs-paginate {
+	margin: 15px 0;
+	padding: 0 8px;
+	font-size: 0;
+	a, strong {
+		margin: 0 2px; display: inline-block; padding: 10px 13px;
+		color: #fff; text-align: center;
+		font-size: 14px;
+	}
+	a {text-decoration: none; background: #a5acb0;}
+	strong {background: #72b3ca;}
+	@media all and (max-width:640px) {
+		text-align: center;
+	}
+	.gs-webz & {margin-bottom: 0;}
+}
+
+
+// Webzine
+.gs-webz {
+	display: table; width: 100%;
+	> * {display: table-cell; vertical-align: middle;}
+	@media all and (max-width:640px) {
+		display: block; width: auto;
+		> * {display: block;}
+	}
+	&.top > * {vertical-align: top;}
+}
+
+
+// article body
+.gs-article-body {
+	font-size: 14px; line-height: 1.42857143; word-break: break-all;
+	p {margin: 0 0 10px;}
+	h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+		font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit;
+		small, .small {font-size: 65%; font-weight: 400; line-height: 1; color: #777;}
+	}
+	h1, h2, h3, .h1, .h2, .h3 {margin-top: 20px; margin-bottom: 10px;}
+	h4, h5, h6, .h4, .h5, .h6 {margin-top: 10px; margin-bottom: 10px;}
+	h1, .h1 {font-size: 36px;}
+	h2, .h2 {font-size: 30px;}
+	h3, .h3 {font-size: 24px;}
+	h4, .h4 {font-size: 18px;}
+	h5, .h5 {font-size: 14px;}
+	h6, .h6 {font-size: 12px;}
+}
+
+
+// text parenthesis
+em[class^=gs-brk-] {font-style: normal;}
+.gs-brk-type {
+	&:before {content: '['}
+	&:after {content: ']'}
+}
+.gs-brk-cnt {
+	&:before {content: '('}
+	&:after {content: ')'}
+}
+.gs-brk-quot {
+	&:before {content: '"'}
+	&:after {content: '"'}
+}
+
+
+
 /* Header */
 #header {
 	display: table; width: 100%;

@@ -48,13 +48,16 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 
 <section>
 	<!-- headding -->
-	<div class="gs-headding">
+	<header class="gs-headding">
 		<h1>
 			<a href="<?=__GOOSE_ROOT__?>/nest/index/"><?=$this->set['title']?></a>
-			<a href="<?=__GOOSE_ROOT__?>/help/nest/" class="icn-help" title="go to help"></a>
 		</h1>
 		<p><?=$this->set['description']?></p>
-	</div>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/help/nest/" class="help" title="go to help"><i class="icn-help"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
+	</header>
 	<!-- // headding -->
 
 	<!-- app list -->
@@ -115,6 +118,7 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 									echo '<a href="'.__GOOSE_ROOT__.'/nest/modify/'.$v['srl'].'/">수정</a>';
 									echo '<a href="'.__GOOSE_ROOT__.'/nest/remove/'.$v['srl'].'/">삭제</a>';
 									echo $categoryBtn;
+									echo '<a href="'.__GOOSE_ROOT__.'/nest/clone/'.$v['srl'].'/">복제</a>';
 								}
 								?>
 							</nav>

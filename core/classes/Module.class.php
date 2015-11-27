@@ -20,7 +20,7 @@ class Module {
 	 * 모듈이 존재하는지 체크하고 경로를 반환한다.
 	 *
 	 * @param string $moduleName
-	 * @return string
+	 * @return array
 	 */
 	public static function existModule($moduleName)
 	{
@@ -35,12 +35,17 @@ class Module {
 		}
 		else
 		{
-			return new Object(array('state' => 'error', 'message' => 'module not found'));
+			return [
+				'state' => 'error',
+				'message' => 'module not found'
+			];
 		}
-		return array(
-			'pwd' => __GOOSE_PWD__.$path
-			,'path' => $path
-		);
+
+		return [
+			'state' => 'success',
+			'pwd' => __GOOSE_PWD__.$path,
+			'path' => $path
+		];
 	}
 
 	/**
@@ -80,17 +85,7 @@ class Module {
 		};
 
 		// set setting data
-		$tmp_settingOriginal = Util::jsonToArray(Util::openFile($pwd.'setting.json'));
-		$tmp_settingUser = Util::jsonToArray(Util::openFile($pwd.'setting.user.json'));
-		if ($tmp_settingOriginal && $tmp_settingUser)
-		{
-			$settings = ($tmp_settingUser) ? Util::extendArray($tmp_settingOriginal, $tmp_settingUser) : $tmp_settingOriginal;
-		}
-		else
-		{
-			$settings = ($tmp_settingUser) ? $tmp_settingUser : null;
-			$settings = ($tmp_settingOriginal) ? $tmp_settingOriginal : $settings;
-		}
+		$settings = Module::getSetting($moduleName);
 		if (!$settings || !is_array($settings)) return new Object(array('state' => 'error', 'message' => '['.$moduleName.'] setting.json파일이 없습니다.'));
 
 		// set module class path
@@ -294,6 +289,22 @@ class Module {
 		{
 			return $result['data'];
 		}
+	}
+
+	/**
+	 * get setting
+	 *
+	 * @param string $modName
+	 * @return array
+	 */
+	public static function getSetting($modName=null)
+	{
+		$loc = self::existModule($modName);
+		$settings = Util::mergeJson([
+			Util::isFile([ $loc['pwd'].'setting.json' ]),
+			Util::isFile([ __GOOSE_PWD__.'data/settings/'.$modName.'.json' ])
+		]);
+		return $settings;
 	}
 
 }

@@ -37,13 +37,14 @@ if ( checkPost() == true )
 	{
 		if (!chmod(__GOOSE_PWD__, 0707))
 		{
-			echo '<p>Plase change the permission of `'.__GOOSE_PWD__.'` to 707 folder.</p>';
+			echo '<p>Please change the permission of `'.__GOOSE_PWD__.'` to 707 folder.</p>';
 			Goose::end();
 		}
 	}
 
 	// create directories
 	Util::createDirectory(__GOOSE_PWD__."data", 0755);
+	Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
 
 	// create config.php
 	$tpl_config = $this->tpl_config(array(

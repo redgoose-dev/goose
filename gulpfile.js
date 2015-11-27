@@ -18,7 +18,8 @@ var getParams = function(optionKey)
 // get Dir
 var getDir = function(pwd)
 {
-	return pwd.replace(/[^\/]*$/, '');
+	return pwd.replace(/[^\/]*$/, ''); // linux
+	//return pwd.replace(/[^\\]*$/, ''); // windows
 };
 
 // get filename
@@ -34,6 +35,9 @@ gulp.task('scss:watch', function(){
 		.on('change', function(file){
 			// skip import file (xyz.src.scss)
 			if ( /src.scss$/.test(getFilename(file.path)) ) return;
+
+			log(file.path);
+			log(getDir(file.path));
 
 			// convert scss file
 			gulp.src(file.path)
