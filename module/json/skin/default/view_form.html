@@ -5,6 +5,9 @@ if (!defined('__GOOSE__')) exit();
 $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 ?>
 
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/<?=$this->skinPath?>css/json.css">
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/vendor/JSONEditor/dist/css/JSONEditor.css" media="screen" />
+
 <section>
 	<div class="gs-headding">
 		<h1>JSON <?=$titleType?></h1>
@@ -17,7 +20,7 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 
 	<form action="<?=__GOOSE_ROOT__.'/json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="json_srl" value="<?=$repo['json']['srl']?>" />
-		<input type="hidden" name="json" />
+		<input type="hidden" name="json" value="<?=$repo['json']['json']?>" />
 
 		<fieldset class="form-group">
 			<dl class="gs-webz">
@@ -27,6 +30,26 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 			<dl>
 				<dt><label>JSON DATA</label></dt>
 				<dd>
+					<div class="get-source" id="getSource">
+						<ul>
+							<li>
+								<button type="button" class="gs-button size-small" data-action="toggle_form">get source</button>
+							</li>
+						</ul>
+						<article class="form">
+							<div class="wrap">
+								<h1>Get JSON source</h1>
+								<p>가져올 json타입의 데이터를 입력해주세요. 아래 버튼중에 <b>[import]</b>는 추가, <b>[replace]</b>는 새로 내용을 넣습니다.</p>
+								<textarea name="import_json">{}</textarea>
+								<nav class="gs-btn-group center">
+									<button type="button" class="gs-button" data-action="getSourceClose">Close</button>
+									<button type="button" class="gs-button col-key" data-action="getSourceImport">Import</button>
+									<button type="button" class="gs-button col-key" data-action="getSourceReplace">Replace</button>
+								</nav>
+							</div>
+						</article>
+					</div>
+					<hr class="clear">
 					<div class="JSONEditor" id="JSONEditor"></div>
 				</dd>
 			</dl>
@@ -39,38 +62,8 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 	</form>
 </section>
 
-<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/vendor/JSONEditor/dist/css/JSONEditor.css" media="screen" />
 <script src="<?=__GOOSE_ROOT__?>/vendor/JSONEditor/dist/js/JSONEditor.class.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/validation/jquery.validate.min.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/validation/localization/messages_ko.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/JSONEditor/vendor/jquery-sortable/jquery-sortable.js"></script>
-<script>
-jQuery(function($){
-	var $jsonEditor = $('#JSONEditor');
-	var $form = $('#regsterForm');
-	var jsonData = '<?=$repo['json']['json']?>';
-	var jsonEditor = new JSONEditor($jsonEditor);
-
-	// import json
-	var json;
-	try {
-		json = JSON.parse(decodeURIComponent(jsonData.replace(/\+/g, '%20')));
-	}
-	catch(e) {
-		json = {};
-	}
-	jsonEditor.replace(json);
-
-	// submit form
-	$form.on('submit', function(){
-		$(this).find('input[name=json]').val(jsonEditor.export(false));
-	});
-
-	// value validate
-	$form.validate({
-		rules : {
-			name : {required : true, minlength : 3}
-		}
-	});
-});
-</script>
+<script src="<?=__GOOSE_ROOT__?>/<?=$this->skinPath?>js/json.js"></script>
