@@ -8,7 +8,7 @@ if (!defined('__GOOSE__')) exit();
  */
 function checkPost()
 {
-	$errorValue = Util::checkExistValue($_POST, array('goose_root', 'goose_url', 'dbId', 'dbName', 'email', 'name'));
+	$errorValue = Util::checkExistValue($_POST, [ 'goose_url', 'dbId', 'dbName', 'email', 'name' ]);
 	if ($errorValue)
 	{
 		Util::back("[$errorValue]값이 없습니다.");
@@ -47,27 +47,27 @@ if ( checkPost() == true )
 	Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
 
 	// create config.php
-	$tpl_config = $this->tpl_config(array(
-		'define' => array(
+	$tpl_config = $this->tpl_config([
+		'define' => [
 			'url' =>$_POST['goose_url']
-			,'root' => $_POST['goose_root']
-		)
-		,'db' => array(
+			,'root' => ($_POST['goose_root']) ? $_POST['goose_root'] : ''
+		]
+		,'db' => [
 			'dbname' => $_POST['dbName']
 			,'name' => $_POST['dbId']
 			,'password' => $_POST['dbPassword']
 			,'host' => $_POST['dbHost']
 			,'port' => $_POST['dbPort']
 			,'prefix' => $_POST['dbPrefix']
-		)
-		,'level' => array(
+		]
+		,'level' => [
 			'login' => $_POST['loginLevel']
 			,'admin' => $_POST['adminLevel']
-		)
+		]
 		,'apiKey' => $_POST['apiPrefix']
 		,'timezone' => $_POST['timezone']
 		,'basic_module' => 'intro'
-	));
+	]);
 	if ($tpl_config != 'success')
 	{
 		Goose::error(999, 'Failed to create the file data/config.php');
