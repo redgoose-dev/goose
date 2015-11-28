@@ -12,7 +12,7 @@ Goose
 #### Goose Resource
 Goose 프로그램이나 다양한 모듈과 스킨 디자인을 커스터마이즈 할 수 있습니다. 당연히 모듈 제작도 가능하겠죠~ 그런 소스들을 공유하는 공간을 만들었습니다.
 
-__http://resource.redgoose.me__
+__http://src.goose-dev.com__
 
 현재는 주인장 혼자 컨텐츠를 만들어 올리고 있지만 컨텐츠를 만들어 공유하시고 싶으신분이 계시다면 scripter@me.com 으로 이메일을 보내주세요. 환영합니다~
 
