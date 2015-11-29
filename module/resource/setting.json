@@ -1,0 +1,11 @@
+{
+	"name" : "resource",
+	"title" : "Resource",
+	"description" : "Goose의 다른 기능들을 검색하고 설치할 수 있습니다.",
+	"permission" : 0,
+	"adminPermission" : 100,
+	"install" : false,
+	"skin" : "default",
+	"pagePerCount" : 15,
+	"access_token" : ""
+}
