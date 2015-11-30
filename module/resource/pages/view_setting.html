@@ -1,0 +1,67 @@
+<section>
+	<div class="gs-headding">
+		<h1>
+			<span><?=$this->set['title']?> setting</span>
+		</h1>
+		<p><?=$this->set['description']?></p>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
+	</div>
+
+	<hr class="space">
+
+	<form action="<?=$this->url?>/updateFTP/" method="post" name="ftpSetting">
+		<fieldset class="form-group">
+			<legend>ftp 설정 폼</legend>
+			<dl class="gs-webz first">
+				<dt><label for="host_id">ID</label></dt>
+				<dd><input type="text" name="host_id" id="host_id" maxlength="20" size="20" value="" placeholder="ftp id"/></dd>
+			</dl>
+			<dl class="gs-webz">
+				<dt><label for="host_pw">Password</label></dt>
+				<dd><input type="password" name="host_pw" id="host_pw" size="20" maxlength="20" value="" placeholder="ftp Password"/></dd>
+			</dl>
+			<dl class="gs-webz">
+				<dt><label for="host_pwd">Location</label></dt>
+				<dd>
+					<input type="text" name="host_pwd" id="host_pwd" size="50" maxlength="100" value="<?=__GOOSE_PWD__?>" placeholder="ftp Password"/>
+					<p>goose가 설치된 ftp경로를 지정합니다.</p>
+				</dd>
+			</dl>
+		</fieldset>
+		<nav class="gs-btn-group right">
+			<button type="button" data-action="test_ftp" class="gs-button col-key">FTP 테스트</button>
+			<button type="submit" data-action="update_ftp" class="gs-button col-key">업데이트</button>
+		</nav>
+	</form>
+
+</section>
+
+<script>
+var userData = {
+	url : '<?=$this->url?>'
+};
+
+jQuery(function($){
+	var form_ftp = document.ftpSetting;
+	var $form_ftp = $(form_ftp);
+	var $btn_test = $form_ftp.find('[data-action=test_ftp]');
+
+	// test ftp
+	$btn_test.on('click', function(){
+		$.post(userData.url + '/testFTP/', $form_ftp.serialize(), function(data){
+			log(data);
+		});
+	});
+
+	// update ftp
+	$form_ftp.on('submit', function(){
+		$.post(form_ftp.action, $form_ftp.serialize(), function(data){
+			log(data);
+		});
+		return false;
+	});
+});
+</script>

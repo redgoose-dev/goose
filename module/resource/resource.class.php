@@ -23,7 +23,8 @@ class Resource {
 		$this->path = $getter['path'];
 		$this->set = $getter['set'];
 
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
+		$this->viewPath = $this->path.'pages/';
+		$this->url = __GOOSE_ROOT__.'/'.$this->name;
 	}
 
 	/**
@@ -31,7 +32,49 @@ class Resource {
 	 */
 	public function index()
 	{
-		echo 'hello resource module';
+		// set layout module
+		$this->layout = Module::load('layout');
+
+		if ($this->param['method'] == 'POST')
+		{
+			switch($this->param['action'])
+			{
+				case 'updateFTP':
+					var_dump('update ftp');
+					break;
+				case 'testFTP':
+					var_dump('test ftp');
+					//var_dump($_POST);
+					break;
+			}
+		}
+		else
+		{
+			switch($this->param['action'])
+			{
+				case 'nest':
+					break;
+				case 'setting':
+					$this->view_index('view_setting');
+					break;
+				default:
+					$this->view_index('view_index');
+					break;
+			}
+		}
+	}
+
+	/**
+	 * view - index
+	 *
+	 * @param string $fileName
+	 */
+	private function view_index($fileName)
+	{
+		// set pwd_container
+		$this->pwd_container = __GOOSE_PWD__.$this->viewPath.$fileName.'.html';
+
+		require_once($this->layout->getUrl());
 	}
 
 }

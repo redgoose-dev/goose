@@ -6,6 +6,5 @@
 	"adminPermission" : 100,
 	"install" : false,
 	"skin" : "default",
-	"pagePerCount" : 15,
-	"access_token" : ""
+	"pagePerCount" : 15
 }
