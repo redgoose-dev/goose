@@ -7,10 +7,17 @@ if (!defined('__GOOSE__')) exit();
 	<div class="gs-headding">
 		<h1><a href="<?=__GOOSE_ROOT__?>/help/">Help 목록</a></h1>
 		<p><?=$this->set['description']?></p>
-		<nav>
-			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
-		</nav>
+		<?php
+		if ($this->isAdmin)
+		{
+		?>
+			<nav>
+				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
+				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+			</nav>
+		<?php
+		}
+		?>
 	</div>
 	<!-- // headding -->
 
