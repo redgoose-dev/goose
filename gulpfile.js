@@ -1,7 +1,6 @@
 function log(o){console.log(o);}
 
 var gulp = require('gulp');
-var concat = require('gulp-concat');
 var scss = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
