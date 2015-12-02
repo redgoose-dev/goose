@@ -2,6 +2,8 @@
 if (!defined('__GOOSE__')) exit();
 ?>
 
+<div id="resourceApp"></div>
+
 <ul>
 	<li><a href="<?=$this->url?>/nest/modules/">Mod</a></li>
 	<li><a href="<?=$this->url?>/nest/moduleSkins/">Mod Skins</a></li>
@@ -10,3 +12,11 @@ if (!defined('__GOOSE__')) exit();
 
 	<li><a href="<?=$this->url?>/setting/">Setting</a></li>
 </ul>
+
+
+
+
+<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/0.14.3/react-0.14.3.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/0.14.3/react-dom-0.14.3.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/react-router/1.0.0/ReactRouter.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/<?=$this->viewPath?>dist/app.js"></script>

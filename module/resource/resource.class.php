@@ -23,7 +23,7 @@ class Resource {
 		$this->path = $getter['path'];
 		$this->set = $getter['set'];
 
-		$this->viewPath = $this->path.'pages/';
+		$this->viewPath = $this->path.'app/';
 		$this->url = __GOOSE_ROOT__.'/'.$this->name;
 	}
 
