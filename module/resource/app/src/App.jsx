@@ -6,7 +6,6 @@ const App = React.createClass({
 		return {
 			nest: []
 		}
-
 	},
 
 	componentDidMount()

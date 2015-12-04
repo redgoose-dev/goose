@@ -19,8 +19,8 @@ ReactDOM.render(
 		<Router history={createHashHistory({ queryKey: false })}>
 			<Route path="/" component={App}>
 				<IndexRoute component={Index}/>
-				<Route path="read/:srl" component={View}/>
-				<Route path="nest/:nest_srl" component={Index}/>
+				<Route path="read/:srl/" component={View}/>
+				<Route path="nest/:nest_srl/" component={Index}/>
 			</Route>
 		</Router>
 	),

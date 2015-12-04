@@ -4,12 +4,11 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
 var concat = require('gulp-concat');
-var browserify = require('gulp-browserify');
 
 
 // compile react
 gulp.task('react', function(){
-	return gulp.src([ 'src/**/!(index)*.jsx', 'src/**/index.jsx'])
+	return gulp.src([ 'src/**/!(head)*.jsx', 'src/**/head.jsx'])
 		.pipe(babel({
 			plugins : ['transform-react-jsx'],
 			presets : ['es2015']
@@ -19,7 +18,6 @@ gulp.task('react', function(){
 		.pipe(gulp.dest("dist"));
 });
 
-
 gulp.task('react:watch', function(){
-	gulp.watch('src/**/*.jsx', ['react']);
+	gulp.watch([ 'src/**/!(head)*.jsx', 'src/**/head.jsx'], ['react']);
 });

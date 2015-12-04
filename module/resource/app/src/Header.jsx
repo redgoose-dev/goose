@@ -14,7 +14,7 @@ const Header = React.createClass({
 			if (!response) return;
 			try {
 				response = JSON.parse(response);
-				log(response.result);
+				//log(response.result);
 			} catch(o) {
 
 			}
