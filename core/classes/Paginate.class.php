@@ -91,14 +91,14 @@ class Paginate {
 	 */
 	public function createNavigationToObject()
 	{
-		$result = [
-			'prev' => null,
-			'next' => null,
-			'body' => null,
-		];
-
 		if ($this->total > $this->size)
 		{
+			$result = [
+					'prev' => null,
+					'next' => null,
+					'body' => null,
+			];
+
 			if ($this->block > 0)
 			{
 				$prev_block = ($this->block - 1) * $this->scale + 1;
@@ -148,6 +148,10 @@ class Paginate {
 					'url' => "{$this->tails}{$amp}page={$next_block}",
 				];
 			}
+		}
+		else
+		{
+			$result = null;
 		}
 
 		return new Object($result);
