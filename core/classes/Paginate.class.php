@@ -154,6 +154,6 @@ class Paginate {
 			$result = null;
 		}
 
-		return new Object($result);
+		return ($result) ? new Object($result) : null;
 	}
 }
