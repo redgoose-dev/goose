@@ -8,7 +8,7 @@ var concat = require('gulp-concat');
 
 // compile react
 gulp.task('react', function(){
-	return gulp.src([ 'src/**/!(head)*.jsx', 'src/**/head.jsx'])
+	return gulp.src([ 'src/**/!(router)*.jsx', 'src/**/router.jsx'])
 		.pipe(babel({
 			plugins : ['transform-react-jsx'],
 			presets : ['es2015']

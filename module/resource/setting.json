@@ -6,5 +6,7 @@
 	"adminPermission" : 100,
 	"install" : false,
 	"skin" : "default",
-	"pagePerCount" : 15
+	"pagePerCount" : 15,
+	"urlGooseAPI" : "//api.goose-dev.com",
+	"urlGooseAdmin" : "//admin.goose-dev.com"
 }

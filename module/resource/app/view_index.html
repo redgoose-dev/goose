@@ -2,11 +2,13 @@
 if (!defined('__GOOSE__')) exit();
 ?>
 
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/<?=$this->viewPath?>assets/css/resource.css">
+
 <section>
 	<!-- headding -->
 	<header class="gs-headding">
 		<h1>
-			<span>APP 목록</span>
+			<span>Resource</span>
 		</h1>
 		<p><?=$this->set['description']?></p>
 	</header>
@@ -17,16 +19,6 @@ if (!defined('__GOOSE__')) exit();
 	<!-- // app -->
 </section>
 
-<ul>
-	<li><a href="<?=$this->url?>/nest/modules/">Mod</a></li>
-	<li><a href="<?=$this->url?>/nest/moduleSkins/">Mod Skins</a></li>
-	<li><a href="<?=$this->url?>/nest/app/">App</a></li>
-	<li><a href="<?=$this->url?>/nest/script/">Script</a></li>
-
-	<li><a href="<?=$this->url?>/setting/">Setting</a></li>
-</ul>
-
-
 <script src="<?=__GOOSE_ROOT__?>/vendor/react.js/0.14.3/react-0.14.3.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/react.js/0.14.3/react-dom-0.14.3.min.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/react-router/1.0.0/ReactRouter.min.js"></script>
@@ -34,7 +26,14 @@ if (!defined('__GOOSE__')) exit();
 <script>
 window.userData = {
 	url : '<?=$this->url?>',
-	description : ''
+	url_gooseAPI : '<?=$this->set['urlGooseAPI']?>',
+	url_gooseAdmin : '<?=$this->set['urlGooseAdmin']?>',
+	apiUrls : {
+		nest : '<?=$this->set['urlGooseAPI']?>/nest/items/',
+		category : '<?=$this->set['urlGooseAPI']?>/category/items/',
+		article : '<?=$this->set['urlGooseAPI']?>/article/items/',
+		nav : '<?=$this->set['urlGooseAPI']?>/json/item/?srl=2&format=json'
+	}
 };
 </script>
 <script src="<?=__GOOSE_ROOT__?>/<?=$this->viewPath?>dist/app.js"></script>
