@@ -3,7 +3,7 @@ var Index = React.createClass({
 	displayName : 'Index',
 	currentNest : '',
 	currentPage : 1,
-	count : 20,
+	count : 10,
 
 	getInitialState()
 	{
@@ -18,7 +18,7 @@ var Index = React.createClass({
 	getItems(nest_id, page)
 	{
 		let self = this;
-		let url = userData.apiUrls.article;
+		let url = this.props.userData.apiUrls.article;
 
 		url += '?format=json';
 		url += '&field=srl,category_srl,nest_srl,title,hit,json,regdate,modate';
@@ -64,13 +64,14 @@ var Index = React.createClass({
 	render()
 	{
 		let index, pageNavigation;
+		let loading = <li className="loading-page">
+			<span className="inner-circles-loader">loading symbol</span>
+			<span className="message">loading..</span>
+		</li>;
 
 		if (this.state.loading)
 		{
-			index = <li className="loading-page">
-				<span className="inner-circles-loader">loading symbol</span>
-				<span className="message">loading..</span>
-			</li>;
+			index = loading;
 		}
 		else
 		{
@@ -79,7 +80,7 @@ var Index = React.createClass({
 				// make index
 				index = this.state.items.map((o, k) => {
 					let css_figure = {
-						backgroundImage : 'url(\'' + userData.url_gooseAdmin + '/' + o.json.thumnail.url + '\')'
+						backgroundImage : 'url(\'' + this.props.userData.url_gooseAdmin + '/' + o.json.thumnail.url + '\')'
 					};
 
 					return (
@@ -128,9 +129,9 @@ var Index = React.createClass({
 		}
 
 		return (
-			<section className="index">
+			<section>
 				<h1>{this.state.title}</h1>
-				{ (this.state.loading) ? <div className="loading">loading...</div> : <ul>{index}</ul> }
+				<ul className="index">{index}</ul>
 				{pageNavigation}
 			</section>
 		);

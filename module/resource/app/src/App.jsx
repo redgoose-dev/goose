@@ -27,7 +27,8 @@ const App = React.createClass({
 				{React.cloneElement(
 					this.props.children, {
 						ref : 'child',
-						parent : this
+						parent : this,
+						userData : userData
 					}
 				)}
 			</div>

@@ -11,6 +11,10 @@ if (!defined('__GOOSE__')) exit();
 			<span>Resource</span>
 		</h1>
 		<p><?=$this->set['description']?></p>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
 	</header>
 	<!-- // headding -->
 
@@ -28,6 +32,9 @@ window.userData = {
 	url : '<?=$this->url?>',
 	url_gooseAPI : '<?=$this->set['urlGooseAPI']?>',
 	url_gooseAdmin : '<?=$this->set['urlGooseAdmin']?>',
+	ftp : {
+		pwd : '<?=__GOOSE_PWD__?>',
+	},
 	apiUrls : {
 		nest : '<?=$this->set['urlGooseAPI']?>/nest/items/',
 		category : '<?=$this->set['urlGooseAPI']?>/category/items/',
