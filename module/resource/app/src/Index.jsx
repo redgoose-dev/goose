@@ -15,30 +15,6 @@ var Index = React.createClass({
 		};
 	},
 
-	getItems(nest_id, page)
-	{
-		let self = this;
-		let url = this.props.userData.apiUrls.article;
-
-		url += '?format=json';
-		url += '&field=srl,category_srl,nest_srl,title,hit,json,regdate,modate';
-		url += '&count=' + this.count;
-		url += '&page=' + page;
-		url += (nest_id) ? '&nest_id=' + nest_id : '';
-
-		jQuery.get(url, function(response){
-			try {
-				response = JSON.parse(response);
-				self.setState({
-					loading : false,
-					items : response.result,
-					navigation : response.navigation,
-					title : self.props.parent.refs.header.getTitle()
-				});
-			} catch(err) {}
-		});
-	},
-
 	componentDidMount()
 	{
 		this.currentNest = this.props.params.nest_id;
@@ -59,6 +35,30 @@ var Index = React.createClass({
 			this.setState({ loading : true });
 			this.getItems(this.currentNest, this.currentPage);
 		}
+	},
+
+	getItems(nest_id, page)
+	{
+		let self = this;
+		let url = this.props.userData.apiUrls.articles;
+
+		url += '?format=json';
+		url += '&field=srl,category_srl,nest_srl,title,hit,json,regdate,modate';
+		url += '&count=' + this.count;
+		url += '&page=' + page;
+		url += (nest_id) ? '&nest_id=' + nest_id : '';
+
+		jQuery.get(url, function(response){
+			try {
+				response = JSON.parse(response);
+				self.setState({
+					loading : false,
+					items : response.result,
+					navigation : response.navigation,
+					title : self.props.parent.refs.header.getTitle()
+				});
+			} catch(err) {}
+		});
 	},
 
 	render()
@@ -85,7 +85,7 @@ var Index = React.createClass({
 
 					return (
 						<li key={k}>
-							<Link to={'/article/' + o.srl + '/'}>
+							<Link to={'/article/' + ((this.currentNest) ? this.currentNest : 'new') + '/' + o.srl + '/'}>
 								<figure style={css_figure}>image</figure>
 								<div className="bd">
 									<span className="category-name">{o.category_name}</span>

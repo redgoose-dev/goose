@@ -48,7 +48,7 @@ const Header = React.createClass({
 			let active = '';
 			o.url = (o.id) ? '/nest/' + o.id + '/' : '/';
 
-			if (this.props.path[0] == 'nest' || (k == 0 && !this.props.path[0]))
+			if (this.props.path[0] == 'nest' || this.props.path[0] == 'article' || (k == 0 && !this.props.path[0]))
 			{
 				active = (o.id == this.props.path[1]) ? 'active' : '';
 				if (o.id == this.props.path[1])
@@ -71,7 +71,6 @@ const Header = React.createClass({
 					<li key="category-setting" className={(this.props.path[0] == 'setting') ? 'active' : ''}>
 						<Link to="/setting/">SETTING</Link>
 					</li>
-					<li><a href={window.userData.url + '/setting/'}>SETTING ww</a></li>
 				</ul>
 			</nav>
 		);

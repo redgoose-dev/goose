@@ -12,7 +12,7 @@ ReactDOM.render(
 			<Route path="/" component={App}>
 				<IndexRoute component={Index}/>
 				<Route path="nest/:nest_id/" component={Index} />
-				<Route path="article/:srl/" component={View} />
+				<Route path="article/:nest_id/:srl/" component={View} />
 				<Route path="setting/" component={Setting} />
 			</Route>
 		</Router>

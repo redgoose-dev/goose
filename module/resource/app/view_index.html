@@ -3,6 +3,7 @@ if (!defined('__GOOSE__')) exit();
 ?>
 
 <link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/<?=$this->viewPath?>assets/css/resource.css">
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/vendor/Parsedown/markdown.css" />
 
 <section>
 	<!-- headding -->
@@ -33,12 +34,15 @@ window.userData = {
 	url_gooseAPI : '<?=$this->set['urlGooseAPI']?>',
 	url_gooseAdmin : '<?=$this->set['urlGooseAdmin']?>',
 	ftp : {
-		pwd : '<?=__GOOSE_PWD__?>',
+		host : '<?=(isset($this->ftp['host'])) ? $this->ftp['host'] : ''?>',
+		id : '<?=(isset($this->ftp['id'])) ? $this->ftp['id'] : ''?>',
+		pwd : '<?=(isset($this->ftp['pwd'])) ? $this->ftp['pwd'] : __GOOSE_PWD__?>'
 	},
 	apiUrls : {
 		nest : '<?=$this->set['urlGooseAPI']?>/nest/items/',
 		category : '<?=$this->set['urlGooseAPI']?>/category/items/',
-		article : '<?=$this->set['urlGooseAPI']?>/article/items/',
+		articles : '<?=$this->set['urlGooseAPI']?>/article/items/',
+		article : '<?=$this->set['urlGooseAPI']?>/article/item/',
 		nav : '<?=$this->set['urlGooseAPI']?>/json/item/?srl=2&format=json'
 	}
 };

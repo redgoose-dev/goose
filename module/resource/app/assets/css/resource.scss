@@ -3,9 +3,7 @@ $color-key : #72b3ca;
 .mod-resource {
 
 	// buttons
-	button.ui-button {
-		-webkit-appearance:none;
-	}
+	button.ui-button {-webkit-appearance:none;}
 	.ui-button {
 		display: inline-block;
 		margin: 1px 2px; padding: 7px 15px;
@@ -17,10 +15,8 @@ $color-key : #72b3ca;
 		outline: none;
 		&:active {box-shadow: inset 1px 2px 5px rgba(0,0,0,.3);}
 		&.color-key {background: #6eb31d; color: #fff;}
-		&.size-large {
-			padding: 10px 20px;
-		}
-		&[disabled] {background: #666; color: #fff;}
+		&.size-large {padding: 10px 20px;}
+		&[disabled] {background: #666; color: #fff; cursor: default;}
 	}
 
 	// category
@@ -46,6 +42,16 @@ $color-key : #72b3ca;
 		> h1 {
 			margin: 0; padding: 0 10px;
 			font-size: 32px; color: #111; font-weight: normal;
+		}
+	}
+
+	.loading-page, .noitem {
+		padding: 50px 0; text-align: center;
+		.message {
+			display: block; margin: 10px auto 0;
+			text-align: center;
+			font-family: arial, sans-serif;
+			color: #888; font-size: 11px;
 		}
 	}
 
@@ -109,13 +115,36 @@ $color-key : #72b3ca;
 			}
 		}
 		.loading-page, .noitem {
-			float: none; width: auto; padding: 50px 0;
-			text-align: center;
-			.message {
-				display: block; margin: 10px auto 0;
-				text-align: center;
-				font-family: arial, sans-serif;
-				color: #888; font-size: 11px;
+			float: none; width: auto;
+		}
+	}
+
+	// view
+	.view {
+		> header {
+			margin: 0 0 30px; padding: 0 10px;
+			h1 {
+				margin: 0;
+				font-size: 32px; font-weight: 300; color: #212120;
+				.version {
+					display: inline-block; margin-left: 5px;
+					color: #b31e37; font-size: 14px; font-style: normal; font-weight: 500;
+					&:before {content: 'Ver. '}
+				}
+			}
+			.metas {
+				margin-top: 1px;
+				font-size: 0; color: #666;
+				span {
+					display: inline-block;
+					font-size: 12px;
+					&:before {content: ','; margin-right: 8px;}
+					&:first-child:before {content: ''; margin-right: 0;}
+				}
+				em {
+					font-style: normal;
+					&:before {content: ' ';}
+				}
 			}
 		}
 	}
@@ -253,7 +282,6 @@ $color-key : #72b3ca;
 		}
 	}
 }
-
 
 
 @-moz-keyframes inner-circles-loader {

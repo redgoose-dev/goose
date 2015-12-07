@@ -25,6 +25,7 @@ class Resource {
 
 		$this->viewPath = $this->path.'app/';
 		$this->url = __GOOSE_ROOT__.'/'.$this->name;
+		$this->ftp = null;
 	}
 
 	/**
@@ -35,20 +36,15 @@ class Resource {
 		// set layout module
 		$this->layout = Module::load('layout');
 
+		$this->loadFtpInfo();
+
 		if ($this->param['method'] == 'POST')
 		{
 			switch($this->param['action'])
 			{
 				case 'updateFTP':
 					$result = $this->updateFtp();
-					if ($result['state'] == 'success')
-					{
-						Util::redirect($_POST['redir'], $result['message']);
-					}
-					else
-					{
-						Util::back($result['message']);
-					}
+					Util::redirect((isset($_POST['redir'])) ? $_POST['redir'] : $this->url.'/', $result['message']);
 					break;
 				case 'testFTP':
 					$result = $this->testFtp([
@@ -206,6 +202,21 @@ class Resource {
 				'state' => 'error',
 				'message' => $e->getMessage(),
 			];
+		}
+	}
+
+	/**
+	 * load ftp info
+	 *
+	 * @return void
+	 */
+	private function loadFtpInfo()
+	{
+		$ftp_account = null;
+		if (file_exists(__GOOSE_PWD__.'data/ftp.php'))
+		{
+			require_once(__GOOSE_PWD__.'data/ftp.php');
+			$this->ftp = $ftp_account;
 		}
 	}
 
