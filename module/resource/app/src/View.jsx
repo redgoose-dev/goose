@@ -1,19 +1,50 @@
 const View = React.createClass({
 
 	displayName : 'View',
+	srl : null,
 
 	getInitialState()
 	{
 		return {
 			title : '',
 			loading : true,
-			item : null
+			item : null,
+			countLike : 0,
+			countHit : 0,
+			enableLike : (!this.getCookie('like-' + this.props.params.srl))
 		};
 	},
 
 	componentDidMount()
 	{
-		this.getItem(this.props.params.srl);
+		this.srl = this.props.params.srl;
+		this.getItem(this.srl);
+	},
+
+	setCookie(name, value, cDay)
+	{
+		let expire = new Date();
+		let cookies = name + '=' + value + '; path=/ ';
+		expire.setDate(expire.getDate() + cDay);
+		cookies += (typeof cDay != 'undefined') ? ';expires=' + expire.toGMTString() + ';' : '';
+		document.cookie = cookies;
+	},
+
+	getCookie(name)
+	{
+		name += '=';
+		let cookieData = document.cookie;
+		let start = cookieData.indexOf(name);
+		let value = '';
+
+		if (start != -1)
+		{
+			start += name.length;
+			var end = cookieData.indexOf(';', start);
+			if(end == -1)end = cookieData.length;
+			value = cookieData.substring(start, end);
+		}
+		return value;
 	},
 
 	getItem(srl)
@@ -27,6 +58,7 @@ const View = React.createClass({
 		jQuery.get(url, function(response){
 			try {
 				response = JSON.parse(response);
+				self.updateHit(srl);
 				self.setState({
 					loading : false,
 					item : response.result,
@@ -36,10 +68,52 @@ const View = React.createClass({
 		});
 	},
 
+	updateHit(srl)
+	{
+		log('act update hit-' + srl);
+		// TODO : 쿠키체크는 api에서 처리. 값 확인하고 업데이트 하기
+	},
+
 	// up like
 	upLike()
 	{
-		log('update like')
+		let self = this;
+
+		if (!this.getCookie('like-' + this.srl))
+		{
+			let url = this.props.userData.url_gooseAPI;
+			url += '/article/updateLike/';
+			url += '?format=json&srl=' + this.srl + '&host=' + this.props.userData.host;
+
+			jQuery.get(url, function(response){
+				log(response);
+				// TODO : 쿠키체크는 api에서 처리. 값 확인하고 업데이트 하기
+
+				//try {
+				//	response = JSON.parse(response);
+				//	if (response.state == 'success')
+				//	{
+				//		self.setCookie('like-' + self.srl, '1', 1);
+				//		self.setState({
+				//			countLike : response.result.like,
+				//			enableLike : false
+				//		});
+				//	}
+				//	else
+				//	{
+				//		throw 'error update like';
+				//	}
+				//} catch(err) {
+				//	alert(err);
+				//}
+			});
+		}
+	},
+
+	// install
+	install()
+	{
+		log('act install');
 	},
 
 	render() {
@@ -58,6 +132,9 @@ const View = React.createClass({
 			if (this.state.item)
 			{
 				let item = this.state.item;
+				let countHit = (this.state.countHit) ? this.state.countHit : item.hit;
+				let countLike = (this.state.countLike) ? this.state.countLike : item.json.like;
+
 				body = <section className="view">
 					<header>
 						<h1>
@@ -68,21 +145,20 @@ const View = React.createClass({
 							<span>{'Uploader : ' + item.json.user.name}</span>
 							<span>{'Regdate : ' + item.regdate}</span>
 							<span>{'Updated : ' + item.modate}</span>
-							<span>Hit : <em data-target="hit">{item.hit}</em></span>
-							<span>Like : <em data-target="like">{item.json.like}</em></span>
+							<span>Hit : <em data-target="hit">{countHit}</em></span>
+							<span>Like : <em data-target="like">{countLike}</em></span>
 						</div>
 					</header>
 
 					<div className="con-body" dangerouslySetInnerHTML={{__html: item.content}}></div>
 
 					<nav className="nav-bottom">
-						<button type="button" className="col-blue disabled" onClick={this.upLike}>
-							<span>Like:</span>
-							<em>{item.json.like}</em>
+						<button type="button" className="ui-button size-large color-install" onClick={this.install}>Install</button>
+						<button type="button" className="ui-button size-large color-key" onClick={this.upLike} disabled={(!this.state.enableLike) ? 'disabled' : ''}>
+							<span>Like</span>
+							<em>{countLike}</em>
 						</button>
-						<Link to={'/nest/' + this.props.params.nest_id + '/'} className="col-red">
-							<span>Close</span>
-						</Link>
+						<Link to={'/nest/' + this.props.params.nest_id + '/'} className="ui-button size-large color-danger">Close</Link>
 					</nav>
 				</section>;
 			}

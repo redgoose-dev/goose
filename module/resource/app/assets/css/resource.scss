@@ -15,6 +15,8 @@ $color-key : #72b3ca;
 		outline: none;
 		&:active {box-shadow: inset 1px 2px 5px rgba(0,0,0,.3);}
 		&.color-key {background: #6eb31d; color: #fff;}
+		&.color-install {background: #2c73b3; color: #fff;}
+		&.color-danger {background: #b31e37; color: #fff;}
 		&.size-large {padding: 10px 20px;}
 		&[disabled] {background: #666; color: #fff; cursor: default;}
 	}
@@ -23,18 +25,22 @@ $color-key : #72b3ca;
 	.category {
 		margin: 0; padding: 0;
 		ul {
-			margin: 0; padding: 0 10px; list-style: none;
+			margin: 0; padding: 0; list-style: none;
 			background: #f4f4f4;
 			box-shadow: 0 1px 2px rgba(0,0,0,.2);
 			&:after {content: ''; display: block; clear: both;}
 		}
 		li {float: left;}
 		a {
-			display: block; padding: 11px 15px 10px;
+			display: block; padding: 11px 15px;
 			color: #333; font-weight: bold; font-size: 13px;
 			text-decoration: none;
 		}
 		li.active a {color: $color-key; text-decoration: underline;}
+		@media all and (max-width: 640px) {
+			ul {padding: 6px 0;}
+			a {padding: 8px 10px;}
+		}
 	}
 
 	> section {
@@ -42,6 +48,9 @@ $color-key : #72b3ca;
 		> h1 {
 			margin: 0; padding: 0 10px;
 			font-size: 32px; color: #111; font-weight: normal;
+		}
+		@media all and (max-width: 640px) {
+			> h1 {font-size: 24px;}
 		}
 	}
 
@@ -124,8 +133,7 @@ $color-key : #72b3ca;
 		> header {
 			margin: 0 0 30px; padding: 0 10px;
 			h1 {
-				margin: 0;
-				font-size: 32px; font-weight: 300; color: #212120;
+				margin: 0; font-size: 32px; font-weight: 300; color: #212120;
 				.version {
 					display: inline-block; margin-left: 5px;
 					color: #b31e37; font-size: 14px; font-style: normal; font-weight: 500;
@@ -144,6 +152,26 @@ $color-key : #72b3ca;
 				em {
 					font-style: normal;
 					&:before {content: ' ';}
+				}
+			}
+		}
+		.con-body {padding: 0 10px;}
+		.nav-bottom {
+			margin: 50px 0 70px; text-align: center;
+			.ui-button {
+				margin-left: 3px; margin-right: 3px;
+				em {
+					font-style: normal; font-weight: bold;
+					&:before {content: ' ';}
+				}
+			}
+		}
+		@media all and (max-width: 640px) {
+			> header {
+				h1 {font-size: 24px;}
+				.metas {
+					margin-top: 3px;
+					span {font-size: 11px; line-height: 16px;}
 				}
 			}
 		}
