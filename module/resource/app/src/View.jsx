@@ -70,8 +70,36 @@ const View = React.createClass({
 
 	updateHit(srl)
 	{
-		log('act update hit-' + srl);
-		// TODO : 쿠키체크는 api에서 처리. 값 확인하고 업데이트 하기
+		let self = this;
+
+		if (!this.getCookie('hit-' + this.srl))
+		{
+			let url = this.props.userData.url_gooseAPI;
+			url += '/article/updateHit/';
+			url += '?format=json&srl=' + this.srl;
+
+			jQuery.ajax({
+				url : url,
+				headers : { 'Accept' : 'application=goose;' }
+			}).done(function(response) {
+				try {
+					response = JSON.parse(response);
+					if (response.state == 'success')
+					{
+						self.setCookie('hit-' + self.srl, '1', 1);
+						self.setState({
+							countHit : response.result.hit
+						});
+					}
+					else
+					{
+						throw 'error update hit';
+					}
+				} catch(err) {
+					alert(err);
+				}
+			});
+		}
 	},
 
 	// up like
@@ -83,29 +111,29 @@ const View = React.createClass({
 		{
 			let url = this.props.userData.url_gooseAPI;
 			url += '/article/updateLike/';
-			url += '?format=json&srl=' + this.srl + '&host=' + this.props.userData.host;
+			url += '?format=json&srl=' + this.srl;
 
-			jQuery.get(url, function(response){
-				log(response);
-				// TODO : 쿠키체크는 api에서 처리. 값 확인하고 업데이트 하기
-
-				//try {
-				//	response = JSON.parse(response);
-				//	if (response.state == 'success')
-				//	{
-				//		self.setCookie('like-' + self.srl, '1', 1);
-				//		self.setState({
-				//			countLike : response.result.like,
-				//			enableLike : false
-				//		});
-				//	}
-				//	else
-				//	{
-				//		throw 'error update like';
-				//	}
-				//} catch(err) {
-				//	alert(err);
-				//}
+			jQuery.ajax({
+				url : url,
+				headers : { 'Accept' : 'application=goose;' }
+			}).done(function(response) {
+				try {
+					response = JSON.parse(response);
+					if (response.state == 'success')
+					{
+						self.setCookie('like-' + self.srl, '1', 1);
+						self.setState({
+							countLike : response.result.like,
+							enableLike : false
+						});
+					}
+					else
+					{
+						throw 'error update like';
+					}
+				} catch(err) {
+					alert(err);
+				}
 			});
 		}
 	},
