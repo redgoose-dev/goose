@@ -2,6 +2,7 @@ const View = React.createClass({
 
 	displayName : 'View',
 	srl : null,
+	$popup : null,
 
 	getInitialState()
 	{
@@ -11,7 +12,8 @@ const View = React.createClass({
 			item : null,
 			countLike : 0,
 			countHit : 0,
-			enableLike : (!this.getCookie('like-' + this.props.params.srl))
+			enableLike : (!this.getCookie('like-' + this.props.params.srl)),
+			mode_install : false
 		};
 	},
 
@@ -64,8 +66,85 @@ const View = React.createClass({
 					item : response.result,
 					title : self.props.parent.refs.header.getTitle()
 				});
+				self.makeInstallPopup(response.result);
 			} catch(err) {}
 		});
+	},
+
+	makeInstallPopup(res)
+	{
+		// TODO : 팝업 부분을 컴포넌트로 변경하기;; 할 수 있을듯...
+		// TODO : 설치는 이 goose에서 설치해야함!!
+
+		let self = this;
+		let url = this.props.userData.url_gooseAPI + '/install/'; // TODO : 여기 경로로 인스톨 경로 변경해야함.
+		let install_loc = res.json.install_loc;
+		let install_src = res.json.install_src.location;
+		let title = res.title;
+		this.$popup = $('<article id="mod_resource_popup" class="mod-resource-popup on">' +
+			'<div class="bg"></div>' +
+			'<form action="' + url + '" method="post">' +
+				'<h1>Install</h1>' +
+				'<input type="hidden" name="install_file" value="' + install_src + '">' +
+				'<fieldset>' +
+					'<legend class="blind">Install form</legend>' +
+					'<p class="guide">' +
+						'<strong>' + title + '</strong>은 설치경로 항목의 경로에 설치됩니다.<br/>' +
+						'경로를 변경할 수 있지만 작동이 안될 수 있습니다.' +
+					'</p>' +
+					'<dl>' +
+						'<dt><label for="frm_pwd">설치경로</label></dt>' +
+						'<dd><input type="text" name="pwd" id="frm_pwd" value="' + install_loc + '" /></dd>' +
+					'</dl>' +
+				'</fieldset>' +
+				'<div class="loading">' +
+					'loading...' +
+				'</div>' +
+				'<nav>' +
+					'<span><button type="button" class="ui-button color-danger block close">Close</button></span>' +
+					'<span><button type="submit" class="ui-button color-install block">Install</button></span>' +
+				'</nav>' +
+			'</form>' +
+		'</article>');
+
+		this.$popup.find('div.bg, button.close').on('click', function(){
+			$('html').removeClass('mode-mod-resource-popup');
+			self.$popup.removeClass('on');
+		});
+
+		this.$popup.find('form').on('submit', function(){
+			let $loading = $(this).find('.loading');
+			$loading.addClass('on');
+			jQuery.ajax({
+				url : this.action,
+				method : 'post',
+				data : $(this).serialize(),
+				headers : { 'Accept' : 'application=goose;' }
+			}).done(function(response){
+				log('done');
+				log(response);
+				$loading.removeClass('on');
+			}).fail(function(res){
+				log('fail');
+				log(res);
+			});
+			return false;
+		});
+
+		let destroyPopup = function()
+		{
+			$('html').removeClass('mode-mod-resource-popup');
+			self.$popup.find('div.bg, button.close').off();
+			self.$popup.find('form').off();
+			self.$popup.remove();
+		};
+
+		window.onhashchange = function() {
+			destroyPopup();
+			window.onhashchange = null;
+		};
+
+		$('body').append(this.$popup);
 	},
 
 	updateHit(srl)
@@ -141,7 +220,8 @@ const View = React.createClass({
 	// install
 	install()
 	{
-		log('act install');
+		$('html').addClass('mode-mod-resource-popup');
+		this.$popup.addClass('on');
 	},
 
 	render() {
@@ -150,6 +230,8 @@ const View = React.createClass({
 			<span className="inner-circles-loader">loading symbol</span>
 			<span className="message">loading..</span>
 		</div>;
+
+		// TODO : nest_id가 app이라면 install 버튼이 나오지 않게하기
 
 		if (this.state.loading)
 		{
