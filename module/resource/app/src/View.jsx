@@ -89,7 +89,7 @@ const View = React.createClass({
 					response = JSON.parse(response);
 					if (response.state == 'success')
 					{
-						self.setCookie('hit-' + self.srl, '1', 1);
+						self.setCookie('hit-' + self.srl, '1', 30);
 						self.setState({
 							countHit : response.result.hit
 						});
@@ -154,7 +154,7 @@ const View = React.createClass({
 				parentID={this.popup_id}
 				action={this.props.userData.url + '/install/'}
 				location={this.state.item.json.install_loc}
-				file={this.state.item.json.install_src.location}
+				file={this.props.userData.url_gooseAdmin + '/' + this.state.item.json.install_src.location}
 				title={this.state.item.title}
 				/>,
 			document.getElementById(this.popup_id));

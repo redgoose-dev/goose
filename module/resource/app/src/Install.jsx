@@ -3,6 +3,14 @@ const Install = React.createClass({
 	displayName: 'Install',
 	classHtmlPopupMode : 'mode-mod-resource-popup',
 
+	getInitialState()
+	{
+		return {
+			status : 'register',
+			message : ''
+		};
+	},
+
 	// complete mount
 	componentDidMount()
 	{
@@ -26,14 +34,29 @@ const Install = React.createClass({
 	// close popup
 	close()
 	{
-		ReactDOM.unmountComponentAtNode(document.getElementById(this.props.parentID));
+		try {
+			ReactDOM.unmountComponentAtNode(document.getElementById(this.props.parentID));
+		} catch(e) {}
 	},
 
 	// on submit
 	submit(e)
 	{
+		let self = this;
+
 		$.post(e.target.action, $(e.target).serialize(), function(data,status,xhr){
-			log(data);
+			try {
+				data = JSON.parse(data);
+				if (data.state == 'success')
+				{
+					alert(data.message);
+					self.close();
+				}
+				else
+				{
+					alert(data.message);
+				}
+			} catch(e) {}
 		});
 		e.preventDefault();
 	},
@@ -46,7 +69,7 @@ const Install = React.createClass({
 				<form action={this.props.action} method="post" onSubmit={this.submit}>
 					<h1>Install</h1>
 					<input type="hidden" name="install_file" defaultValue={this.props.file} />
-					<fieldset>
+					<fieldset className={ (this.state.status == 'register') ? 'show' : '' }>
 						<legend className="blind">Install form</legend>
 						<p className="guide">
 							<strong>{this.props.title}</strong>은 설치경로 항목의 경로에 설치됩니다.<br/>
@@ -54,10 +77,13 @@ const Install = React.createClass({
 						</p>
 						<dl>
 							<dt><label htmlFor="frm_pwd">설치경로</label></dt>
-							<dd><input type="text" name="pwd" id="frm_pwd" defaultValue={this.props.location} /></dd>
+							<dd><input type="text" name="pwd" id="frm_pwd" defaultValue={this.props.location} readOnly /></dd>
 						</dl>
 					</fieldset>
-					<div className="loading">
+					<div className={ 'message' + ((this.state.status == 'message') ? 'show' : '') }>
+						{this.state.message}
+					</div>
+					<div className={ 'loading' + ((this.state.status == 'loading') ? 'show' : '') }>
 						loading...
 					</div>
 					<nav>

@@ -3,7 +3,7 @@ $color-key : #72b3ca;
 %ui-button {
 	display: inline-block;
 	margin: 1px 2px; padding: 7px 15px;
-	font-size: 13px;color: #333;
+	font-size: 14px;color: #333;
 	line-height: 1.42857143;
 	background: #ccc; border-radius: 3px;
 	cursor: pointer; text-decoration: none; border: none;
@@ -359,7 +359,8 @@ $color-key : #72b3ca;
 		box-shadow: 0 3px 10px rgba(0,0,0,.8);
 	}
 	fieldset {
-		margin: 15px 20px; padding: 0; border: none;
+		margin: 15px 20px; padding: 0; border: none; display: none;
+		&.show {display: block;}
 		dl {
 			margin: 10px 0;
 			dt {
@@ -385,17 +386,22 @@ $color-key : #72b3ca;
 			&:first-child {padding-left:0; padding-right: 5px;}
 		}
 		.ui-button {
+			padding: 12px 0;
 			text-transform: uppercase;
-			font-weight: bold; font-size: 14px;
-
+			font-weight: bold;
+			font-size: 13px;
 		}
 	}
 
 	.loading {
 		display: none;
-		&.on {
-			display: block;
-		}
+		&.show {display: block;}
+	}
+
+	.message {
+		display: none;
+		text-align: center;
+		&.show {display: block;}
 	}
 }
 

@@ -58,8 +58,7 @@ class Resource {
 					break;
 
 				case 'install':
-					var_dump('install content');
-					var_dump($_POST);
+					echo Util::arrayToJson($this->installContent(), false, false);
 					break;
 			}
 		}
@@ -225,4 +224,112 @@ class Resource {
 		}
 	}
 
+	/**
+	 * install content
+	 *
+	 * @return array
+	 */
+	private function installContent()
+	{
+		$result = [];
+
+		try {
+
+			$file_ftpSetting = __GOOSE_PWD__.'data/ftp.php';
+
+			// check value $_POST
+			$errorValue = Util::checkExistValue($_POST, ['install_file', 'pwd']);
+			if ($errorValue)
+			{
+				throw new Exception('not found ['.$errorValue.']');
+			}
+
+			// check content file
+			if (file_exists('http:'.$_POST['install_file']))
+			{
+				throw new Exception('not found content file');
+			}
+
+			$_POST['pwd'] = str_replace('{GOOSE}/', '', $_POST['pwd']);
+
+			// set install location
+			$dest_loc = explode('/', $_POST['pwd']);
+			$dest_name = array_pop($dest_loc);
+			$dest_loc = implode('/', $dest_loc) . '/';
+
+			$file_loc = explode('/', $_POST['install_file']);
+			$file_name = array_pop($file_loc);
+			$dest_dir = __GOOSE_PWD__.$dest_loc.$dest_name;
+			$tmp_file = $dest_dir.'/tmp-install.zip';
+
+			// check location
+			if (!is_dir(__GOOSE_PWD__.$dest_loc))
+			{
+				throw new Exception('not found install directory');
+			}
+
+			// check ftp setting file
+			if (!file_exists($file_ftpSetting))
+			{
+				throw new Exception('not found ftp setting');
+			}
+
+			// load ftp setting file
+			$ftp_account = [];
+			require($file_ftpSetting);
+
+			$conn_id = ftp_connect($ftp_account['host']);
+			$login_result = ftp_login($conn_id, $ftp_account['id'], $ftp_account['password']);
+
+			if ((!$conn_id) || (!$login_result))
+			{
+				throw new Exception("FTP connection has failed!\nAttempted to connect to $ftp_account[host] for user $ftp_account[id]");
+			}
+
+			if (is_dir($dest_dir))
+			{
+				throw new Exception("같은 이름의 디렉토리가 있습니다.\n[".$dest_dir.$dest_name."]\n경로를 확인해주세요.");
+			}
+
+			// make directory
+			Util::createDirectory($dest_dir, 0755);
+
+			// upload file
+			if (is_dir($dest_dir))
+			{
+				$upload = ftp_put($conn_id, $tmp_file, 'http:'.$_POST['install_file'], FTP_BINARY);
+				if ($upload === FALSE)
+				{
+					throw new Exception('upload error');
+				}
+			}
+
+			// unpack tmpfile
+			$zip = new ZipArchive;
+			if ($zip->open($tmp_file) === TRUE)
+			{
+				$zip->extractTo($dest_dir);
+				$zip->close();
+			}
+			else
+			{
+				throw new Exception('Extract zip compression failure');
+			}
+
+			// remove tmpfile
+			unlink($tmp_file);
+
+			// goal
+			return [
+				'state' => 'success',
+				'message' => "설치 완료되었습니다.\n설치 경로는 [".$dest_dir."] 입니다."
+			];
+
+		} catch(Exception $e) {
+			return [
+				'state' => 'error',
+				'message' => $e->getMessage(),
+			];
+		}
+	}
 }
