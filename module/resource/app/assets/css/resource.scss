@@ -325,11 +325,7 @@ $color-key : #72b3ca;
 }
 .mod-resource-popup {
 	position: fixed; overflow: auto; z-index: 99999;
-	left: 0; right: 0; top: 0; bottom: 0;
-	padding: 0 15px;
-	display: none;
-
-	&.on {display: block;}
+	left: 0; right: 0; top: 0; bottom: 0; padding: 0 15px;
 
 	button.ui-button {-webkit-appearance:none;}
 	.ui-button {

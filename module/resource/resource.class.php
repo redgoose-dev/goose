@@ -46,6 +46,7 @@ class Resource {
 					$result = $this->updateFtp();
 					Util::redirect((isset($_POST['redir'])) ? $_POST['redir'] : $this->url.'/', $result['message']);
 					break;
+
 				case 'testFTP':
 					$result = $this->testFtp([
 						'host' => $_POST['host_name'],
@@ -55,17 +56,21 @@ class Resource {
 					]);
 					echo json_encode($result);
 					break;
+
+				case 'install':
+					var_dump('install content');
+					var_dump($_POST);
+					break;
 			}
 		}
 		else
 		{
 			switch($this->param['action'])
 			{
-				case 'nest':
-					break;
 				case 'setting':
 					$this->view_index('view_setting');
 					break;
+
 				default:
 					$this->view_index('view_index');
 					break;

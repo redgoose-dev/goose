@@ -2,7 +2,7 @@ const View = React.createClass({
 
 	displayName : 'View',
 	srl : null,
-	$popup : null,
+	popup_id : 'modResourcePopup',
 
 	getInitialState()
 	{
@@ -49,6 +49,7 @@ const View = React.createClass({
 		return value;
 	},
 
+	// get item from api.goose-dev.com/article/item
 	getItem(srl)
 	{
 		let self = this;
@@ -66,85 +67,8 @@ const View = React.createClass({
 					item : response.result,
 					title : self.props.parent.refs.header.getTitle()
 				});
-				self.makeInstallPopup(response.result);
 			} catch(err) {}
 		});
-	},
-
-	makeInstallPopup(res)
-	{
-		// TODO : 팝업 부분을 컴포넌트로 변경하기;; 할 수 있을듯...
-		// TODO : 설치는 이 goose에서 설치해야함!!
-
-		let self = this;
-		let url = this.props.userData.url_gooseAPI + '/install/'; // TODO : 여기 경로로 인스톨 경로 변경해야함.
-		let install_loc = res.json.install_loc;
-		let install_src = res.json.install_src.location;
-		let title = res.title;
-		this.$popup = $('<article id="mod_resource_popup" class="mod-resource-popup on">' +
-			'<div class="bg"></div>' +
-			'<form action="' + url + '" method="post">' +
-				'<h1>Install</h1>' +
-				'<input type="hidden" name="install_file" value="' + install_src + '">' +
-				'<fieldset>' +
-					'<legend class="blind">Install form</legend>' +
-					'<p class="guide">' +
-						'<strong>' + title + '</strong>은 설치경로 항목의 경로에 설치됩니다.<br/>' +
-						'경로를 변경할 수 있지만 작동이 안될 수 있습니다.' +
-					'</p>' +
-					'<dl>' +
-						'<dt><label for="frm_pwd">설치경로</label></dt>' +
-						'<dd><input type="text" name="pwd" id="frm_pwd" value="' + install_loc + '" /></dd>' +
-					'</dl>' +
-				'</fieldset>' +
-				'<div class="loading">' +
-					'loading...' +
-				'</div>' +
-				'<nav>' +
-					'<span><button type="button" class="ui-button color-danger block close">Close</button></span>' +
-					'<span><button type="submit" class="ui-button color-install block">Install</button></span>' +
-				'</nav>' +
-			'</form>' +
-		'</article>');
-
-		this.$popup.find('div.bg, button.close').on('click', function(){
-			$('html').removeClass('mode-mod-resource-popup');
-			self.$popup.removeClass('on');
-		});
-
-		this.$popup.find('form').on('submit', function(){
-			let $loading = $(this).find('.loading');
-			$loading.addClass('on');
-			jQuery.ajax({
-				url : this.action,
-				method : 'post',
-				data : $(this).serialize(),
-				headers : { 'Accept' : 'application=goose;' }
-			}).done(function(response){
-				log('done');
-				log(response);
-				$loading.removeClass('on');
-			}).fail(function(res){
-				log('fail');
-				log(res);
-			});
-			return false;
-		});
-
-		let destroyPopup = function()
-		{
-			$('html').removeClass('mode-mod-resource-popup');
-			self.$popup.find('div.bg, button.close').off();
-			self.$popup.find('form').off();
-			self.$popup.remove();
-		};
-
-		window.onhashchange = function() {
-			destroyPopup();
-			window.onhashchange = null;
-		};
-
-		$('body').append(this.$popup);
 	},
 
 	updateHit(srl)
@@ -220,8 +144,20 @@ const View = React.createClass({
 	// install
 	install()
 	{
-		$('html').addClass('mode-mod-resource-popup');
-		this.$popup.addClass('on');
+		if ($('#' + this.popup_id).length > 0) return false;
+
+		let $popup = $('<div id="' + this.popup_id + '"></div>');
+		$('body').append($popup);
+
+		ReactDOM.render(
+			<Install
+				parentID={this.popup_id}
+				action={this.props.userData.url + '/install/'}
+				location={this.state.item.json.install_loc}
+				file={this.state.item.json.install_src.location}
+				title={this.state.item.title}
+				/>,
+			document.getElementById(this.popup_id));
 	},
 
 	render() {
@@ -229,9 +165,8 @@ const View = React.createClass({
 		let loading = <div className="loading-page">
 			<span className="inner-circles-loader">loading symbol</span>
 			<span className="message">loading..</span>
-		</div>;
-
-		// TODO : nest_id가 app이라면 install 버튼이 나오지 않게하기
+			</div>;
+		let installButton = <button type="button" className="ui-button size-large color-install" onClick={this.install}>Install</button>;
 
 		if (this.state.loading)
 		{
@@ -263,7 +198,7 @@ const View = React.createClass({
 					<div className="con-body" dangerouslySetInnerHTML={{__html: item.content}}></div>
 
 					<nav className="nav-bottom">
-						<button type="button" className="ui-button size-large color-install" onClick={this.install}>Install</button>
+						{ (this.state.item.json.install_loc) ? installButton : null }
 						<button type="button" className="ui-button size-large color-key" onClick={this.upLike} disabled={(!this.state.enableLike) ? 'disabled' : ''}>
 							<span>Like</span>
 							<em>{countLike}</em>
