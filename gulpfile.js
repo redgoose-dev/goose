@@ -18,8 +18,8 @@ var getParams = function(optionKey)
 // get Dir
 var getDir = function(pwd)
 {
-	return pwd.replace(/[^\/]*$/, ''); // for linux
-	//return pwd.replace(/[^\\]*$/, ''); // for windows
+	//return pwd.replace(/[^\/]*$/, ''); // for linux
+	return pwd.replace(/[^\\]*$/, ''); // for windows
 };
 
 // get filename

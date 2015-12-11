@@ -6,8 +6,7 @@ const Install = React.createClass({
 	getInitialState()
 	{
 		return {
-			status : 'register',
-			message : ''
+			status : 'register'
 		};
 	},
 
@@ -43,10 +42,12 @@ const Install = React.createClass({
 	submit(e)
 	{
 		let self = this;
+		this.setState({ status : 'loading' });
 
 		$.post(e.target.action, $(e.target).serialize(), function(data,status,xhr){
 			try {
 				data = JSON.parse(data);
+				self.setState({ status : 'register' });
 				if (data.state == 'success')
 				{
 					alert(data.message);
@@ -69,7 +70,7 @@ const Install = React.createClass({
 				<form action={this.props.action} method="post" onSubmit={this.submit}>
 					<h1>Install</h1>
 					<input type="hidden" name="install_file" defaultValue={this.props.file} />
-					<fieldset className={ (this.state.status == 'register') ? 'show' : '' }>
+					<fieldset className={ (this.state.status == 'register') ? ' show' : '' }>
 						<legend className="blind">Install form</legend>
 						<p className="guide">
 							<strong>{this.props.title}</strong>은 설치경로 항목의 경로에 설치됩니다.<br/>
@@ -80,11 +81,9 @@ const Install = React.createClass({
 							<dd><input type="text" name="pwd" id="frm_pwd" defaultValue={this.props.location} readOnly /></dd>
 						</dl>
 					</fieldset>
-					<div className={ 'message' + ((this.state.status == 'message') ? 'show' : '') }>
-						{this.state.message}
-					</div>
-					<div className={ 'loading' + ((this.state.status == 'loading') ? 'show' : '') }>
-						loading...
+					<div className={ 'loading' + ((this.state.status == 'loading') ? ' show' : '') }>
+						<span className="mod-resource-loader">loading symbol</span>
+						<span className="msg">loading..</span>
 					</div>
 					<nav>
 						<span><button type="button" className="ui-button color-danger block" onClick={this.close}>Close</button></span>

@@ -17,10 +17,16 @@ $color-key : #72b3ca;
 	&.block {margin: 0; width:100%;}
 	&[disabled] {background: #666; color: #fff; cursor: default;}
 }
-
 %ui-input-text {
 	border-radius: 0;
 }
+%loading-message {
+	display: block; margin: 10px auto 0;
+	text-align: center;
+	font-family: arial, sans-serif;
+	color: #888; font-size: 11px;
+}
+
 
 .mod-resource {
 
@@ -64,12 +70,9 @@ $color-key : #72b3ca;
 	}
 
 	.loading-page, .noitem {
-		padding: 50px 0; text-align: center;
+		padding: 30px 0 50px !important; text-align: center;
 		.message {
-			display: block; margin: 10px auto 0;
-			text-align: center;
-			font-family: arial, sans-serif;
-			color: #888; font-size: 11px;
+			@extend %loading-message;
 		}
 	}
 
@@ -164,7 +167,21 @@ $color-key : #72b3ca;
 				}
 			}
 		}
-		.con-body {padding: 0 10px;}
+		.install-info {
+			margin: 10px 0 30px;
+			dl {
+				display: table; width: 100%; margin: 0;
+				border-width: 0 0 1px 0; border-style: solid; border-color: #ddd;
+				&:first-child {border-top-width: 1px;}
+			}
+			dt, dd {
+				display: table-cell; vertical-align: middle; padding: 12px 0;
+				font-size: 13px;
+			}
+			dt {width: 110px; padding-left: 10px; font-weight: bold;}
+			dd {margin: 0; color: #666;}
+		}
+		.con-body {padding: 0 10px; font-size: 13px;}
 		.nav-bottom {
 			margin: 50px 0 70px; text-align: center;
 			.ui-button {
@@ -182,6 +199,14 @@ $color-key : #72b3ca;
 					margin-top: 3px;
 					span {font-size: 11px; line-height: 16px;}
 				}
+			}
+			.install-info {
+				border-width: 1px 0; border-style: solid; border-color: #ddd;
+				padding: 0 10px;
+				dl {display: block; width: auto; border: none; margin: 15px 0;}
+				dt, dd {display: block; padding: 0;}
+				dt {width: auto; padding: 0;}
+				dd {margin: 5px 0 0; word-break: break-all;}
 			}
 		}
 	}
@@ -231,93 +256,6 @@ $color-key : #72b3ca;
 			padding-right: $padding-h + 2;
 		}
 	}
-
-	// close icon
-	.icon-close {
-		position: relative; display: inline-block;
-		width: 50px; height: 50px; overflow: hidden;
-		font-size: 0;
-		&::before, &::after {
-			content: ''; position: absolute;
-			height: 2px; width: 100%;
-			top: 50%; left: 0;
-			margin-top: -1px;
-			background: #000;
-		}
-		&::before {
-			-moz-transform: rotate(45deg);
-			-ms-transform: rotate(45deg);
-			-webkit-transform: rotate(45deg);
-			transform: rotate(45deg);
-		}
-		&::after {
-			-moz-transform: rotate(-45deg);
-			-ms-transform: rotate(-45deg);
-			-webkit-transform: rotate(-45deg);
-			transform: rotate(-45deg);
-		}
-		&.big {
-			-moz-transform: scale(3);
-			-ms-transform: scale(3);
-			-webkit-transform: scale(3);
-			transform: scale(3);
-		}
-		&.thick {
-			&::before, &::after {height: 4px; margin-top: -2px;}
-		}
-		&.blades {
-			&::before, &::after {border-radius: 5px 0;}
-		}
-	}
-
-	// loader
-	.inner-circles-loader:not(:required) {
-		-moz-transform: translate3d(0, 0, 0);
-		-ms-transform: translate3d(0, 0, 0);
-		-webkit-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);
-		position: relative;
-		display: inline-block;
-		width: 50px;
-		height: 50px;
-		background: rgba(25, 165, 152, 0.5);
-		border-radius: 50%;
-		overflow: hidden;
-		text-indent: -9999px;
-		/* Hides inner circles outside base circle at safari */
-		-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
-		&:not(:required):before, &:not(:required):after {
-			content: '';
-			position: absolute;
-			top: 0;
-			display: inline-block;
-			width: 50px;
-			height: 50px;
-			border-radius: 50%;
-		}
-		&:not(:required):before {
-			-moz-animation: inner-circles-loader 3s infinite;
-			-webkit-animation: inner-circles-loader 3s infinite;
-			animation: inner-circles-loader 3s infinite;
-			-moz-transform-origin: 0 50%;
-			-ms-transform-origin: 0 50%;
-			-webkit-transform-origin: 0 50%;
-			transform-origin: 0 50%;
-			left: 0;
-			background: #c7efcf;
-		}
-		&:not(:required):after {
-			-moz-animation: inner-circles-loader 3s 0.2s reverse infinite;
-			-webkit-animation: inner-circles-loader 3s 0.2s reverse infinite;
-			animation: inner-circles-loader 3s 0.2s reverse infinite;
-			-moz-transform-origin: 100% 50%;
-			-ms-transform-origin: 100% 50%;
-			-webkit-transform-origin: 100% 50%;
-			transform-origin: 100% 50%;
-			right: 0;
-			background: #eef5db;
-		}
-	}
 }
 
 .mode-mod-resource-popup {
@@ -341,10 +279,10 @@ $color-key : #72b3ca;
 		margin:0; padding: 12px 20px;
 		font-weight: 300; font-size: 24px;
 		font-family: 'Helvetica Neue', 'Arial', sans-serif;
-		//border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
 		text-transform: uppercase;
-		color: #fff;
-		background: #2c73b3;
+		color: #111;
+		//background: #2c73b3;
 	}
 	.guide {
 		margin: 0 0 30px;
@@ -357,6 +295,7 @@ $color-key : #72b3ca;
 		background: #fff;
 		overflow: hidden;
 		box-shadow: 0 3px 10px rgba(0,0,0,.8);
+		border-radius: 3px;
 	}
 	fieldset {
 		margin: 15px 20px; padding: 0; border: none; display: none;
@@ -395,7 +334,13 @@ $color-key : #72b3ca;
 
 	.loading {
 		display: none;
+		text-align: center;
+		padding: 30px 0;
+
 		&.show {display: block;}
+		.msg {
+			@extend %loading-message;
+		}
 	}
 
 	.message {
@@ -405,7 +350,94 @@ $color-key : #72b3ca;
 	}
 }
 
-@-moz-keyframes inner-circles-loader {
+// close icon
+.mod-resource-closed {
+	position: relative; display: inline-block;
+	width: 50px; height: 50px; overflow: hidden;
+	font-size: 0;
+	&::before, &::after {
+		content: ''; position: absolute;
+		height: 2px; width: 100%;
+		top: 50%; left: 0;
+		margin-top: -1px;
+		background: #000;
+	}
+	&::before {
+		-moz-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		-webkit-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
+	&::after {
+		-moz-transform: rotate(-45deg);
+		-ms-transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+	}
+	&.big {
+		-moz-transform: scale(3);
+		-ms-transform: scale(3);
+		-webkit-transform: scale(3);
+		transform: scale(3);
+	}
+	&.thick {
+		&::before, &::after {height: 4px; margin-top: -2px;}
+	}
+	&.blades {
+		&::before, &::after {border-radius: 5px 0;}
+	}
+}
+
+// loader
+.mod-resource-loader:not(:required) {
+	-moz-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0);
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+	position: relative;
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	background: rgba(25, 165, 152, 0.5);
+	border-radius: 50%;
+	overflow: hidden;
+	text-indent: -9999px;
+	/* Hides inner circles outside base circle at safari */
+	-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+	&:not(:required):before, &:not(:required):after {
+		content: '';
+		position: absolute;
+		top: 0;
+		display: inline-block;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+	}
+	&:not(:required):before {
+		-moz-animation: mod-resource-loader 3s infinite;
+		-webkit-animation: mod-resource-loader 3s infinite;
+		animation: mod-resource-loader 3s infinite;
+		-moz-transform-origin: 0 50%;
+		-ms-transform-origin: 0 50%;
+		-webkit-transform-origin: 0 50%;
+		transform-origin: 0 50%;
+		left: 0;
+		background: #c7efcf;
+	}
+	&:not(:required):after {
+		-moz-animation: mod-resource-loader 3s 0.2s reverse infinite;
+		-webkit-animation: mod-resource-loader 3s 0.2s reverse infinite;
+		animation: mod-resource-loader 3s 0.2s reverse infinite;
+		-moz-transform-origin: 100% 50%;
+		-ms-transform-origin: 100% 50%;
+		-webkit-transform-origin: 100% 50%;
+		transform-origin: 100% 50%;
+		right: 0;
+		background: #eef5db;
+	}
+}
+
+@-moz-keyframes mod-resource-loader {
 	0% {
 		-moz-transform: rotate(0deg);
 		transform: rotate(0deg);
@@ -419,7 +451,7 @@ $color-key : #72b3ca;
 		transform: rotate(0deg);
 	}
 }
-@-webkit-keyframes inner-circles-loader {
+@-webkit-keyframes mod-resource-loader {
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
@@ -433,7 +465,7 @@ $color-key : #72b3ca;
 		transform: rotate(0deg);
 	}
 }
-@keyframes inner-circles-loader {
+@keyframes mod-resource-loader {
 	0% {
 		-moz-transform: rotate(0deg);
 		-ms-transform: rotate(0deg);
@@ -453,4 +485,3 @@ $color-key : #72b3ca;
 		transform: rotate(0deg);
 	}
 }
-

@@ -4,9 +4,7 @@ const App = React.createClass({
 
 	getInitialState()
 	{
-		return {
-
-		}
+		return {}
 	},
 
 	getPath(path)

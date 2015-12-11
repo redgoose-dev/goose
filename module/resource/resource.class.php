@@ -54,7 +54,7 @@ class Resource {
 						'pw' => $_POST['host_pw'],
 						'pwd' => $_POST['host_pwd'],
 					]);
-					echo json_encode($result);
+					echo Util::arrayToJson($result, false, false);
 					break;
 
 				case 'install':
@@ -68,6 +68,26 @@ class Resource {
 			{
 				case 'setting':
 					$this->view_index('view_setting');
+					break;
+
+				case 'testFTP':
+					if ($this->ftp)
+					{
+						$result = $this->testFtp([
+							'host' => $this->ftp['host'],
+							'id' => $this->ftp['id'],
+							'pw' => $this->ftp['pw'],
+							'pwd' => $this->ftp['pwd'],
+						]);
+					}
+					else
+					{
+						$result = [
+							'state' => 'error',
+							'message' => 'not found ftp setting',
+						];
+					}
+					echo Util::arrayToJson($result, false, false);
 					break;
 
 				default:
@@ -94,7 +114,7 @@ class Resource {
 	 * test ftp
 	 *
 	 * @param array $connInf connection info
-	 * @return boolean
+	 * @return array
 	 */
 	private function testFtp($connInf)
 	{
@@ -152,8 +172,8 @@ class Resource {
 					$r = [];
 					foreach ($var as $key => $value) {
 						$r[] = "$indent	"
-								. ($indexed ? "" : var_export54($key) . " => ")
-								. var_export54($value, "$indent	");
+							. ($indexed ? "" : var_export54($key) . " => ")
+							. var_export54($value, "$indent	");
 					}
 					return "[\n" . implode(",\n", $r) . "\n" . $indent . "]";
 				case "boolean":
@@ -271,19 +291,15 @@ class Resource {
 			// check ftp setting file
 			if (!file_exists($file_ftpSetting))
 			{
-				throw new Exception('not found ftp setting');
+				throw new Exception('not found ftp setting file');
 			}
 
-			// load ftp setting file
-			$ftp_account = [];
-			require($file_ftpSetting);
-
-			$conn_id = ftp_connect($ftp_account['host']);
-			$login_result = ftp_login($conn_id, $ftp_account['id'], $ftp_account['password']);
+			$conn_id = ftp_connect($this->ftp['host']);
+			$login_result = ftp_login($conn_id, $this->ftp['id'], $this->ftp['password']);
 
 			if ((!$conn_id) || (!$login_result))
 			{
-				throw new Exception("FTP connection has failed!\nAttempted to connect to $ftp_account[host] for user $ftp_account[id]");
+				throw new Exception("FTP connection has failed!\nAttempted to connect to ".$this->ftp['host']." for user ".$this->ftp['id']);
 			}
 
 			if (is_dir($dest_dir))

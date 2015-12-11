@@ -65,7 +65,7 @@ var Index = React.createClass({
 	{
 		let index, pageNavigation;
 		let loading = <li className="loading-page">
-			<span className="inner-circles-loader">loading symbol</span>
+			<span className="mod-resource-loader">loading symbol</span>
 			<span className="message">loading..</span>
 		</li>;
 
@@ -122,7 +122,7 @@ var Index = React.createClass({
 			else
 			{
 				index = <li className="noitem">
-					<span className="icon-close blades thick">loading icon</span>
+					<span className="mod-resource-closed blades thick">loading icon</span>
 					<span className="message">not found item</span>
 				</li>;
 			}

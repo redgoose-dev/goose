@@ -44,14 +44,16 @@ const Header = React.createClass({
 	},
 
 	render() {
+		let path = (this.props.path[0]) ? this.props.path : ['nest', 'new'];
+
 		let items = this.state.nav.map((o, k) => {
 			let active = '';
 			o.url = (o.id) ? '/nest/' + o.id + '/' : '/';
 
-			if (this.props.path[0] == 'nest' || this.props.path[0] == 'article' || (k == 0 && !this.props.path[0]))
+			if (path[0] == 'nest' || path[0] == 'article' || (k == 0 && !path[0]))
 			{
-				active = (o.id == this.props.path[1]) ? 'active' : '';
-				if (o.id == this.props.path[1])
+				active = (o.id == path[1]) ? 'active' : '';
+				if (o.id == path[1])
 				{
 					this.currentTitle = o.name;
 				}
@@ -68,7 +70,7 @@ const Header = React.createClass({
 			<nav className="category">
 				<ul>
 					{items}
-					<li key="category-setting" className={(this.props.path[0] == 'setting') ? 'active' : ''}>
+					<li key="category-setting" className={(path[0] == 'setting') ? 'active' : ''}>
 						<Link to="/setting/">SETTING</Link>
 					</li>
 				</ul>

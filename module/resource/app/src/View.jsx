@@ -13,7 +13,7 @@ const View = React.createClass({
 			countLike : 0,
 			countHit : 0,
 			enableLike : (!this.getCookie('like-' + this.props.params.srl)),
-			mode_install : false
+			is_install : false
 		};
 	},
 
@@ -21,6 +21,7 @@ const View = React.createClass({
 	{
 		this.srl = this.props.params.srl;
 		this.getItem(this.srl);
+		this.checkInstall();
 	},
 
 	setCookie(name, value, cDay)
@@ -141,6 +142,25 @@ const View = React.createClass({
 		}
 	},
 
+	checkInstall()
+	{
+		let self = this;
+		jQuery.get(this.props.userData.url + '/testFTP/', function(response){
+			try {
+				response = JSON.parse(response);
+				if (response.state == 'success')
+				{
+					self.setState({ is_install : true });
+				}
+				else
+				{
+					self.setState({ is_install : false });
+				}
+			} catch(e) {}
+		});
+
+	},
+
 	// install
 	install()
 	{
@@ -162,11 +182,31 @@ const View = React.createClass({
 
 	render() {
 		let body = null;
-		let loading = <div className="loading-page">
-			<span className="inner-circles-loader">loading symbol</span>
-			<span className="message">loading..</span>
-			</div>;
+		let loading = (
+			<div className="loading-page">
+				<span className="mod-resource-loader">loading symbol</span>
+				<span className="message">loading..</span>
+			</div>
+		);
 		let installButton = <button type="button" className="ui-button size-large color-install" onClick={this.install}>Install</button>;
+		let installInfo = null;
+
+		if (this.state.item && !this.state.is_install && this.state.item.json.install_loc)
+		{
+			let file = 'http:' + this.props.userData.url_gooseAdmin + '/' + this.state.item.json.install_src.location;
+			installInfo = (
+				<div className="install-info">
+					<dl>
+						<dt>설치경로</dt>
+						<dd>{this.state.item.json.install_loc}</dd>
+					</dl>
+					<dl>
+						<dt>설치파일</dt>
+						<dd><a href={file}>{file}</a></dd>
+					</dl>
+				</div>
+			);
+		}
 
 		if (this.state.loading)
 		{
@@ -195,10 +235,12 @@ const View = React.createClass({
 						</div>
 					</header>
 
+					{installInfo}
+
 					<div className="con-body" dangerouslySetInnerHTML={{__html: item.content}}></div>
 
 					<nav className="nav-bottom">
-						{ (this.state.item.json.install_loc) ? installButton : null }
+						{ (this.state.item.json.install_loc && this.state.is_install) ? installButton : null }
 						<button type="button" className="ui-button size-large color-key" onClick={this.upLike} disabled={(!this.state.enableLike) ? 'disabled' : ''}>
 							<span>Like</span>
 							<em>{countLike}</em>
@@ -210,7 +252,7 @@ const View = React.createClass({
 			else
 			{
 				body = <div className="noitem">
-					<span className="icon-close blades thick">loading icon</span>
+					<span className="mod-resource-closed blades thick">loading icon</span>
 					<span className="message">not found item</span>
 				</div>;
 			}
