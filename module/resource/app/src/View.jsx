@@ -13,7 +13,8 @@ const View = React.createClass({
 			countLike : 0,
 			countHit : 0,
 			enableLike : (!this.getCookie('like-' + this.props.params.srl)),
-			is_install : false
+			is_install : false,
+			overlap_install : false
 		};
 	},
 
@@ -63,6 +64,7 @@ const View = React.createClass({
 			try {
 				response = JSON.parse(response);
 				self.updateHit(srl);
+				self.checkInstallLocation(response.result.json.install_loc);
 				self.setState({
 					loading : false,
 					item : response.result,
@@ -145,7 +147,7 @@ const View = React.createClass({
 	checkInstall()
 	{
 		let self = this;
-		jQuery.get(this.props.userData.url + '/testFTP/', function(response){
+		jQuery.get(this.props.userData.url + '/checkInstall/', function(response){
 			try {
 				response = JSON.parse(response);
 				if (response.state == 'success')
@@ -159,6 +161,17 @@ const View = React.createClass({
 			} catch(e) {}
 		});
 
+	},
+
+	checkInstallLocation(loc)
+	{
+		let self = this;
+		jQuery.post(this.props.userData.url + '/checkInstallLocation/', { location: loc }, function(response){
+			try {
+				response = JSON.parse(response);
+				self.setState({ overlap_install : response.overlap });
+			} catch(e) {}
+		});
 	},
 
 	// install
@@ -188,12 +201,17 @@ const View = React.createClass({
 				<span className="message">loading..</span>
 			</div>
 		);
-		let installButton = <button type="button" className="ui-button size-large color-install" onClick={this.install}>Install</button>;
+		let installButton = <button
+			type="button"
+			className="ui-button size-large color-install"
+			disabled={this.state.overlap_install}
+			onClick={this.install}>Install</button>;
 		let installInfo = null;
 
+		//log(this.state.is_install);
 		if (this.state.item && !this.state.is_install && this.state.item.json.install_loc)
 		{
-			let file = 'http:' + this.props.userData.url_gooseAdmin + '/' + this.state.item.json.install_src.location;
+			let file = this.props.userData.url_gooseAdmin + '/' + this.state.item.json.install_src.location;
 			installInfo = (
 				<div className="install-info">
 					<dl>

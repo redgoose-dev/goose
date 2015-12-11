@@ -40,6 +40,8 @@ class Resource {
 
 		if ($this->param['method'] == 'POST')
 		{
+			// POST
+
 			switch($this->param['action'])
 			{
 				case 'updateFTP':
@@ -60,23 +62,34 @@ class Resource {
 				case 'install':
 					echo Util::arrayToJson($this->installContent(), false, false);
 					break;
+
+				case 'checkInstallLocation':
+					$loc = str_replace('{GOOSE}/', __GOOSE_PWD__, $_POST['location']);
+					echo Util::arrayToJson([ 'overlap' => (is_dir($loc)) ], false, false);
+					break;
 			}
 		}
 		else
 		{
+			// GET
+
 			switch($this->param['action'])
 			{
 				case 'setting':
 					$this->view_index('view_setting');
 					break;
 
-				case 'testFTP':
+				default:
+					$this->view_index('view_index');
+					break;
+
+				case 'checkInstall':
 					if ($this->ftp)
 					{
 						$result = $this->testFtp([
 							'host' => $this->ftp['host'],
 							'id' => $this->ftp['id'],
-							'pw' => $this->ftp['pw'],
+							'pw' => $this->ftp['password'],
 							'pwd' => $this->ftp['pwd'],
 						]);
 					}
@@ -88,10 +101,6 @@ class Resource {
 						];
 					}
 					echo Util::arrayToJson($result, false, false);
-					break;
-
-				default:
-					$this->view_index('view_index');
 					break;
 			}
 		}
@@ -125,8 +134,7 @@ class Resource {
 				throw new Exception('Unable to connect');
 			}
 			$loggedIn = ftp_login($con, $connInf['id'], $connInf['pw']);
-			if (true === $loggedIn) {}
-			else
+			if (true !== $loggedIn)
 			{
 				throw new Exception('Unable to login');
 			}
@@ -265,7 +273,7 @@ class Resource {
 			}
 
 			// check content file
-			if (file_exists('http:'.$_POST['install_file']))
+			if (file_exists($_POST['install_file']))
 			{
 				throw new Exception('not found content file');
 			}
@@ -313,7 +321,7 @@ class Resource {
 			// upload file
 			if (is_dir($dest_dir))
 			{
-				$upload = ftp_put($conn_id, $tmp_file, 'http:'.$_POST['install_file'], FTP_BINARY);
+				$upload = ftp_put($conn_id, $tmp_file, $_POST['install_file'], FTP_BINARY);
 				if ($upload === FALSE)
 				{
 					throw new Exception('upload error');

@@ -7,6 +7,6 @@
 	"install" : false,
 	"skin" : "default",
 	"pagePerCount" : 15,
-	"urlGooseAPI" : "//api.goose-dev.com",
-	"urlGooseAdmin" : "//admin.goose-dev.com"
+	"urlGooseAPI" : "http://api.goose-dev.com",
+	"urlGooseAdmin" : "http://admin.goose-dev.com"
 }
