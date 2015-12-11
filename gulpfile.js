@@ -1,11 +1,11 @@
 function log(o){console.log(o);}
 
 var gulp = require('gulp');
-var concat = require('gulp-concat');
 var scss = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
+var colors = require('colors');
 
 
 // get parameter
@@ -18,14 +18,27 @@ var getParams = function(optionKey)
 // get Dir
 var getDir = function(pwd)
 {
-	return pwd.replace(/[^\/]*$/, ''); // linux
-	//return pwd.replace(/[^\\]*$/, ''); // windows
+	//return pwd.replace(/[^\/]*$/, ''); // for linux
+	return pwd.replace(/[^\\]*$/, ''); // for windows
 };
 
 // get filename
 var getFilename = function(pwd)
 {
 	return pwd.replace(/^.*[\\\/]/, '');
+};
+
+// get date now
+var getDateNow = function(isDate, isTime)
+{
+	var o = new Date();
+	var date = o.getFullYear() + '-' + (o.getMonth()+1) + '-' + o.getDate();
+	var time = o.getHours() + ':' + o.getMinutes() + ':' + o.getSeconds();
+	var result = '';
+	result += (isDate) ? date : '';
+	result += (isDate && isTime) ? ' ' : '';
+	result += (isTime) ? time : '';
+	return result;
 };
 
 
@@ -36,8 +49,7 @@ gulp.task('scss:watch', function(){
 			// skip import file (xyz.src.scss)
 			if ( /src.scss$/.test(getFilename(file.path)) ) return;
 
-			log(file.path);
-			log(getDir(file.path));
+			log(('[' + getDateNow(true, true) + '] ').cyan + file.path);
 
 			// convert scss file
 			gulp.src(file.path)
@@ -58,11 +70,9 @@ gulp.task('scss:watch', function(){
 gulp.task('js:watch', function(){
 	// do not compile script files
 	gulp.watch('**/*.js').on('change', function(file){
-		if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) )
-		{
-			return;
-		}
-		log(file);
+		if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) ) return;
+
+		log(('[' + getDateNow(true, true) + '] ').cyan + file.path);
 
 		// convert script file
 		gulp.src(file.path)

@@ -21,10 +21,6 @@ $file = Module::load('file');
 			<span><?=$nestName?>문서<?=$titleType?></span>
 		</h1>
 		<p><?=$this->set['description']?></p>
-		<nav>
-			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
-		</nav>
 	</div>
 
 	<form name="writeForm" action="<?=__GOOSE_ROOT__.'/article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">

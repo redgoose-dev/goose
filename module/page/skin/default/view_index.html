@@ -8,10 +8,17 @@ if (!defined('__GOOSE__')) exit();
 		<h1>
 			<span><?=$this->set['title']?> index</span>
 		</h1>
-		<nav>
-			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
-		</nav>
+		<?php
+		if ($this->isAdmin)
+		{
+		?>
+			<nav>
+				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
+				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+			</nav>
+		<?php
+		}
+		?>
 	</div>
 	<!-- // headding -->
 

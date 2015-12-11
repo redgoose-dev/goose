@@ -147,7 +147,10 @@ class Module {
 			return array( 'state' => 'error', 'message' => 'can not install' );
 		}
 
-		$file = Util::checkUserFile(__GOOSE_PWD__.'module/'.$moduleName.'/install.json');
+		$file = Util::isFile([
+			Util::checkUserFile(__GOOSE_PWD__.'module/'.$moduleName.'/install.json'),
+			Util::checkUserFile(__GOOSE_PWD__.'module/'.$moduleName.'.user/install.json')
+		]);
 		$installData = Util::jsonToArray(Util::openFile($file));
 
 		if (method_exists($mod, 'install'))

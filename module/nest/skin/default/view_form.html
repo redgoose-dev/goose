@@ -13,10 +13,6 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 			<span>둥지<?=$titleType?></span>
 		</h1>
 		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
-		<nav>
-			<a href="<?=__GOOSE_ROOT__?>/help/nest/" class="help" title="go to help"><i class="icn-help"></i></a>
-			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
-		</nav>
 	</div>
 	<!-- // headding -->
 

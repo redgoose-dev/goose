@@ -1,0 +1,52 @@
+<?php
+if (!defined('__GOOSE__')) exit();
+?>
+
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/<?=$this->viewPath?>assets/css/resource.css">
+<link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/vendor/Parsedown/markdown.css" />
+
+<section>
+	<!-- headding -->
+	<header class="gs-headding">
+		<h1>
+			<span>Resource</span>
+		</h1>
+		<p><?=$this->set['description']?></p>
+		<nav>
+			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+		</nav>
+	</header>
+	<!-- // headding -->
+
+	<!-- app -->
+	<div id="resourceApp"></div>
+	<!-- // app -->
+</section>
+
+<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/0.14.3/react-0.14.3.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/0.14.3/react-dom-0.14.3.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/react-router/1.0.0/ReactRouter.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/History/History.min.js"></script>
+<script>
+window.userData = {
+	url : '<?=$this->url?>',
+	url_gooseAPI : '<?=$this->set['urlGooseAPI']?>',
+	url_gooseAdmin : '<?=$this->set['urlGooseAdmin']?>',
+	url_gooseResource : '<?=$this->set['urlGooseResource']?>',
+	host : '<?=$_SERVER['HTTP_HOST']?>',
+	ftp : {
+		host : '<?=(isset($this->ftp['host'])) ? $this->ftp['host'] : ''?>',
+		id : '<?=(isset($this->ftp['id'])) ? $this->ftp['id'] : ''?>',
+		pwd : '<?=(isset($this->ftp['pwd'])) ? $this->ftp['pwd'] : __GOOSE_PWD__?>'
+	},
+	apiUrls : {
+		nest : '<?=$this->set['urlGooseAPI']?>/nest/items/',
+		category : '<?=$this->set['urlGooseAPI']?>/category/items/',
+		articles : '<?=$this->set['urlGooseAPI']?>/article/items/',
+		article : '<?=$this->set['urlGooseAPI']?>/article/item/',
+		nav : '<?=$this->set['urlGooseAPI']?>/json/item/?srl=2&format=json'
+	}
+};
+</script>
+<script src="<?=__GOOSE_ROOT__?>/<?=$this->viewPath?>dist/app.js"></script>

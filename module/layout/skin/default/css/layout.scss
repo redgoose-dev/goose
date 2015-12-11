@@ -76,6 +76,7 @@ button.gs-button {
 	font-size: 0;
 	&.center {text-align: center;}
 	&.right {text-align: right;}
+	.gs-button {vertical-align: middle;}
 	@media all and (max-width:640px) {
 		@include flexbox();
 		padding: 0;
