@@ -146,7 +146,7 @@ class Resource {
 			{
 				return [
 					'state' => 'success',
-					'message' => 'success connect',
+					'message' => 'Success connect!',
 				];
 			}
 			else
@@ -280,21 +280,18 @@ class Resource {
 
 			$_POST['pwd'] = str_replace('{GOOSE}/', '', $_POST['pwd']);
 
+			// set temp filename
+			$tmp_filename = 'tmp-install.zip';
+
 			// set install location
 			$dest_loc = explode('/', $_POST['pwd']);
 			$dest_name = array_pop($dest_loc);
 			$dest_loc = implode('/', $dest_loc) . '/';
+			$dest_pwd = __GOOSE_PWD__.$dest_loc;
 
 			$file_loc = explode('/', $_POST['install_file']);
 			$file_name = array_pop($file_loc);
-			$dest_dir = __GOOSE_PWD__.$dest_loc.$dest_name;
-			$tmp_file = $dest_dir.'/tmp-install.zip';
-
-			// check location
-			if (!is_dir(__GOOSE_PWD__.$dest_loc))
-			{
-				throw new Exception('not found install directory');
-			}
+			$dest_dir = $this->ftp['pwd'].$dest_loc.$dest_name;
 
 			// check ftp setting file
 			if (!file_exists($file_ftpSetting))
@@ -310,29 +307,28 @@ class Resource {
 				throw new Exception("FTP connection has failed!\nAttempted to connect to ".$this->ftp['host']." for user ".$this->ftp['id']);
 			}
 
-			if (is_dir($dest_dir))
+			if (ftp_chdir($conn_id, $dest_dir))
 			{
-				throw new Exception("같은 이름의 디렉토리가 있습니다.\n[".$dest_dir.$dest_name."]\n경로를 확인해주세요.");
+				throw new Exception("같은 이름의 디렉토리가 있습니다.\n[".$dest_dir."]\n경로를 확인해주세요.");
 			}
 
 			// make directory
-			Util::createDirectory($dest_dir, 0755);
+			if (!ftp_mkdir($conn_id, $dest_dir))
+			{
+				throw new Exception("Can't make [$dest_dir]directory");
+			}
 
 			// upload file
-			if (is_dir($dest_dir))
+			if (ftp_put($conn_id, $dest_dir.'/'.$tmp_filename, $_POST['install_file'], FTP_BINARY) === FALSE)
 			{
-				$upload = ftp_put($conn_id, $tmp_file, $_POST['install_file'], FTP_BINARY);
-				if ($upload === FALSE)
-				{
-					throw new Exception('upload error');
-				}
+				throw new Exception('upload error');
 			}
 
 			// unpack tmpfile
 			$zip = new ZipArchive;
-			if ($zip->open($tmp_file) === TRUE)
+			if ($zip->open($dest_pwd.$dest_name.'/'.$tmp_filename) === TRUE)
 			{
-				$zip->extractTo($dest_dir);
+				$zip->extractTo($dest_pwd.$dest_name);
 				$zip->close();
 			}
 			else
@@ -341,16 +337,15 @@ class Resource {
 			}
 
 			// remove tmpfile
-			unlink($tmp_file);
+			unlink($dest_pwd.$dest_name.'/'.$tmp_filename);
 
 			// edit dest dir
-			$dest_dir = str_replace(__GOOSE_PWD__, '{GOOSE}/', $dest_dir);
+			$dest_dir = str_replace($this->ftp['pwd'], '{GOOSE}/', $dest_dir);
 
 			// goal
 			return [
 				'state' => 'success',
 				'message' => "설치 완료되었습니다.\n\n설치경로:\n".$dest_dir."",
-				//'debug' => $debug,
 			];
 
 		} catch(Exception $e) {
