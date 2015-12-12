@@ -52,6 +52,7 @@ const Install = React.createClass({
 				{
 					alert(data.message);
 					self.close();
+					self.props.setDisabledInstallButton();
 				}
 				else
 				{

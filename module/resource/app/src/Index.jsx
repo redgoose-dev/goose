@@ -48,16 +48,16 @@ var Index = React.createClass({
 		url += '&page=' + page;
 		url += (nest_id) ? '&nest_id=' + nest_id : '';
 
-		jQuery.get(url, function(response){
-			try {
-				response = JSON.parse(response);
+		jQuery.getJSON(url, function(response){
+			if (response.result)
+			{
 				self.setState({
 					loading : false,
 					items : response.result,
 					navigation : response.navigation,
 					title : self.props.parent.refs.header.getTitle()
 				});
-			} catch(err) {}
+			}
 		});
 	},
 

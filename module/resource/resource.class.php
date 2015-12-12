@@ -343,10 +343,14 @@ class Resource {
 			// remove tmpfile
 			unlink($tmp_file);
 
+			// edit dest dir
+			$dest_dir = str_replace(__GOOSE_PWD__, '{GOOSE}/', $dest_dir);
+
 			// goal
 			return [
 				'state' => 'success',
-				'message' => "설치 완료되었습니다.\n설치 경로는 [".$dest_dir."] 입니다."
+				'message' => "설치 완료되었습니다.\n\n설치경로:\n".$dest_dir."",
+				//'debug' => $debug,
 			];
 
 		} catch(Exception $e) {

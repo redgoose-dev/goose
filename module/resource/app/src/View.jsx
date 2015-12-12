@@ -60,9 +60,9 @@ const View = React.createClass({
 		url += '?format=json';
 		url += '&srl=' + srl;
 
-		jQuery.get(url, function(response){
-			try {
-				response = JSON.parse(response);
+		jQuery.getJSON(url, function(response){
+			if (response.result)
+			{
 				self.updateHit(srl);
 				self.checkInstallLocation(response.result.json.install_loc);
 				self.setState({
@@ -70,7 +70,7 @@ const View = React.createClass({
 					item : response.result,
 					title : self.props.parent.refs.header.getTitle()
 				});
-			} catch(err) {}
+			}
 		});
 	},
 
@@ -147,20 +147,22 @@ const View = React.createClass({
 	checkInstall()
 	{
 		let self = this;
-		jQuery.get(this.props.userData.url + '/checkInstall/', function(response){
-			try {
-				response = JSON.parse(response);
-				if (response.state == 'success')
-				{
-					self.setState({ is_install : true });
-				}
-				else
-				{
-					self.setState({ is_install : false });
-				}
-			} catch(e) {}
+		jQuery.getJSON(this.props.userData.url + '/checkInstall/', function(response){
+			if (response.state == 'success')
+			{
+				self.setState({ is_install : true });
+			}
+			else
+			{
+				self.setState({ is_install : false });
+			}
 		});
 
+	},
+
+	setDisabledInstallButton()
+	{
+		this.setState({ overlap_install : true });
 	},
 
 	checkInstallLocation(loc)
@@ -189,6 +191,7 @@ const View = React.createClass({
 				location={this.state.item.json.install_loc}
 				file={this.props.userData.url_gooseAdmin + '/' + this.state.item.json.install_src.location}
 				title={this.state.item.title}
+				setDisabledInstallButton={this.setDisabledInstallButton}
 				/>,
 			document.getElementById(this.popup_id));
 	},
@@ -208,7 +211,6 @@ const View = React.createClass({
 			onClick={this.install}>Install</button>;
 		let installInfo = null;
 
-		//log(this.state.is_install);
 		if (this.state.item && !this.state.is_install && this.state.item.json.install_loc)
 		{
 			let file = this.props.userData.url_gooseAdmin + '/' + this.state.item.json.install_src.location;

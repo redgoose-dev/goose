@@ -22,9 +22,7 @@ const Header = React.createClass({
 	getNavigations(url)
 	{
 		let self = this;
-		log(url);
 		jQuery.getJSON(url, function(response){
-			log(response);
 			if (response.result)
 			{
 				self.setState({
