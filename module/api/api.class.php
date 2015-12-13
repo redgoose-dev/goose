@@ -184,6 +184,7 @@ class API {
 			}
 			else
 			{
+				$key = (is_numeric($key)) ? 'item-'.$key : $key;
 				$xml_student_info->addChild("$key", htmlspecialchars("$value"));
 			}
 		}

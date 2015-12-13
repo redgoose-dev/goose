@@ -90,16 +90,18 @@ class Goose {
 	public static function error($code=null, $msg=null, $url_home=__GOOSE_ROOT__)
 	{
 		$error = Module::load('error');
+		$url_home .= (preg_match('/\/$/', $url_home)) ? '' : '/';
+
 		// act error
 		switch($code)
 		{
 			case 101:
 				// custom error
-				$error->render($code, $msg);
+				$error->render($code, $msg, $url_home);
 				self::end();
 				break;
 			case 403:
-				$error->render($code, 'permission denied');
+				$error->render($code, 'permission denied', $url_home);
 				self::end();
 				break;
 			case 404:

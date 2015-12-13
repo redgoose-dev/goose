@@ -1,5 +1,5 @@
 <?php
-/* Copyright Redgoose <http://redgoose.me> */
+/* Created by Redgoose <http://redgoose.me> */
 
 define('__GOOSE__', true);
 define('__GOOSE_DEBUG__', false);

@@ -119,6 +119,10 @@ $font-eng: 'Helvetica', Arial, sans-serif;
 	&.size-small {padding: 8px 15px; font-size: 12px;}
 	&.col-key {color: #fff; background: #72b3ca;}
 	&.block {display: block; margin-left: 0; margin-right: 0;}
+	&[disabled] {
+		background: $color-blur;
+		cursor: default;
+	}
 }
 %gs-icon {
 	font-family: 'goose-icons', sans-serif;

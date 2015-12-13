@@ -31,8 +31,7 @@
 	},
 	{
 		"name": "Resource",
-		"url": "http://resource.redgoose.me",
-		"target": "goose_resource",
+		"url": "{GOOSE_ROOT}/resource/",
 		"permission" : "0"
 	}
 ]
