@@ -256,6 +256,31 @@ $color-key : #72b3ca;
 			padding-right: $padding-h + 2;
 		}
 	}
+
+	.article-categories {
+		ul {
+			margin: 0 0; padding: 0; list-style: none;
+			font-size: 0;
+		}
+		li {
+			display: inline-block;
+			&.active a {color: #999;}
+		}
+		a {
+			display: inline-block;
+			padding: 5px 10px 10px;
+			font-family: 'Helvetica Neue', 'Arial', sans-serif;
+			font-size: 12px; color: #212120;
+			text-decoration: none;
+			&:hover {text-decoration: underline;}
+		}
+		em {
+			padding-left: 3px;
+			font-style: normal;
+			&:before {content: '(';}
+			&:after {content: ')';}
+		}
+	}
 }
 
 .mode-mod-resource-popup {

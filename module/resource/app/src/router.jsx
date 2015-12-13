@@ -11,7 +11,9 @@ ReactDOM.render(
 		<Router history={createHashHistory({ queryKey: false })}>
 			<Route path="/" component={App}>
 				<IndexRoute component={Index}/>
-				<Route path="nest/:nest_id/" component={Index} />
+				<Route path="nest/:nest_id/" component={Index}>
+					<Route path=":category_srl/" component={Index} />
+				</Route>
 				<Route path="article/:nest_id/:srl/" component={View} />
 				<Route path="setting/" component={Setting} />
 			</Route>

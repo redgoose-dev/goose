@@ -3,6 +3,7 @@ var Index = React.createClass({
 	displayName : 'Index',
 	currentNest : '',
 	currentPage : 1,
+	currentCategory : 0,
 	count : 10,
 
 	getInitialState()
@@ -11,6 +12,7 @@ var Index = React.createClass({
 			loading: false,
 			items: [],
 			navigation: null,
+			categories: [],
 			title : ''
 		};
 	},
@@ -19,25 +21,29 @@ var Index = React.createClass({
 	{
 		this.currentNest = this.props.params.nest_id;
 		this.currentPage = (this.props.location.query.page) ? this.props.location.query.page : 1;
+		this.currentCategory = (this.props.params.category_srl) ? parseInt(this.props.params.category_srl) : 0;
 		this.setState({ loading : true });
-		this.getItems(this.currentNest, this.currentPage);
+		this.getItems(this.currentNest, this.currentCategory, this.currentPage);
 	},
 
 	componentWillReceiveProps(nextProps)
 	{
 		let nextPage = (nextProps.location.query.page) ? nextProps.location.query.page : 1;
 		let sameNest = this.currentNest == nextProps.params.nest_id;
+		let samePage = this.currentPage == nextPage;
+		let sameCategory = this.currentCategory == nextProps.params.category_srl;
 
-		if (!sameNest || (sameNest && (this.currentPage != nextPage)))
+		if (!sameNest || (sameNest && !sameCategory) || (sameNest && sameCategory && !samePage))
 		{
 			this.currentNest = nextProps.params.nest_id;
+			this.currentCategory = (nextProps.params.category_srl) ? nextProps.params.category_srl : 0;
 			this.currentPage = nextPage;
 			this.setState({ loading : true });
-			this.getItems(this.currentNest, this.currentPage);
+			this.getItems(this.currentNest, this.currentCategory, this.currentPage);
 		}
 	},
 
-	getItems(nest_id, page)
+	getItems(nest_id, category_srl, page)
 	{
 		let self = this;
 		let url = this.props.userData.apiUrls.articles;
@@ -46,7 +52,8 @@ var Index = React.createClass({
 		url += '&field=srl,category_srl,nest_srl,title,hit,json,regdate,modate';
 		url += '&count=' + this.count;
 		url += '&page=' + page;
-		url += (nest_id) ? '&nest_id=' + nest_id : '';
+		url += (nest_id && (nest_id != 'new')) ? '&nest_id=' + nest_id : '';
+		url += (category_srl) ? '&category_srl=' + category_srl : '';
 
 		jQuery.getJSON(url, function(response){
 			if (response.result)
@@ -55,6 +62,7 @@ var Index = React.createClass({
 					loading : false,
 					items : response.result,
 					navigation : response.navigation,
+					categories : response.categories,
 					title : self.props.parent.refs.header.getTitle()
 				});
 			}
@@ -63,7 +71,7 @@ var Index = React.createClass({
 
 	render()
 	{
-		let index, pageNavigation;
+		let index, pageNavigation, categories;
 		let loading = <li className="loading-page">
 			<span className="mod-resource-loader">loading symbol</span>
 			<span className="message">loading..</span>
@@ -121,16 +129,40 @@ var Index = React.createClass({
 			}
 			else
 			{
-				index = <li className="noitem">
-					<span className="mod-resource-closed blades thick">loading icon</span>
-					<span className="message">not found item</span>
-				</li>;
+				index = (
+					<li className="noitem">
+						<span className="mod-resource-closed blades thick">loading icon</span>
+						<span className="message">not found item</span>
+					</li>
+				);
 			}
+		}
+
+		if (this.state.categories.length)
+		{
+			let categoryItem = this.state.categories.map((o, k) =>{
+				let url = '/nest/' + this.props.params.nest_id + '/' + ((o.srl) ? o.srl + '/' : '');
+				let active = ( this.currentCategory == o.srl || ((this.currentCategory != o.srl) && o.srl < 0) ) ? 'active' : '';
+				return (
+					<li key={'categoryItem-' + k} className={active}>
+						<Link to={url}>
+							<span>{o.name}</span>
+							<em>{o.count}</em>
+						</Link>
+					</li>
+				);
+			});
+			categories = (
+				<nav className="article-categories">
+					<ul>{categoryItem}</ul>
+				</nav>
+			);
 		}
 
 		return (
 			<section>
 				<h1>{this.state.title}</h1>
+				{categories}
 				<ul className="index">{index}</ul>
 				{pageNavigation}
 			</section>

@@ -79,7 +79,7 @@ const Install = React.createClass({
 						</p>
 						<dl>
 							<dt><label htmlFor="frm_pwd">설치경로</label></dt>
-							<dd><input type="text" name="pwd" id="frm_pwd" defaultValue={this.props.location} readOnly /></dd>
+							<dd><input type="text" name="pwd" id="frm_pwd" defaultValue={this.props.location} /></dd>
 						</dl>
 					</fieldset>
 					<div className={ 'loading' + ((this.state.status == 'loading') ? ' show' : '') }>
