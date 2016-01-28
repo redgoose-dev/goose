@@ -460,7 +460,11 @@ em[class^=gs-brk-] {font-style: normal;}
 		.body {
 			display: block;
 			padding: 12px 10px;
-			.hd {font-size: 14px; padding-bottom: 5px;}
+			.hd {
+				height: 25px; overflow: hidden;
+				padding-bottom: 5px;
+				font-size: 14px;
+			}
 			.inf {
 				font-size: 12px;
 				line-height: 1.2em; height: 1.2em * 3;
