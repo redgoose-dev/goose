@@ -375,6 +375,7 @@ em[class^=gs-brk-] {font-style: normal;}
 	}
 	.body {
 		@include flex(1);
+		min-width: 100px;
 		.hd {
 			display: block; padding: 0 0 3px;
 			font-size: 16px; font-weight: bold; color: $color-title;
