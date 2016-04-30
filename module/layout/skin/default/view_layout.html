@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 if (!defined('__GOOSE__')) exit();
 
@@ -7,8 +8,6 @@ $navigationTree = Spawn::item(array(
 ));
 $navigationTree = Util::jsonToArray($navigationTree['json'], null, true);
 ?>
-
-<!DOCTYPE html>
 <html>
 <head lang="ko">
 <meta charset="utf-8">
@@ -19,11 +18,10 @@ $navigationTree = Util::jsonToArray($navigationTree['json'], null, true);
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no">
 <link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/vendor/iconFonts/style.css" />
 <link rel="stylesheet" href="<?=__GOOSE_ROOT__.'/'.$this->layout->skinPath?>css/layout.css" media="screen" />
-<script src="<?=__GOOSE_ROOT__?>/vendor/jQuery/jquery-2.1.4.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/jQuery/jquery-2.2.3.min.js"></script>
 <script>function log(o){console.log(o);}</script>
 </head>
 <body>
-
 <main role="main">
 	<!-- Header -->
 	<header id="header">
@@ -71,6 +69,5 @@ $navigationTree = Util::jsonToArray($navigationTree['json'], null, true);
 	</footer>
 	<!-- // Footer -->
 </main>
-
 </body>
 </html>

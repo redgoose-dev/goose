@@ -17,7 +17,20 @@ __http://src.goose-dev.com__
 현재는 주인장 혼자 컨텐츠를 만들어 올리고 있지만 컨텐츠를 만들어 공유하시고 싶으신분이 계시다면 scripter@me.com 으로 이메일을 보내주세요. 환영합니다~
 
 
+#### Vendor list
+
+* jquery - https://jquery.com
+* dragsort - http://dragsort.codeplex.com
+* Jcrop - https://github.com/tapmodo/Jcrop
+* JSONEditor - https://github.com/RedgooseDev/JSONEditor
+* Parsedown - http://parsedown.org
+* Parsedown Extra - https://michelf.ca/projects/php-markdown
+* Snippet
+* jQuery Validation - http://jqueryvalidation.org
+* react.js - https://facebook.github.io/react
+* react router - https://github.com/reactjs/react-router
+
 
 #### 알립니다!
-사용해보시고 소감을 이슈에다 적어주시면 감사하겠습니다. 그리고 어떻게 개선했으면 좋을지에 대해서도 좀 알고싶습니다.  
+사용해보시고 소감을 이슈에다 적어주시면 감사하겠습니다. 그리고 어떻게 개선했으면 좋을지에 대해서도 좀 알고싶습니다.
 당연히 막히거나 모르는것이 있다면 이슈에다 글남겨주시는것도 환영합니다.
