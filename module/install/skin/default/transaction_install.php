@@ -43,10 +43,9 @@ if ( checkPost() == true )
 	}
 
 	// check writable directory
-	if (!is_writable(__GOOSE_PWD__))
+	if (is_writable(__GOOSE_PWD__))
 	{
-		Goose::error(999, 'Not a writable directory.');
-		Goose::end();
+		Goose::error(101, 'Not a writable directory.');
 	}
 
 	// create directories
@@ -77,15 +76,13 @@ if ( checkPost() == true )
 	]);
 	if ($tpl_config != 'success')
 	{
-		Goose::error(999, 'Failed to create the file data/config.php');
-		Goose::end();
+		Goose::error(101, 'Failed to create the file data/config.php');
 	}
 
 	// create modules.json
 	if ($this->tpl_modules() != 'success')
 	{
-		Goose::error(999, 'Failed to create the file data/modules.json');
-		Goose::end();
+		Goose::error(101, 'Failed to create the file data/modules.json');
 	}
 }
 else
