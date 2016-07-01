@@ -43,7 +43,7 @@ if ( checkPost() == true )
 	}
 
 	// check writable directory
-	if (is_writable(__GOOSE_PWD__))
+	if (!is_writable(__GOOSE_PWD__))
 	{
 		Goose::error(101, 'Not a writable directory.');
 	}
