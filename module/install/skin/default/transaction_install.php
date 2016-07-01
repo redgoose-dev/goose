@@ -42,6 +42,13 @@ if ( checkPost() == true )
 		}
 	}
 
+	// check writable directory
+	if (!is_writable(__GOOSE_PWD__))
+	{
+		Goose::error(999, 'Not a writable directory.');
+		Goose::end();
+	}
+
 	// create directories
 	Util::createDirectory(__GOOSE_PWD__."data", 0755);
 	Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
@@ -122,7 +129,7 @@ $result = Spawn::insert(array(
 		'regdate' => date("YmdHis")
 	)
 ));
-echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "ERROR : $result")."</p>";
+echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "<strong style='color: red; font-weight: bold;'>ERROR : $result</strong>")."</p>";
 
 
 // add basic navigation on json table
@@ -150,7 +157,7 @@ else
 {
 	$result = '"Goose Navigation" Data already exists.';
 }
-echo "<p>Add json data - ".(($result == 'success') ? 'Complete' : "ERROR : $result")."</p>";
+echo "<p>Add json data - ".(($result == 'success') ? 'Complete' : "<strong style='color: red; font-weight: bold;'>ERROR : $result</strong>")."</p>";
 
 
 echo "<hr/>";
