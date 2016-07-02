@@ -64,11 +64,11 @@ class View extends User
 	private function view_index()
 	{
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// get data
 		$data = $this->parent->getItems();
-		$repo['user'] = ($data['state'] == 'success') ? $data['data'] : array();
+		$repo['user'] = ($data['state'] == 'success') ? $data['data'] : [];
 
 		// set pwd_container
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_index.html';
@@ -95,17 +95,14 @@ class View extends User
 	 */
 	private function view_modify()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set user srl
 		$user_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// get user data
-		$data = $this->parent->getItem(array('where' => 'srl='.$user_srl));
+		$data = $this->parent->getItem([ 'where' => 'srl='.$user_srl ]);
 		if ($data['state'] == 'error')
 		{
 			Util::back($data['message']);
@@ -114,6 +111,12 @@ class View extends User
 		else if ($data['state'] == 'success')
 		{
 			$repo['user'] = $data['data'];
+		}
+
+		// check admin
+		if ($_SESSION['goose_email'] !== $repo['user']['email'])
+		{
+			$this->checkAdmin();
 		}
 
 		// set pwd_container
@@ -127,17 +130,14 @@ class View extends User
 	 */
 	private function view_remove()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set user srl
 		$user_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// get user data
-		$data = $this->parent->getItem(array('where' => 'srl='.$user_srl));
+		$data = $this->parent->getItem([ 'where' => 'srl='.$user_srl ]);
 		if ($data['state'] == 'error')
 		{
 			Util::back($data['message']);
@@ -147,6 +147,9 @@ class View extends User
 		{
 			$repo['user'] = $data['data'];
 		}
+
+		// check admin
+		$this->checkAdmin();
 
 		// set container pwd
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_remove.html';

@@ -1,5 +1,7 @@
 <?php
 if (!defined('__GOOSE__')) exit();
+
+$permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['json']['permission2'] : $this->set['adminPermission'];
 ?>
 
 <section>
@@ -42,10 +44,17 @@ if (!defined('__GOOSE__')) exit();
 							<div class="wrap">
 								<div class="body">
 									<strong class="hd"><?=$v['srl']?>. <?=$v['name']?>(<?=$v['countArticle']?>)</strong>
-									<nav>
-										<a href="<?=__GOOSE_ROOT__.'/category/modify/'.$param?>">수정</a>
-										<a href="<?=__GOOSE_ROOT__.'/category/remove/'.$param?>">삭제</a>
-									</nav>
+									<?php
+									if ($this->parent->isAdmin || ((int)$permission < $_SESSION['goose_level']))
+									{
+									?>
+										<nav>
+											<a href="<?= __GOOSE_ROOT__ . '/category/modify/' . $param ?>">수정</a>
+											<a href="<?= __GOOSE_ROOT__ . '/category/remove/' . $param ?>">삭제</a>
+										</nav>
+									<?php
+									}
+									?>
 								</div>
 							</div>
 						</li>
@@ -64,7 +73,7 @@ if (!defined('__GOOSE__')) exit();
 		<nav class="gs-btn-group right">
 			<?php
 			$param = ($nest_srl) ? $nest_srl.'/' : '';
-			if ($this->parent->isAdmin)
+			if ($this->parent->isAdmin || ((int)$permission < $_SESSION['goose_level']))
 			{
 			?>
 				<a href="<?=__GOOSE_ROOT__.'/category/create/'.$param?>" class="gs-button col-key">분류추가</a>

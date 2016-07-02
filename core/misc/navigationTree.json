@@ -3,35 +3,35 @@
 		"name": "Nest",
 		"url": "{GOOSE_ROOT}/nest/index/",
 		"target": "",
-		"permission" : "100"
+		"permission" : 0
 	},
 	{
 		"name": "User",
 		"url": "{GOOSE_ROOT}/user/index/",
 		"target": "",
-		"permission" : "100"
+		"permission" : 0
 	},
 	{
 		"name": "JSON",
 		"url": "{GOOSE_ROOT}/json/index/",
 		"target": "",
-		"permission" : "100"
+		"permission" : 100
 	},
 	{
 		"name": "Module",
 		"url": "{GOOSE_ROOT}/modules/index/",
 		"target": "",
-		"permission" : "100"
+		"permission" : 100
 	},
 	{
 		"name": "Documentation",
 		"url": "http://redgoosedev.github.io/goose/#Documentation",
 		"target": "goose",
-		"permission" : "0"
+		"permission" : 0
 	},
 	{
 		"name": "Resource",
 		"url": "{GOOSE_ROOT}/resource/",
-		"permission" : "0"
+		"permission" : 0
 	}
 ]

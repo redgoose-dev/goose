@@ -50,13 +50,35 @@ class View extends Article {
 	}
 
 	/**
-	 * check admin
+	 * check permission
+	 *
+	 * @param int $permission
 	 */
-	private function checkAdmin()
+	private function checkAdmin($permission=null)
 	{
+		$permission = (isset($permission)) ? $permission : $this->set['adminPermission'];
 		if (!$this->parent->isAdmin)
 		{
-			Util::back('권한이 없습니다.');
+			if ($_SESSION['goose_level'] < (int)$permission)
+			{
+				Util::back('권한이 없습니다.');
+				Goose::end();
+			}
+		}
+	}
+
+	/**
+	 * check nest permission
+	 *
+	 * @param int $permission
+	 *
+	 */
+	private function checkNestPermission($permission)
+	{
+		$permission = (isset($permission)) ? $permission : $this->set['permission'];
+		if ($_SESSION['goose_level'] < $permission)
+		{
+			Util::redirect(__GOOSE_ROOT__.'/nest/', '둥지의 권한이 없습니다.');
 			Goose::end();
 		}
 	}
@@ -95,6 +117,9 @@ class View extends Article {
 				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 			}
 		}
+
+		// check permission
+		$this->checkNestPermission($repo['nest']['json']['permission']);
 
 		// set article params
 		$param = '';
@@ -219,6 +244,9 @@ class View extends Article {
 			}
 		}
 
+		// check permission
+		$this->checkNestPermission($repo['nest']['json']['permission']);
+
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_read.html',
@@ -236,14 +264,11 @@ class View extends Article {
 	 */
 	private function view_create()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		$nest_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 		$category_srl = ($this->param['params'][1]) ? (int)$this->param['params'][1] : null;
 
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// get nest data
 		if ($nest_srl)
@@ -256,19 +281,22 @@ class View extends Article {
 			}
 		}
 
-		if ($repo['nest']['json']['useCategory'])
+		if (isset($repo['nest']['json']['useCategory']))
 		{
 			$category = Module::load('category');
 			if ($category->name)
 			{
-				$data = $category->getItems(array(
+				$data = $category->getItems([
 					'where' => 'nest_srl=' . $repo['nest']['srl'],
 					'order' => 'turn',
 					'sort' => 'asc'
-				));
+				]);
 				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 			}
 		}
+
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
 
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
@@ -287,9 +315,6 @@ class View extends Article {
 	 */
 	private function view_modify()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set srl
 		if ($this->param['params'][1])
 		{
@@ -309,7 +334,7 @@ class View extends Article {
 		}
 
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// get article data
 		$data = $this->parent->getItem( array('where' => 'srl='.$article_srl) );
@@ -337,6 +362,9 @@ class View extends Article {
 			$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 		}
 
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
+
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_form.html',
@@ -344,7 +372,10 @@ class View extends Article {
 		));
 
 		// set skin path
-		$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
+		$this->skinPath = Util::isDir(
+			$this->path.'skin/{dir}/',
+			$repo['nest']['json']['articleSkin'],
+			$this->set['skin'], __GOOSE_PWD__);
 
 		require_once($this->layout->getUrl());
 	}
@@ -354,9 +385,6 @@ class View extends Article {
 	 */
 	private function view_remove()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set srl
 		if ($this->param['params'][1])
 		{
@@ -376,28 +404,34 @@ class View extends Article {
 		}
 
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// get article data
-		$data = $this->parent->getItem(array('where' => 'srl='.$article_srl));
+		$data = $this->parent->getItem([ 'where' => 'srl='.$article_srl ]);
 		$repo['article'] = ($data['state'] == 'success') ? $data['data'] : null;
 
 		// get nest data
 		$nest = Module::load('nest');
 		if ($nest->name)
 		{
-			$data = $nest->getItem(array('where' => 'srl='.$repo['article']['nest_srl']));
+			$data = $nest->getItem([ 'where' => 'srl='.$repo['article']['nest_srl'] ]);
 			$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
 		}
 
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
+
 		// set pwd_container
-		$this->pwd_container = Util::isFile(array(
+		$this->pwd_container = Util::isFile([
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_remove.html',
 			__GOOSE_PWD__.$this->skinPath.'view_remove.html'
-		));
+		]);
 
 		// set skin path
-		$this->skinPath = Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
+		$this->skinPath = Util::isDir(
+			$this->path.'skin/{dir}/',
+			$repo['nest']['json']['articleSkin'],
+			$this->set['skin'], __GOOSE_PWD__);
 
 		require_once($this->layout->getUrl());
 	}

@@ -34,15 +34,22 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 				<dd><input type="password" name="pw2" id="pw2" size="15" maxlength="20" /></dd>
 			</dl>
 			<?php
-			if ($this->parent->isAdmin) {
+			if ($this->parent->isAdmin)
+			{
 			?>
 				<dl class="gs-webz">
 					<dt><label for="level">권한</label></dt>
 					<dd>
-						<input type="text" name="level" id="level" size="4" maxlength="4" value="<?= $repo['user']['level'] ?>" placeholder="10"/>
+						<input type="text" name="level" id="level" size="4" maxlength="4" value="<?=$repo['user']['level']?>" placeholder="10"/>
 						<p>접근레벨 : <?=$this->set['permission']?>, 관리자레벨 : <?=$this->set['adminPermission']?></p>
 					</dd>
 				</dl>
+			<?php
+			}
+			else if (isset($repo['user']['level']))
+			{
+			?>
+				<input type="hidden" name="level" value="<?=$repo['user']['level']?>">
 			<?php
 			}
 			?>

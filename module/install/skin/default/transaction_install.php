@@ -42,6 +42,12 @@ if ( checkPost() == true )
 		}
 	}
 
+	// check writable directory
+	if (!is_writable(__GOOSE_PWD__))
+	{
+		Goose::error(101, 'Not a writable directory.');
+	}
+
 	// create directories
 	Util::createDirectory(__GOOSE_PWD__."data", 0755);
 	Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
@@ -70,15 +76,13 @@ if ( checkPost() == true )
 	]);
 	if ($tpl_config != 'success')
 	{
-		Goose::error(999, 'Failed to create the file data/config.php');
-		Goose::end();
+		Goose::error(101, 'Failed to create the file data/config.php');
 	}
 
 	// create modules.json
 	if ($this->tpl_modules() != 'success')
 	{
-		Goose::error(999, 'Failed to create the file data/modules.json');
-		Goose::end();
+		Goose::error(101, 'Failed to create the file data/modules.json');
 	}
 }
 else
@@ -122,7 +126,7 @@ $result = Spawn::insert(array(
 		'regdate' => date("YmdHis")
 	)
 ));
-echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "ERROR : $result")."</p>";
+echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "<strong style='color: red; font-weight: bold;'>ERROR : $result</strong>")."</p>";
 
 
 // add basic navigation on json table
@@ -150,7 +154,7 @@ else
 {
 	$result = '"Goose Navigation" Data already exists.';
 }
-echo "<p>Add json data - ".(($result == 'success') ? 'Complete' : "ERROR : $result")."</p>";
+echo "<p>Add json data - ".(($result == 'success') ? 'Complete' : "<strong style='color: red; font-weight: bold;'>ERROR : $result</strong>")."</p>";
 
 
 echo "<hr/>";

@@ -139,11 +139,18 @@ class User {
 	 * @param array $post
 	 * @return array
 	 */
-	public function transaction($method, $post=array())
+	public function transaction($method, $post=[])
 	{
-		if (!$method) return array('state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.');
-		if ($this->name != 'user') return array('state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.');
-		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
+		if (!$method) return [ 'state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.' ];
+		if ($this->name != 'user') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if (($post['email'] !== $_SESSION['goose_email']) && !$this->isAdmin)
+		{
+			return [
+				'state' => 'error',
+				'action' => 'back',
+				'message' => '권한이 없습니다.'
+			];
+		}
 
 		$loc = __GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php';
 

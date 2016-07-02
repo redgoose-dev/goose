@@ -16,7 +16,7 @@ class Nest {
 	 *
 	 * @param array $getter
 	 */
-	public function __construct($getter=array())
+	public function __construct($getter=[])
 	{
 		$this->name = $getter['name'];
 		$this->goose = $getter['goose'];
@@ -85,16 +85,16 @@ class Nest {
 	 */
 	public function getCount($getParams=null)
 	{
-		if ($this->name != 'nest') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'nest') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set original parameter
-		$originalParam = array('table' => Spawn::getTableName($this->name));
+		$originalParam = [ 'table' => Spawn::getTableName($this->name) ];
 
 		// get data
 		$data = Spawn::count(Util::extendArray($originalParam, $getParams));
 
 		// return data
-		return array( 'state' => 'success', 'data' => $data );
+		return [ 'state' => 'success', 'data' => $data ];
 	}
 
 	/**
@@ -105,18 +105,18 @@ class Nest {
 	 */
 	public function getItems($getParams=null)
 	{
-		if ($this->name != 'nest') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'nest') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set original parameter
-		$originalParam = array(
+		$originalParam = [
 			'table' => Spawn::getTableName($this->name),
 			'order' => 'srl',
 			'sort' => 'desc'
-		);
+		];
 
 		// get data
 		$data = Spawn::items(Util::extendArray($originalParam, $getParams));
-		if (!count($data)) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
+		if (!count($data)) return [ 'state' => 'error', 'message' => '데이터가 없습니다.' ];
 
 		// convert json data
 		foreach ($data as $k=>$v)
@@ -128,7 +128,7 @@ class Nest {
 		}
 
 		// return data
-		return array( 'state' => 'success', 'data' => $data );
+		return [ 'state' => 'success', 'data' => $data ];
 	}
 
 	/**
@@ -137,18 +137,18 @@ class Nest {
 	 * @param array $getParam
 	 * @return array|null
 	 */
-	public function getItem($getParam=array())
+	public function getItem($getParam=[])
 	{
-		if ($this->name != 'nest') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'nest') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set original parameter
-		$originalParam = array( 'table' => Spawn::getTableName($this->name) );
+		$originalParam = [ 'table' => Spawn::getTableName($this->name) ];
 
 		// get data
 		$data = Spawn::item(Util::extendArray($originalParam, $getParam));
 
 		// check data
-		if (!$data) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
+		if (!$data) return [ 'state' => 'error', 'message' => '데이터가 없습니다.' ];
 
 		// convert json data
 		if (is_array($data) && $data['json'])
@@ -157,7 +157,7 @@ class Nest {
 		}
 
 		// return data
-		return array( 'state' => 'success', 'data' => $data );
+		return [ 'state' => 'success', 'data' => $data ];
 	}
 
 	/**
@@ -167,14 +167,36 @@ class Nest {
 	 * @param array $post
 	 * @return array
 	 */
-	public function transaction($method, $post=array())
+	public function transaction($method, $post=[])
 	{
-		if (!$method) return array('state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.');
-		if ($this->name != 'nest') return array('state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.');
-		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
+		if (!$method) return [ 'state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.' ];
+		if ($this->name != 'nest') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
 
-		$json = Util::jsonToArray($post['json'], null, true);
+		if ($method == 'create')
+		{
+			// check user
+			if (!$this->isAdmin) return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
+		}
+		else if ($method == 'modify' || $method == 'remove')
+		{
+			if ($post['nest_srl'])
+			{
+				$nest = Spawn::item([
+					'table' => Spawn::getTableName('nest'),
+					'where' => 'srl='.$post['nest_srl']
+				]);
+				$nest['json'] = (isset($nest['json'])) ? Util::jsonToArray($nest['json'], false, true) : $nest['json'];
+			}
+			$permission = (isset($nest['json']['permission2'])) ? $nest['json']['permission2'] : $this->set['adminPermission'];
 
+			// check permission
+			if (!$this->isAdmin && ((int)$permission > $_SESSION['goose_level']))
+			{
+				return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
+			}
+		}
+
+		// check exist file
 		$loc = Util::isFile([
 			__GOOSE_PWD__.$this->path.'skin/'.$post['nestSkin'].'/transaction_'.$method.'.php',
 			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php',
@@ -187,11 +209,7 @@ class Nest {
 		}
 		else
 		{
-			return array(
-				'state' => 'error',
-				'action' => 'back',
-				'message' => '처리파일이 없습니다.'
-			);
+			return [ 'state' => 'error', 'action' => 'back', 'message' => '처리파일이 없습니다.' ];
 		}
 	}
 
@@ -208,10 +226,10 @@ class Nest {
 	 */
 	public function install($installData)
 	{
-		$query = Spawn::arrayToCreateTableQuery(array(
+		$query = Spawn::arrayToCreateTableQuery([
 			'tableName' => __dbPrefix__.$this->name
 			,'fields' => $installData
-		));
+		]);
 
 		return Spawn::action($query);
 	}

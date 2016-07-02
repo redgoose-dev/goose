@@ -7,11 +7,11 @@
 		box-shadow: 0 1px 3px 1px rgba(0,0,0,0.1);
 		a {text-decoration: none;}
 		> a {
-			display: block; padding: 0 0 3px;
+			display: block; padding: 0;
 			color: #b68250; font-size: 14px;
 		}
 		nav {
-			margin: 1px 0 0;
+			margin: 4px 0 0;
 			font-size: 0;
 			a {
 				display: inline-block; padding: 6px 5px 2px;
@@ -33,6 +33,10 @@
 			&:after {content: ''; display: table; clear: both;}
 			> li {float: left; width: 100%; padding: 5px 5px;}
 		}
+	}
+
+	.permission-denied {
+		.body {font-size: 14px; color: #999;}
 	}
 
 	@media all and (min-width:640px) {

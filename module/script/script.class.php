@@ -54,7 +54,7 @@ class Script
 	 */
 	public function run($name)
 	{
-		if ($this->name != 'script') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'script') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set run path
 		$path = $this->runPath.$name.'/';
@@ -62,7 +62,7 @@ class Script
 		// check run file
 		if (!file_exists(__GOOSE_PWD__.$path.'run.php'))
 		{
-			return array( 'state' => 'error', 'message' => '실행코드 파일이 없습니다.' );
+			return [ 'state' => 'error', 'message' => '실행코드 파일이 없습니다.' ];
 		}
 
 		// get meta data

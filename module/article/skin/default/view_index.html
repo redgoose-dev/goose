@@ -1,5 +1,7 @@
 <?php
 if (!defined('__GOOSE__')) exit();
+
+$permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['json']['permission2'] : $this->set['adminPermission'];
 ?>
 
 <section>
@@ -103,10 +105,13 @@ if (!defined('__GOOSE__')) exit();
 		<dd>
 			<nav class="gs-btn-group right">
 				<?php
-				$url = __GOOSE_ROOT__.'/article/create/';
-				$url .= ($nest_srl) ? $nest_srl.'/' : '';
-				$url .= ($category_srl) ? $category_srl.'/' : '';
-				echo ($this->parent->isAdmin) ? "<a href=\"$url\" class=\"gs-button col-key\">글쓰기</a>" : '';
+				if ($this->parent->isAdmin || ((int)$permission < $_SESSION['goose_level']))
+				{
+					$url = __GOOSE_ROOT__.'/article/create/';
+					$url .= ($nest_srl) ? $nest_srl.'/' : '';
+					$url .= ($category_srl) ? $category_srl.'/' : '';
+					echo "<a href=\"$url\" class=\"gs-button col-key\">글쓰기</a>";
+				}
 				$url = __GOOSE_ROOT__.'/nest/index/';
 				$url .= ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
 				?>

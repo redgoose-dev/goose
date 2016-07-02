@@ -52,15 +52,40 @@ class View extends Nest
 	}
 
 	/**
-	 * check admin
+	 * check permission
+	 *
+	 * @param int $permission
 	 */
-	private function checkAdmin()
+	private function checkAdmin($permission=null)
 	{
+		$permission = (isset($permission)) ? $permission : $this->set['adminPermission'];
 		if (!$this->parent->isAdmin)
 		{
-			Util::back('권한이 없습니다.');
-			Goose::end();
+			if ($_SESSION['goose_level'] < $permission)
+			{
+				Util::back('권한이 없습니다.');
+				Goose::end();
+			}
 		}
+	}
+
+	/**
+	 * Get skin names
+	 * if the form file brings the skin
+	 *
+	 * @param array $skins
+	 * @return array
+	 */
+	private function getSkinNames($skins)
+	{
+		$return = [];
+		foreach ($skins as $item) {
+			if (file_exists(__GOOSE_PWD__.$this->path.'skin/'.$item.'/view_form.html'))
+			{
+				$return[] = $item;
+			}
+		}
+		return $return;
 	}
 
 	/**
@@ -92,15 +117,11 @@ class View extends Nest
 	 */
 	private function view_create()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// load modules
 		$app = Module::load('app');
-		$article = Module::load('article');
 
-		// get skin index
-		$repo['skin'] = Util::getDir(__GOOSE_PWD__.$this->path.'skin/');
+		// get skin index (If only it contains the "view_form.html" file.)
+		$repo['skin'] = $this->getSkinNames(Util::getDir(__GOOSE_PWD__.$this->path.'skin/'));
 
 		// get article skin index
 		$repo['articleSkin'] = Util::getDir(__GOOSE_PWD__.'module/article/skin/');
@@ -111,6 +132,9 @@ class View extends Nest
 
 		// set skinPath
 		$this->skinPath = ($_GET['skin']) ? $this->path.'skin/'.$_GET['skin'].'/' : $this->skinPath;
+
+		// check permission
+		$this->checkAdmin();
 
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
@@ -127,17 +151,14 @@ class View extends Nest
 	 */
 	private function view_modify()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set nest srl
 		$nest_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 
 		// load modules
 		$app = Module::load('app');
 
-		// get skin index
-		$repo['skin'] = Util::getDir(__GOOSE_PWD__.$this->path.'skin/');
+		// get skin index (If only it contains the "view_form.html" file.)
+		$repo['skin'] = $this->getSkinNames(Util::getDir(__GOOSE_PWD__.$this->path.'skin/'));
 
 		// get article skin index
 		$repo['articleSkin'] = Util::getDir(__GOOSE_PWD__.'module/article/skin/');
@@ -167,6 +188,9 @@ class View extends Nest
 			$message['head'] = '스킨이 변경되었습니다. 적용하면 설정값이 변할수도 있습니다.';
 		}
 
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
+
 		// set pwd_container
 		$this->pwd_container = Util::isFile(array(
 			__GOOSE_PWD__.$this->path.'skin/'.$_GET['skin'].'/view_form.html',
@@ -183,27 +207,27 @@ class View extends Nest
 	 */
 	private function view_remove()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set nest srl
 		$nest_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 
 		// get nest data
-		$data = $this->parent->getItem( array('where' => 'srl='.$nest_srl) );
+		$data = $this->parent->getItem([ 'where' => 'srl='.$nest_srl ]);
 		if ($data['state'] == 'error')
 		{
 			Util::back($data['message']);
 			Goose::end();
 		}
-		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : array();
+		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : [];
+
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
 
 		// set pwd_container
-		$this->pwd_container = Util::isFile(array(
+		$this->pwd_container = Util::isFile([
 			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['nestSkin'].'/view_remove.html',
 			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/view_remove.html',
 			__GOOSE_PWD__.$this->path.'skin/default/view_remove.html'
-		));
+		]);
 
 		require_once($this->layout->getUrl());
 	}

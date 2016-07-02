@@ -1,18 +1,13 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
-// check user
-if (!$this->isAdmin)
-{
-	return array(
-		'state' => 'error',
-		'action' => 'back',
-		'message' => '권한이 없습니다.'
-	);
-}
+/**
+ * @var array $post
+ */
 
 
 // check post
+if (!isset($post)) return [ 'state' => 'error', 'action' => 'back', 'message' => 'post값이 없습니다.' ];
 $errorValue = Util::checkExistValue($post, array('nest_srl', 'name', 'json'));
 if ($errorValue)
 {
@@ -38,11 +33,12 @@ $result = Spawn::update(array(
 $result = Spawn::update(array(
 	'table' => Spawn::getTableName($this->name),
 	'where' => 'srl='.(int)$post['nest_srl'],
-	'data' => array(
+	'data' => [
 		"app_srl=".(int)$post['app_srl'],
+		"id='$post[id]'",
 		"name='$post[name]'",
 		"json='$post[json]'"
-	)
+	]
 ));
 if ($result != 'success')
 {

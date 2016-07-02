@@ -14,7 +14,7 @@ class File {
 	 *
 	 * @param array $getter
 	 */
-	public function __construct($getter=array())
+	public function __construct($getter=[])
 	{
 		$this->name = $getter['name'];
 		$this->goose = $getter['goose'];
@@ -47,7 +47,7 @@ class File {
 					break;
 				case 'remove':
 					$data = Util::jsonToArray($post['data'], true);
-					$fileSrls = $fileTmpSrls = array();
+					$fileSrls = $fileTmpSrls = [];
 
 					foreach($data as $k=>$v)
 					{
@@ -70,7 +70,7 @@ class File {
 						$this->actRemoveFile($fileTmpSrls, 'file_tmp');
 					}
 
-					echo json_encode(array( 'state' => 'success' ));
+					echo json_encode([ 'state' => 'success' ]);
 					break;
 			}
 			Goose::end(false);
@@ -137,10 +137,10 @@ class File {
 		}
 
 		// set source
-		$src = Array(
+		$src = [
 			basename($name, strrchr($name, '.')),
 			strtolower(substr(strrchr($name, '.'), 1))
-		);
+		];
 
 		// check file type
 		if (!in_array($src[1], $this->set['allowFileType']))
@@ -173,16 +173,16 @@ class File {
 	 */
 	public function getCount($getParams=null)
 	{
-		if ($this->name != 'file') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set original parameter
-		$originalParam = array('table' => Spawn::getTableName($this->name));
+		$originalParam = [ 'table' => Spawn::getTableName($this->name) ];
 
 		// get data
 		$data = Spawn::count(Util::extendArray($originalParam, $getParams));
 
 		// return data
-		return array( 'state' => 'success', 'data' => $data );
+		return [ 'state' => 'success', 'data' => $data ];
 	}
 
 	/**
@@ -193,21 +193,21 @@ class File {
 	 */
 	public function getItems($getParams=null)
 	{
-		if ($this->name != 'file') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set original parameter
-		$originalParam = array(
+		$originalParam = [
 			'table' => Spawn::getTableName($this->name),
 			'order' => 'srl',
 			'sort' => 'desc'
-		);
+		];
 
 		// get data
 		$data = Spawn::items(Util::extendArray($originalParam, $getParams));
-		if (!count($data)) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
+		if (!count($data)) return [ 'state' => 'error', 'message' => '데이터가 없습니다.' ];
 
 		// return data
-		return array( 'state' => 'success', 'data' => $data );
+		return [ 'state' => 'success', 'data' => $data ];
 	}
 
 	/**
@@ -216,21 +216,21 @@ class File {
 	 * @param array $getParam
 	 * @return array|null
 	 */
-	public function getItem($getParam=array())
+	public function getItem($getParam=[])
 	{
-		if ($this->name != 'file') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set original parameter
-		$originalParam = array( 'table' => Spawn::getTableName($this->name) );
+		$originalParam = [ 'table' => Spawn::getTableName($this->name) ];
 
 		// get data
 		$data = Spawn::item(Util::extendArray($originalParam, $getParam));
 
 		// check data
-		if (!$data) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
+		if (!$data) return [ 'state' => 'error', 'message' => '데이터가 없습니다.' ];
 
 		// return data
-		return array( 'state' => 'success', 'data' => $data );
+		return [ 'state' => 'success', 'data' => $data ];
 	}
 
 	/**
@@ -243,21 +243,20 @@ class File {
 	 * @param int $article_srl 마지막 article번호. 테이블이 file_tmp라면 필요없음
 	 * @return array
 	 */
-	public function actUploadFiles($file=Array(), $dir=null, $table='', $article_srl=null)
+	public function actUploadFiles($file=[], $dir=null, $table='', $article_srl=null)
 	{
-		if ($this->name != 'file') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-		if (!$this->isAdmin) return array('state' => 'error', 'message' => '권한이 없습니다.');
+		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// check table
 		if ($table != 'file' && $table !='file_tmp')
 		{
-			return array('state' => 'error', 'message' => '$table값이 잘못되었습니다.');
+			return [ 'state' => 'error', 'message' => '$table값이 잘못되었습니다.' ];
 		}
 
 		// check upload file
 		if (!$file['name'] || (is_array($file['name']) && !$file['name'][0]))
 		{
-			return array('state' => 'error', 'action' => 'back', 'message' => 'not found file');
+			return [ 'state' => 'error', 'action' => 'back', 'message' => 'not found file' ];
 		}
 
 		// string to array
@@ -271,7 +270,7 @@ class File {
 		}
 
 		// set variable
-		$result = Array();
+		$result = [];
 		$month = Date('Ym');
 
 		// set path
@@ -324,9 +323,9 @@ class File {
 			// insert data
 			if ($table == 'file')
 			{
-				$db_result = Spawn::insert(array(
+				$db_result = Spawn::insert([
 					'table' => Spawn::getTableName($table),
-					'data' => array(
+					'data' => [
 						'srl' => null,
 						'article_srl' => $article_srl,
 						'name' => $file['name'][$i],
@@ -334,22 +333,22 @@ class File {
 						'type' => $file['type'][$i],
 						'size' => (int)$file['size'][$i],
 						'regdate' => date("YmdHis")
-					)
-				));
+					]
+				]);
 			}
 			else if ($table == 'file_tmp')
 			{
-				$db_result = Spawn::insert(array(
+				$db_result = Spawn::insert([
 					'table' => Spawn::getTableName($table),
-					'data' => array(
+					'data' => [
 						'srl' => null,
 						'name' => $file['name'][$i],
 						'loc' => $path.$month.'/'.$file['name'][$i],
 						'type' => $file['type'][$i],
 						'size' => (int)$file['size'][$i],
 						'regdate' => date("YmdHis")
-					)
-				));
+					]
+				]);
 			}
 			else
 			{
@@ -391,23 +390,22 @@ class File {
 	 * @param string|null $table module name
 	 * @return array
 	 */
-	public function actRemoveFile($srls=Array(), $table=null)
+	public function actRemoveFile($srls=[], $table=null)
 	{
-		if ($this->name != 'file') return Array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-		if (!$this->isAdmin) return Array('state' => 'error', 'message' => '권한이 없습니다.');
-		if (!$table) return Array('state' => 'error', 'message' => '$table값이 없습니다.');
+		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if (!$table) return [ 'state' => 'error', 'message' => '$table값이 없습니다.' ];
 
 		// set result
-		$result = Array();
+		$result = [];
 
 		// action
 		for ($i=0; count($srls)>$i; $i++)
 		{
 			// get data
-			$data = $this->getItem(Array(
+			$data = $this->getItem([
 				'table' => Spawn::getTableName($table),
 				'where' => 'srl='.$srls[$i]
-			));
+			]);
 			$data = ($data['state'] == 'success') ? $data['data'] : null;
 
 			if (file_exists(__GOOSE_PWD__.$data['loc']))
@@ -416,10 +414,10 @@ class File {
 			}
 
 			// remove data
-			$result_db = Spawn::delete(Array(
+			$result_db = Spawn::delete([
 				'table' => Spawn::getTableName($table),
 				'where' => 'srl='.$data['srl']
-			));
+			]);
 			if ($result_db != 'success')
 			{
 				$result[] = Array(
@@ -444,22 +442,21 @@ class File {
 	 * @param int|null $article_srl
 	 * @return array
 	 */
-	public function actDBFiletmpToFile($file_tmp_srls=Array(), $article_srl=null)
+	public function actDBFiletmpToFile($file_tmp_srls=[], $article_srl=null)
 	{
-		if ($this->name != 'file') return Array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-		if (!$this->isAdmin) return Array('state' => 'error', 'message' => '권한이 없습니다.');
+		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		foreach ($file_tmp_srls as $k=>$v)
 		{
-			$data = $this->getItem(array(
+			$data = $this->getItem([
 				'table' => Spawn::getTableName('file_tmp'),
 				'where' => 'srl='.(int)$v
-			));
+			]);
 			$tmpData = ($data['state'] == 'success') ? $data['data'] : null;
 
-			$db_result = Spawn::insert(array(
+			$db_result = Spawn::insert([
 				'table' => Spawn::getTableName('file'),
-				'data' => array(
+				'data' => [
 					'srl' => null,
 					'article_srl' => $article_srl,
 					'name' => $tmpData['name'],
@@ -467,18 +464,18 @@ class File {
 					'type' => $tmpData['type'],
 					'size' => (int)$tmpData['size'],
 					'regdate' => $tmpData['regdate']
-				)
-			));
-			if ($db_result != 'success') return Array('state' => 'error', 'message' => '[file] DB : Insert Error');
+				]
+			]);
+			if ($db_result != 'success') return [ 'state' => 'error', 'message' => '[file] DB : Insert Error' ];
 
-			$db_result2 = Spawn::delete(array(
+			$db_result2 = Spawn::delete([
 				'table' => Spawn::getTableName('file_tmp'),
 				'where' => 'srl='.(int)$v
-			));
-			if ($db_result2 != 'success') return Array('state' => 'error', 'message' => '[file_tmp] DB : remove Error');
+			]);
+			if ($db_result2 != 'success') return [ 'state' => 'error', 'message' => '[file_tmp] DB : remove Error' ];
 		}
 
-		return Array('state' => 'success', 'message' => 'complete');
+		return [ 'state' => 'success', 'message' => 'complete' ];
 	}
 
 
@@ -498,16 +495,16 @@ class File {
 		Util::createDirectory(__GOOSE_PWD__.$this->set['upPath_original'], 0777);
 		Util::createDirectory(__GOOSE_PWD__.$this->set['upPath_make'], 0777);
 
-		$query = Spawn::arrayToCreateTableQuery(array(
+		$query = Spawn::arrayToCreateTableQuery([
 			'tableName' => __dbPrefix__.$this->name.'_tmp',
 			'fields' => $installData['field_tmp']
-		));
+		]);
 		$queryResult = Spawn::action($query);
 
-		$query2 = Spawn::arrayToCreateTableQuery(array(
+		$query2 = Spawn::arrayToCreateTableQuery([
 			'tableName' => __dbPrefix__.$this->name,
 			'fields' => $installData['field']
-		));
+		]);
 		$query2Result = Spawn::action($query2);
 
 		if ($queryResult == 'success' && $query2Result == 'success')

@@ -1,6 +1,7 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
+$permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['json']['permission2'] : $this->set['adminPermission'];
 $categoryName = ($repo['category']['name']) ? '<em class="gs-brk-type">'.$repo['category']['name'].'</em>&nbsp;' : '';
 $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchars($repo['article']['content']));
 ?>
@@ -62,7 +63,7 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 		?>
 		<a href="<?=$url?>" class="gs-button">목록</a>
 		<?php
-		if ($this->parent->isAdmin)
+		if ($this->parent->isAdmin || ((int)$permission < $_SESSION['goose_level']))
 		{
 			$url = __GOOSE_ROOT__.'/article/create/';
 			$url .= ($repo['nest']['srl']) ? $repo['nest']['srl'].'/' : '';
