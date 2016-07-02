@@ -67,7 +67,7 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 				<dl class="gs-webz">
 					<dt><label for="app_srl">App</label></dt>
 					<dd>
-						<select name="app_srl" id="app_srl">
+						<select name="app_srl" id="app_srl" <?=(!$this->isAdmin) ? 'disabled' : ''?>>
 							<option value="0">선택하세요.</option>
 							<?php
 							foreach ($repo['app'] as $k=>$v)
@@ -78,6 +78,7 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 							}
 							?>
 						</select>
+						<?=(!$this->isAdmin) ? '<input type="hidden" name="app_srl" value="'.$repo['nest']['app_srl'].'">' : ''?>
 					</dd>
 				</dl>
 			<?php
@@ -86,12 +87,12 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 
 			<dl class="gs-webz">
 				<?php
-				$attr = (isset($repo['nest']['id']) && $form_action == 'modify') ? ' value="'.$repo['nest']['id'].'" readonly' : '';
+				$attr = (isset($repo['nest']['id']) && $form_action == 'modify') ? ' value="'.$repo['nest']['id'].'"' : '';
+				$attr .= (!$this->isAdmin) ? ' readonly' : '';
 				?>
-				<dt><label for="id">아이디</label></dt>
+				<dt><label for="id">ID</label></dt>
 				<dd>
-					<input type="text" name="id" id="id" maxlength="20" size="22" placeholder="영문과 숫자 입력가능"<?=$attr?>/>
-					<p>이 항목은 한번 정하면 변경할 수 없습니다.</p>
+					<input type="text" name="id" id="id" maxlength="20" size="18" placeholder="영문과 숫자 입력가능"<?=$attr?>/>
 				</dd>
 			</dl>
 
@@ -121,6 +122,31 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 				<dd>
 					<label><input type="radio" name="useCategory" id="useCategory" value="0" <?=$useCategoryNo?>/><span>사용안함</span></label>
 					<label><input type="radio" name="useCategory" value="1" <?=$useCategoryYes?>/><span>사용</span></label>
+				</dd>
+			</dl>
+
+			<dl class="gs-webz">
+				<dt><label for="permission">권한설정</label></dt>
+				<dd>
+					<label>
+						<span>읽기권한 : </span>
+						<input
+							type="tel"
+							name="permission" id="permission"
+							maxlength="4" size="5"
+							value="<?=($repo['nest']['json']['permission']) ? $repo['nest']['json']['permission'] : $this->set['permission']?>"
+							<?=(!$this->isAdmin) ? "readonly" : ""?>>
+					</label>
+					&nbsp;&nbsp;&nbsp;
+					<label>
+						<span>쓰기권한 : </span>
+						<input
+							type="tel"
+							name="permission2"
+							maxlength="4" size="5"
+							value="<?=($repo['nest']['json']['permission2']) ? $repo['nest']['json']['permission2'] : $this->set['adminPermission']?>"
+							<?=(!$this->isAdmin) ? "readonly" : ""?>>
+					</label>
 				</dd>
 			</dl>
 		</fieldset>
@@ -158,10 +184,12 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 		}
 		,submitHandler : function(form) {
 			var json = {
-				nestSkin : form.nestSkin.value
-				,articleSkin : form.articleSkin.value
-				,listCount : (form.listCount) ? form.listCount.value : 15
-				,useCategory : $(form.useCategory).filter(':checked').val()
+				nestSkin : form.nestSkin.value,
+				articleSkin : form.articleSkin.value,
+				listCount : (form.listCount) ? parseInt(form.listCount.value) : 15,
+				useCategory : parseInt($(form.useCategory).filter(':checked').val()),
+				permission : parseInt(form.permission.value),
+				permission2 : parseInt(form.permission2.value)
 			};
 			form.json.value = encodeURIComponent(JSON.stringify(json));
 			form.submit();

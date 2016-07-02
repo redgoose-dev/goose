@@ -45,7 +45,7 @@ $gooseAdmin = $this->parent->goose->isAdmin;
 								</div>
 								<nav>
 									<a href="<?=__GOOSE_ROOT__.'/user/modify/'.$v['srl'].'/'?>">수정</a>
-									<a href="<?=__GOOSE_ROOT__.'/user/remove/'.$v['srl'].'/'?>">삭제</a>
+									<?=($gooseAdmin) ? "<a href=\"".__GOOSE_ROOT__."/user/remove/".$v['srl']."/\">삭제</a>" : ''?>
 								</nav>
 							</div>
 						</div>

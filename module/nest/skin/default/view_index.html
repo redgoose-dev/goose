@@ -92,6 +92,14 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 		{
 			foreach ($repo['nest'] as $k=>$v)
 			{
+				// check permission
+				$v['json']['permission'] = (isset($v['json']['permission'])) ? $v['json']['permission'] : 0;
+				if ($_SESSION['goose_level'] < $v['json']['permission'])
+				{
+					echo "<li class=\"permission-denied\">permission denied</li>";
+					continue;
+				}
+
 				$url = __GOOSE_ROOT__.'/article/index/'.$v['srl'].'/';
 
 				// category
@@ -118,17 +126,17 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 								<span><b>Nest skin</b><?=$v['json']['nestSkin']?></span>
 								<span><b>Article skin</b><?=$v['json']['articleSkin']?></span>
 							</div>
-							<nav>
-								<?php
-								if ($this->isAdmin)
-								{
-									echo '<a href="'.__GOOSE_ROOT__.'/nest/modify/'.$v['srl'].'/">수정</a>';
-									echo '<a href="'.__GOOSE_ROOT__.'/nest/remove/'.$v['srl'].'/">삭제</a>';
-									echo $categoryBtn;
-									echo '<a href="'.__GOOSE_ROOT__.'/nest/clone/'.$v['srl'].'/">복제</a>';
-								}
-								?>
-							</nav>
+							<?php
+							if ($this->isAdmin || ($_SESSION['goose_level'] > $v['json']['permission2']))
+							{
+								echo '<nav>';
+								echo '<a href="'.__GOOSE_ROOT__.'/nest/modify/'.$v['srl'].'/">수정</a>';
+								echo '<a href="'.__GOOSE_ROOT__.'/nest/remove/'.$v['srl'].'/">삭제</a>';
+								echo $categoryBtn;
+								echo ($this->isAdmin) ? '<a href="'.__GOOSE_ROOT__.'/nest/clone/'.$v['srl'].'/">복제</a>' : '';
+								echo '</nav>';
+							}
+							?>
 						</div>
 					</div>
 				</li>

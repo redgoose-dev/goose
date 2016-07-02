@@ -54,13 +54,35 @@ class View extends Category
 	}
 
 	/**
-	 * check admin
+	 * check permission
+	 *
+	 * @param int $permission
 	 */
-	private function checkAdmin()
+	private function checkAdmin($permission=null)
 	{
+		$permission = (isset($permission)) ? $permission : $this->set['adminPermission'];
 		if (!$this->parent->isAdmin)
 		{
-			Util::back('권한이 없습니다.');
+			if ($_SESSION['goose_level'] < (int)$permission)
+			{
+				Util::back('권한이 없습니다.');
+				Goose::end();
+			}
+		}
+	}
+
+	/**
+	 * check nest permission
+	 *
+	 * @param int $permission
+	 *
+	 */
+	private function checkNestPermission($permission)
+	{
+		$permission = (isset($permission)) ? $permission : $this->set['permission'];
+		if ($_SESSION['goose_level'] < $permission)
+		{
+			Util::redirect(__GOOSE_ROOT__.'/nest/', '둥지의 권한이 없습니다.');
 			Goose::end();
 		}
 	}
@@ -74,33 +96,36 @@ class View extends Category
 		$nest_srl = $this->param['params'][0];
 
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// load modules
 		$nest = Module::load('nest');
 		$article = Module::load('article');
 
 		// get data
-		$data = $this->parent->getItems(array(
+		$data = $this->parent->getItems([
 			'where' => ($nest_srl) ? 'nest_srl='.$nest_srl : null,
 			'order' => 'turn',
 			'sort' => 'asc'
-		));
-		$repo['category'] = ($data['state'] == 'success') ? $data['data'] : array();
+		]);
+		$repo['category'] = ($data['state'] == 'success') ? $data['data'] : [];
 
 		// set article count
 		foreach($repo['category'] as $k=>$v)
 		{
-			$data = $article->getCount(array('where' => 'category_srl='.(int)$v['srl']));
+			$data = $article->getCount([ 'where' => 'category_srl='.(int)$v['srl'] ]);
 			$repo['category'][$k]['countArticle'] = ($data['state'] == 'success') ? $data['data'] : 0;
 		}
 
 		// get nest data
-		$data = $nest->getItem(array(
-			'field' => 'name',
+		$data = $nest->getItem([
+			'field' => 'name,json',
 			'where' => 'srl='.$nest_srl
-		));
-		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : array();
+		]);
+		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : [];
+
+		// check permission
+		$this->checkNestPermission($repo['nest']['json']['permission']);
 
 		// set pwd_container
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_index.html';
@@ -113,9 +138,6 @@ class View extends Category
 	 */
 	private function view_create()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set nest_srl
 		$nest_srl = $this->param['params'][0];
 
@@ -126,11 +148,14 @@ class View extends Category
 		$nest = Module::load('nest');
 
 		// get nest data
-		$data = $nest->getItem(array(
-			'field' => 'name',
+		$data = $nest->getItem([
+			'field' => 'name,json',
 			'where' => 'srl='.$nest_srl
-		));
+		]);
 		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : array();
+
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
 
 		// set pwd_container
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
@@ -143,9 +168,6 @@ class View extends Category
 	 */
 	private function view_modify()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set srl
 		$nest_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 		$category_srl = ($this->param['params'][1]) ? (int)$this->param['params'][1] : null;
@@ -157,10 +179,10 @@ class View extends Category
 		$nest = Module::load('nest');
 
 		// get nest data
-		$data = $nest->getItem(array(
-			'field' => 'name',
+		$data = $nest->getItem([
+			'field' => 'name,json',
 			'where' => 'srl='.$nest_srl
-		));
+		]);
 		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : array();
 
 		// get category data
@@ -174,6 +196,9 @@ class View extends Category
 		{
 			$repo['category'] = $data['data'];
 		}
+
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
 
 		// set container pwd
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
@@ -186,9 +211,6 @@ class View extends Category
 	 */
 	private function view_remove()
 	{
-		// check admin
-		$this->checkAdmin();
-
 		// set srl
 		$nest_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
 		$category_srl = ($this->param['params'][1]) ? (int)$this->param['params'][1] : null;
@@ -200,14 +222,14 @@ class View extends Category
 		$nest = Module::load('nest');
 
 		// get nest data
-		$data = $nest->getItem(array(
-			'field' => 'name',
+		$data = $nest->getItem([
+			'field' => 'name,json',
 			'where' => 'srl='.$nest_srl
-		));
-		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : array();
+		]);
+		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : [];
 
 		// get category data
-		$data = $this->parent->getItem(array('where' => 'srl='.$category_srl));
+		$data = $this->parent->getItem([ 'where' => 'srl='.$category_srl ]);
 		if ($data['state'] == 'error')
 		{
 			Util::back($data['message']);
@@ -217,6 +239,9 @@ class View extends Category
 		{
 			$repo['category'] = $data['data'];
 		}
+
+		// check permission
+		$this->checkAdmin($repo['nest']['json']['permission2']);
 
 		// set container pwd
 		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_remove.html';

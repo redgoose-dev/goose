@@ -22,6 +22,14 @@ function printSection($app_srl, $is_admin)
 		// convert json
 		$v['json'] = Util::jsonToArray($v['json'], true, true);
 
+		$v['json']['permission'] = (isset($v['json']['permission'])) ? $v['json']['permission'] : 0;
+		// check permission
+		if ($_SESSION['goose_level'] < $v['json']['permission'])
+		{
+			echo "<li class=\"permission-denied\"><div class='body'>permission denied</div></li>";
+			continue;
+		}
+
 		// get count of article
 		$v['countArticle'] = Spawn::count([
 			'table' => Spawn::getTableName('article'),
@@ -45,17 +53,17 @@ function printSection($app_srl, $is_admin)
 		<li>
 			<div class="body">
 				<a href="<?=$url?>"><strong class="hd"><?=$v['name']?><em class="gs-brk-cnt"><?=$v['countArticle']?></em></strong></a>
-				<nav>
-					<?php
-					if ($is_admin)
-					{
-						echo '<a href="'.__GOOSE_ROOT__.'/nest/modify/'.$v['srl'].'/">수정</a>';
-						echo '<a href="'.__GOOSE_ROOT__.'/nest/remove/'.$v['srl'].'/">삭제</a>';
-						echo $categoryBtn;
-						echo '<a href="'.__GOOSE_ROOT__.'/nest/clone/'.$v['srl'].'/">복제</a>';
-					}
-					?>
-				</nav>
+				<?php
+				if ($is_admin)
+				{
+					echo '<nav>';
+					echo '<a href="'.__GOOSE_ROOT__.'/nest/modify/'.$v['srl'].'/">수정</a>';
+					echo '<a href="'.__GOOSE_ROOT__.'/nest/remove/'.$v['srl'].'/">삭제</a>';
+					echo $categoryBtn;
+					echo '<a href="'.__GOOSE_ROOT__.'/nest/clone/'.$v['srl'].'/">복제</a>';
+					echo '</nav>';
+				}
+				?>
 			</div>
 		</li>
 		<?php

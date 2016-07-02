@@ -1,16 +1,6 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
-// check user
-if (!$this->isAdmin)
-{
-	return array(
-		'state' => 'error',
-		'action' => 'back',
-		'message' => '권한이 없습니다.'
-	);
-}
-
 
 // check post
 $errorValue = Util::checkExistValue($post, array('nest_srl', 'name'));

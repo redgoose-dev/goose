@@ -52,7 +52,7 @@ class View extends File
 	private function view_index()
 	{
 		// set repo
-		$repo = array();
+		$repo = [];
 
 		// get file count
 		$count = $this->parent->getCount();
@@ -63,12 +63,12 @@ class View extends File
 			// set paginate
 			require_once(__GOOSE_PWD__.'core/classes/Paginate.class.php');
 			$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
-			$paginate = new Paginate($count, $_GET['page'], array(), (int)$this->set['pagePerCount'], 5);
+			$paginate = new Paginate($count, $_GET['page'], [], (int)$this->set['pagePerCount'], 5);
 
 			// get article data
-			$data = $this->parent->getItems(array(
-				'limit' => array($paginate->offset, $paginate->size)
-			));
+			$data = $this->parent->getItems([
+				'limit' => [ $paginate->offset, $paginate->size ]
+			]);
 			$repo['file'] = ($data['state'] == 'success') ? $data['data'] : null;
 		}
 

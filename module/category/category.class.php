@@ -119,21 +119,21 @@ class Category {
 	 * @param array $getParam
 	 * @return array|null
 	 */
-	public function getItem($getParam=array())
+	public function getItem($getParam=[])
 	{
-		if ($this->name != 'category') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
+		if ($this->name != 'category') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set original parameter
-		$originalParam = array( 'table' => Spawn::getTableName($this->name) );
+		$originalParam = [ 'table' => Spawn::getTableName($this->name) ];
 
 		// get data
 		$data = Spawn::item(Util::extendArray($originalParam, $getParam));
 
 		// check data
-		if (!$data) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
+		if (!$data) return [ 'state' => 'error', 'message' => '데이터가 없습니다.' ];
 
 		// return data
-		return array( 'state' => 'success', 'data' => $data );
+		return [ 'state' => 'success', 'data' => $data ];
 	}
 
 	/**
@@ -143,11 +143,26 @@ class Category {
 	 * @param array $post
 	 * @return array
 	 */
-	public function transaction($method, $post=array())
+	public function transaction($method, $post=[])
 	{
-		if (!$method) return array('state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.');
-		if ($this->name != 'category') return array('state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.');
-		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
+		if (!$method) return [ 'state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.' ];
+		if ($this->name != 'category') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
+
+		if ($post['nest_srl'])
+		{
+			$nest = Spawn::item([
+				'table' => Spawn::getTableName('nest'),
+				'where' => 'srl='.$post['nest_srl']
+			]);
+			$nest['json'] = (isset($nest['json'])) ? Util::jsonToArray($nest['json'], false, true) : $nest['json'];
+		}
+		$permission = (isset($nest['json']['permission2'])) ? $nest['json']['permission2'] : $this->set['adminPermission'];
+
+		// check permission
+		if (!$this->isAdmin && ((int)$permission > $_SESSION['goose_level']))
+		{
+			return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
+		}
 
 		$loc = __GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php';
 
@@ -157,11 +172,11 @@ class Category {
 		}
 		else
 		{
-			return array(
+			return [
 				'state' => 'error',
 				'action' => 'back',
 				'message' => '처리파일이 없습니다.'
-			);
+			];
 		}
 	}
 
