@@ -1,0 +1,3 @@
+[submodule "vendor/JSONEditor"]
+	path = vendor/JSONEditor
+	url = https://github.com/RedgooseDev/JSONEditor.git
