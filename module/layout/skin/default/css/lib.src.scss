@@ -107,6 +107,32 @@ $font-eng: 'Helvetica', Arial, sans-serif;
 
 
 // Placeholder
+%material-icon {
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;  /* Preferred icon size */
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: grayscale;
+
+	/* Support for IE. */
+	font-feature-settings: 'liga';
+}
 %clearfix {
 	&:after {content:''; display:block; clear: both;}
 }
@@ -123,12 +149,4 @@ $font-eng: 'Helvetica', Arial, sans-serif;
 		background: $color-blur;
 		cursor: default;
 	}
-}
-%gs-icon {
-	font-family: 'goose-icons', sans-serif;
-	speak: none;
-	font-style: normal; font-weight: normal; font-variant: normal; text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }

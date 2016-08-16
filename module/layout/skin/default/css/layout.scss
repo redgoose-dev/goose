@@ -537,18 +537,19 @@ em[class^=gs-brk-] {font-style: normal;}
 		border-bottom: 1px dashed #ccc;
 		> dt, > dd {padding: 0 10px;}
 		> dt {
-			margin-top: 12px;
-			margin-bottom: 10px;
-			font-size: 14px; font-weight: 600;
+			margin-top: 12px; margin-bottom: 10px;
 			&:before {
-				@extend %gs-icon;
-				content: "\e601";
-				margin: 0 3px 0 0;
-				font-size: 9px; color: $color-key;
+				@extend %material-icon;
+				display: inline-block;
+				content: "chevron_right";
+				margin: -1px 3px 0 0;
+				font-size: 14px; color: $color-key;
 				vertical-align: middle;
-				line-height: 0;
 			}
-			> label {vertical-align: middle;}
+			> label {
+				font-size: 14px; font-weight: 600;
+				vertical-align: middle;
+			}
 		}
 		> dd {
 			margin-bottom: 8px;
@@ -668,13 +669,13 @@ em[class^=gs-brk-] {font-style: normal;}
 				font-size: 13px;
 			}
 			button {
-				position: absolute; right: 5px;top: 50%;
+				position: absolute; right: 5px; top: 50%;
 				margin: -14px 0 0; padding: 4px 5px;
 				border: none; background: none; cursor: pointer;
 				i {
-					@extend %gs-icon;
-					font-size: 18px; color: #333;
-					&:after {content: '\e608';}
+					@extend %material-icon;
+					font-size: 22px; color: #333;
+					&:after {content: 'search';}
 				}
 				span {display: none;}
 			}
