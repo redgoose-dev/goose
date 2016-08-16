@@ -5,8 +5,12 @@
 		</h1>
 		<p><?=$this->set['description']?></p>
 		<nav>
-			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help">
+				<i class="material-icons">help</i>
+			</a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting">
+				<i class="material-icons">settings</i>
+			</a>
 		</nav>
 	</div>
 
@@ -46,7 +50,7 @@
 </section>
 
 <script>
-var userData = {
+window.userData = {
 	url : '<?=$this->url?>'
 };
 

@@ -58,8 +58,12 @@ $totalNest = Spawn::count( array('table' => Spawn::getTableName($this->name)) );
 		{
 		?>
 			<nav>
-				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help">
+					<i class="material-icons">help</i>
+				</a>
+				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting">
+					<i class="material-icons">settings</i>
+				</a>
 			</nav>
 		<?php
 		}

@@ -120,7 +120,7 @@ button.gs-button {
 			text-align: center; text-decoration: none;
 			margin-left: 5px;
 			i {
-				font-size: 12px; color: #fff;
+				font-size: 14px; color: #fff;
 				line-height: $size;
 			}
 			&.help {background: $color-redgoose;}
@@ -129,7 +129,6 @@ button.gs-button {
 	@media all and (max-width:640px) {
 		margin-bottom: 0; padding-left: 10px;
 		h1 {font-size: 20px;}
-		//.icn-help {font-size: 9px; padding: 3px;}
 	}
 }
 

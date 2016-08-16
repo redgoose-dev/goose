@@ -20,8 +20,12 @@ $permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['jso
 		{
 		?>
 			<nav>
-				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help">
+					<i class="material-icons">help</i>
+				</a>
+				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting">
+					<i class="material-icons">settings</i>
+				</a>
 			</nav>
 		<?php
 		}
