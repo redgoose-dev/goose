@@ -11,8 +11,7 @@ $file = Module::load('file');
 ?>
 
 <link rel="stylesheet" href="<?= __GOOSE_ROOT__.'/'.$this->skinPath.'css/markdown.css' ?>">
-<link rel="stylesheet" href="<?= $extPath.'UploadInterface/UploadInterface.css' ?>">
-<link rel="stylesheet" href="<?= $extPath.'Jcrop/jquery.Jcrop.css' ?>">
+<link rel="stylesheet" href="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/css/rg-uploader.min.css">
 <link rel="stylesheet" href="<?= $extPath.'Parsedown/markdown.css' ?>" />
 
 <section>
@@ -92,13 +91,26 @@ $file = Module::load('file');
 			</dl>
 
 			<dl>
-				<dt><label for="title">파일첨부</label></dt>
-				<dd>
-					<div>
-						<input type="file" name="fileUpload" id="fileUpload" multiple />
-						<button type="button" id="fileUploadButton">업로드</button>
-					</div>
-					<div class="queuesManager" id="queuesManager" style="margin-top:8px"></div>
+				<dd style="padding-top: 10px;">
+					<article class="rg-uploader" id="queuesManager">
+						<header>
+							<h1>File upload</h1>
+							<p>아래 업로드 버튼을 눌러서 파일을 추가하거나 이 영역에 파일을 드래그하여 추가합니다.</p>
+						</header>
+						<div class="body" data-comp="queue">
+							<div class="col queue" data-element="queue"><ul></ul></div>
+						</div>
+						<footer>
+							<nav>
+								<label class="add-file">
+									<input type="file" data-element="addfiles" multiple>
+									<i class="material-icons">add_circle_outline</i>
+									<span>Add files</span>
+								</label>
+							</nav>
+							<div class="size-info"></div>
+						</footer>
+					</article>
 				</dd>
 			</dl>
 		</fieldset>
@@ -109,25 +121,49 @@ $file = Module::load('file');
 		</nav>
 	</form>
 </section>
-<script src="<?= $extPath.'Jcrop/jquery.Jcrop.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/FilesQueue.class.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/FileUpload.class.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/Thumnail.class.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/UploadInterface.class.min.js' ?>"></script>
+
+<script src="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/js/rg-uploader.pkgd.js"></script>
+<script src="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/js/plugin.pkgd.js"></script>
 <script>
-var userData = {
-	root : '<?=__GOOSE_ROOT__?>'
-	,url : '<?=__GOOSE_URL__?>'
-	,articleJSON : '<?=$articleJSON?>'
-	,thumnail : {
-		type : '<?=$repo['nest']['json']['thumnail']['type']?>'
-		,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'
-		,srl : '<?=$repo['article']['json']['thumnail']['srl']?>'
-		,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
-		,url : '<?=$repo['article']['json']['thumnail']['url']?>'
-	}
-	,originalPath : '<?=$file->set['upPath_original']?>/'
-	,pushData : '<?=require_once('attachFiles.php');?>'
-};
+var uploader = new RGUploader($('#queuesManager'), {
+	autoUpload : true,
+	queue : {
+		style : 'list',
+		height : 240,
+		data : null,
+		buttons : [
+			{
+				name : 'remove queue',
+				iconName : 'close',
+				action : function(app, file) {
+					app.queue.removeQueue(file.id, false, true);
+				}
+			}
+		]
+	},
+	plugin : [
+		{
+			name : 'thumbnail',
+			obj : new RG_Thumbnail({
+				url_croppieCSS : '<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/vendor/croppie/croppie.css',
+				url_croppieJS : '<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/vendor/croppie/croppie.min.js'
+			})
+		}
+	]
+});
+//var userData = {
+//	root : '<?//=__GOOSE_ROOT__?>//'
+//	,url : '<?//=__GOOSE_URL__?>//'
+//	,articleJSON : '<?//=$articleJSON?>//'
+//	,thumnail : {
+//		type : '<?//=$repo['nest']['json']['thumnail']['type']?>//'
+//		,size : '<?//=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>//'
+//		,srl : '<?//=$repo['article']['json']['thumnail']['srl']?>//'
+//		,coords : '<?//=$repo['article']['json']['thumnail']['coords']?>//'
+//		,url : '<?//=$repo['article']['json']['thumnail']['url']?>//'
+//	}
+//	,originalPath : '<?//=$file->set['upPath_original']?>///'
+//	,pushData : '<?//=require_once('attachFiles.php');?>//'
+//};
 </script>
-<script src="<?= __GOOSE_ROOT__.'/'.$this->skinPath.'/js/markdown.min.js' ?>"></script>
+<!--<script src="--><?//= __GOOSE_ROOT__.'/'.$this->skinPath.'/js/markdown.min.js' ?><!--"></script>-->
