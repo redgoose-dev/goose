@@ -175,7 +175,10 @@ var uploader = new RGUploader($('#queuesManager'), {
 				show : function(file) {
 					return (file.type.split('/')[0] == 'image');
 				},
-				action : function(app, file) {}
+				action : function(app, file) {
+					if (!app.plugin.child.thumbnail) return false;
+					app.plugin.child.thumbnail.open(file);
+				}
 			},
 			{
 				name : 'insert editor',
@@ -210,6 +213,10 @@ var uploader = new RGUploader($('#queuesManager'), {
 					quality : .3,
 					format : 'jpeg',
 					size : { width : 150, height : 150 }
+				},
+				doneCallback : function(res) {
+					console.log('done callback');
+					console.log(res);
 				}
 			})
 		}
