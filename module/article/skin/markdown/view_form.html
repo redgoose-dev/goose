@@ -91,12 +91,9 @@ $file = Module::load('file');
 			</dl>
 
 			<dl>
-				<dd style="padding-top: 10px;">
+				<dt><label>파일첨부</label></dt>
+				<dd>
 					<article class="rg-uploader" id="queuesManager">
-						<header>
-							<h1>File upload</h1>
-							<p>아래 업로드 버튼을 눌러서 파일을 추가하거나 이 영역에 파일을 드래그하여 추가합니다.</p>
-						</header>
 						<div class="body" data-comp="queue">
 							<div class="col queue" data-element="queue"><ul></ul></div>
 						</div>
@@ -125,13 +122,68 @@ $file = Module::load('file');
 <script src="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/js/rg-uploader.pkgd.js"></script>
 <script src="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/js/plugin.pkgd.js"></script>
 <script>
+// set push data
+var pushDatas = null;
+try {
+	pushDatas = JSON.parse('<?=require_once('attachFiles.php');?>');
+} catch(e) {}
+
+// set user data
+var userData = {
+	root : '<?= __GOOSE_ROOT__ ?>',
+	url : '<?= __GOOSE_URL__ ?>/',
+	originalPath : '<?= $file->set['upPath_original'] ?>/',
+	pushDatas : function(src) {
+		try {
+			return JSON.parse(src);
+		} catch(e) {
+			return null;
+		}
+	}('<?=require_once('attachFiles.php');?>'),
+	articleData : '<?= $articleJSON ?>'
+};
+
+// init uploader
 var uploader = new RGUploader($('#queuesManager'), {
 	autoUpload : true,
+	allowFileTypes : ['jpeg', 'png', 'gif'],
+	limitSize : 3000000,
+	limitSizeTotal : 10000000,
+	uploadScript : userData.root + '/file/upload/',
+	removeScript : userData.root + '/file/remove/',
+	uploadParams : {
+		table : 'file_tmp',
+		upload_loc : userData.originalPath
+	},
+	srcPrefixName : userData.url,
 	queue : {
 		style : 'list',
-		height : 240,
-		data : null,
+		height : 150,
+		limit : 10,
+		datas : pushDatas,
 		buttons : [
+			{
+				name : 'open file',
+				iconName : 'open_in_new',
+				action : function(app, file) {
+					window.open(file.fullSrc);
+				}
+			},
+			{
+				name : 'make thumbnail image',
+				iconName : 'apps',
+				show : function(file) {
+					return (file.type.split('/')[0] == 'image');
+				},
+				action : function(app, file) {}
+			},
+			{
+				name : 'insert editor',
+				iconName : 'center_focus_strong',
+				action : function(app, file) {
+
+				}
+			},
 			{
 				name : 'remove queue',
 				iconName : 'close',
@@ -142,15 +194,46 @@ var uploader = new RGUploader($('#queuesManager'), {
 		]
 	},
 	plugin : [
+		{ name : 'preview', obj : new RG_Preview() },
+		{ name : 'sizeinfo', obj : new RG_Sizeinfo() },
+		{ name : 'dnd', obj : new RG_DragAndDrop() },
 		{
 			name : 'thumbnail',
 			obj : new RG_Thumbnail({
-				url_croppieCSS : '<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/vendor/croppie/croppie.css',
-				url_croppieJS : '<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/vendor/croppie/croppie.min.js'
+				width : 640,
+				height : 480,
+				mobileSize : 640,
+				url_croppieCSS : userData.root + '/vendor/rg-Uploader/vendor/croppie/croppie.css',
+				url_croppieJS : userData.root + '/vendor/rg-Uploader/vendor/croppie/croppie.min.js',
+				output : {
+					type : 'canvas',
+					quality : .3,
+					format : 'jpeg',
+					size : { width : 150, height : 150 }
+				}
 			})
 		}
-	]
+	],
+	uploadDataFilter : function(res) {
+		return {
+			state : res[0].state,
+			response : {
+				src : res[0].loc,
+				srl : res[0].srl,
+				name : res[0].name,
+				table : 'file_tmp'
+			}
+		}
+	},
+	removeParamsFilter : function(res) {
+		return {
+			data : JSON.stringify([{ table : res.table, srl : res.srl }])
+		};
+	},
+	removeDataFilter : function(res) {},
+	uploadComplete : function(file) {},
 });
+
 //var userData = {
 //	root : '<?//=__GOOSE_ROOT__?>//'
 //	,url : '<?//=__GOOSE_URL__?>//'
