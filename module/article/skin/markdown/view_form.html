@@ -130,6 +130,7 @@ try {
 
 // set user data
 var userData = {
+	form : document.writeForm,
 	root : '<?= __GOOSE_ROOT__ ?>',
 	url : '<?= __GOOSE_URL__ ?>/',
 	originalPath : '<?= $file->set['upPath_original'] ?>/',
@@ -172,12 +173,14 @@ var uploader = new RGUploader($('#queuesManager'), {
 			{
 				name : 'make thumbnail image',
 				iconName : 'apps',
+				className : 'btn-make-thumbnail',
 				show : function(file) {
 					return (file.type.split('/')[0] == 'image');
 				},
 				action : function(app, file) {
 					if (!app.plugin.child.thumbnail) return false;
-					app.plugin.child.thumbnail.open(file);
+					var plugin = app.plugin.child.thumbnail;
+					plugin.open(file);
 				}
 			},
 			{
@@ -215,8 +218,9 @@ var uploader = new RGUploader($('#queuesManager'), {
 					size : { width : 150, height : 150 }
 				},
 				doneCallback : function(res) {
-					console.log('done callback');
-					console.log(res);
+					// input thumnail image source
+					userData.form.thumnail_image.value = res.src;
+					// TODO : 다른 큐는 `on`클래스를 삭제하고 적용한 큐에는 on 클래스 넣기
 				}
 			})
 		}
