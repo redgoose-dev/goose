@@ -42,7 +42,7 @@ if (count($files))
 	foreach ($files as $k=>$v)
 	{
 		$item = [
-			'id' => rand(10000000,99999999),
+			'id' => (int)$v['srl'],
 			'srl' => (int)$v['srl'],
 			'name' => $v['name'],
 			'size' => (int)$v['size'],

@@ -33,42 +33,42 @@ if ($dbUpdateResult['state'] == 'success')
 	$new_article_json = $article_json;
 
 	// move file_tmp to file data
-	$thumnail_srl = fileUpload($post, $article_srl, $article_json['thumnail']['srl']);
+	$thumbnail_srl = fileUpload($post, $article_srl, $article_json['thumbnail']['srl']);
 
-	// upload thumnail image
-	if ($post['thumnail_image'])
+	// upload thumbnail image
+	if ($post['thumbnail_image'])
 	{
 		// load file module
-		if (file_exists(__GOOSE_PWD__.$article_json['thumnail']['url']))
+		if (file_exists(__GOOSE_PWD__.$article_json['thumbnail']['url']))
 		{
-			unlink(__GOOSE_PWD__.$article_json['thumnail']['url']);
+			unlink(__GOOSE_PWD__.$article_json['thumbnail']['url']);
 		}
 		// upload
-		$thumnailUrl = uploadThumnail($_POST['thumnail_image']);
+		$thumbnailUrl = uploadThumbnail($_POST['thumbnail_image']);
 		// set json
-		$new_article_json['thumnail']['srl'] = $thumnail_srl;
-		$new_article_json['thumnail']['url'] = $thumnailUrl;
+		$new_article_json['thumbnail']['srl'] = $thumbnail_srl;
+		$new_article_json['thumbnail']['url'] = $thumbnailUrl;
 
-		$thumnailUploaded = true;
+		$thumbnailUploaded = true;
 	}
 
 	// 썸네일 이미지는 있고, 썸네일 이미지가 새로 만들어지지 않을때
-	if ($article_json['thumnail']['srl'] && !$thumnailUploaded)
+	if ($article_json['thumbnail']['srl'] && !$thumbnailUploaded)
 	{
 		// get article item data
 		$filesCount = Spawn::count(array(
 			'table' => Spawn::getTableName('file'),
-			'where' => 'article_srl='.(int)$post['article_srl'].' and srl='.(int)$article_json['thumnail']['srl']
+			'where' => 'article_srl='.(int)$post['article_srl'].' and srl='.(int)$article_json['thumbnail']['srl']
 		));
 		if (!$filesCount)
 		{
-			// delete thumnail file
-			if (file_exists(__GOOSE_PWD__.$article_json['thumnail']['url']))
+			// delete thumbnail file
+			if (file_exists(__GOOSE_PWD__.$article_json['thumbnail']['url']))
 			{
-				unlink(__GOOSE_PWD__.$article_json['thumnail']['url']);
+				unlink(__GOOSE_PWD__.$article_json['thumbnail']['url']);
 			}
 			// set json
-			$new_article_json['thumnail'] = array('srl' => '0', 'url' => '', 'coords' => '');
+			$new_article_json['thumbnail'] = array('srl' => '0', 'url' => '', 'coords' => '');
 		}
 	}
 

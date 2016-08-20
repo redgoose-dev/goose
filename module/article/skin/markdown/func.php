@@ -25,12 +25,12 @@ function getArticleJSON($srl)
  *
  * @param array $post $_POST
  * @param int $art_srl 글을 등록하고 바로 가져온 srl번호
- * @param int $thum_srl 썸네일 srl번호
+ * @param int $thumb_srl 썸네일 srl번호
  * @return int 바뀐 썸네일 srl번호
  */
-function fileUpload($post, $art_srl, $thum_srl)
+function fileUpload($post, $art_srl, $thumb_srl)
 {
-	$thumnail_srl = null;
+	$thumbnail_srl = null;
 	if ($post['addQueue'])
 	{
 		$queue = explode(',', $post['addQueue']);
@@ -57,9 +57,9 @@ function fileUpload($post, $art_srl, $thum_srl)
 					)
 				));
 				// set thumnail srl
-				if ($tmpFile['srl'] == $thum_srl)
+				if ($tmpFile['srl'] == $thumb_srl)
 				{
-					$thumnail_srl = Spawn::getLastIdx();
+					$thumbnail_srl = Spawn::getLastIdx();
 				}
 				// remove tmp file
 				$result = Spawn::delete(array(
@@ -69,18 +69,18 @@ function fileUpload($post, $art_srl, $thum_srl)
 			}
 		}
 	}
-	return ($thumnail_srl) ? $thumnail_srl : $thum_srl;
+	return ($thumbnail_srl) ? $thumbnail_srl : $thumb_srl;
 }
 
 
 /**
- * upload thumnail
+ * upload thumbnail
  * 썸네일 이미지 데이터를 받아서 서버에 올리고, 이미지 경로를 리턴한다.
  *
  * @param string $imgData base64형식의 이미지 데이터
  * @return string 서버에 업로드한 썸네일 이미지 경로
  */
-function uploadThumnail($imgData=null)
+function uploadThumbnail($imgData=null)
 {
 	$file = Module::load('file');
 	$uploadDir = '';
