@@ -161,8 +161,8 @@ var uploader = new RGUploader($('#queuesManager'), {
 				width : 640,
 				height : 480,
 				mobileSize : 640,
-				url_croppieCSS : userData.root + '/vendor/rg-Uploader/vendor/croppie/croppie.css',
-				url_croppieJS : userData.root + '/vendor/rg-Uploader/vendor/croppie/croppie.min.js',
+				url_croppieCSS : userData.root + '/vendor/rg-Uploader/vendor/Croppie/croppie.css',
+				url_croppieJS : userData.root + '/vendor/rg-Uploader/vendor/Croppie/croppie.min.js',
 				output : {
 					type : 'canvas',
 					quality : .75,
