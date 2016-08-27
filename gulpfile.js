@@ -59,28 +59,26 @@ gulp.task('scss:watch', function(){
 					outputStyle: 'compressed'
 				}).on('error', scss.logError))
 				.pipe(sourcemaps.write('.'))
-				.pipe(gulp.dest( getDir(file.path) ))
-			;
-		})
-	;
+				.pipe(gulp.dest( getDir(file.path) ));
+		});
 });
 
 
 // compress javascript [watch]
 gulp.task('js:watch', function(){
 	// do not compile script files
-	gulp.watch('**/*.js').on('change', function(file){
-		if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) ) return;
+	gulp.watch('**/*.js')
+		.on('change', function(file){
+			if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) ) return;
 
-		log(('[' + getDateNow(true, true) + '] ').cyan + file.path);
+			log(('[' + getDateNow(true, true) + '] ').cyan + file.path);
 
-		// convert script file
-		gulp.src(file.path)
-			.pipe(uglify())
-			.pipe(rename({ extname : '.min.js' }))
-			.pipe(gulp.dest( getDir(file.path) ))
-		;
-	});
+			// convert script file
+			gulp.src(file.path)
+				.pipe(uglify())
+				.pipe(rename({ extname : '.min.js' }))
+				.pipe(gulp.dest( getDir(file.path) ));
+		});
 });
 
 

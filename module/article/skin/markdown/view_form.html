@@ -11,8 +11,7 @@ $file = Module::load('file');
 ?>
 
 <link rel="stylesheet" href="<?= __GOOSE_ROOT__.'/'.$this->skinPath.'css/markdown.css' ?>">
-<link rel="stylesheet" href="<?= $extPath.'UploadInterface/UploadInterface.css' ?>">
-<link rel="stylesheet" href="<?= $extPath.'Jcrop/jquery.Jcrop.css' ?>">
+<link rel="stylesheet" href="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/css/rg-uploader.min.css">
 <link rel="stylesheet" href="<?= $extPath.'Parsedown/markdown.css' ?>" />
 
 <section>
@@ -32,7 +31,7 @@ $file = Module::load('file');
 		<input type="hidden" name="json" value="" />
 		<input type="hidden" name="m" value="<?=$_GET['m']?>" />
 		<input type="hidden" name="addQueue" />
-		<input type="hidden" name="thumnail_image" />
+		<input type="hidden" name="thumbnail_image" />
 
 		<fieldset class="form-group">
 			<?php
@@ -68,8 +67,14 @@ $file = Module::load('file');
 				<dd>
 					<div class="mk-editor">
 						<nav>
-							<a href="#" data-control="edit" class="active"><i class="icn-code"></i> <span>Edit</span></a>
-							<a href="#" data-control="preview"><i class="icn-eye"></i> <span>Preview</span></a>
+							<a href="#" data-control="edit" class="active">
+								<i class="material-icons">code</i>
+								<span>Edit</span>
+							</a>
+							<a href="#" data-control="preview">
+								<i class="material-icons">remove_red_eye</i>
+								<span>Preview</span>
+							</a>
 						</nav>
 						<div class="body">
 							<div class="show" data-target="edit">
@@ -86,13 +91,23 @@ $file = Module::load('file');
 			</dl>
 
 			<dl>
-				<dt><label for="title">파일첨부</label></dt>
+				<dt><label>파일첨부</label></dt>
 				<dd>
-					<div>
-						<input type="file" name="fileUpload" id="fileUpload" multiple />
-						<button type="button" id="fileUploadButton">업로드</button>
-					</div>
-					<div class="queuesManager" id="queuesManager" style="margin-top:8px"></div>
+					<article class="rg-uploader" id="queuesManager">
+						<div class="body" data-comp="queue">
+							<div class="col queue" data-element="queue"><ul></ul></div>
+						</div>
+						<footer>
+							<nav>
+								<label class="add-file">
+									<input type="file" data-element="addfiles" multiple>
+									<i class="material-icons">add_circle_outline</i>
+									<span>Add files</span>
+								</label>
+							</nav>
+							<div class="size-info"></div>
+						</footer>
+					</article>
 				</dd>
 			</dl>
 		</fieldset>
@@ -103,25 +118,39 @@ $file = Module::load('file');
 		</nav>
 	</form>
 </section>
-<script src="<?= $extPath.'Jcrop/jquery.Jcrop.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/FilesQueue.class.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/FileUpload.class.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/Thumnail.class.min.js' ?>"></script>
-<script src="<?= $extPath.'UploadInterface/UploadInterface.class.min.js' ?>"></script>
+
+<script src="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/js/rg-uploader.pkgd.js"></script>
+<script src="<?= __GOOSE_ROOT__ ?>/vendor/rg-Uploader/dist/js/plugin.pkgd.js"></script>
 <script>
+// set user data
 var userData = {
-	root : '<?=__GOOSE_ROOT__?>'
-	,url : '<?=__GOOSE_URL__?>'
-	,articleJSON : '<?=$articleJSON?>'
-	,thumnail : {
-		type : '<?=$repo['nest']['json']['thumnail']['type']?>'
-		,size : '<?=$repo['nest']['json']['thumnail']['size'][0].'*'.$repo['nest']['json']['thumnail']['size'][1]?>'
-		,srl : '<?=$repo['article']['json']['thumnail']['srl']?>'
-		,coords : '<?=$repo['article']['json']['thumnail']['coords']?>'
-		,url : '<?=$repo['article']['json']['thumnail']['url']?>'
-	}
-	,originalPath : '<?=$file->set['upPath_original']?>/'
-	,pushData : '<?=require_once('attachFiles.php');?>'
+	form : document.writeForm,
+	root : '<?= __GOOSE_ROOT__ ?>',
+	url : '<?= __GOOSE_URL__ ?>/',
+	originalPath : '<?= $file->set['upPath_original'] ?>/',
+	pushDatas : function(src) {
+		try {
+			return JSON.parse(src);
+		} catch(e) {
+			return null;
+		}
+	}('<?=require_once('attachFiles.php');?>'),
+	articleData : function(src) {
+		try {
+			return JSON.parse(decodeURIComponent(src));
+		} catch(e) {
+			return {};
+		}
+	}('<?= $articleJSON ?>'),
+	thumbnail : {
+		type : '<?=$repo['nest']['json']['thumnail']['type']?>',
+		size : {
+			width : parseInt('<?=$repo['nest']['json']['thumnail']['size'][0]?>' || 150),
+			height : parseInt('<?=$repo['nest']['json']['thumnail']['size'][1]?>' || 150)
+		}
+	},
+	thumbnail_image : '',
+	addQueue : []
 };
 </script>
 <script src="<?= __GOOSE_ROOT__.'/'.$this->skinPath.'/js/markdown.min.js' ?>"></script>

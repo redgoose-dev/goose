@@ -31,24 +31,24 @@ if ($dbUpdateResult['state'] == 'success')
 	$article_json = getArticleJSON($article_srl);
 
 	// move file_tmp to file data
-	$thumnail_srl = fileUpload($post, $article_srl, $article_json['thumnail']['srl']);
+	$thumbnail_srl = fileUpload($post, $article_srl, $article_json['thumbnail']['srl']);
 
-	// upload thumnail image
-	if ($thumnail_srl)
+	// upload thumbnail image
+	if ($thumbnail_srl)
 	{
-		$thumnailUrl = uploadThumnail($post['thumnail_image']);
+		$thumbnailUrl = uploadThumbnail($post['thumbnail_image']);
 
-		$article_json['thumnail']['srl'] = $thumnail_srl;
-		$article_json['thumnail']['url'] = $thumnailUrl;
+		$article_json['thumbnail']['srl'] = $thumbnail_srl;
+		$article_json['thumbnail']['url'] = $thumbnailUrl;
 		$json_result = Util::arrayToJson($article_json);
 
-		$result = Spawn::update(array(
+		$result = Spawn::update([
 			'table' => Spawn::getTableName('article'),
 			'where' => 'srl='.$article_srl,
-			'data' => array(
+			'data' => [
 				"json='$json_result'"
-			)
-		));
+			]
+		]);
 	}
 }
 

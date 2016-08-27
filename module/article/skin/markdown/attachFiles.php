@@ -17,41 +17,39 @@ else if (!isset($action))
 switch($action)
 {
 	case 'create':
-		$files = Spawn::items(array(
+		$files = Spawn::items([
 			'table' => Spawn::getTableName('file_tmp'),
 			'order' => 'srl',
 			'sort' => 'asc'
-		));
-		$state = 'complete';
-		$type = 'session';
+		]);
+		$table = 'file_tmp';
 		break;
 	case 'modify':
-		$files = Spawn::items(array(
+		$files = Spawn::items([
 			'table' => Spawn::getTableName('file'),
 			'where' => 'article_srl='.(int)$article_srl,
 			'order' => 'srl',
 			'sort' => 'asc'
-		));
-		$state = 'uploaded';
-		$type = 'edit';
+		]);
+		$table = 'file';
 		break;
 }
 
 // adjust data
-$pushData = array();
+$pushData = [];
 if (count($files))
 {
 	foreach ($files as $k=>$v)
 	{
-		$item = array(
-			'srl' => $v['srl']
-			,'location' => $v['loc']
-			,'filename' => $v['name']
-			,'filetype' => $v['type']
-			,'filesize' => $v['size']
-			,'state' => $state
-			,'type' => $type
-		);
+		$item = [
+			'id' => (int)$v['srl'],
+			'srl' => (int)$v['srl'],
+			'name' => $v['name'],
+			'size' => (int)$v['size'],
+			'src' => $v['loc'],
+			'type' => $v['type'],
+			'table' => $table
+		];
 		$pushData[] = $item;
 	}
 }

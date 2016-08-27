@@ -262,11 +262,11 @@ class File {
 		// string to array
 		if (!is_array($file['name']))
 		{
-			$file['error'] = Array($file['error']);
-			$file['name'] = Array($file['name']);
-			$file['size'] = Array($file['size']);
-			$file['tmp_name'] = Array($file['tmp_name']);
-			$file['type'] = Array($file['type']);
+			$file['error'] = [ $file['error'] ];
+			$file['name'] = [ $file['name'] ];
+			$file['size'] = [ $file['size'] ];
+			$file['tmp_name'] = [ $file['tmp_name'] ];
+			$file['type'] = [ $file['type'] ];
 		}
 
 		// set variable
@@ -288,13 +288,16 @@ class File {
 		{
 			if ($file['error'][$i])
 			{
-				$result[] = Array('state' => 'error', 'message' => $file['error'][$i]);
+				$result[] = [ 'state' => 'error', 'message' => $file['error'][$i] ];
 				continue;
 			}
 
 			if ($file['size'][$i] > $this->set['limitFileSize'])
 			{
-				$result[] = Array('state' => 'error', 'message' => 'The attachment size exceeds the allowable limit.');
+				$result[] = [
+					'state' => 'error',
+					'message' => 'The attachment size exceeds the allowable limit.'
+				];
 				continue;
 			}
 
@@ -302,7 +305,10 @@ class File {
 			$file['name'][$i] = $this->checkFilename($file['name'][$i], false);
 			if (!$file['name'][$i])
 			{
-				$result[] = Array('state' => 'error', 'message' => 'This file is a format that is not allowed.');
+				$result[] = [
+					'state' => 'error',
+					'message' => 'This file is a format that is not allowed.'
+				];
 				continue;
 			}
 
@@ -316,7 +322,10 @@ class File {
 			}
 			else
 			{
-				$result[] = Array('state' => 'error', 'message' => 'upload error');
+				$result[] = [
+					'state' => 'error',
+					'message' => 'upload error'
+				];
 				continue;
 			}
 
@@ -361,21 +370,21 @@ class File {
 				{
 					@unlink($path_absolute.$month.'/'.$file['name'][$i]);
 				}
-				$result[] = Array(
+				$result[] = [
 					'state' => 'error',
 					'message' => 'Fail execution database'
-				);
+				];
 			}
 			else
 			{
-				$result[] = array(
+				$result[] = [
 					'state' => 'success',
 					'loc' => $path.$month.'/'.$file['name'][$i],
 					'name' => $file['name'][$i],
 					'size' => $file['size'][$i],
 					'type' => $file['type'][$i],
 					'srl' => (int)Spawn::getLastIdx()
-				);
+				];
 			}
 		}
 
@@ -420,14 +429,14 @@ class File {
 			]);
 			if ($result_db != 'success')
 			{
-				$result[] = Array(
+				$result[] = [
 					'state' => 'error',
 					'message' => 'Fail execution database'
-				);
+				];
 			}
 			else
 			{
-				$result[] = Array('state' => 'success');
+				$result[] = [ 'state' => 'success' ];
 			}
 		}
 

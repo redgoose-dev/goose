@@ -13,8 +13,12 @@ if (!defined('__GOOSE__')) exit();
 		</h1>
 		<p><?=$this->set['description']?></p>
 		<nav>
-			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+			<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->name?>/" class="help" title="go to help">
+				<i class="material-icons">help</i>
+			</a>
+			<a href="<?=__GOOSE_ROOT__?>/modules/editSetting/<?=$this->name?>/" class="setting" title="edit setting">
+				<i class="material-icons">settings</i>
+			</a>
 		</nav>
 	</header>
 	<!-- // headding -->
@@ -24,9 +28,9 @@ if (!defined('__GOOSE__')) exit();
 	<!-- // app -->
 </section>
 
-<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/15.0.2/react.min.js"></script>
-<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/15.0.2/react-dom.min.js"></script>
-<script src="<?=__GOOSE_ROOT__?>/vendor/react-router/2.4.0/ReactRouter.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/15.3.0/react.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/react.js/15.3.0/react-dom.min.js"></script>
+<script src="<?=__GOOSE_ROOT__?>/vendor/react-router/2.6.1/ReactRouter.min.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/History/History.min.js"></script>
 <script>
 window.userData = {

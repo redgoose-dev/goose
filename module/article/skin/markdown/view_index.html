@@ -20,8 +20,12 @@ $permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['jso
 		{
 		?>
 			<nav>
-				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help"><i class="icn-help"></i></a>
-				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting"><i class="icn-setting"></i></a>
+				<a href="<?=__GOOSE_ROOT__?>/help/<?=$this->parent->name?>/" class="help" title="go to help">
+					<i class="material-icons">help</i>
+				</a>
+				<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?=$this->parent->name?>/" class="setting" title="edit setting">
+					<i class="material-icons">settings</i>
+				</a>
 			</nav>
 		<?php
 		}
@@ -78,19 +82,19 @@ $permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['jso
 				$url .= $v['srl'].'/';
 				$url .= ($_GET['page'] > 1) ? '?page='.$_GET['page'] : '';
 				$categoryName = ($v['categoryName']) ? '<span><b>Category</b>'.$v['categoryName'].'</span> ' : '';
-				// thumnail image
-				if ($v['json']['thumnail']['url'] && file_exists(__GOOSE_PWD__.$v['json']['thumnail']['url']))
+				// thumbnail image
+				if ($v['json']['thumbnail']['url'] && file_exists(__GOOSE_PWD__.$v['json']['thumbnail']['url']))
 				{
-					$thumnailImg = '<img src="'.__GOOSE_ROOT__.'/'.$v['json']['thumnail']['url'].'" alt="'.$v['title'].'"/>';
+					$thumbnailImg = '<img src="'.__GOOSE_ROOT__.'/'.$v['json']['thumbnail']['url'].'" alt="'.$v['title'].'"/>';
 				}
 				else
 				{
-					$thumnailImg = '<span class="noimg">no img</span>';
+					$thumbnailImg = '<span class="noimg">no img</span>';
 				}
 		?>
 				<li>
 					<a class="wrap" href="<?=$url?>">
-						<figure class="figure"><?=$thumnailImg?></figure>
+						<figure class="figure"><?=$thumbnailImg?></figure>
 						<div class="body">
 							<strong class="hd"><?=$v['title']?></strong>
 							<div class="inf">

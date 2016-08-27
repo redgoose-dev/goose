@@ -1,146 +1,7 @@
-jQuery(function($){
-
-	var form = document.writeForm;
-	var uploadInterface = new UploadInterface($('#fileUpload'), {
-		form : form
-		,$manager : $('#queuesManager')
-		,uploadAction : userData.root + '/file/upload/'
-		,removeAction : userData.root + '/file/remove/'
-		,fileDir : userData.url
-		,auto : false
-		,limit : 10
-		,thumnail : userData.thumnail
-		,$insertTarget : $('#content')
-		,insertFunc : function(params){
-			var str = '';
-			for (var i=0; i<params.length; i++)
-			{
-				if (/^image/.test(params[i].type))
-				{
-					str += '![](' + params[i].url + ')\n';
-				}
-				else
-				{
-					str += '[' + params[i].name + '](' + params[i].url + ')\n';
-				}
-			}
-			var $content = $(form.content);
-			var position = getCursorPosition($content);
-			var content = $content.val();
-			var newContent = content.substr(0, position) + str + content.substr(position);
-			$content.val(newContent);
-		}
-	});
-
-	if (!uploadInterface.ready)
-	{
-		return false;
-	}
-
-	var attachFiles = userData.pushData;
-	var attachFilesData = (attachFiles) ? JSON.parse(attachFiles) : null;
-	if (attachFilesData)
-	{
-		uploadInterface.pushQueue(attachFilesData);
-	}
-
-	// upload button click event
-	$('#fileUploadButton').on('click', function(){
-		uploadInterface.upload();
-	});
-
-	// onsubmit event
-	$(form).on('submit', function(){
-		// check thumnail image
-		if (uploadInterface.thumnailImageCheck())
-		{
-			return false;
-		}
-
-		// set json
-		var json = {};
-
-		// get article json
-		if (userData.articleJSON)
-		{
-			json = JSON.parse(decodeURIComponent(userData.articleJSON));
-		}
-
-		// set json data
-		var coords = uploadInterface.thumnail.data.coords;
-		json.thumnail = {
-			srl : uploadInterface.thumnail.data.srl
-			,coords : (coords) ? coords.toString() : ''
-			,url : uploadInterface.thumnail.data.url
-		};
-
-		// set thumnail image
-		if (uploadInterface.thumnail.data.image)
-		{
-			form.thumnail_image.value = uploadInterface.thumnail.data.image;
-		}
-
-		// json object to hidden string
-		json = encodeURIComponent(JSON.stringify(json));
-		form.json.value = json;
-	});
-
-	// toggle edit/preview
-	var $mkEditor = $('div.mk-editor');
-	var $mkEditorButtons = $mkEditor.find('a[data-control]');
-	$mkEditorButtons.on('click', function(){
-
-		var mode = $(this).attr('data-control');
-		var $target = $mkEditor.find('[data-target=' + mode + ']');
-
-		if (!$(this).hasClass('active'))
-		{
-			$mkEditorButtons.removeClass('active');
-			$(this).addClass('active');
-			$mkEditor.find('[data-target]').removeClass('show');
-			$target.addClass('show');
-
-			// load preview data
-			if (mode == 'preview' && form.content.value)
-			{
-				var result = getPreviewData(function(result){
-					$target.html(result);
-				});
-			}
-		}
-
-		return false;
-	});
-
-	/**
-	 * get preview data
-	 *
-	 * @Param {Function} complete
-	 * @Return void
-	 */
-	var getPreviewData = function(complete)
-	{
-		var req = $.ajax({
-			url : userData.root + '/script/run/markdown_preview/'
-			,type : 'post'
-			,data : {
-				title : '...'
-				,nest_srl : form.nest_srl.value
-				,content : form.content.value
-			}
-		});
-		req.done(function(str){
-			complete(str);
-		});
-	};
-
-
-	/**
-	 * get cursor position
-	 *
-	 * @param {object} $el
-	 * @return {Number}
-	 */
+// insert source to content form
+var insertSourceToContentForm = function(items)
+{
+	// get cursor position
 	var getCursorPosition = function($el)
 	{
 		var el = $el.get(0);
@@ -158,5 +19,281 @@ jQuery(function($){
 			pos = Sel.text.length - SelLength;
 		}
 		return pos;
+	};
+
+	var str = '';
+	for (var i=0; i<items.length; i++)
+	{
+		if (/^image/.test(items[i].type))
+		{
+			str += '![](' + items[i].src + ')\n';
+		}
+		else
+		{
+			str += '[' + items[i].name + '](' + items[i].src + ')\n';
+		}
 	}
+
+	var pos = getCursorPosition($(userData.form.content));
+	var val = userData.form.content.value;
+	var newContent = val.substr(0, pos) + str + val.substr(pos);
+	userData.form.content.value = newContent;
+};
+
+// get preview data
+var getPreviewData = function(complete)
+{
+	var req = $.ajax({
+		url : userData.root + '/script/run/markdown_preview/'
+		,type : 'post'
+		,data : {
+			title : '...'
+			,nest_srl : userData.form.nest_srl.value
+			,content : userData.form.content.value
+		}
+	});
+	req.done(function(str){
+		complete(str);
+	});
+};
+
+// check thumbnail image
+var checkThumbnailImage = function()
+{
+	var files = uploader.queue.items.files;
+	var inImage = false;
+
+	// check thumbnail queue
+	if (userData.form.article_srl.value && uploader.queue.$queue.children('.is-thumbnail').length)
+	{
+		return false;
+	}
+
+	// check image type in queues
+	for (var i=0; i<files.length; i++)
+	{
+		if (/^image/i.test(files[i].type))
+		{
+			inImage = true;
+			break;
+		}
+	}
+
+	// check thumbnail_image value
+	if (inImage && !userData.thumbnail_image)
+	{
+		alert('not make thumbnail image');
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+};
+
+
+// init uploader
+var uploader = new RGUploader($('#queuesManager'), {
+	autoUpload : true,
+	allowFileTypes : ['jpeg', 'png', 'gif'],
+	limitSize : 3000000,
+	limitSizeTotal : 10000000,
+	uploadScript : userData.root + '/file/upload/',
+	removeScript : userData.root + '/file/remove/',
+	uploadParams : {
+		table : 'file_tmp',
+		upload_loc : userData.originalPath
+	},
+	srcPrefixName : userData.url,
+	queue : {
+		style : 'list',
+		height : 150,
+		limit : 10,
+		datas : userData.pushDatas,
+		buttons : [
+			{
+				name : 'open file',
+				iconName : 'open_in_new',
+				action : function(app, file) {
+					window.open(file.fullSrc);
+				}
+			},
+			{
+				name : 'make thumbnail image',
+				iconName : 'apps',
+				className : 'btn-make-thumbnail',
+				show : function(file) {
+					return (file.type.split('/')[0] == 'image');
+				},
+				action : function(app, file) {
+					if (!app.plugin.child.thumbnail) return false;
+					var plugin = app.plugin.child.thumbnail;
+					plugin.open(file);
+				}
+			},
+			{
+				name : 'insert editor',
+				iconName : 'center_focus_strong',
+				action : function(app, file) {
+					insertSourceToContentForm([{
+						src : file.fullSrc,
+						name : file.name,
+						type : file.type
+					}]);
+				}
+			},
+			{
+				name : 'remove queue',
+				iconName : 'close',
+				action : function(app, file) {
+					app.queue.removeQueue(file.id, false, true);
+				}
+			}
+		]
+	},
+	plugin : [
+		{ name : 'preview', obj : new RG_Preview() },
+		{ name : 'sizeinfo', obj : new RG_Sizeinfo() },
+		{ name : 'dnd', obj : new RG_DragAndDrop() },
+		{
+			name : 'thumbnail',
+			obj : new RG_Thumbnail({
+				width : 640,
+				height : 480,
+				mobileSize : 640,
+				url_croppieCSS : userData.root + '/vendor/rg-Uploader/vendor/croppie/croppie.css',
+				url_croppieJS : userData.root + '/vendor/rg-Uploader/vendor/croppie/croppie.min.js',
+				output : {
+					type : 'canvas',
+					quality : .75,
+					format : 'jpeg',
+					size : {
+						width : userData.thumbnail.size.width,
+						height : userData.thumbnail.size.height
+					}
+				},
+				croppie : {
+					viewport : {
+						width: userData.thumbnail.size.width,
+						height: userData.thumbnail.size.height,
+						type: 'square'
+					}
+				},
+				doneCallback : function(res, app, file) {
+					var classBtnMakeThumbnail = '.btn-make-thumbnail';
+
+					// input thumbnail image source
+					userData.thumbnail_image = res.src;
+
+					// update on class name
+					var $btns = app.queue.$queue.find(classBtnMakeThumbnail);
+					$btns.removeClass('on is-thumbnail');
+					app.queue.selectQueueElement(file.id)
+						.addClass('is-thumbnail')
+						.find(classBtnMakeThumbnail).addClass('on');
+
+					// set thumbnail data
+					var croppie = app.plugin.child.thumbnail.croppie.get();
+					userData.thumbnail = {
+						srl : file.srl,
+						//url : file.src,
+						points : croppie.points,
+						zoom : croppie.zoom
+					};
+				}
+			})
+		}
+	],
+	uploadDataFilter : function(res) {
+		return {
+			state : res[0].state,
+			response : {
+				src : res[0].loc,
+				srl : res[0].srl,
+				name : res[0].name,
+				table : 'file_tmp'
+			}
+		}
+	},
+	removeParamsFilter : function(res) {
+		return {
+			data : JSON.stringify([{ table : res.table, srl : res.srl }])
+		};
+	},
+	removeDataFilter : function(res) {},
+	uploadComplete : function(file) {
+		userData.addQueue.push(file.srl);
+	},
+	init : function(app) {
+		// add queue srls
+		for(var i=0; i<userData.pushDatas.length; i++)
+		{
+			if (userData.pushDatas[i].table !== 'file_tmp') continue;
+			userData.addQueue.push(userData.pushDatas[i].srl);
+		}
+
+		// set thumbnail queue
+		if (userData.articleData.thumbnail)
+		{
+			var $queue = app.queue.selectQueueElement(userData.articleData.thumbnail.srl);
+			$queue
+				.addClass('is-thumbnail')
+				.find('.btn-make-thumbnail').addClass('on');
+		}
+	}
+});
+
+// toggle edit/preview
+var $mkEditor = $('div.mk-editor');
+var $mkEditorButtons = $mkEditor.find('a[data-control]');
+$mkEditorButtons.on('click', function(){
+
+	var mode = $(this).attr('data-control');
+	var $target = $mkEditor.find('[data-target=' + mode + ']');
+
+	if (!$(this).hasClass('active'))
+	{
+		$mkEditorButtons.removeClass('active');
+		$(this).addClass('active');
+		$mkEditor.find('[data-target]').removeClass('show');
+		$target.addClass('show');
+
+		// load preview data
+		if (mode == 'preview' && userData.form.content.value)
+		{
+			var result = getPreviewData(function(result){
+				$target.html(result);
+			});
+		}
+	}
+
+	return false;
+});
+
+// init submit
+$(userData.form).on('submit', function(){
+	// check thumbnail image
+	if (checkThumbnailImage())
+	{
+		return false;
+	}
+
+	// set json and get article json
+	var json = userData.articleData;
+
+	// set thumbnail data
+	if (userData.thumbnail_image)
+	{
+		json.thumbnail = userData.thumbnail;
+		userData.form.thumbnail_image.value = userData.thumbnail_image;
+	}
+
+	// set add queue srl
+	userData.form.addQueue.value = userData.addQueue.toString();
+
+	// json object to hidden string
+	json = encodeURIComponent(JSON.stringify(json));
+	userData.form.json.value = json;
+
+	//return false;
 });
