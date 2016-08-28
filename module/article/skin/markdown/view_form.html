@@ -8,6 +8,8 @@ $extPath = __GOOSE_ROOT__.'/vendor/';
 $articleJSON = (isset($repo['article']['json'])) ? Util::arrayToJson($repo['article']['json'], true) : '';
 
 $file = Module::load('file');
+
+$repo['article']['title'] = htmlspecialchars($repo['article']['title']);
 ?>
 
 <link rel="stylesheet" href="<?= __GOOSE_ROOT__.'/'.$this->skinPath.'css/markdown.css' ?>">

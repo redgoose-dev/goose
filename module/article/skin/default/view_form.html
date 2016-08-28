@@ -3,6 +3,8 @@ if (!defined('__GOOSE__')) exit();
 
 $titleType = ($this->param['action'] == 'modify') ? '수정' : '만들기';
 $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ' : '';
+
+$repo['article']['title'] = htmlspecialchars($repo['article']['title']);
 ?>
 
 <section>
