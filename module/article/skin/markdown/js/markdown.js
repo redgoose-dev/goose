@@ -253,7 +253,7 @@ jQuery(function($){
 					url_croppieJS : userData.root + '/vendor/rg-Uploader/vendor/Croppie/croppie.min.js',
 					output : {
 						type : 'canvas',
-						quality : .75,
+						quality : .85,
 						format : 'jpeg',
 						size : {
 							width : userData.thumbnail.size.width,
