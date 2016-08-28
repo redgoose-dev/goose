@@ -6,10 +6,9 @@ $externalLoad = true;
 
 // load parsedown class
 require_once(__GOOSE_PWD__.'vendor/Parsedown/Parsedown.class.php');
-require_once(__GOOSE_PWD__.'vendor/parsedown-extra/ParsedownExtra.php');
 
 // get instance parsedown
-$Parsedown = new ParsedownExtra();
+$Parsedown = new Parsedown();
 
 // convert markdown
 $repo['article']['content'] = '<div class="markdown-body">'.$Parsedown->text($repo['article']['content']).'</div>';

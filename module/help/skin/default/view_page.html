@@ -6,10 +6,9 @@ if (Util::getExtension($this->pwd_page) == 'md')
 {
 	// load parsedown class
 	require_once(__GOOSE_PWD__.'vendor/Parsedown/Parsedown.class.php');
-	require_once(__GOOSE_PWD__.'vendor/parsedown-extra/ParsedownExtra.php');
 
 	// get instance parsedown
-	$Parsedown = new ParsedownExtra();
+	$Parsedown = new Parsedown();
 
 	// get page text
 	$contents = Util::openFile($this->pwd_page);

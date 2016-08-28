@@ -24,7 +24,6 @@ __http://src.goose-dev.com__
 * Jcrop - https://github.com/tapmodo/Jcrop
 * JSONEditor - https://github.com/RedgooseDev/JSONEditor
 * Parsedown - http://parsedown.org
-* Parsedown Extra - https://michelf.ca/projects/php-markdown
 * Snippet
 * jQuery Validation - http://jqueryvalidation.org
 * react.js - https://facebook.github.io/react
