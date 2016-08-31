@@ -1,4 +1,15 @@
 jQuery(function($){
+
+	// assign json
+	if (userData.articleData)
+	{
+		if (userData.articleData.thumbnail)
+		{
+			userData.thumbnail = userData.articleData.thumbnail || {};
+		}
+	}
+
+
 	// insert source to content form
 	var insertSourceToContentForm = function(items)
 	{
@@ -84,6 +95,7 @@ jQuery(function($){
 		if (inImage && !userData.thumbnail_image)
 		{
 			alert('not make thumbnail image');
+			uploader.queue.$queue.find('.btn-make-thumbnail').eq(0).focus();
 			return true;
 		}
 		else
@@ -142,16 +154,6 @@ jQuery(function($){
 		return defer.promise();
 	};
 
-	// assign json
-	if (userData.articleData)
-	{
-		if (userData.articleData.thumbnail)
-		{
-			userData.thumbnail.srl = userData.articleData.thumbnail.srl;
-			userData.thumbnail.points = userData.articleData.thumbnail.points;
-			userData.thumbnail.zoom = userData.articleData.thumbnail.zoom;
-		}
-	}
 
 	// init uploader
 	window.uploader = new RGUploader($('#queuesManager'), {
@@ -204,7 +206,7 @@ jQuery(function($){
 						}
 						else
 						{
-							var ready = getThumbnailSize(userData.thumbnail, file);
+							var ready = getThumbnailSize(userData.thumbnailSet, file);
 							ready.done(function(size){
 								plugin.assignOption({
 									output : {
@@ -234,7 +236,7 @@ jQuery(function($){
 					name : 'remove queue',
 					iconName : 'close',
 					action : function(app, file) {
-						app.queue.removeQueue(file.id, false, true);
+						app.queue.removeQueue(file.srl, false, true);
 					}
 				}
 			]
@@ -256,14 +258,14 @@ jQuery(function($){
 						quality : .85,
 						format : 'jpeg',
 						size : {
-							width : userData.thumbnail.size.width,
-							height : userData.thumbnail.size.height
+							width : userData.thumbnailSet.size.width,
+							height : userData.thumbnailSet.size.height
 						}
 					},
 					croppie : {
 						viewport : {
-							width: userData.thumbnail.size.width,
-							height: userData.thumbnail.size.height,
+							width: userData.thumbnailSet.size.width,
+							height: userData.thumbnailSet.size.height,
 							type: 'square'
 						}
 					},
@@ -282,9 +284,11 @@ jQuery(function($){
 
 						// set thumbnail data
 						var croppie = app.plugin.child.thumbnail.croppie.get();
+						var options = app.plugin.child.thumbnail.options;
 						userData.thumbnail.srl = file.srl;
 						userData.thumbnail.points = croppie.points;
 						userData.thumbnail.zoom = croppie.zoom;
+						userData.thumbnail.size = options.output.size;
 					}
 				})
 			}
@@ -369,9 +373,11 @@ jQuery(function($){
 		// set thumbnail data
 		if (userData.thumbnail_image)
 		{
-			json.thumbnail = userData.thumbnail;
 			userData.form.thumbnail_image.value = userData.thumbnail_image;
 		}
+
+		// set thumbnail
+		json.thumbnail = userData.thumbnail;
 
 		// set add queue srl
 		userData.form.addQueue.value = userData.addQueue.toString();
