@@ -74,7 +74,7 @@ category 모듈을 연계하여 article 모듈의 글들을 분류할 수 있습
 * __articleListTypes__  
 article 목록타입
 
-* __thumnailSize__  
+* __thumbnailSize__  
 썸네일 이미지 사이즈 설정
 
 

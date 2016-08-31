@@ -5,12 +5,11 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 ?>
 
 <section class="form">
-
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span><?=$nestName?>문서삭제</span>
 		</h1>
-	</div>
+	</header>
 
 	<form name="writeForm" action="<?=__GOOSE_ROOT__?>/article/remove/" method="post">
 		<input type="hidden" name="article_srl" value="<?=$article_srl?>" />
@@ -29,5 +28,4 @@ $nestName = ($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['
 			<button type="button" class="gs-button" onclick="history.back(-1)">뒤로가기</button>
 		</nav>
 	</form>
-
 </section>

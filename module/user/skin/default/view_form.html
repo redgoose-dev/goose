@@ -6,12 +6,12 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 ?>
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span>사용자 <?=$titleType?></span>
 		</h1>
 		<p><?=$this->set['description']?></p>
-	</div>
+	</header>
 
 	<form action="<?=__GOOSE_ROOT__?>/user/<?=$this->param['action']?>/" method="post" id="regsterForm">
 		<input type="hidden" name="user_srl" value="<?=$user_srl?>" />

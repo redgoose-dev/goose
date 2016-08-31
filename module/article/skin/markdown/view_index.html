@@ -5,12 +5,11 @@ $permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['jso
 ?>
 
 <section>
-	<!-- headding -->
 	<?php
 	$url = __GOOSE_ROOT__.'/article/index/';
 	$url .= ($nest_srl) ? $nest_srl.'/' : '';
 	?>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<a href="<?=$url?>"><?=($repo['nest']['name'])?'<em class="gs-brk-type">'.$repo['nest']['name'].'</em> ':''?>문서목록</a>
 		</h1>
@@ -30,8 +29,7 @@ $permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['jso
 		<?php
 		}
 		?>
-	</div>
-	<!-- // headding -->
+	</header>
 
 	<?php
 	if ($repo['category'])

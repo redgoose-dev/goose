@@ -56,7 +56,7 @@ function fileUpload($post, $art_srl, $thumb_srl)
 						'regdate' => date("YmdHis")
 					)
 				));
-				// set thumnail srl
+				// set thumbnail srl
 				if ($tmpFile['srl'] == $thumb_srl)
 				{
 					$thumbnail_srl = Spawn::getLastIdx();

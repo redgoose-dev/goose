@@ -7,7 +7,7 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 ?>
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span><?=$categoryName.$repo['article']['title']?></span>
 		</h1>
@@ -15,7 +15,15 @@ $content = ($externalLoad) ? $repo['article']['content'] : nl2br(htmlspecialchar
 			<span><?=Util::convertDate($repo['article']['regdate']).'&nbsp;'.Util::convertTime($repo['article']['regdate'])?></span>
 			<span>Hit:<?=$repo['article']['hit']?></span>
 		</p>
-	</div>
+		<nav>
+			<a href="<?= __GOOSE_ROOT__ ?>/help/<?= $this->parent->name ?>/" class="help" title="go to help">
+				<i class="material-icons">help</i>
+			</a>
+			<a href="<?= __GOOSE_ROOT__ ?>/modules/editSetting/<?= $this->parent->name ?>/" class="setting" title="edit setting">
+				<i class="material-icons">settings</i>
+			</a>
+		</nav>
+	</header>
 
 	<!-- body -->
 	<div class="gs-article-body"><?=$content?></div>

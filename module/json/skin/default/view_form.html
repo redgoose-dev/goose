@@ -9,10 +9,10 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 <link rel="stylesheet" href="<?=__GOOSE_ROOT__?>/vendor/JSONEditor/dist/css/JSONEditor.css" media="screen" />
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>JSON <?=$titleType?></h1>
 		<p><?=$this->set['description']?></p>
-	</div>
+	</header>
 
 	<form action="<?=__GOOSE_ROOT__.'/json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="json_srl" value="<?=$repo['json']['srl']?>" />

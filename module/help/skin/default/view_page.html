@@ -26,14 +26,12 @@ else
 ?>
 
 <section>
-	<!-- headding -->
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span>Help - <?=($this->page_modSet) ? $this->page_modSet['title'] : ''?></span>
 		</h1>
 		<?=($this->page_modSet) ? '<p>'.$this->page_modSet['description'].'</p>' : ''?>
-	</div>
-	<!-- // headding -->
+	</header>
 
 	<div class="gs-article-body"><?=$contents?></div>
 

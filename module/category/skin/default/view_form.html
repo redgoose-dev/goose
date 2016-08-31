@@ -9,14 +9,12 @@ $titleType = ($this->param['action'] == 'modify') ? '수정' : "만들기";
 ?>
 
 <section class="goose-form">
-	<!-- headding -->
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span><?=$nestName?>분류 <?=$titleType?></span>
 		</h1>
 		<p><?=$this->set['description']?></p>
-	</div>
-	<!-- // headding -->
+	</header>
 
 	<form action="<?=__GOOSE_ROOT__.'/category/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>

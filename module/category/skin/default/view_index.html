@@ -5,8 +5,7 @@ $permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['jso
 ?>
 
 <section>
-	<!-- headding -->
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span><?=($repo['nest']['name']) ? '<em class="gs-brk-type">'.$repo['nest']['name']."</em> " : ""?>분류목록</span>
 		</h1>
@@ -26,8 +25,7 @@ $permission = (isset($repo['nest']['json']['permission2'])) ? $repo['nest']['jso
 		<?php
 		}
 		?>
-	</div>
-	<!-- // headding -->
+	</header>
 
 	<!-- index -->
 	<form action="<?=__GOOSE_ROOT__?>/category/sort/" method="post" name="listForm" id="listForm">

@@ -7,6 +7,6 @@
 	"install" : true,
 	"skin" : "default",
 	"countArticle" : 15,
-	"articleListTypes" : ["list", "card", "thumnail"],
-	"thumnailSize" : [150, 150]
+	"articleListTypes" : ["list", "card", "thumbnail"],
+	"thumbnailSize" : [150, 150]
 }

@@ -7,14 +7,12 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 ?>
 
 <section>
-	<!-- headding -->
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span>둥지<?=$titleType?></span>
 		</h1>
 		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
-	</div>
-	<!-- // headding -->
+	</header>
 
 	<form action="<?=__GOOSE_ROOT__.'/nest/'.$form_action.'/'?>" method="post" id="regster-form">
 		<input type="hidden" name="json" value="" />

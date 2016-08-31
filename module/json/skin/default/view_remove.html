@@ -3,10 +3,10 @@ if (!defined('__GOOSE__')) exit();
 ?>
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>JSON 삭제</h1>
 		<p><?=$this->set['description']?></p>
-	</div>
+	</header>
 
 	<form action="<?=__GOOSE_ROOT__.'/json/'.$this->param['action'].'/'?>" method="post" name="post" id="regsterForm">
 		<input type="hidden" name="json_srl" value="<?=$repo['json']['srl']?>" />

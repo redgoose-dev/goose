@@ -17,12 +17,12 @@ $repo['article']['title'] = htmlspecialchars($repo['article']['title']);
 <link rel="stylesheet" href="<?= $extPath.'Parsedown/markdown.css' ?>" />
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span><?=$nestName?>문서<?=$titleType?></span>
 		</h1>
 		<p><?=$this->set['description']?></p>
-	</div>
+	</header>
 
 	<form name="writeForm" action="<?=__GOOSE_ROOT__.'/article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>" />
@@ -97,7 +97,7 @@ $repo['article']['title'] = htmlspecialchars($repo['article']['title']);
 				<dd>
 					<article class="rg-uploader" id="queuesManager">
 						<div class="body" data-comp="queue">
-							<div class="col queue" data-element="queue"><ul></ul></div>
+							<div class="col queue is-large-size" data-element="queue"><ul></ul></div>
 						</div>
 						<footer>
 							<nav>
@@ -144,13 +144,14 @@ var userData = {
 			return {};
 		}
 	}('<?= $articleJSON ?>'),
-	thumbnail : {
-		type : '<?=$repo['nest']['json']['thumnail']['type']?>',
+	thumbnailSet : {
+		type : '<?=$repo['nest']['json']['thumbnail']['type']?>',
 		size : {
-			width : parseInt('<?=$repo['nest']['json']['thumnail']['size'][0]?>' || 150),
-			height : parseInt('<?=$repo['nest']['json']['thumnail']['size'][1]?>' || 150)
+			width : parseInt('<?=$repo['nest']['json']['thumbnail']['size'][0]?>' || 150),
+			height : parseInt('<?=$repo['nest']['json']['thumbnail']['size'][1]?>' || 150)
 		}
 	},
+	thumbnail : {},
 	thumbnail_image : '',
 	addQueue : []
 };

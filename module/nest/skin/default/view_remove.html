@@ -3,12 +3,12 @@ if (!defined('__GOOSE__')) exit();
 ?>
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span>둥지삭제</span>
 		</h1>
 		<p><?=$this->set['description']?></p>
-	</div>
+	</header>
 
 	<form action="<?=__GOOSE_ROOT__.'/nest/'.$this->param['action'].'/'?>" method="post" id="regsterForm">
 		<input type="hidden" name="nest_srl" value="<?=$nest_srl?>"/>

@@ -8,12 +8,12 @@ $repo['article']['title'] = htmlspecialchars($repo['article']['title']);
 ?>
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span><?=$nestName?>문서<?=$titleType?></span>
 		</h1>
 		<p><?=$this->set['description']?></p>
-	</div>
+	</header>
 
 	<form name="writeForm" action="<?=__GOOSE_ROOT__.'/article/'.$this->param['action'].'/'?>" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="app_srl" value="<?=$repo['nest']['app_srl']?>" />

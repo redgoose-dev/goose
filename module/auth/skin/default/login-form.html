@@ -6,10 +6,11 @@ $userPassword = (isset($_GET['userPassword'])) ? $_GET['userPassword'] : '';
 ?>
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>Admin authentication</h1>
 		<?=($this->message['headDescription']) ? '<p>'.$this->message['headDescription'].'</p>' : ''?>
-	</div>
+	</header>
+
 	<form action="<?=__GOOSE_ROOT__?>/auth/login/" method="post" class="form-auth">
 		<input type="hidden" name="redir" value="<?=$_SERVER['REQUEST_URI']?>">
 		<fieldset>

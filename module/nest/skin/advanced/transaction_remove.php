@@ -34,11 +34,11 @@ if ($post['delete_article'])
 				}
 			}
 		}
-		// remove thumnail files
+		// remove thumbnail files
 		$json = Util::jsonToArray($v['json']);
-		if (__GOOSE_PWD__.$json['thumnail']['url'] && file_exists(__GOOSE_PWD__.$json['thumnail']['url']))
+		if (__GOOSE_PWD__.$json['thumbnail']['url'] && file_exists(__GOOSE_PWD__.$json['thumbnail']['url']))
 		{
-			unlink(__GOOSE_PWD__.$json['thumnail']['url']);
+			unlink(__GOOSE_PWD__.$json['thumbnail']['url']);
 		}
 	}
 	$file->actRemoveFile($file_srls, 'file');

@@ -7,14 +7,12 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 ?>
 
 <section>
-	<!-- headding -->
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1>
 			<span>둥지<?=$titleType?></span>
 		</h1>
 		<?=($message['head']) ? '<p>'.$message['head'].'</p>':''?>
-	</div>
-	<!-- // headding -->
+	</header>
 
 	<form action="<?=__GOOSE_ROOT__.'/nest/'.$form_action.'/'?>" method="post" id="regster-form">
 		<input type="hidden" name="json" value="" />
@@ -128,40 +126,40 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 
 			<dl class="gs-webz">
 				<?php
-				$thumnailSize_width = ($repo['nest']['json']['thumnail']['size'][0]) ? $repo['nest']['json']['thumnail']['size'][0] : $this->set['thumnailSize'][0];
-				$thumnailSize_height = ($repo['nest']['json']['thumnail']['size'][1]) ? $repo['nest']['json']['thumnail']['size'][1] : $this->set['thumnailSize'][1];
+				$thumbnailSize_width = ($repo['nest']['json']['thumbnail']['size'][0]) ? $repo['nest']['json']['thumbnail']['size'][0] : $this->set['thumbnailSize'][0];
+				$thumbnailSize_height = ($repo['nest']['json']['thumbnail']['size'][1]) ? $repo['nest']['json']['thumbnail']['size'][1] : $this->set['thumbnailSize'][1];
 				?>
-				<dt><label for="thumWidth">썸네일사이즈</label></dt>
+				<dt><label for="thumbWidth">썸네일사이즈</label></dt>
 				<dd>
-					<label><span>가로 :</span> <input type="number" name="thumWidth" id="thumWidth" size="3" min="10" max="999" value="<?=$thumnailSize_width?>"/></label><br/>
-					<label><span>세로 :</span> <input type="number" name="thumHeight" size="3" min="10" max="999" value="<?=$thumnailSize_height?>"/></label>
+					<label><span>가로 :</span> <input type="number" name="thumbWidth" id="thumbWidth" size="3" min="10" max="999" value="<?=$thumbnailSize_width?>"/></label><br/>
+					<label><span>세로 :</span> <input type="number" name="thumbHeight" size="3" min="10" max="999" value="<?=$thumbnailSize_height?>"/></label>
 				</dd>
 			</dl>
 
 			<dl class="gs-webz">
 				<?php
-				$thumType1 = $thumType2 = $thumType3 = $thumType4 = null;
-				if (isset($repo['nest']['json']['thumnail']['type']))
+				$thumbType1 = $thumbType2 = $thumbType3 = $thumbType4 = null;
+				if (isset($repo['nest']['json']['thumbnail']['type']))
 				{
-					$thumType1 = ($repo['nest']['json']['thumnail']['type'] == "crop") ? ' checked = "checked"' : '';
-					$thumType2 = ($repo['nest']['json']['thumnail']['type'] == "resize") ? ' checked = "checked"' : '';
-					$thumType3 = ($repo['nest']['json']['thumnail']['type'] == "resizeWidth") ? ' checked = "checked"' : '';
-					$thumType4 = ($repo['nest']['json']['thumnail']['type'] == "resizeHeight") ? ' checked = "checked"' : '';
+					$thumbType1 = ($repo['nest']['json']['thumbnail']['type'] == "crop") ? ' checked = "checked"' : '';
+					$thumbType2 = ($repo['nest']['json']['thumbnail']['type'] == "resize") ? ' checked = "checked"' : '';
+					$thumbType3 = ($repo['nest']['json']['thumbnail']['type'] == "resizeWidth") ? ' checked = "checked"' : '';
+					$thumbType4 = ($repo['nest']['json']['thumbnail']['type'] == "resizeHeight") ? ' checked = "checked"' : '';
 				}
 				else
 				{
-					$thumType1 = ' checked = "checked"';
+					$thumbType1 = ' checked = "checked"';
 				}
 				?>
-				<dt><label for="thumType">썸네일 축소방식</label></dt>
+				<dt><label for="thumbType">썸네일 축소방식</label></dt>
 				<dd>
-					<label class="dis-ib"><input type="radio" name="thumType" id="thumType" value="crop"<?=$thumType1?>/> <span>자르기</span></label>
+					<label class="dis-ib"><input type="radio" name="thumbType" id="thumbType" value="crop"<?=$thumbType1?>/> <span>자르기</span></label>
 					&nbsp;
-					<label class="dis-ib"><input type="radio" name="thumType" value="resize"<?=$thumType2?>/> <span>리사이즈</span></label>
+					<label class="dis-ib"><input type="radio" name="thumbType" value="resize"<?=$thumbType2?>/> <span>리사이즈</span></label>
 					&nbsp;
-					<label class="dis-ib"><input type="radio" name="thumType" value="resizeWidth"<?=$thumType3?>/> <span>리사이즈(가로기준)</span></label>
+					<label class="dis-ib"><input type="radio" name="thumbType" value="resizeWidth"<?=$thumbType3?>/> <span>리사이즈(가로기준)</span></label>
 					&nbsp;
-					<label class="dis-ib"><input type="radio" name="thumType" value="resizeHeight"<?=$thumType4?>/> <span>리사이즈(세로기준)</span></label>
+					<label class="dis-ib"><input type="radio" name="thumbType" value="resizeHeight"<?=$thumbType4?>/> <span>리사이즈(세로기준)</span></label>
 				</dd>
 			</dl>
 
@@ -245,9 +243,9 @@ $form_action = ($this->param['action'] == 'clone') ? 'create' : $this->param['ac
 				articleSkin : form.articleSkin.value,
 				listCount : (form.listCount) ? parseInt(form.listCount.value) : 15,
 				useCategory : parseInt($(form.useCategory).filter(':checked').val()),
-				thumnail : {
-					size : [parseInt(form.thumWidth.value), parseInt(form.thumHeight.value)],
-					type : $(form.thumType).filter(':checked').val()
+				thumbnail : {
+					size : [parseInt(form.thumbWidth.value), parseInt(form.thumbHeight.value)],
+					type : $(form.thumbType).filter(':checked').val()
 				},
 				articleListType : form.articleListType.value,
 				permission : parseInt(form.permission.value),

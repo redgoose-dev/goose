@@ -91,8 +91,8 @@ button.gs-button {
 }
 
 
-// Headding
-.gs-headding {
+// Heading
+.gs-heading {
 	padding: 5px 80px 5px 10px; position: relative;
 	border-bottom: 1px solid #ccc;
 	h1 {
@@ -439,7 +439,7 @@ em[class^=gs-brk-] {font-style: normal;}
 
 		}
 	}
-	&.thumnail {
+	&.thumbnail {
 		padding: 10px 0;
 		border-bottom: 1px dashed #ddd;
 		li {float: left; padding: 10px 10px; width: 100%;}
@@ -478,31 +478,31 @@ em[class^=gs-brk-] {font-style: normal;}
 
 	@media all and (min-width:480px) {
 		&.card li {}
-		&.thumnail li {width: 33.33%;}
+		&.thumbnail li {width: 33.33%;}
 	}
 	@media all and (min-width:768px) {
 		&.card li {width: 50%;}
-		&.thumnail li {width: 25%;}
+		&.thumbnail li {width: 25%;}
 	}
 	@media all and (min-width:1024px) {
 		&.card li {width: 33.33%;}
-		&.thumnail li {width: 20%;}
+		&.thumbnail li {width: 20%;}
 	}
 	@media all and (min-width:1440px) {
 		&.card li {width: 25%;}
-		&.thumnail li {width: 16.66%;}
+		&.thumbnail li {width: 16.66%;}
 	}
 	@media all and (min-width:1600px) {
 		&.card li {}
-		&.thumnail li {width: 14.28%;}
+		&.thumbnail li {width: 14.28%;}
 	}
 	@media all and (min-width:1920px) {
 		&.card li {width: 20%;}
-		&.thumnail li {width: 12.5%;}
+		&.thumbnail li {width: 12.5%;}
 	}
 	@media all and (min-width:2000px) {
 		&.card li {width: 16.66%;}
-		&.thumnail li {width: 10%;}
+		&.thumbnail li {width: 10%;}
 	}
 
 	.empty {

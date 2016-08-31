@@ -5,10 +5,10 @@ if (!defined('__GOOSE__')) exit();
 <link type="text/css" rel="stylesheet" href="<?=__GOOSE_ROOT__?>/vendor/snippet/jquery.snippet.min.css"/>
 
 <section>
-	<div class="gs-headding">
+	<header class="gs-heading">
 		<h1><?=$repo['json']['name']?></h1>
 		<p><?=Util::convertDate($repo['json']['regdate']).'&nbsp;'.Util::convertTime($repo['json']['regdate'])?></p>
-	</div>
+	</header>
 
 	<!-- body -->
 	<div class="json-code">
