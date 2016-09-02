@@ -52,11 +52,12 @@ jQuery(function($){
 		userData.form.content.value = newContent;
 	};
 
-	// get preview data
-	var getPreviewData = function(complete)
+	// get preview markdown data
+	var getPreviewMarkdownData = function()
 	{
+		var defer = $.Deferred();
 		var req = $.ajax({
-			url : userData.root + '/script/run/markdown_preview/'
+			url : userData.gooseRoot + '/script/run/markdown_preview/'
 			,type : 'post'
 			,data : {
 				title : '...'
@@ -65,8 +66,10 @@ jQuery(function($){
 			}
 		});
 		req.done(function(str){
-			complete(str);
+			defer.resolve(str);
 		});
+
+		return defer.promise();
 	};
 
 	// check thumbnail image
@@ -350,8 +353,9 @@ jQuery(function($){
 			// load preview data
 			if (mode == 'preview' && userData.form.content.value)
 			{
-				var result = getPreviewData(function(result){
-					$target.html(result);
+				var preview = getPreviewMarkdownData();
+				preview.done(function(res){
+					$target.html(res);
 				});
 			}
 		}
