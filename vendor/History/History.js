@@ -1,4 +1,4 @@
-// https://npmcdn.com/history@1.13.1/umd/History.js
+// https://unpkg.com/history@1.13.1/umd/History.js
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
