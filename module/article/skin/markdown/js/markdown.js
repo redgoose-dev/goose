@@ -279,11 +279,9 @@ jQuery(function($){
 						userData.thumbnail_image = res.src;
 
 						// update on class name
-						var $btns = app.queue.$queue.find(classBtnMakeThumbnail);
-						$btns.removeClass('on is-thumbnail');
-						app.queue.selectQueueElement(file.id)
-							.addClass('is-thumbnail')
-							.find(classBtnMakeThumbnail).addClass('on');
+						app.queue.$queue.children().removeClass('is-thumbnail');
+						app.queue.$queue.find(classBtnMakeThumbnail).removeClass('on');
+						app.queue.selectQueueElement(file.id).find(classBtnMakeThumbnail).addClass('on');
 
 						// set thumbnail data
 						var croppie = app.plugin.child.thumbnail.croppie.get();
