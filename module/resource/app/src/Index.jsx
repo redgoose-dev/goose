@@ -88,7 +88,7 @@ var Index = React.createClass({
 				// make index
 				index = this.state.items.map((o, k) => {
 					let css_figure = {
-						backgroundImage : 'url(\'' + this.props.userData.url_gooseAdmin + '/' + o.json.thumnail.url + '\')'
+						backgroundImage : 'url(\'' + this.props.userData.url_gooseAdmin + '/' + o.json.thumbnail.url + '\')'
 					};
 
 					return (
