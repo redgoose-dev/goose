@@ -1,0 +1,15 @@
+{
+	"name" : "File",
+	"title" : "File",
+	"description" : "첨부된 파일들의 목록입니다.",
+	"permission" : 0,
+	"adminPermission" : 100,
+	"install" : true,
+	"skin" : "default",
+	"pagePerCount" : 30,
+	"upPath_upload" : "data/upload",
+	"upPath_original" : "data/upload/original",
+	"upPath_make" : "data/upload/make",
+	"limitFileSize" : 3000000,
+	"allowFileType" : ["jpg", "jpeg", "png", "gif", "txt", "pdf", "zip"]
+}
