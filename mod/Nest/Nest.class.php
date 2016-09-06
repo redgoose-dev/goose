@@ -6,24 +6,13 @@ if (!defined('__GOOSE__')) exit();
 
 class Nest {
 
-	public $name, $goose, $layout, $param, $set, $isAdmin;
-	public $repo;
+	public $name, $params, $set, $isAdmin;
 	public $path, $skinAddr, $skinPath;
 	public $app_srl, $nest_srl;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=[])
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
 		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
 		$this->skinPath = $this->path . 'skin/' . $this->set['skin'] . '/';
@@ -34,10 +23,10 @@ class Nest {
 	 */
 	public function index()
 	{
-		if ($this->param['method'] == 'POST')
+		if ($this->params['method'] == 'POST')
 		{
 			$result = null;
-			switch($this->param['action'])
+			switch($this->params['action'])
 			{
 				case 'create':
 					$result = $this->transaction('create', $_POST);
@@ -54,19 +43,25 @@ class Nest {
 		else
 		{
 			$view = new View($this);
-			$view->index();
-		}
-	}
 
-	/**
-	 * check admin
-	 */
-	private function checkAdmin()
-	{
-		if (!$this->isAdmin)
-		{
-			core\Util::back('권한이 없습니다.');
-			core\Goose::end();
+			switch($this->params['action'])
+			{
+				case 'create':
+					$view->view_create();
+					break;
+				case 'modify':
+					$view->view_modify();
+					break;
+				case 'clone':
+					$view->view_modify();
+					break;
+				case 'remove':
+					$view->view_remove();
+					break;
+				default:
+					$view->view_index();
+					break;
+			}
 		}
 	}
 
@@ -112,11 +107,11 @@ class Nest {
 		}
 
 		// check exist file
-		$path = __GOOSE_PWD__.$this->path.'skin/';
+		$path = __GOOSE_PWD__ . $this->path . 'skin/';
 		$loc = core\Util::isFile([
-			$path.$post['nestSkin'].'/transaction-'.$method.'.php',
-			$path.$this->set['skin'].'/transaction-'.$method.'.php',
-			$path.'default/transaction-'.$method.'.php'
+			$path . $post['nestSkin'] . '/transaction-' . $method . '.php',
+			$path . $this->set['skin'] . '/transaction-' . $method . '.php',
+			$path . 'default/transaction-' . $method . '.php'
 		]);
 
 		if ($loc)

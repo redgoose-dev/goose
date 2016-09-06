@@ -9,7 +9,7 @@ if (!defined('__GOOSE__')) exit();
 // remove article data
 if ($post['delete_article'])
 {
-	$file = core\Module::load('File');
+	$file = new mod\File\File();
 	// TODO : Article 모듈 작업 끝내면 작업하기
 //	// remove attach files
 //	$articles = core\Spawn::items([
@@ -39,6 +39,7 @@ if ($post['delete_article'])
 //		'debug' => false
 //	]);
 }
+exit;
 
 
 // remove category data
@@ -51,7 +52,7 @@ $result = core\Spawn::delete([
 // remove nest data
 $result = core\Spawn::delete([
 	'table' => core\Spawn::getTableName('nest'),
-	'where' => 'srl='.(int)$post['nest_srl']
+	'where' => 'srl=' . (int)$post['nest_srl']
 ]);
 if ($result != 'success')
 {
@@ -64,8 +65,8 @@ if ($result != 'success')
 
 
 // redirect url
-$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
-$redirectUrl = __GOOSE_ROOT__ . '/Nest/index/' . $params;
+$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'] . '/' : '';
+$redirectUrl = __GOOSE_ROOT__ . '/' . $this->name . '/index/' . $params;
 
 return [
 	'state' => 'success',

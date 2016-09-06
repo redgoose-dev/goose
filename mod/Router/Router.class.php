@@ -1,26 +1,16 @@
 <?php
 namespace mod\Router;
-use core;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
 class Router {
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
-		$this->match = null;
+		core\Module::initModule($this, $params);
 
+		$this->match = null;
 		$this->route = new AltoRouter();
 	}
 
@@ -33,7 +23,6 @@ class Router {
 	public function init($pwd_map, $accessLevel)
 	{
 		$this->route->setBasePath(preg_replace('/\/$/', '', __GOOSE_ROOT__));
-
 		require_once(core\Util::checkUserFile($pwd_map));
 		$this->match = $this->route->match();
 
@@ -44,37 +33,41 @@ class Router {
 			$_method = $_SERVER['REQUEST_METHOD'];
 
 			// check access level
-			$auth = core\Module::load('Auth', [
+			$auth = new mod\Auth\Auth([
 				'action' => $_action,
 				'method' => $_method
 			]);
 			$auth->auth($accessLevel['login']);
 
-			// load module
+			// set module name
 			$modName = ($_module) ? $_module : $this->set['basicModule'];
-			$baseModule = core\Module::load(
-				$modName,
-				array(
-					'action' => $_action,
-					'method' => $_method,
-					'params' => array(
-						$this->match['params']['param0'],
-						$this->match['params']['param1'],
-						$this->match['params']['param2'],
-						$this->match['params']['param3']
-					)
-				)
-			);
+			$modAddr = 'mod\\' . $modName . '\\' . $modName;
+
+			// check exists module
+			if (!class_exists($modAddr))
+			{
+				core\Goose::error(101, 'not found module `' . $modName . '`');
+			}
+
+			// init class
+			$baseModule = new $modAddr([
+				'action' => $_action,
+				'method' => $_method,
+				'params' => [
+					$this->match['params']['param0'],
+					$this->match['params']['param1'],
+					$this->match['params']['param2'],
+					$this->match['params']['param3']
+				]
+			]);
 
 			// check module
-			if ($baseModule->state == 'error') core\Goose::error(403, $baseModule->message);
 			if (!$baseModule) core\Goose::error(101, 'module error');
-			if (is_array($baseModule) && $baseModule['state'] == 'error') core\Goose::error(101, $baseModule['message']);
 
 			// check index method
-			if (!method_exists($baseModule, 'index')) core\Goose::error(101, $modName . '모듈의 index()메서드가 없습니다.');
+			if (!method_exists($baseModule, 'index')) core\Goose::error(101, '`' . $modName . '` 모듈의 index()메서드가 없습니다.');
 
-			// index module
+			// play index module
 			if (method_exists($baseModule, 'index')) $baseModule->index();
 		}
 		else

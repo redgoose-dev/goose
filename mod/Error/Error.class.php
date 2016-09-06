@@ -1,5 +1,6 @@
 <?php
 namespace mod\Error;
+use core, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
@@ -8,19 +9,9 @@ class Error {
 	public $goose, $param, $set, $name, $layout, $isAdmin, $method;
 	public $path, $skinPath, $pwd_container;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
 		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
 	}

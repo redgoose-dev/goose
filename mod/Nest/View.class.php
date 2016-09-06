@@ -4,43 +4,17 @@ use mod, core, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
-class View
-{
-	public $name, $parent;
+class View {
 
-	const FILE_INDEX = 'index';
-	const FILE_FORM = 'form';
-	const FILE_REMOVE = 'remove';
+	public $parent;
 
 	public function __construct($parent)
 	{
 		$this->name = 'View';
 		$this->parent = $parent;
-	}
 
-	/**
-	 * index
-	 */
-	public function index()
-	{
-		switch($this->parent->param['action'])
-		{
-			case 'create':
-				$this->view_create();
-				break;
-			case 'modify':
-				$this->view_modify();
-				break;
-			case 'clone':
-				$this->view_modify();
-				break;
-			case 'remove':
-				$this->view_remove();
-				break;
-			default:
-				$this->view_index();
-				break;
-		}
+		// set blade class
+		$this->blade = new core\Blade();
 	}
 
 
@@ -65,9 +39,9 @@ class View
 	/**
 	 * view - index
 	 */
-	private function view_index()
+	public function view_index()
 	{
-		$app_srl = ($this->parent->param['params'][0]) ? (int)$this->parent->param['params'][0] : null;
+		$app_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
 
 		// set session
 		if ($app_srl)
@@ -79,9 +53,11 @@ class View
 			unset($_SESSION['app_srl']);
 		}
 
-		// act render
-		$this->render(self::FILE_INDEX, null, [
-			'root' => __GOOSE_ROOT__,
+		// set skin path
+		$this->setSkinPath('index');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.index', [
 			'mod' => $this->parent,
 			'repo' => new stdClass(),
 			'app_srl' => $app_srl
@@ -91,17 +67,19 @@ class View
 	/**
 	 * view - create
 	 */
-	private function view_create()
+	public function view_create()
 	{
 		// check permission
 		$this->checkAdmin();
 
-		// act render
-		$this->render(self::FILE_FORM, null, [
-			'root' => __GOOSE_ROOT__,
+		// set skin path
+		$this->setSkinPath('form');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
 			'mod' => $this->parent,
 			'repo' => new stdClass(),
-			'action' => ($this->parent->param['action'] == 'clone') ? 'create' : $this->parent->param['action'],
+			'action' => ($this->parent->params['action'] == 'clone') ? 'create' : $this->parent->params['action'],
 			'titleType' => '만들기',
 			'article' => core\Module::load('Article'),
 			'nowSkin' => $_GET['skin']
@@ -111,15 +89,15 @@ class View
 	/**
 	 * view - modify
 	 */
-	private function view_modify()
+	public function view_modify()
 	{
 		// set nest srl
-		if (!isset($this->parent->param['params'][0]))
+		if (!isset($this->parent->params['params'][0]))
 		{
 			core\Util::back('not found `$nest_srl`');
 			core\Goose::end();
 		}
-		$this->parent->nest_srl = (int)$this->parent->param['params'][0];
+		$this->parent->nest_srl = (int)$this->parent->params['params'][0];
 
 		// set repo
 		$repo = new stdClass();
@@ -128,6 +106,7 @@ class View
 			'where' => 'srl='.$this->parent->nest_srl
 		]);
 
+		// get article skins
 		$repo->articleSkins = core\Util::getDir(__GOOSE_PWD__.'mod/Article/skin/');
 
 		// convert json to array
@@ -138,7 +117,7 @@ class View
 
 		// set nest skin message
 		$nestSkinMessage = null;
-		if (!file_exists(__GOOSE_PWD__.$this->parent->path.'skin/'.$repo->nest['json']['nestSkin'].'/'.self::FILE_FORM.'.blade.php'))
+		if (!file_exists(__GOOSE_PWD__.$this->parent->path.'skin/'.$repo->nest['json']['nestSkin'].'/form.blade.php'))
 		{
 			$nestSkinMessage = ''.$repo->nest['json']['nestSkin'].']스킨 페이지가 없으므로 ['.$this->parent->set['skin'].']스킨으로 출력합니다.';
 		}
@@ -157,12 +136,14 @@ class View
 			'no' => ($repo->nest['json']['useCategory']) ? '' : 'checked'
 		];
 
-		// act render
-		$this->render(self::FILE_FORM, $repo->nest['json']['nestSkin'], [
-			'root' => __GOOSE_ROOT__,
+		// set skin path
+		$this->setSkinPath('form', $repo->nest['json']['nestSkin']);
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
 			'mod' => $this->parent,
 			'repo' => $repo,
-			'action' => ($this->parent->param['action'] == 'clone') ? 'create' : $this->parent->param['action'],
+			'action' => ($this->parent->params['action'] == 'clone') ? 'create' : $this->parent->params['action'],
 			'titleType' => '수정',
 			'article' => core\Module::load('Article'),
 			'nowSkin' => $nowSkin,
@@ -174,15 +155,15 @@ class View
 	/**
 	 * view - remove
 	 */
-	private function view_remove()
+	public function view_remove()
 	{
 		// set nest srl
-		if (!isset($this->parent->param['params'][0]))
+		if (!isset($this->parent->params['params'][0]))
 		{
 			core\Util::back('not found `$nest_srl`');
 			core\Goose::end();
 		}
-		$this->parent->nest_srl = (int)$this->parent->param['params'][0];
+		$this->parent->nest_srl = (int)$this->parent->params['params'][0];
 
 		// set repo
 		$repo = new stdClass();
@@ -204,34 +185,28 @@ class View
 		// check permission
 		$this->checkAdmin($repo->nest['json']['permission2']);
 
-		// act render
-		$this->render(self::FILE_REMOVE, $repo->nest['json']['nestSkin'], [
-			'root' => __GOOSE_ROOT__,
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.remove', [
 			'mod' => $this->parent,
 			'repo' => $repo,
-			'action' => $this->parent->param['action'],
+			'action' => $this->parent->params['action'],
 			'titleType' => '삭제',
 			'article' => core\Module::load('Article')
 		]);
 	}
 
 	/**
-	 * render
+	 * set skin path
 	 *
 	 * @param string $type
-	 * @param string $skin
-	 * @param array $data
+	 * @param string $userSkin
 	 */
-	private function render($type, $skin=null, $data)
+	private function setSkinPath($type, $userSkin=null)
 	{
-		// set layout
-		$layout = core\Module::load('Layout');
-		$data['layout'] = $layout;
-
 		// check blade file
 		$bladeResult = core\Blade::isFile(__GOOSE_PWD__ . 'mod', $type, [
 			$this->parent->name . '.skin.' . $_GET['skin'],
-			$this->parent->name . '.skin.' . $skin,
+			$this->parent->name . '.skin.' . $userSkin,
 			$this->parent->name . '.skin.' . $this->parent->set['skin'],
 			$this->parent->name . '.skin.default'
 		]);
@@ -239,11 +214,5 @@ class View
 		// set blade and file path
 		$this->parent->skinAddr = $bladeResult['address'];
 		$this->parent->skinPath = 'mod/' . $bladeResult['path'] . '/';
-
-		// render page
-		echo $this->parent->goose->blade->run(
-			$this->parent->skinAddr . '.' . $type,
-			$data
-		);
 	}
 }

@@ -1,8 +1,18 @@
 <?php
 namespace core;
+use eftec\bladeone, mod;
 
 
 class Blade {
+
+	function __construct()
+	{
+		// check blade class
+		self::checkBladeOne();
+
+		// make blade instance
+		$this->blade = new bladeone\BladeOne(BLADE_VIEW, BLADE_CACHE);
+	}
 
 	/**
 	 * check is blade file
@@ -27,6 +37,38 @@ class Blade {
 			}
 		}
 		return [ 'path' => null, 'address' => null ];
+	}
+
+	/**
+	 * check BladeOne class
+	 */
+	private static function checkBladeOne()
+	{
+		if (!class_exists('eftec\bladeone\BladeOne'))
+		{
+			include __GOOSE_PWD__ . "vendor/BladeOne/BladeOne.php";
+		}
+		if (!class_exists('eftec\bladeone\BladeOne'))
+		{
+			Goose::error(101, 'can not load blade class');
+		}
+	}
+
+	/**
+	 * render
+	 *
+	 * @param string $path
+	 * @param array $data
+	 */
+	public function render($path, $data)
+	{
+		// set layout
+		$layout = new mod\Layout\Layout();
+		$data['layout'] = $layout;
+		$data['root'] = __GOOSE_ROOT__;
+
+		// render page
+		echo $this->blade->run($path, $data);
 	}
 
 }

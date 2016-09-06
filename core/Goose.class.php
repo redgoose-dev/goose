@@ -1,7 +1,6 @@
 <?php
-
 namespace core;
-use eftec\bladeone;
+use mod;
 
 
 /**
@@ -10,12 +9,11 @@ use eftec\bladeone;
  * @property boolean $isAdmin 관리자인지에 대한 값
  * @property array $modules
  * @property Spawn $spawn
- * @property object $blade
  */
 class Goose {
 
 	// set variables
-	public $modules, $spawn, $blade;
+	public $modules, $spawn;
 
 
 	/**
@@ -26,9 +24,6 @@ class Goose {
 	{
 		// get install modules
 		$this->modules = Module::getInstallModule();
-
-		// init blade template
-		self::initBlade();
 	}
 
 	/**
@@ -95,7 +90,7 @@ class Goose {
 	 */
 	public static function error($code=null, $msg=null, $url_home=__GOOSE_ROOT__)
 	{
-		$error = Module::load('error');
+		$error = new mod\Error\Error();
 		$url_home .= (preg_match('/\/$/', $url_home)) ? '' : '/';
 
 		// act error
@@ -133,9 +128,4 @@ class Goose {
 		$error->box($code, $msg);
 	}
 
-	private function initBlade()
-	{
-		include __GOOSE_PWD__ . "vendor/BladeOne/BladeOne.php";
-		$this->blade = new bladeone\BladeOne(BLADE_VIEW, BLADE_CACHE);
-	}
 }

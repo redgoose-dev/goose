@@ -1,27 +1,21 @@
 <?php
 namespace mod\Intro;
+use core, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
 class Intro {
 
-	public $name, $param, $set, $layout;
-	public $path, $view;
+	public $name, $param, $set, $layout, $path;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=[])
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
+		// set blade class
+		$this->blade = new core\Blade();
+
+		// set skin path
 		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
 		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
 	}
@@ -31,8 +25,11 @@ class Intro {
 	 */
 	public function index()
 	{
-		$this->view = new View();
-		$this->view->render($this);
+		// play render page
+		$this->blade->render($this->skinAddr . '.index', [
+			'mod' => $this,
+			'repo' => new stdClass()
+		]);
 	}
 
 }

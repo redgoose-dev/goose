@@ -1,34 +1,20 @@
 <?php
-
 namespace mod\App;
-use Core\Goose;
-use Core\Module;
-use Core\Util;
-use Core\Spawn;
-
+use core;
 if (!defined('__GOOSE__')) exit();
 
 
 class App {
 
-	public $goose, $param, $set, $name, $layout, $isAdmin, $method;
-	public $path, $skinPath, $pwd_container;
+	public $name, $params, $set, $isAdmin, $path;
+	public $skinPath, $skinAddr;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
+		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
+		$this->skinPath = $this->path . 'skin/' . $this->set['skin'] . '/';
 	}
 
 	/**
@@ -36,10 +22,10 @@ class App {
 	 */
 	public function index()
 	{
-		if ($this->param['method'] == 'POST')
+		if ($this->params['method'] == 'POST')
 		{
 			$result = null;
-			switch($this->param['action'])
+			switch($this->params['action'])
 			{
 				case 'create':
 					$result = $this->transaction('create', $_POST);
@@ -51,15 +37,26 @@ class App {
 					$result = $this->transaction('remove', $_POST);
 					break;
 			}
-			if ($result) Module::afterAction($result);
-
-			Goose::end();
+			if ($result) core\Module::afterAction($result);
 		}
 		else
 		{
-			require_once(__GOOSE_PWD__.$this->path.'view.class.php');
 			$view = new View($this);
-			$view->render();
+
+			switch ($this->params['action']) {
+				case 'create':
+					$view->view_create();
+					break;
+				case 'modify':
+					$view->view_modify();
+					break;
+				case 'remove':
+					$view->view_remove();
+					break;
+				default:
+					$view->view_index();
+					break;
+			}
 		}
 	}
 
@@ -69,87 +66,19 @@ class App {
 	 *********************************************/
 
 	/**
-	 * api - get count
-	 *
-	 * @param array $getParams
-	 * @return array
-	 */
-	public function getCount($getParams=null)
-	{
-		if ($this->name != 'app') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-
-		// set original parameter
-		$originalParam = array('table' => Spawn::getTableName($this->name));
-
-		// get data
-		$data = Spawn::count(Util::extendArray($originalParam, $getParams));
-
-		// return data
-		return array( 'state' => 'success', 'data' => $data );
-	}
-
-	/**
-	 * get data index
-	 *
-	 * @param array $getParams
-	 * @return array|null
-	 */
-	public function getItems($getParams=null)
-	{
-		if ($this->name != 'app') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-
-		// set original parameter
-		$originalParam = array(
-			'table' => Spawn::getTableName($this->name),
-			'order' => 'srl',
-			'sort' => 'desc'
-		);
-
-		// get data
-		$data = Spawn::items(Util::extendArray($originalParam, $getParams));
-		if (!count($data)) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
-
-		// return data
-		return array( 'state' => 'success', 'data' => $data );
-	}
-
-	/**
-	 * get data item
-	 *
-	 * @param array $getParam
-	 * @return array|null
-	 */
-	public function getItem($getParam=array())
-	{
-		if ($this->name != 'app') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-
-		// set original parameter
-		$originalParam = array( 'table' => Spawn::getTableName($this->name) );
-
-		// get data
-		$data = Spawn::item(Util::extendArray($originalParam, $getParam));
-
-		// check data
-		if (!$data) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
-
-		// return data
-		return array( 'state' => 'success', 'data' => $data );
-	}
-
-	/**
 	 * api - transaction
 	 *
 	 * @param string $method
 	 * @param array $post
 	 * @return array
 	 */
-	public function transaction($method, $post=array())
+	public function transaction($method, $post=[])
 	{
-		if (!$method) return array('state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.');
-		if ($this->name != 'app') return array('state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.');
-		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
+		if (!$method) return [ 'state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.' ];
+		if ($this->name != 'App') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if (!$this->isAdmin) return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
 
-		$loc = __GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php';
+		$loc = __GOOSE_PWD__ . $this->skinPath . 'transaction-'.$method.'.php';
 
 		if (file_exists($loc))
 		{
@@ -157,11 +86,11 @@ class App {
 		}
 		else
 		{
-			return array(
+			return [
 				'state' => 'error',
 				'action' => 'back',
 				'message' => '처리파일이 없습니다.'
-			);
+			];
 		}
 	}
 
@@ -178,12 +107,12 @@ class App {
 	 */
 	public function install($installData)
 	{
-		$query = Spawn::arrayToCreateTableQuery(array(
-			'tableName' => Spawn::getTableName($this->name),
+		$query = core\Spawn::arrayToCreateTableQuery([
+			'tableName' => core\Spawn::getTableName($this->name),
 			'fields' => $installData
-		));
+		]);
 
-		return Spawn::action($query);
+		return core\Spawn::action($query);
 	}
 
 }

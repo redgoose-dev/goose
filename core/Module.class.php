@@ -65,85 +65,81 @@ class Module {
 	/**
 	 * get module
 	 *
-	 * @param string $moduleName
-	 * @param array $params 라우트 정보를 가지고 있다.
-	 * @param boolean $install 인스톨용으로 사용되는 모듈인지에 대한 여부
-	 * @return array
+	 * @param string $modName
+	 * @param array $params custom parameter
+	 * @return object
 	 */
-	public static function load($moduleName, $params=null, $install=false)
+	public static function load($modName, $params=null)
+	{
+		// set namespace
+		$modAddr = 'mod\\' . $modName . '\\' . $modName;
+
+		// check class
+		if (!class_exists($modAddr))
+		{
+			Goose::error(101, 'not found module `' . $modName . '`');
+		}
+
+		// init class
+		$resultModule = new $modAddr($params);
+
+		return $resultModule;
+	}
+
+	/**
+	 * initial module
+	 *
+	 * @param object $instance
+	 * @param array $params
+	 * @param boolean $install
+	 * @return null
+	 */
+	public static function initModule($instance, $params=null, $install=false)
 	{
 		global $goose;
 
-		$existModule = self::existModule($moduleName);
+		// set name
+		$instance->name = (new \ReflectionClass($instance))->getShortName();
+
+		// set path
+		$existModule = self::existModule($instance->name);
 		if ($existModule['state'] == 'error')
 		{
-			return $existModule;
+			Goose::error(403, $existModule['message']);
 		}
 		else
 		{
-			$pwd = $existModule['pwd'];
-			$path = $existModule['path'];
+			$instance->pwd = $existModule['pwd'];
+			$instance->path = $existModule['path'];
 		};
 
 		// set setting data
-		$settings = Module::getSetting($moduleName);
-		if (!$settings || !is_array($settings))
+		$instance->set = Module::getSetting($instance->name);
+		if (!$instance->set || !is_array($instance->set))
 		{
-			return [
-				'state' => 'error',
-				'message' => '['.$moduleName.'] setting.json파일이 없습니다.'
-			];
+			Goose::error(403, '[' . $instance->name . '] setting.json파일이 없습니다.');
 		}
 
-		// set module class path
-		$pwd_class = Util::checkUserFile($pwd.$moduleName.'.class.php');
-
-		if ($pwd_class)
+		// check install
+		if (($instance->set['install'] && !in_array($instance->name, $goose->modules)) && !$install)
 		{
-			// check install
-			if (($settings['install'] && !in_array($moduleName, $goose->modules)) && !$install)
-			{
-				return [
-					'state' => 'error',
-					'message' => '['.$moduleName.'] 인스톨이 필요한 모듈입니다.'
-				];
-			}
-
-			// check permission
-			if (($settings['permission'] && $settings['permission'] > $_SESSION['goose_level']) && !$goose->isAdmin)
-			{
-				return [
-					'state' => 'error',
-					'message' => '['.$moduleName.'] 접근 권한이 없습니다.'
-				];
-			}
-
-			// set module class
-			$settings['skin'] = ($settings['skin']) ? $settings['skin'] : 'default';
-
-			// make temp module
-			$moduleName = '\\' . self::MOD_DIR . '\\' . $moduleName . '\\' . $moduleName;
-
-			//echo "<p>$moduleName</p>";
-			$tmpModule =  new $moduleName([
-				'name' => $settings['name'],
-				'path' => $path,
-				'set' => $settings,
-				'goose' => $goose,
-				'isAdmin' => (($settings['adminPermission'] <= $_SESSION['goose_level']) || $goose->isAdmin) ? true : false,
-				'param' => ($params) ? $params : []
-			]);
-
-			// return module
-			return $tmpModule;
+			Goose::error(403, '[' . $instance->name . '] 인스톨이 필요한 모듈입니다.');
 		}
-		else
+
+		// check permission
+		if (($instance->set['permission'] && $instance->set['permission'] > $_SESSION['goose_level']) && !$goose->isAdmin)
 		{
-			return [
-				'state' => 'error',
-				'message' => '['.$moduleName.'] 정상적인 모듈이 아닙니다.'
-			];
+			Goose::error(403, '[' . $instance->name . '] 접근 권한이 없습니다.');
 		}
+
+		// set module class
+		$instance->set['skin'] = ($instance->set['skin']) ? $instance->set['skin'] : 'default';
+
+		// set isAdmin
+		$instance->isAdmin = (($instance->set['adminPermission'] <= $_SESSION['goose_level']) || $goose->isAdmin) ? true : false;
+
+		// set route
+		$instance->params = $params;
 	}
 
 	/**

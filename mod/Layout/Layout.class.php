@@ -6,19 +6,11 @@ if (!defined('__GOOSE__')) exit();
 
 class Layout {
 
-	public $set;
-	public $path, $skinPath;
+	public $set, $path, $params, $skinPath;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=[])
+	public function __construct($params=null)
 	{
-		$this->name = $getter['name'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
 		$this->skinAddr = 'Layout.skin.' . $this->set['skin'];
 		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';

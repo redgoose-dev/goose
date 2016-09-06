@@ -1,7 +1,9 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
-var_dump('asdasd');
+/** @var array $post */
+
+
 // check post
 $errorValue = core\Util::checkExistValue($post, [ 'name', 'id', 'json' ]);
 if ($errorValue)
@@ -9,16 +11,16 @@ if ($errorValue)
 	return [
 		'state' => 'error',
 		'action' => 'back',
-		'message' => "[$errorValue]값이 없습니다."
+		'message' => '[' . $errorValue . ']값이 없습니다.'
 	];
 }
 
 
 // 아이디값 중복 확인
-$cnt = core\Spawn::count(array(
+$cnt = core\Spawn::count([
 	'table' => core\Spawn::getTableName('nest'),
 	'where' => "id='$post[id]'"
-));
+]);
 if ($cnt > 0)
 {
 	return [
@@ -52,9 +54,9 @@ if ($result != 'success')
 
 
 // redirect url
-$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '';
+$params = ($_SESSION['app_srl']) ? $_SESSION['app_srl'] . '/' : '';
 return [
 	'state' => 'success',
 	'action' => 'redirect',
-	'url' => __GOOSE_ROOT__.'/Nest/index/'.$params
+	'url' => __GOOSE_ROOT__ . '/' . $this->name . '/index/' . $params
 ];

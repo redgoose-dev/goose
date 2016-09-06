@@ -31,7 +31,7 @@ require_once ('autoload.php');
 
 // init blade
 define( 'BLADE_CACHE', __GOOSE_PWD__ . 'data/cache' );
-define( 'BLADE_VIEW', __GOOSE_PWD__ . 'MOD' );
+define( 'BLADE_VIEW', __GOOSE_PWD__ . 'mod' );
 define( 'BLADEONE_MODE', 1);
 
 
@@ -66,8 +66,8 @@ if ($goose->isInstalled())
 	$goose->isAdmin = ($accessLevel['admin'] == $_SESSION['goose_level']) ? true : false;
 
 	// act router module
-	$router = core\Module::load('Router');
-	$router->init(__GOOSE_PWD__.$router->path.'map.php', $accessLevel);
+	$router = new mod\Router\Router();
+	$router->init($router->pwd.'map.php', $accessLevel);
 }
 else
 {
@@ -75,26 +75,15 @@ else
 	define('__dbPrefix__', ($_POST['dbPrefix']) ? $_POST['dbPrefix'] : null);
 
 	// load install module
-	$install = core\Module::load('Install');
+	$install = new mod\Install\Install();
 
-	if ($install->name == 'install')
+	if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
-		if ($_SERVER['REQUEST_METHOD'] == 'POST')
-		{
-			$install->transaction();
-		}
-		else
-		{
-			$install->form();
-		}
-	}
-	else if ($install['state'] == 'error')
-	{
-		core\Goose::error(101, $install['message']);
+		$install->transaction();
 	}
 	else
 	{
-		core\Goose::error(101, 'module error');
+		$install->form();
 	}
 }
 

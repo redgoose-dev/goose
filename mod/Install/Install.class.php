@@ -1,26 +1,16 @@
 <?php
 namespace mod\Install;
-use core;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
 class Install {
 
-	public $path, $set, $skinPath;
+	public $name, $path, $set, $skinPath;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
 		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
 	}
@@ -28,7 +18,6 @@ class Install {
 	/**
 	 * form
 	 * 인스톨 폼 출력
-	 *
 	 */
 	public function form()
 	{
@@ -39,7 +28,6 @@ class Install {
 	/**
 	 * transaction
 	 * 인스톨 처리
-	 *
 	 */
 	public function transaction()
 	{

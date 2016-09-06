@@ -8,18 +8,12 @@ if (!defined('__GOOSE__')) exit();
 
 class Auth {
 
-	public $goose, $set, $layout;
-	public $skinPath, $skinAddr, $path;
-	public $message;
+	public $name, $set, $path, $params;
+	public $skinPath, $skinAddr, $message;
 
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
 		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
 		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
@@ -30,10 +24,10 @@ class Auth {
 	 */
 	public function index()
 	{
-		switch($this->param['action'])
+		switch($this->params['action'])
 		{
 			case "login":
-				if ($this->param['method'] == 'POST')
+				if ($this->params['method'] == 'POST')
 				{
 					$this->login($_POST['email'], $_POST['password'], $_POST['redir']);
 				}
@@ -56,13 +50,13 @@ class Auth {
 	 */
 	public function auth($level=0)
 	{
-		if ($this->param['action'] == 'logout')
+		if ($this->params['action'] == 'logout')
 		{
 			self::index();
 		}
 		else if ($level && ($level > $_SESSION['goose_level']))
 		{
-			$this->param['action'] = 'login';
+			$this->params['action'] = 'login';
 			if ($level && $_SESSION['goose_level'])
 			{
 				$this->message['headDescription'] = '접근 권한이 없습니다.';
@@ -77,7 +71,8 @@ class Auth {
 	 */
 	public function loginForm()
 	{
-		global $goose;
+		// set blade class
+		$blade = new core\Blade();
 
 		// create layout module
 		$layout = core\Module::load('Layout');
@@ -93,16 +88,13 @@ class Auth {
 			'description' => $this->message['headDescription']
 		];
 
-		// render page
-		echo $goose->blade->run(
-			$this->skinAddr . '.form', [
-				'root' => __GOOSE_ROOT__,
-				'layout' => $layout,
-				'util' => new core\Util(),
-				'user' => $user,
-				'head' => $head
-			]
-		);
+		$blade->render($this->skinAddr . '.form', [
+			'root' => __GOOSE_ROOT__,
+			'layout' => $layout,
+			'util' => new core\Util(),
+			'user' => $user,
+			'head' => $head
+		]);
 	}
 
 	/**

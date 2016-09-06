@@ -5,7 +5,7 @@
 	@if ($description)
 		<p>{{ $description }}</p>
 	@endif
-	@if ($mod->isAdmin)
+	@if ($mod->isAdmin && $isHeadNavigation)
 		<nav>
 			<a href="{{ $root }}/Help/{{ $mod->name }}/" class="help" title="go to help">
 				<i class="material-icons">help</i>
