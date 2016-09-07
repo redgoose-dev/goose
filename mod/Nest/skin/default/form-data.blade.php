@@ -12,7 +12,7 @@ if (!defined('__GOOSE__')) exit();
  * if the form file brings the skin
  *
  * @param array $skins
- * @param object $mod
+ * @param string $path
  * @return array
  */
 function getSkinNames($skins, $path)

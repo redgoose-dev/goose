@@ -43,13 +43,10 @@ function getNests($app_srl=null)
 {
 	$result = core\Spawn::items([
 		'table' => core\Spawn::getTableName('nest'),
-		'where' => ($app_srl) ? 'app_srl='.$app_srl : ''
+		'where' => ($app_srl) ? 'app_srl='.$app_srl : '',
+		'jsonField' => ['json']
 	]);
 
-	foreach ($result as $k=>$v)
-	{
-		$result[$k]['json'] = core\Util::jsonToArray($v['json'], null, true);
-	}
 	foreach ($result as $k=>$v)
 	{
 		// get count of article

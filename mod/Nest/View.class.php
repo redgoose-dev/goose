@@ -103,14 +103,12 @@ class View {
 		$repo = new stdClass();
 		$repo->nest = core\Spawn::item([
 			'table' => core\Spawn::getTableName('nest'),
-			'where' => 'srl='.$this->parent->nest_srl
+			'where' => 'srl='.$this->parent->nest_srl,
+			'jsonField' => ['json']
 		]);
 
 		// get article skins
 		$repo->articleSkins = core\Util::getDir(__GOOSE_PWD__.'mod/Article/skin/');
-
-		// convert json to array
-		$repo->nest['json'] = core\Util::jsonToArray($repo->nest['json'], null, true);
 
 		// check permission
 		$this->checkAdmin($repo->nest['json']['permission2']);
@@ -169,11 +167,9 @@ class View {
 		$repo = new stdClass();
 		$repo->nest = core\Spawn::item([
 			'table' => core\Spawn::getTableName('nest'),
-			'where' => 'srl='.$this->parent->nest_srl
+			'where' => 'srl='.$this->parent->nest_srl,
+			'jsonField' => ['json']
 		]);
-
-		// convert json to array
-		$repo->nest['json'] = core\Util::jsonToArray($repo->nest['json'], null, true);
 
 		// check nest data
 		if (!isset($repo->nest['srl']))

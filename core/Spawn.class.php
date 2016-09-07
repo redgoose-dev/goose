@@ -254,11 +254,19 @@ class Spawn {
 			$qry = $goose->spawn->db->query($query);
 			if ($qry)
 			{
-				return $qry->fetchAll(PDO::FETCH_ASSOC);
+				$result = $qry->fetchAll(PDO::FETCH_ASSOC);
+				if ($data['jsonField'] && count($data['jsonField']))
+				{
+					foreach ($result as $k=>$v)
+					{
+						$result[$k] = self::convertJsonToArray($v, $data['jsonField']);
+					}
+				}
+				return $result;
 			}
 			else
 			{
-				return false;
+				return [];
 			}
 		}
 	}
@@ -286,11 +294,16 @@ class Spawn {
 			$qry = $goose->spawn->db->query($query);
 			if ($qry)
 			{
-				return $qry->fetch(PDO::FETCH_ASSOC);
+				$result = $qry->fetch(PDO::FETCH_ASSOC);
+				if ($data['jsonField'] && count($data['jsonField']))
+				{
+					$result = self::convertJsonToArray($result, $data['jsonField']);
+				}
+				return $result;
 			}
 			else
 			{
-				return null;
+				return [];
 			}
 		}
 	}
@@ -382,5 +395,22 @@ class Spawn {
 	{
 		global $goose;
 		return $goose->spawn->db->lastInsertId();
+	}
+
+	/**
+	 * convert json to array
+	 *
+	 * @param array $item
+	 * @param array $fields
+	 * @return array
+	 */
+	private static function convertJsonToArray($item, $fields)
+	{
+		foreach ($fields as $k=>$v)
+		{
+			$item[$v] = Util::jsonToArray($item[$v], null, true);
+		}
+
+		return $item;
 	}
 }

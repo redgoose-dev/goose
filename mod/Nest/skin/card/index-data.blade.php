@@ -20,14 +20,9 @@ function getNests($app_srl)
 	// get items
 	$nests = core\Spawn::items([
 		'table' => core\Spawn::getTableName('nest'),
-		'where' => 'app_srl=' . (int)$app_srl
+		'where' => 'app_srl=' . (int)$app_srl,
+		'jsonField' => ['json']
 	]);
-
-	// convert json to array
-	foreach ($nests as $k=>$v)
-	{
-		$nests[$k]['json'] = core\Util::jsonToArray($v['json'], null, true);
-	}
 
 	// processing
 	foreach ($nests as $k=>$v)

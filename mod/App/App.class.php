@@ -78,7 +78,7 @@ class App {
 		if ($this->name != 'App') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
 		if (!$this->isAdmin) return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
 
-		$loc = __GOOSE_PWD__ . $this->skinPath . 'transaction-'.$method.'.php';
+		$loc = __GOOSE_PWD__ . $this->skinPath . 'transaction-' . $method . '.php';
 
 		if (file_exists($loc))
 		{

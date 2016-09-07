@@ -17,6 +17,7 @@ class View {
 		$this->blade = new core\Blade();
 	}
 
+
 	/**
 	 * check admin
 	 */

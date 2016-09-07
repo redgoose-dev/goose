@@ -93,9 +93,9 @@ class Nest {
 			{
 				$nest = core\Spawn::item([
 					'table' => core\Spawn::getTableName('nest'),
-					'where' => 'srl='.$post['nest_srl']
+					'where' => 'srl='.$post['nest_srl'],
+					'jsonField' => ['json']
 				]);
-				$nest['json'] = (isset($nest['json'])) ? core\Util::jsonToArray($nest['json'], false, true) : $nest['json'];
 			}
 			$permission = (isset($nest['json']['permission2'])) ? $nest['json']['permission2'] : $this->set['adminPermission'];
 
