@@ -1,5 +1,5 @@
 {
-	"name" : "error",
+	"name" : "Error",
 	"title" : "Error",
 	"description" : "오류를 처리하는 모듈입니다.",
 	"permission" : 0,

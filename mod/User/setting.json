@@ -1,5 +1,5 @@
 {
-	"name" : "user",
+	"name" : "User",
 	"title" : "User",
 	"description" : "회원정보를 관리하는 모듈입니다.",
 	"permission" : 0,

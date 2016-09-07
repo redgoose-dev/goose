@@ -1,5 +1,5 @@
 {
-	"name" : "resource",
+	"name" : "Resource",
 	"title" : "Resource",
 	"description" : "Goose의 다른 기능들을 검색하고 설치할 수 있습니다.",
 	"permission" : 0,

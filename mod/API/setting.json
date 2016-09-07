@@ -1,5 +1,5 @@
 {
-	"name" : "api",
+	"name" : "API",
 	"title" : "API",
 	"description" : "외부에서 데이터를 가져오거나 처리하는 goose api입니다.",
 	"permission" : 0,

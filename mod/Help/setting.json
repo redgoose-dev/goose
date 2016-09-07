@@ -1,5 +1,5 @@
 {
-	"name" : "help",
+	"name" : "Help",
 	"title" : "Help",
 	"description" : "도움말 출력에 관련된 모듈입니다.",
 	"permission" : 0,
