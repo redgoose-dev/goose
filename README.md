@@ -34,8 +34,7 @@ __http://src.goose-dev.com__
 ### Vendor list
 
 * jquery - https://jquery.com
-* dragsort - http://dragsort.codeplex.com
-* Jcrop - https://github.com/tapmodo/Jcrop
+* Sortable - https://github.com/RubaXa/Sortable
 * JSONEditor - https://github.com/RedgooseDev/JSONEditor
 * Parsedown - http://parsedown.org
 * Snippet
