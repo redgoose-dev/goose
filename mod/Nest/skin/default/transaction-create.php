@@ -18,7 +18,7 @@ if ($errorValue)
 
 // 아이디값 중복 확인
 $cnt = core\Spawn::count([
-	'table' => core\Spawn::getTableName('nest'),
+	'table' => core\Spawn::getTableName($this->name),
 	'where' => "id='$post[id]'"
 ]);
 if ($cnt > 0)
@@ -33,7 +33,7 @@ if ($cnt > 0)
 
 // insert data
 $result = core\Spawn::insert([
-	'table' => core\Spawn::getTableName('nest'),
+	'table' => core\Spawn::getTableName($this->name),
 	'data' => [
 		'srl' => null,
 		'app_srl' => (int)$post['app_srl'],

@@ -6,15 +6,12 @@ if (!defined('__GOOSE__')) exit();
 
 class Category {
 
-	public $name, $set, $params, $isAdmin;
-	public $path;
+	public $name, $params, $set, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
-
-		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
-		$this->skinPath = $this->path . 'skin/' . $this->set['skin'] . '/';
 	}
 
 	/**
@@ -84,7 +81,7 @@ class Category {
 		if ($post['nest_srl'])
 		{
 			$nest = core\Spawn::item([
-				'table' => core\Spawn::getTableName('nest'),
+				'table' => core\Spawn::getTableName('Nest'),
 				'field' => 'json',
 				'where' => 'srl='.$post['nest_srl'],
 				'jsonField' => ['json']
@@ -129,12 +126,11 @@ class Category {
 	 */
 	public function install($installData)
 	{
-		$query = core\Spawn::arrayToCreateTableQuery(array(
-			'tableName' => __dbPrefix__.$this->name,
+		$query = core\Spawn::arrayToCreateTableQuery([
+			'tableName' => core\Spawn::getTableName($this->name),
 			'fields' => $installData
-		));
+		]);
 
 		return core\Spawn::action($query);
 	}
-
 }

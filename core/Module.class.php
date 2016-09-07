@@ -91,10 +91,9 @@ class Module {
 	 *
 	 * @param object $instance
 	 * @param array $params
-	 * @param boolean $install 인스톨 검사하기위한 값
 	 * @return null
 	 */
-	public static function initModule($instance, $params=null, $install=false)
+	public static function initModule($instance, $params=[])
 	{
 		global $goose;
 
@@ -121,7 +120,7 @@ class Module {
 		}
 
 		// check install
-		if (($instance->set['install'] && !in_array($instance->name, $goose->modules)) && !$install)
+		if (($instance->set['install'] && !in_array($instance->name, $goose->modules)) && !isset($params['install']))
 		{
 			Goose::error(403, '[' . $instance->name . '] 인스톨이 필요한 모듈입니다.');
 		}
@@ -168,7 +167,7 @@ class Module {
 		{
 			return [
 				'state' => 'error',
-				'message' => 'can not install'
+				'message' => 'can not install in setting'
 			];
 		}
 

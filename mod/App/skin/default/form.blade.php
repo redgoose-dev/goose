@@ -4,7 +4,7 @@
 @section('content')
 <section>
 	@include($layout->skinAddr.'.heading', [
-		'title' => $mod->set['title'],
+		'title' => $mod->set['title'] . ' ' . $typeName,
 		'description' => $mod->set['description'],
 		'isHeadNavigation' => true
 	])
@@ -23,7 +23,7 @@
 		</fieldset>
 
 		<nav class="gs-btn-group right">
-			<button type="submit" class="gs-button col-key">{{ $titleType }}</button>
+			<button type="submit" class="gs-button col-key">{{ $typeName }}</button>
 			<button type="button" class="gs-button" onclick="history.back(-1)">돌아가기</button>
 		</nav>
 	</form>

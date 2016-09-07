@@ -4,7 +4,7 @@
 @section('content')
 <section>
 	@include($layout->skinAddr.'.heading', [
-		'title' => $mod->set['title'],
+		'title' => $mod->set['title'] . ' ' . $typeName,
 		'description' => $mod->set['description'],
 		'isHeadNavigation' => true
 	])

@@ -8,96 +8,95 @@ if (!defined('__GOOSE__')) exit();
 global $goose;
 
 
-// TODO : DB테스트 완료하면 주석풀기. data 파일쪽들 만들기 부분
-///**
-// * Check $_POST
-// *
-// * @return Boolean : 이상이 없으면 true, 문제가 있으면 false값을 리턴한다.
-// */
-//function checkPost()
-//{
-//	$errorValue = Util::checkExistValue($_POST, [ 'goose_url', 'dbId', 'dbName', 'email', 'name' ]);
-//	if ($errorValue)
-//	{
-//		Util::back("[$errorValue]값이 없습니다.");
-//		Goose::end();
-//	}
-//	if (!$_POST['dbPassword'] || ($_POST['dbPassword'] != $_POST['dbPassword2']))
-//	{
-//		Util::back("DB 비밀번호와 확인값이 다릅니다.");
-//		return false;
-//	}
-//	if (!$_POST['password'] || ($_POST['password'] != $_POST['password2']))
-//	{
-//		Util::back("관리자 비밀번호와 확인값이 다릅니다.");
-//		return false;
-//	}
-//	return true;
-//}
-//
-//
-//// check post data
-//if ( checkPost() == true )
-//{
-//	// change permission goose root
-//	$root_permission = Util::getPermission(__GOOSE_PWD__);
-//	if ($root_permission != '0777' && $root_permission != '0707')
-//	{
-//		if (!chmod(__GOOSE_PWD__, 0707))
-//		{
-//			echo '<p>Please change the permission of `'.__GOOSE_PWD__.'` to 707 folder.</p>';
-//			Goose::end();
-//		}
-//	}
-//
-//	// check writable directory
-//	if (!is_writable(__GOOSE_PWD__))
-//	{
-//		Goose::error(101, 'Not a writable directory.');
-//	}
-//
-//	// create directories
-//	Util::createDirectory(__GOOSE_PWD__."data", 0755);
-//	Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
-//	Util::createDirectory(__GOOSE_PWD__."data/cache", 0755);
-//
-//	// create config.php
-//	$tpl_config = $this->tpl_config([
-//		'define' => [
-//			'url' =>$_POST['goose_url']
-//			,'root' => ($_POST['goose_root']) ? $_POST['goose_root'] : ''
-//		]
-//		,'db' => [
-//			'dbname' => $_POST['dbName']
-//			,'name' => $_POST['dbId']
-//			,'password' => $_POST['dbPassword']
-//			,'host' => $_POST['dbHost']
-//			,'port' => $_POST['dbPort']
-//			,'prefix' => $_POST['dbPrefix']
-//		]
-//		,'level' => [
-//			'login' => $_POST['loginLevel']
-//			,'admin' => $_POST['adminLevel']
-//		]
-//		,'apiKey' => $_POST['apiPrefix']
-//		,'timezone' => $_POST['timezone']
-//		,'basic_module' => 'Intro'
-//	]);
-//	if ($tpl_config != 'success')
-//	{
-//		Goose::error(101, 'Failed to create the file data/config.php');
-//	}
-//
-//	// create modules.json
-//	if ($this->tpl_modules() != 'success')
-//	{
-//		Goose::error(101, 'Failed to create the file data/modules.json');
-//	}
-//}
-//else
-//{
-//	Goose::end();
-//}
+/**
+ * Check $_POST
+ *
+ * @return Boolean : 이상이 없으면 true, 문제가 있으면 false값을 리턴한다.
+ */
+function checkPost()
+{
+	$errorValue = Util::checkExistValue($_POST, [ 'goose_url', 'dbId', 'dbName', 'email', 'name' ]);
+	if ($errorValue)
+	{
+		Util::back("[$errorValue]값이 없습니다.");
+		Goose::end();
+	}
+	if (!$_POST['dbPassword'] || ($_POST['dbPassword'] != $_POST['dbPassword2']))
+	{
+		Util::back("DB 비밀번호와 확인값이 다릅니다.");
+		return false;
+	}
+	if (!$_POST['password'] || ($_POST['password'] != $_POST['password2']))
+	{
+		Util::back("관리자 비밀번호와 확인값이 다릅니다.");
+		return false;
+	}
+	return true;
+}
+
+
+// check post data
+if ( checkPost() == true )
+{
+	// change permission goose root
+	$root_permission = Util::getPermission(__GOOSE_PWD__);
+	if ($root_permission != '0777' && $root_permission != '0707')
+	{
+		if (!chmod(__GOOSE_PWD__, 0707))
+		{
+			echo '<p>Please change the permission of `'.__GOOSE_PWD__.'` to 707 folder.</p>';
+			Goose::end();
+		}
+	}
+
+	// check writable directory
+	if (!is_writable(__GOOSE_PWD__))
+	{
+		Goose::error(101, 'Not a writable directory.');
+	}
+
+	// create directories
+	Util::createDirectory(__GOOSE_PWD__."data", 0755);
+	Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
+	Util::createDirectory(__GOOSE_PWD__."data/cache", 0755);
+
+	// create config.php
+	$tpl_config = $this->tpl_config([
+		'define' => [
+			'url' =>$_POST['goose_url']
+			,'root' => ($_POST['goose_root']) ? $_POST['goose_root'] : ''
+		]
+		,'db' => [
+			'dbname' => $_POST['dbName']
+			,'name' => $_POST['dbId']
+			,'password' => $_POST['dbPassword']
+			,'host' => $_POST['dbHost']
+			,'port' => $_POST['dbPort']
+			,'prefix' => $_POST['dbPrefix']
+		]
+		,'level' => [
+			'login' => $_POST['loginLevel']
+			,'admin' => $_POST['adminLevel']
+		]
+		,'apiKey' => $_POST['apiPrefix']
+		,'timezone' => $_POST['timezone']
+		,'basic_module' => 'Intro'
+	]);
+	if ($tpl_config != 'success')
+	{
+		Goose::error(101, 'Failed to create the file data/config.php');
+	}
+
+	// create modules.json
+	if ($this->tpl_modules() != 'success')
+	{
+		Goose::error(101, 'Failed to create the file data/modules.json');
+	}
+}
+else
+{
+	Goose::end();
+}
 
 
 // load config file
@@ -115,19 +114,17 @@ $goose->isAdmin = true;
 
 
 // install modules
-//$arr = [ 'User', 'Nest', 'App', 'Json', 'File', 'Article', 'Category' ];
-$arr = [ 'User' ];
+$arr = [ 'User', 'Nest', 'App', 'JSON', 'File', 'Article', 'Category' ];
 foreach($arr as $k=>$v)
 {
 	$result = $this->installModule($v);
 	echo "<p>Create table - ".$result['message']."</p>";
 }
 
-exit;
 
 // add admin user
 $result = Spawn::insert([
-	'table' => Spawn::getTableName('user'),
+	'table' => Spawn::getTableName('User'),
 	'data' => [
 		'srl' => null,
 		'email' => $_POST['email'],
@@ -142,7 +139,7 @@ echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "<strong styl
 
 // add basic navigation on json table
 $cnt = Spawn::count([
-	'table' => Spawn::getTableName('json'),
+	'table' => Spawn::getTableName('JSON'),
 	'where' => "name='Goose Navigation'"
 ]);
 if (!$cnt)
@@ -152,7 +149,7 @@ if (!$cnt)
 	$data = Util::jsonToArray($data, true, true);
 	$data = Util::arrayToJson($data, true);
 	$result = Spawn::insert([
-		'table' => __dbPrefix__ . 'json',
+		'table' => Spawn::getTableName('JSON'),
 		'data' => [
 			'srl' => null,
 			'name' => 'Goose Navigation',

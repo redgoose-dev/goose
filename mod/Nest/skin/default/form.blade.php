@@ -6,7 +6,7 @@
 @include($mod->name . '.skin.default.form-lib')
 <section>
 	@include($layout->skinAddr.'.heading', [
-		'title' => $mod->set['title'],
+		'title' => $mod->set['title'] . ' ' . $typeName,
 		'description' => $mod->set['description'],
 		'isHeadNavigation' => true
 	])

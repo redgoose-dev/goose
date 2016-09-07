@@ -145,7 +145,7 @@
 {{-- buttons --}}
 @section('buttons')
 <nav class="gs-btn-group right">
-	<button type="submit" class="gs-button col-key">{{ $titleType }}</button>
+	<button type="submit" class="gs-button col-key">{{ $typeName }}</button>
 	<button type="button" class="gs-button" onclick="history.back(-1)">뒤로가기</button>
 </nav>
 @endsection

@@ -3,7 +3,6 @@
 
 @section('content')
 @include($mod->skinAddr . '.index-data')
-{{--{{ core\Util::console($repo->sections) }}--}}
 <section>
 	@include($layout->skinAddr.'.heading', [
 		'title' => $mod->set['title'],
@@ -47,8 +46,6 @@
 		@endif
 	</ul>
 	<!-- // index -->
-
-
 
 	<!-- buttons -->
 	<nav class="gs-btn-group right">

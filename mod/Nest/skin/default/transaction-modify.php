@@ -17,14 +17,14 @@ if ($errorValue)
 
 // id값 중복검사
 $nest = core\Spawn::item([
-	'table' => core\Spawn::getTableName('nest'),
+	'table' => core\Spawn::getTableName($this->name),
 	'field' => 'id',
 	'where' => "srl=" . (int)$post['nest_srl']
 ]);
 if ($nest['id'] != $post['id'])
 {
 	$cnt = core\Spawn::count([
-		'table' => core\Spawn::getTableName('nest'),
+		'table' => core\Spawn::getTableName($this->name),
 		'where' => 'id="' . $post['id'] . '"'
 	]);
 	if ($cnt > 0)
@@ -40,7 +40,7 @@ if ($nest['id'] != $post['id'])
 
 // update article
 $result = core\Spawn::update([
-	'table' => core\Spawn::getTableName('article'),
+	'table' => core\Spawn::getTableName('Article'),
 	'where' => "nest_srl=" . (int)$post['nest_srl'],
 	'data' => [
 		"app_srl=" . (int)$post['app_srl']
@@ -50,7 +50,7 @@ $result = core\Spawn::update([
 
 // update nest
 $result = core\Spawn::update([
-	'table' => core\Spawn::getTableName('nest'),
+	'table' => core\Spawn::getTableName($this->name),
 	'where' => 'srl=' . (int)$post['nest_srl'],
 	'data' => [
 		"app_srl=" . (int)$post['app_srl'],

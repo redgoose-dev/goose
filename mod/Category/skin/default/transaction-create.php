@@ -22,7 +22,7 @@ if ($errorValue)
 
 
 // get max number in table
-$max = 'select max(turn) as maximum from ' . core\Spawn::getTableName('category');
+$max = 'select max(turn) as maximum from ' . core\Spawn::getTableName($this->name);
 $max = $goose->spawn->db->prepare($max);
 $max->execute();
 $max = (int)$max->fetchColumn();
@@ -31,7 +31,7 @@ $max += 1;
 
 // insert data
 $result = core\Spawn::insert([
-	'table' => core\Spawn::getTableName('category'),
+	'table' => core\Spawn::getTableName($this->name),
 	'data' => [
 		'srl' => null,
 		'nest_srl' => $post['nest_srl'],

@@ -38,7 +38,7 @@ class View {
 		// make repo
 		$repo = new stdClass();
 		$repo->apps = core\Spawn::items([
-			'table' => core\Spawn::getTableName('app'),
+			'table' => core\Spawn::getTableName($this->parent->name),
 			'order' => 'srl',
 			'sort' => 'asc'
 		]);
@@ -47,11 +47,11 @@ class View {
 		foreach ($repo->apps as $k=>$v)
 		{
 			$repo->apps[$k]['nestCount'] = core\Spawn::count([
-				'table' => core\Spawn::getTableName('nest'),
+				'table' => core\Spawn::getTableName('Nest'),
 				'where' => 'app_srl='.(int)$v['srl']
 			]);
 			$repo->apps[$k]['articleCount'] = core\Spawn::count([
-				'table' => core\Spawn::getTableName('article'),
+				'table' => core\Spawn::getTableName('Article'),
 				'where' => 'app_srl='.(int)$v['srl']
 			]);
 		}
@@ -61,7 +61,6 @@ class View {
 
 		// render page
 		$this->blade->render($this->parent->skinAddr . '.index', [
-			'root' => __GOOSE_ROOT__,
 			'mod' => $this->parent,
 			'repo' => $repo
 		]);
@@ -83,7 +82,7 @@ class View {
 			'mod' => $this->parent,
 			'repo' => new stdClass(),
 			'action' => $this->parent->params['action'],
-			'titleType' => '만들기'
+			'typeName' => '등록'
 		]);
 	}
 
@@ -101,7 +100,7 @@ class View {
 		// set repo
 		$repo = new stdClass();
 		$repo->app = core\Spawn::item([
-			'table' => core\Spawn::getTableName('app'),
+			'table' => core\Spawn::getTableName($this->parent->name),
 			'where' => 'srl=' . (int)$app_srl
 		]);
 
@@ -114,7 +113,7 @@ class View {
 			'mod' => $this->parent,
 			'repo' => $repo,
 			'action' => $this->parent->params['action'],
-			'titleType' => '수정'
+			'typeName' => '수정'
 		]);
 	}
 
@@ -132,7 +131,7 @@ class View {
 		// set repo
 		$repo = new stdClass();
 		$repo->app = core\Spawn::item([
-			'table' => core\Spawn::getTableName('app'),
+			'table' => core\Spawn::getTableName($this->parent->name),
 			'where' => 'srl=' . (int)$app_srl
 		]);
 
@@ -145,7 +144,7 @@ class View {
 			'mod' => $this->parent,
 			'repo' => $repo,
 			'action' => $this->parent->params['action'],
-			'titleType' => '삭제'
+			'typeName' => '삭제'
 		]);
 	}
 

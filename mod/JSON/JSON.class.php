@@ -6,24 +6,12 @@ if (!defined('__GOOSE__')) exit();
 
 class JSON {
 
-	public $name, $goose, $param, $method, $repo, $isAdmin;
-	public $path, $skinPath, $pwd_container;
+	public $name, $params, $set, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
-
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
+		core\Module::initModule($this, $params);
 	}
 
 	/**
@@ -31,9 +19,9 @@ class JSON {
 	 */
 	public function index()
 	{
-		if ($this->param['method'] == 'POST')
+		if ($this->params['method'] == 'POST')
 		{
-			switch($this->param['action'])
+			switch($this->params['action'])
 			{
 				case 'create':
 					$result = $this->transaction('create', $_POST);
@@ -62,74 +50,6 @@ class JSON {
 	/**********************************************
 	 * API AREA
 	 *********************************************/
-
-	/**
-	 * api - get count
-	 *
-	 * @param array $getParams
-	 * @return array
-	 */
-	public function getCount($getParams=null)
-	{
-		if ($this->name != 'nest') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-
-		// set original parameter
-		$originalParam = array('table' => core\Spawn::getTableName($this->name));
-
-		// get data
-		$data = core\Spawn::count(core\Util::extendArray($originalParam, $getParams));
-
-		// return data
-		return array( 'state' => 'success', 'data' => $data );
-	}
-
-	/**
-	 * api - get items
-	 *
-	 * @param array $getParams
-	 * @return array|null
-	 */
-	public function getItems($getParams=null)
-	{
-		if ($this->name != 'json') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-
-		// set original parameter
-		$originalParam = array(
-			'table' => core\Spawn::getTableName($this->name),
-			'order' => 'srl',
-			'sort' => 'desc'
-		);
-
-		// get data
-		$data = core\Spawn::items(core\Util::extendArray($originalParam, $getParams));
-		if (!count($data)) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
-
-		// return data
-		return array( 'state' => 'success', 'data' => $data );
-	}
-
-	/**
-	 * api - get item
-	 *
-	 * @param array $getParam
-	 * @return array|null
-	 */
-	public function getItem($getParam=array())
-	{
-		if ($this->name != 'json') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-
-		// set original parameter
-		$originalParam = array( 'table' => core\Spawn::getTableName($this->name) );
-
-		// get data
-		$data = core\Spawn::item(core\Util::extendArray($originalParam, $getParam));
-
-		// check data
-		if (!$data) return array( 'state' => 'error', 'message' => '데이터가 없습니다.' );
-
-		// return data
-		return array( 'state' => 'success', 'data' => $data );
-	}
 
 	/**
 	 * api - transaction

@@ -13,9 +13,6 @@ class Nest {
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
-
-		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
-		$this->skinPath = $this->path . 'skin/' . $this->set['skin'] . '/';
 	}
 
 	/**
@@ -92,7 +89,7 @@ class Nest {
 			if ($post['nest_srl'])
 			{
 				$nest = core\Spawn::item([
-					'table' => core\Spawn::getTableName('nest'),
+					'table' => core\Spawn::getTableName('Nest'),
 					'where' => 'srl='.$post['nest_srl'],
 					'jsonField' => ['json']
 				]);

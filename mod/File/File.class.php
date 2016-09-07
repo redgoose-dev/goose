@@ -6,23 +6,11 @@ if (!defined('__GOOSE__')) exit();
 
 class File {
 
-	public $name, $goose, $layout;
+	public $name, $params, $set;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=[])
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
-
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
+		core\Module::initModule($this, $params);
 	}
 
 	/**
@@ -30,11 +18,11 @@ class File {
 	 */
 	public function index()
 	{
-		if ($this->param['method'] == 'POST')
+		if ($this->params['method'] == 'POST')
 		{
 			$post = core\Util::getMethod();
 
-			switch($this->param['action'])
+			switch($this->params['action'])
 			{
 				case 'upload':
 					$result = $this->actUploadFiles(
@@ -163,74 +151,6 @@ class File {
 	/**********************************************
 	 * API AREA
 	 *********************************************/
-
-	/**
-	 * api - get count
-	 *
-	 * @param array $getParams
-	 * @return array
-	 */
-	public function getCount($getParams=null)
-	{
-		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
-
-		// set original parameter
-		$originalParam = [ 'table' => core\Spawn::getTableName($this->name) ];
-
-		// get data
-		$data = core\Spawn::count(core\Util::extendArray($originalParam, $getParams));
-
-		// return data
-		return [ 'state' => 'success', 'data' => $data ];
-	}
-
-	/**
-	 * get data index
-	 *
-	 * @param array $getParams
-	 * @return array|null
-	 */
-	public function getItems($getParams=null)
-	{
-		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
-
-		// set original parameter
-		$originalParam = [
-			'table' => core\Spawn::getTableName($this->name),
-			'order' => 'srl',
-			'sort' => 'desc'
-		];
-
-		// get data
-		$data = core\Spawn::items(core\Util::extendArray($originalParam, $getParams));
-		if (!count($data)) return [ 'state' => 'error', 'message' => '데이터가 없습니다.' ];
-
-		// return data
-		return [ 'state' => 'success', 'data' => $data ];
-	}
-
-	/**
-	 * get data item
-	 *
-	 * @param array $getParam
-	 * @return array|null
-	 */
-	public function getItem($getParam=[])
-	{
-		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
-
-		// set original parameter
-		$originalParam = [ 'table' => core\Spawn::getTableName($this->name) ];
-
-		// get data
-		$data = core\Spawn::item(core\Util::extendArray($originalParam, $getParam));
-
-		// check data
-		if (!$data) return [ 'state' => 'error', 'message' => '데이터가 없습니다.' ];
-
-		// return data
-		return [ 'state' => 'success', 'data' => $data ];
-	}
 
 	/**
 	 * api - action upload files

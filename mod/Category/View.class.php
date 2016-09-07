@@ -62,13 +62,13 @@ class View {
 		// make repo
 		$repo = new stdClass();
 		$repo->category = core\Spawn::items([
-			'table' => core\Spawn::getTableName('category'),
-			'where' => ($nest_srl) ? 'nest_srl='.$nest_srl : null,
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => ($nest_srl) ? 'nest_srl=' . $nest_srl : null,
 			'order' => 'turn',
 			'sort' => 'asc'
 		]);
 		$repo->nest = ($nest_srl) ? core\Spawn::item([
-			'table' => core\Spawn::getTableName('nest'),
+			'table' => core\Spawn::getTableName('Nest'),
 			'field' => 'name,json',
 			'where' => 'srl=' . $nest_srl,
 			'jsonField' => ['json']
@@ -78,7 +78,7 @@ class View {
 		foreach($repo->category as $k=>$v)
 		{
 			$repo->category[$k]['articleCount'] = core\Spawn::count([
-				'table' => core\Spawn::getTableName('article'),
+				'table' => core\Spawn::getTableName('Article'),
 				'where' => 'category_srl=' . (int)$v['srl']
 			]);
 			$repo->category[$k]['urlParam'] = (($nest_srl) ? $nest_srl . '/' : '') . $v['srl'] . '/';
@@ -111,7 +111,7 @@ class View {
 		// make repo
 		$repo = new stdClass();
 		$repo->nest = ($nest_srl) ? core\Spawn::item([
-			'table' => core\Spawn::getTableName('nest'),
+			'table' => core\Spawn::getTableName('Nest'),
 			'field' => 'name,json',
 			'where' => 'srl=' . $nest_srl,
 			'jsonField' => ['json']
@@ -129,7 +129,7 @@ class View {
 			'mod' => $this->parent,
 			'repo' => $repo,
 			'nest_srl' => $nest_srl,
-			'methodName' => '만들기'
+			'typeName' => '등록'
 		]);
 	}
 
@@ -145,13 +145,13 @@ class View {
 		// make repo
 		$repo = new stdClass();
 		$repo->nest = ($nest_srl) ? core\Spawn::item([
-			'table' => core\Spawn::getTableName('nest'),
+			'table' => core\Spawn::getTableName('Nest'),
 			'field' => 'name,json',
 			'where' => 'srl=' . $nest_srl,
 			'jsonField' => ['json']
 		]) : [];
 		$repo->category = ($category_srl) ? core\Spawn::item([
-			'table' => core\Spawn::getTableName('category'),
+			'table' => core\Spawn::getTableName($this->parent->name),
 			'field' => 'name',
 			'where' => 'srl=' . $category_srl
 		]) : [];
@@ -169,7 +169,7 @@ class View {
 			'repo' => $repo,
 			'nest_srl' => $nest_srl,
 			'category_srl' => $category_srl,
-			'methodName' => '수정'
+			'typeName' => '수정'
 		]);
 	}
 
@@ -185,13 +185,13 @@ class View {
 		// make repo
 		$repo = new stdClass();
 		$repo->nest = ($nest_srl) ? core\Spawn::item([
-			'table' => core\Spawn::getTableName('nest'),
+			'table' => core\Spawn::getTableName('Nest'),
 			'field' => 'name,json',
 			'where' => 'srl=' . $nest_srl,
 			'jsonField' => ['json']
 		]) : [];
 		$repo->category = ($category_srl) ? core\Spawn::item([
-			'table' => core\Spawn::getTableName('category'),
+			'table' => core\Spawn::getTableName($this->parent->name),
 			'field' => 'name',
 			'where' => 'srl=' . $category_srl
 		]) : [];
@@ -209,7 +209,7 @@ class View {
 			'repo' => $repo,
 			'nest_srl' => $nest_srl,
 			'category_srl' => $category_srl,
-			'methodName' => '삭제하기'
+			'typeName' => '삭제'
 		]);
 	}
 

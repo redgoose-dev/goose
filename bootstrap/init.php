@@ -41,8 +41,7 @@ $goose->init();
 
 
 // check install
-// TODO : `!`삭제하기
-if (!$goose->isInstalled())
+if ($goose->isInstalled())
 {
 	// set user config variables
 	$dbConfig = null; // array

@@ -1,50 +1,22 @@
 <?php
+namespace mod\User;
+use mod, core, stdClass;
 if (!defined('__GOOSE__')) exit();
 
-class View extends User
-{
 
-	private $parent;
+class View {
 
-	/**
-	 * construct
-	 *
-	 * @param App $parent
-	 */
+	public $parent;
+
 	public function __construct($parent)
 	{
-		$this->name = 'view';
+		$this->name = 'View';
 		$this->parent = $parent;
 
-		$this->param = $this->parent->param;
-		$this->path = $this->parent->path;
-		$this->set = $this->parent->set;
-		$this->skinPath = $this->parent->skinPath;
+		// set blade class
+		$this->blade = new core\Blade();
 	}
 
-	/**
-	 * index
-	 */
-	protected function render()
-	{
-		// create layout module
-		$this->layout = Module::load('layout');
-
-		switch ($this->param['action']) {
-			case 'create':
-				$this->view_create();
-				break;
-			case 'modify':
-				$this->view_modify();
-				break;
-			case 'remove':
-				$this->view_remove();
-				break;
-			default:
-				$this->view_index();
-				break;
-		}
-	}
 
 	/**
 	 * check admin
@@ -53,108 +25,132 @@ class View extends User
 	{
 		if (!$this->parent->isAdmin)
 		{
-			Util::back('권한이 없습니다.');
-			Goose::end();
+			core\Util::back('권한이 없습니다.');
+			core\Goose::end();
 		}
 	}
 
 	/**
 	 * view - index
 	 */
-	private function view_index()
+	public function view_index()
 	{
-		// set repo
-		$repo = [];
+		// make repo
+		$repo = new stdClass();
+		$repo->user = core\Spawn::items([
+			'table' => core\Spawn::getTableName($this->parent->name),
+		]);
 
-		// get data
-		$data = $this->parent->getItems();
-		$repo['user'] = ($data['state'] == 'success') ? $data['data'] : [];
+		// set skin path
+		$this->setSkinPath('index');
 
-		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_index.html';
-
-		require_once($this->layout->getUrl());
+		// render page
+		$this->blade->render($this->parent->skinAddr . '.index', [
+			'mod' => $this->parent,
+			'repo' => $repo
+		]);
 	}
 
 	/**
 	 * view - create
 	 */
-	private function view_create()
+	public function view_create()
 	{
-		// check admin
-		$this->checkAdmin();
+		// set skin path
+		$this->setSkinPath('form');
 
-		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
-
-		require_once($this->layout->getUrl());
+		// render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
+			'mod' => $this->parent,
+			'action' => $this->parent->params['action'],
+			'typeName' => '등록'
+		]);
 	}
 
 	/**
 	 * view - modify
 	 */
-	private function view_modify()
+	public function view_modify()
 	{
 		// set user srl
-		$user_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
+		$user_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
 
 		// set repo
-		$repo = [];
+		$repo = new stdClass();
+		$repo->user = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => 'srl=' . (int)$user_srl
+		]);
 
-		// get user data
-		$data = $this->parent->getItem([ 'where' => 'srl='.$user_srl ]);
-		if ($data['state'] == 'error')
-		{
-			Util::back($data['message']);
-			Goose::end();
-		}
-		else if ($data['state'] == 'success')
-		{
-			$repo['user'] = $data['data'];
-		}
-
-		// check admin
-		if ($_SESSION['goose_email'] !== $repo['user']['email'])
+		// check self and admin user
+		if ($_SESSION['goose_email'] !== $repo->user['email'])
 		{
 			$this->checkAdmin();
 		}
 
-		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
+		// set skin path
+		$this->setSkinPath('form');
 
-		require_once($this->layout->getUrl());
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
+			'user_srl' => $user_srl,
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'action' => $this->parent->params['action'],
+			'typeName' => '수정'
+		]);
 	}
 
 	/**
 	 * view - remove
 	 */
-	private function view_remove()
+	public function view_remove()
 	{
 		// set user srl
-		$user_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
-
-		// set repo
-		$repo = [];
-
-		// get user data
-		$data = $this->parent->getItem([ 'where' => 'srl='.$user_srl ]);
-		if ($data['state'] == 'error')
-		{
-			Util::back($data['message']);
-			Goose::end();
-		}
-		else if ($data['state'] == 'success')
-		{
-			$repo['user'] = $data['data'];
-		}
+		$user_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
 
 		// check admin
 		$this->checkAdmin();
 
-		// set container pwd
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_remove.html';
+		// set repo
+		$repo = new stdClass();
+		$repo->user = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => 'srl=' . (int)$user_srl
+		]);
 
-		require_once($this->layout->getUrl());
+		// set skin path
+		$this->setSkinPath('remove');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.remove', [
+			'app_srl' => $user_srl,
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'user_srl' => $user_srl,
+			'action' => $this->parent->params['action'],
+			'typeName' => '삭제'
+		]);
 	}
 
+	/**
+	 * set skin path
+	 *
+	 * @param string $type
+	 * @param string $userSkin
+	 */
+	private function setSkinPath($type, $userSkin=null)
+	{
+		// check blade file
+		$bladeResult = core\Blade::isFile(__GOOSE_PWD__ . 'mod', $type, [
+			$this->parent->name . '.skin.' . $_GET['skin'],
+			$this->parent->name . '.skin.' . $userSkin,
+			$this->parent->name . '.skin.' . $this->parent->set['skin'],
+			$this->parent->name . '.skin.default'
+		]);
+
+		// set blade and file path
+		$this->parent->skinAddr = $bladeResult['address'];
+		$this->parent->skinPath = ($bladeResult['path']) ? 'mod/' . $bladeResult['path'] . '/' : '';
+	}
 }

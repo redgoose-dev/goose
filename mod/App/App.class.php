@@ -6,16 +6,14 @@ if (!defined('__GOOSE__')) exit();
 
 class App {
 
-	public $name, $params, $set, $isAdmin, $path;
-	public $skinPath, $skinAddr;
+	public $name, $params, $set, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
-
-		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
-		$this->skinPath = $this->path . 'skin/' . $this->set['skin'] . '/';
 	}
+
 
 	/**
 	 * index
@@ -37,6 +35,7 @@ class App {
 					$result = $this->transaction('remove', $_POST);
 					break;
 			}
+
 			if ($result) core\Module::afterAction($result);
 		}
 		else
@@ -111,8 +110,8 @@ class App {
 			'tableName' => core\Spawn::getTableName($this->name),
 			'fields' => $installData
 		]);
-
-		return core\Spawn::action($query);
+		$result = core\Spawn::action($query);
+		return $result;
 	}
 
 }

@@ -24,14 +24,14 @@
 		"permission" : 100
 	},
 	{
-		"name": "Documentation",
-		"url": "http://redgoosedev.github.io/goose/#Documentation",
-		"target": "goose",
+		"name": "Resource",
+		"url": "{GOOSE_ROOT}/Resource/",
 		"permission" : 0
 	},
 	{
-		"name": "Resource",
-		"url": "{GOOSE_ROOT}/Resource/",
+		"name": "Documentation",
+		"url": "http://redgoosedev.github.io/goose/#Documentation",
+		"target": "goose",
 		"permission" : 0
 	}
 ]

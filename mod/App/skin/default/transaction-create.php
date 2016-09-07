@@ -44,7 +44,7 @@ if ($cnt > 0)
 
 // insert data
 $result = core\Spawn::insert([
-	'table' => core\Spawn::getTableName('app'),
+	'table' => core\Spawn::getTableName($this->name),
 	'data' => [
 		'srl' => null,
 		'id' => $post['id'],

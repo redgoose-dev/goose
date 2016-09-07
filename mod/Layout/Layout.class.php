@@ -12,9 +12,6 @@ class Layout {
 	{
 		core\Module::initModule($this, $params);
 
-		$this->skinAddr = 'Layout.skin.' . $this->set['skin'];
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
-
 		// set navigation
 		$this->navigation = self::getNavigation();
 	}
@@ -29,7 +26,7 @@ class Layout {
 		$result = [];
 
 		$navigationTree = core\Spawn::item([
-			'table' => core\Spawn::getTableName('json'),
+			'table' => core\Spawn::getTableName('JSON'),
 			'where' => 'srl=1'
 		]);
 		$navigationTree = core\Util::jsonToArray($navigationTree['json'], null, true);

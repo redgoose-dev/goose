@@ -13,7 +13,7 @@ if ($post['delete_article'])
 	// TODO : Article 모듈 작업 끝내면 작업하기
 //	// remove attach files
 //	$articles = core\Spawn::items([
-//		'table' => core\Spawn::getTableName('article'),
+//		'table' => core\Spawn::getTableName('Article'),
 //		'field' => 'srl',
 //		'where' => 'nest_srl='.(int)$post['nest_srl'],
 //	]);
@@ -34,7 +34,7 @@ if ($post['delete_article'])
 //	}
 //	$file->actRemoveFile($file_srls, 'file');
 //	$result = core\Spawn::delete([
-//		'table' => core\Spawn::getTableName('article'),
+//		'table' => core\Spawn::getTableName('Article'),
 //		'where' => 'nest_srl='.(int)$post['nest_srl'],
 //		'debug' => false
 //	]);
@@ -44,14 +44,14 @@ exit;
 
 // remove category data
 $result = core\Spawn::delete([
-	'table' => core\Spawn::getTableName('category'),
+	'table' => core\Spawn::getTableName('Category'),
 	'where' => 'nest_srl='.(int)$post['nest_srl']
 ]);
 
 
 // remove nest data
 $result = core\Spawn::delete([
-	'table' => core\Spawn::getTableName('nest'),
+	'table' => core\Spawn::getTableName($this->name),
 	'where' => 'srl=' . (int)$post['nest_srl']
 ]);
 if ($result != 'success')

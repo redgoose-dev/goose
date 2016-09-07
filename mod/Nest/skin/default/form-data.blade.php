@@ -30,7 +30,7 @@ function getSkinNames($skins, $path)
 
 // set repo
 $repo->apps = core\Spawn::items([
-	'table' => core\Spawn::getTableName('app'),
+	'table' => core\Spawn::getTableName('App'),
 	'field' => 'srl,name',
 	'order' => 'srl',
 	'sort' => 'asc'

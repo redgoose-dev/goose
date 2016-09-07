@@ -38,7 +38,7 @@
 	</ul>
 
 	<nav class="gs-btn-group right">
-		<a href="{{ $root }}/App/create/" class="gs-button col-key">APP 만들기</a>
+		<a href="{{ $root }}/{{ $mod->name }}/create/" class="gs-button col-key">APP 만들기</a>
 		<a href="{{ $root }}/Nest/index/" class="gs-button">둥지목록</a>
 	</nav>
 </section>

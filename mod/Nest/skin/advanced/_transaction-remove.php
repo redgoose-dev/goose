@@ -16,7 +16,7 @@ if ($post['delete_article'])
 
 	// get articles
 	$articles = Spawn::items(array(
-		'table' => Spawn::getTableName('article'),
+		'table' => Spawn::getTableName($this->name),
 		'field' => 'srl,json',
 		'where' => 'nest_srl='.(int)$post['nest_srl'],
 	));
@@ -44,7 +44,7 @@ if ($post['delete_article'])
 	}
 	$file->actRemoveFile($file_srls, 'file');
 	$result = Spawn::delete(array(
-		'table' => Spawn::getTableName('article'),
+		'table' => Spawn::getTableName($this->name),
 		'where' => 'nest_srl='.(int)$post['nest_srl'],
 		'debug' => false
 	));
@@ -55,7 +55,7 @@ if ($post['delete_article'])
 if ($post['delete_category'])
 {
 	$result = Spawn::delete(array(
-		'table' => Spawn::getTableName('category'),
+		'table' => Spawn::getTableName('Category'),
 		'where' => 'nest_srl='.(int)$post['nest_srl'],
 		'debug' => false
 	));

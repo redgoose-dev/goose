@@ -6,7 +6,7 @@
 @include($mod->name . '.skin.default.form-lib')
 <section>
 	@include($layout->skinAddr.'.heading', [
-		'title' => $mod->set['title'],
+		'title' => $mod->set['title'] . ' ' . $typeName,
 		'description' => $mod->set['description']
 	])
 
@@ -51,7 +51,7 @@
 				</dd>
 			</dl>
 
-			@set( $type = $repo->nest['json']['thumbnail']['type'] )
+			<?php $type = $repo->nest['json']['thumbnail']['type'] ?>
 			<dl class="gs-webz">
 				<dt><label for="thumbType">썸네일 축소방식</label></dt>
 				<dd>

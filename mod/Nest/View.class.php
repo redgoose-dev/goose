@@ -79,9 +79,9 @@ class View {
 		$this->blade->render($this->parent->skinAddr . '.form', [
 			'mod' => $this->parent,
 			'repo' => new stdClass(),
-			'action' => ($this->parent->params['action'] == 'clone') ? 'create' : $this->parent->params['action'],
-			'titleType' => '만들기',
-			'article' => core\Module::load('Article'),
+			'action' => $this->parent->params['action'],
+			'typeName' => '등록',
+			'article' => new mod\Article\Article(),
 			'nowSkin' => $_GET['skin']
 		]);
 	}
@@ -142,8 +142,8 @@ class View {
 			'mod' => $this->parent,
 			'repo' => $repo,
 			'action' => ($this->parent->params['action'] == 'clone') ? 'create' : $this->parent->params['action'],
-			'titleType' => '수정',
-			'article' => core\Module::load('Article'),
+			'typeName' => ($this->parent->params['action'] == 'clone') ? '등록' : '수정',
+			'article' => new mod\Article\Article(),
 			'nowSkin' => $nowSkin,
 			'nestSkinMessage' => $nestSkinMessage,
 			'useCategory' => $useCategory
@@ -186,7 +186,7 @@ class View {
 			'mod' => $this->parent,
 			'repo' => $repo,
 			'action' => $this->parent->params['action'],
-			'titleType' => '삭제',
+			'typeName' => '삭제',
 			'article' => core\Module::load('Article')
 		]);
 	}

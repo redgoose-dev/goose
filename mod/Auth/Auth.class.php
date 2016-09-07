@@ -110,7 +110,7 @@ class Auth {
 	public function login($email='', $password='', $redir='', $return=false)
 	{
 		$user = core\Spawn::item([
-			'table' => core\Spawn::getTableName('user'),
+			'table' => core\Spawn::getTableName('User'),
 			'where' => "email='$email'"
 		]);
 

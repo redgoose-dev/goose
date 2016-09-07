@@ -15,7 +15,7 @@ if (!defined('__GOOSE__')) exit();
 function getApps()
 {
 	$result = core\Spawn::items([
-		'table' => core\Spawn::getTableName('app'),
+		'table' => core\Spawn::getTableName('App'),
 		'field' => 'srl,name',
 		'order' => 'srl',
 		'sort' => 'asc'
@@ -24,7 +24,7 @@ function getApps()
 	foreach ($result as $k=>$v)
 	{
 		$count = core\Spawn::count([
-			'table' => core\Spawn::getTableName('nest'),
+			'table' => core\Spawn::getTableName('Nest'),
 			'where' => 'app_srl='.(int)$v['srl']
 		]);
 		$result[$k]['countNest'] = $count;
@@ -42,7 +42,7 @@ function getApps()
 function getNests($app_srl=null)
 {
 	$result = core\Spawn::items([
-		'table' => core\Spawn::getTableName('nest'),
+		'table' => core\Spawn::getTableName('Nest'),
 		'where' => ($app_srl) ? 'app_srl='.$app_srl : '',
 		'jsonField' => ['json']
 	]);
@@ -51,12 +51,12 @@ function getNests($app_srl=null)
 	{
 		// get count of article
 		$result[$k]['countArticle'] = core\Spawn::count([
-			'table' => core\Spawn::getTableName('article'),
+			'table' => core\Spawn::getTableName('Article'),
 			'where' => 'nest_srl=' . (int)$v['srl']
 		]);
 		// get app name
 		$app = core\Spawn::item([
-			'table' => core\Spawn::getTableName('app'),
+			'table' => core\Spawn::getTableName('App'),
 			'field' => 'srl,name',
 			'where' => 'srl=' . (int)$v['app_srl']
 		]);
@@ -65,7 +65,7 @@ function getNests($app_srl=null)
 		if ($v['json']['useCategory'] == 1)
 		{
 			$result[$k]['countCategory'] = core\Spawn::count([
-				'table' => core\Spawn::getTableName('category'),
+				'table' => core\Spawn::getTableName('Category'),
 				'where' => 'nest_srl=' . (int)$v['srl']
 			]);
 		}
@@ -80,5 +80,5 @@ function getNests($app_srl=null)
 $repo->nests = getNests($app_srl);
 $repo->apps = getApps();
 $repo->total = core\Spawn::count([
-	'table' => core\Spawn::getTableName('nest')
+	'table' => core\Spawn::getTableName('Nest')
 ]);

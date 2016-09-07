@@ -27,16 +27,16 @@ if ($errorValue)
 }
 
 
-// id값 중복검사
+// check id
 $app = core\Spawn::item([
-	'table' => core\Spawn::getTableName('app'),
+	'table' => core\Spawn::getTableName($this->name),
 	'field' => 'id',
 	'where' => "srl=" . (int)$post['app_srl']
 ]);
 if ($app['id'] != $post['id'])
 {
 	$cnt = core\Spawn::count([
-		'table' => core\Spawn::getTableName('app'),
+		'table' => core\Spawn::getTableName($this->name),
 		'where' => 'id="' . $post['id'] . '"'
 	]);
 	if ($cnt > 0)
@@ -52,7 +52,7 @@ if ($app['id'] != $post['id'])
 
 // update data
 $result = core\Spawn::update([
-	'table' => core\Spawn::getTableName('app'),
+	'table' => core\Spawn::getTableName($this->name),
 	'where' => 'srl=' . (int)$post['app_srl'],
 	'data' => [
 		"id='$post[id]'",

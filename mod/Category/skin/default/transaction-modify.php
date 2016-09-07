@@ -18,7 +18,7 @@ if ($errorValue)
 
 // update data
 $result = core\Spawn::update([
-	'table' => core\Spawn::getTableName('category'),
+	'table' => core\Spawn::getTableName($this->name),
 	'where' => 'srl=' . (int)$post['category_srl'],
 	'data' => [
 		"name='$post[name]'"

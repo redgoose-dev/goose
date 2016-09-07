@@ -6,47 +6,58 @@ if (!defined('__GOOSE__')) exit();
 
 class User {
 
-	public $name, $params, $set, $repo, $isAdmin;
-	public $path;
+	public $name, $params, $set, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
 	public function __construct($params=[])
 	{
-		core\Module::initModule($this, $params, $params['install']);
+		core\Module::initModule($this, $params);
 	}
+
 
 	/**
 	 * index
 	 */
-	// TODO : 주석풀기
-//	public function index()
-//	{
-//		if ($this->param['method'] == 'POST')
-//		{
-//			switch($this->param['action'])
-//			{
-//				case 'create':
-//					$result = $this->transaction('create', $_POST);
-//					core\Module::afterAction($result);
-//					break;
-//				case 'modify':
-//					$result = $this->transaction('modify', $_POST);
-//					core\Module::afterAction($result);
-//					break;
-//				case 'remove':
-//					$result = $this->transaction('remove', $_POST);
-//					core\Module::afterAction($result);
-//					break;
-//			}
-//			core\Goose::end();
-//		}
-//		else
-//		{
-//			require_once(__GOOSE_PWD__.$this->path.'View.class.php');
-//			$view = new View($this);
-//			$view->render();
-//		}
-//	}
+	public function index()
+	{
+		if ($this->params['method'] == 'POST')
+		{
+			$result = null;
+			switch($this->params['action'])
+			{
+				case 'create':
+					$result = $this->transaction('create', $_POST);
+					break;
+				case 'modify':
+					$result = $this->transaction('modify', $_POST);
+					break;
+				case 'remove':
+					$result = $this->transaction('remove', $_POST);
+					break;
+			}
 
+			if ($result) core\Module::afterAction($result);
+		}
+		else
+		{
+			$view = new View($this);
+
+			switch ($this->params['action']) {
+				case 'create':
+					$view->view_create();
+					break;
+				case 'modify':
+					$view->view_modify();
+					break;
+				case 'remove':
+					$view->view_remove();
+					break;
+				default:
+					$view->view_index();
+					break;
+			}
+		}
+	}
 
 
 	/**********************************************
@@ -63,7 +74,7 @@ class User {
 	public function transaction($method, $post=[])
 	{
 		if (!$method) return [ 'state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.' ];
-		if ($this->name != 'user') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if ($this->name != 'User') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
 		if (($post['email'] !== $_SESSION['goose_email']) && !$this->isAdmin)
 		{
 			return [
@@ -73,7 +84,7 @@ class User {
 			];
 		}
 
-		$loc = __GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php';
+		$loc = __GOOSE_PWD__ . $this->skinPath . 'transaction-' . $method . '.php';
 
 		if (file_exists($loc))
 		{
@@ -104,10 +115,10 @@ class User {
 	{
 		// create table
 		$query = core\Spawn::arrayToCreateTableQuery([
-			'tableName' => __dbPrefix__.$this->name,
+			'tableName' => core\Spawn::getTableName($this->name),
 			'fields' => $installData
 		]);
-
-		return core\Spawn::action($query);
+		$result = core\Spawn::action($query);
+		return $result;
 	}
 }

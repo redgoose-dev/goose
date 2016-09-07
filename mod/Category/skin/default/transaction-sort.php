@@ -33,7 +33,7 @@ $srls = explode(',', $post['srls']);
 foreach ($srls as $k=>$v)
 {
 	$updateResult = core\Spawn::update([
-		'table' => core\Spawn::getTableName('category'),
+		'table' => core\Spawn::getTableName($this->name),
 		'where' => 'srl=' . (int)$srls[$k],
 		'data' => [
 			'turn=' . $k
