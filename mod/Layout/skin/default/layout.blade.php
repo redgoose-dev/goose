@@ -40,7 +40,6 @@
 	</footer>
 	<!-- // Footer -->
 </main>
-
 @yield('popup')
 <script src="{{ $root }}/vendor/jQuery/jquery-3.1.0.min.js"></script>
 @yield('script')

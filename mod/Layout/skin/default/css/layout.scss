@@ -513,6 +513,50 @@ em[class^=gs-brk-] {font-style: normal;}
 		text-align: center;
 	}
 	.permission-denied {font-size: 14px; color: #999;}
+
+	&.sortable {
+		.handle {
+			cursor: move;
+		}
+		&.list {
+			li {background: #fff;}
+			.handle {
+				padding: 10px 8px;
+				i {
+					vertical-align: middle;
+					font-size: 20px; color: #999;
+				}
+			}
+			.sortable-ghost {
+				position: relative;
+				&:after {
+					content: '';
+					position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+					border: 2px solid $color-key;
+				}
+			}
+			.body {padding-left: 10px;}
+		}
+		&.card {
+			.handle {
+				padding: 10px 8px 10px 20px;
+				i {
+					vertical-align: middle;
+					font-size: 20px; color: #999;
+				}
+			}
+			.sortable-ghost {
+				.wrap {
+					position: relative;
+					&:after {
+						content: '';
+						position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+						border: 2px solid $color-key;
+					}
+				}
+			}
+		}
+	}
 }
 
 

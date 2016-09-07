@@ -1,6 +1,11 @@
 <header class="gs-heading">
 	@if ($title)
-		<h1>{{ $title }}</h1>
+		<h1>
+			@if($titleType)
+			<em class="gs-brk-type">{{ $titleType }}</em>
+			@endif
+			<span>{{ $title }}</span>
+		</h1>
 	@endif
 	@if ($description)
 		<p>{{ $description }}</p>
