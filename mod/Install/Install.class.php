@@ -93,7 +93,7 @@ class Install {
 	 */
 	public function installModule($modName=null)
 	{
-		if (!$modName) return Array('state' => 'error', 'message' => 'not found module name');
+		if (!$modName) return [ 'state' => 'error', 'message' => 'not found module name' ];
 
 		$result = core\Module::install($modName);
 

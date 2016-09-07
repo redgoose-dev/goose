@@ -91,7 +91,7 @@ class Module {
 	 *
 	 * @param object $instance
 	 * @param array $params
-	 * @param boolean $install
+	 * @param boolean $install 인스톨 검사하기위한 값
 	 * @return null
 	 */
 	public static function initModule($instance, $params=null, $install=false)
@@ -140,6 +140,10 @@ class Module {
 
 		// set route
 		$instance->params = $params;
+
+		// set path
+		$instance->skinAddr = $instance->name . '.skin.' . $instance->set['skin'];
+		$instance->skinPath = $instance->path . 'skin/' . $instance->set['skin'] . '/';
 	}
 
 	/**
@@ -150,13 +154,13 @@ class Module {
 	 */
 	public static function install($moduleName)
 	{
-		$mod = self::load($moduleName, null, true);
+		$mod = self::load($moduleName, [ 'install' => true ]);
 
 		if (!$mod->set)
 		{
 			return [
 				'state' => 'error',
-				'message' => 'not found ['.$moduleName.'->set]'
+				'message' => 'not found [' . $moduleName . '->set]'
 			];
 		}
 
@@ -168,15 +172,15 @@ class Module {
 			];
 		}
 
+		$path = __GOOSE_PWD__ . 'mod/' . $moduleName;
 		$file = Util::isFile([
-			Util::checkUserFile(__GOOSE_PWD__.'MOD/'.$moduleName.'/install.json'),
-			Util::checkUserFile(__GOOSE_PWD__.'MOD/'.$moduleName.'.user/install.json')
+			Util::checkUserFile( $path . '/install.json' ),
+			Util::checkUserFile( $path . '.user/install.json' )
 		]);
 		$installData = Util::jsonToArray(Util::openFile($file));
 
 		if (method_exists($mod, 'install'))
 		{
-			//Util::console($installData);
 			$result = $mod->install($installData);
 
 			if ($result == 'success')

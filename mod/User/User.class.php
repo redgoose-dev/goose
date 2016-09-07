@@ -6,159 +6,52 @@ if (!defined('__GOOSE__')) exit();
 
 class User {
 
-	public $name, $goose, $param, $set, $layout, $repo, $isAdmin;
-	public $path, $viewPath, $pwd_container;
+	public $name, $params, $set, $repo, $isAdmin;
+	public $path;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
-
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
+		core\Module::initModule($this, $params, $params['install']);
 	}
 
 	/**
 	 * index
 	 */
-	public function index()
-	{
-		if ($this->param['method'] == 'POST')
-		{
-			switch($this->param['action'])
-			{
-				case 'create':
-					$result = $this->transaction('create', $_POST);
-					core\Module::afterAction($result);
-					break;
-				case 'modify':
-					$result = $this->transaction('modify', $_POST);
-					core\Module::afterAction($result);
-					break;
-				case 'remove':
-					$result = $this->transaction('remove', $_POST);
-					core\Module::afterAction($result);
-					break;
-			}
-			core\Goose::end();
-		}
-		else
-		{
-			require_once(__GOOSE_PWD__.$this->path.'View.class.php');
-			$view = new View($this);
-			$view->render();
-		}
-	}
+	// TODO : 주석풀기
+//	public function index()
+//	{
+//		if ($this->param['method'] == 'POST')
+//		{
+//			switch($this->param['action'])
+//			{
+//				case 'create':
+//					$result = $this->transaction('create', $_POST);
+//					core\Module::afterAction($result);
+//					break;
+//				case 'modify':
+//					$result = $this->transaction('modify', $_POST);
+//					core\Module::afterAction($result);
+//					break;
+//				case 'remove':
+//					$result = $this->transaction('remove', $_POST);
+//					core\Module::afterAction($result);
+//					break;
+//			}
+//			core\Goose::end();
+//		}
+//		else
+//		{
+//			require_once(__GOOSE_PWD__.$this->path.'View.class.php');
+//			$view = new View($this);
+//			$view->render();
+//		}
+//	}
 
 
 
 	/**********************************************
 	 * API AREA
 	 *********************************************/
-
-	/**
-	 * api - get count
-	 *
-	 * @param array $getParams
-	 * @return array
-	 */
-	public function getCount($getParams=null)
-	{
-		if ($this->name != 'user') return [
-			'state' => 'error',
-			'message' => '잘못된 객체로 접근했습니다.'
-		];
-
-		// set original parameter
-		$originalParam = [
-			'table' => core\Spawn::getTableName($this->name)
-		];
-
-		// get data
-		$data = core\Spawn::count(core\Util::extendArray($originalParam, $getParams));
-
-		// return data
-		return [
-			'state' => 'success',
-			'data' => $data
-		];
-	}
-
-	/**
-	 * get data index
-	 *
-	 * @param array $getParams
-	 * @return array|null
-	 */
-	public function getItems($getParams=null)
-	{
-		if ($this->name != 'user') return [
-			'state' => 'error',
-			'message' => '잘못된 객체로 접근했습니다.'
-		];
-
-		// set original parameter
-		$originalParam = [
-			'table' => core\Spawn::getTableName($this->name),
-			'order' => 'srl',
-			'sort' => 'desc'
-		];
-
-		// get data
-		$data = core\Spawn::items(core\Util::extendArray($originalParam, $getParams));
-		if (!count($data)) return [
-			'state' => 'error',
-			'message' => '데이터가 없습니다.'
-		];
-
-		// return data
-		return [
-			'state' => 'success',
-			'data' => $data
-		];
-	}
-
-	/**
-	 * get data item
-	 *
-	 * @param array $getParam
-	 * @return array|null
-	 */
-	public function getItem($getParam=[])
-	{
-		if ($this->name != 'user') return [
-			'state' => 'error',
-			'message' => '잘못된 객체로 접근했습니다.'
-		];
-
-		// set original parameter
-		$originalParam = [
-			'table' => core\Spawn::getTableName($this->name)
-		];
-
-		// get data
-		$data = core\Spawn::item(core\Util::extendArray($originalParam, $getParam));
-
-		// check data
-		if (!$data) return [
-			'state' => 'error',
-			'message' => '데이터가 없습니다.'
-		];
-
-		// return data
-		return [
-			'state' => 'success',
-			'data' => $data
-		];
-	}
 
 	/**
 	 * api - transaction
