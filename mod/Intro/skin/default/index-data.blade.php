@@ -19,7 +19,7 @@ function getArticles($totalPrintCount)
 	$article = core\Spawn::items([
 		'table' => core\Spawn::getTableName('Article'),
 		'limit' => [ 0, $totalPrintCount ],
-		'jsonField' => 'json'
+		'jsonField' => ['json']
 	]);
 
 	foreach ($article as $k=>$v)
@@ -28,7 +28,7 @@ function getArticles($totalPrintCount)
 			'table' => core\Spawn::getTableName('Nest'),
 			'field' => 'name,json',
 			'where' => 'srl='.(int)$v['nest_srl'],
-			'jsonField' => 'json'
+			'jsonField' => ['json']
 		]);
 
 		$article[$k]['nest'] = $nest;

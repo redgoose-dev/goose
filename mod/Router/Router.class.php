@@ -14,6 +14,7 @@ class Router {
 		$this->route = new AltoRouter();
 	}
 
+
 	/**
 	 * init
 	 *
@@ -22,12 +23,14 @@ class Router {
 	 */
 	public function init($pwd_map, $accessLevel)
 	{
+		// init route map
 		$this->route->setBasePath(preg_replace('/\/$/', '', __GOOSE_ROOT__));
 		require_once(core\Util::checkUserFile($pwd_map));
 		$this->match = $this->route->match();
 
 		if ($this->match)
 		{
+			// set route values
 			$_module = (isset($this->match['params']['module'])) ? $this->match['params']['module'] : null;
 			$_action = (isset($this->match['params']['action'])) ? $this->match['params']['action'] : null;
 			$_method = $_SERVER['REQUEST_METHOD'];

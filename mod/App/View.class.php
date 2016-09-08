@@ -168,5 +168,4 @@ class View {
 		$this->parent->skinAddr = $bladeResult['address'];
 		$this->parent->skinPath = 'mod/' . $bladeResult['path'] . '/';
 	}
-
 }

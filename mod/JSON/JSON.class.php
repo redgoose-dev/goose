@@ -1,6 +1,6 @@
 <?php
 namespace mod\JSON;
-use core;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
@@ -40,9 +40,25 @@ class JSON {
 		}
 		else
 		{
-			require_once(__GOOSE_PWD__.$this->path.'view.class.php');
 			$view = new View($this);
-			$view->render();
+
+			switch ($this->params['action']) {
+				case 'read':
+					$view->view_read();
+					break;
+				case 'create':
+					$view->view_create();
+					break;
+				case 'modify':
+					$view->view_modify();
+					break;
+				case 'remove':
+					$view->view_remove();
+					break;
+				default:
+					$view->view_index();
+					break;
+			}
 		}
 	}
 
