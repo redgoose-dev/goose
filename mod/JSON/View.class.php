@@ -57,29 +57,25 @@ class View {
 	 */
 	public function view_read()
 	{
-//		// set json srl
-//		$json_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
-//
-//		// set repo
-//		$repo = array();
-//
-//		// get json data
-//		$data = $this->parent->getItem(array('where' => 'srl='.$json_srl));
-//		$repo['json'] = ($data['state'] == 'success') ? $data['data'] : array();
-//		if ($data['state'] == 'error')
-//		{
-//			Util::back($data['message']);
-//			Goose::end();
-//		}
-//		else if ($data['state'] == 'success')
-//		{
-//			$repo['json'] = $data['data'];
-//		}
-//
-//		// set pwd_container
-//		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_read.html';
-//
-//		require_once($this->layout->getUrl());
+		// set json srl
+		$json_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
+
+		// set repo
+		$repo = new stdClass();
+		$repo->json = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => 'srl=' . (int)$json_srl
+		]);
+
+		// set skin path
+		$this->setSkinPath('read');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.read', [
+			'json_srl' => $json_srl,
+			'mod' => $this->parent,
+			'repo' => $repo
+		]);
 	}
 
 	/**
@@ -87,13 +83,19 @@ class View {
 	 */
 	public function view_create()
 	{
-//		// check admin
-//		$this->checkAdmin();
-//
-//		// set pwd_container
-//		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
-//
-//		require_once($this->layout->getUrl());
+		// check admin
+		$this->checkAdmin();
+
+		// set skin path
+		$this->setSkinPath('form');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
+			'mod' => $this->parent,
+			'repo' => new stdClass(),
+			'action' => $this->parent->params['action'],
+			'typeName' => '등록'
+		]);
 	}
 
 	/**
@@ -101,31 +103,30 @@ class View {
 	 */
 	public function view_modify()
 	{
-//		// check admin
-//		$this->checkAdmin();
-//
-//		// set json srl
-//		$json_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
-//
-//		// set repo
-//		$repo = array();
-//
-//		// get json data
-//		$data = $this->parent->getItem(array('where' => 'srl='.$json_srl));
-//		if ($data['state'] == 'error')
-//		{
-//			Util::back($data['message']);
-//			Goose::end();
-//		}
-//		else if ($data['state'] == 'success')
-//		{
-//			$repo['json'] = $data['data'];
-//		}
-//
-//		// set container pwd
-//		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_form.html';
-//
-//		require_once($this->layout->getUrl());
+		// set json srl
+		$json_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
+
+		// check admin
+		$this->checkAdmin();
+
+		// set repo
+		$repo = new stdClass();
+		$repo->json = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => 'srl=' . (int)$json_srl
+		]);
+
+		// set skin path
+		$this->setSkinPath('form');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
+			'json_srl' => $json_srl,
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'action' => $this->parent->params['action'],
+			'typeName' => '수정'
+		]);
 	}
 
 	/**
@@ -133,34 +134,31 @@ class View {
 	 */
 	public function view_remove()
 	{
-//		// check admin
-//		$this->checkAdmin();
-//
-//		// set json srl
-//		$json_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
-//
-//		// set repo
-//		$repo = array();
-//
-//		$data = $this->parent->getItem(array(
-//			'field' => 'srl,name',
-//			'where' => 'srl='.$json_srl
-//		));
-//		$repo['json'] = ($data['state'] == 'success') ? $data['data'] : array();
-//		if ($data['state'] == 'error')
-//		{
-//			Util::back($data['message']);
-//			Goose::end();
-//		}
-//		else if ($data['state'] == 'success')
-//		{
-//			$repo['json'] = $data['data'];
-//		}
-//
-//		// set container pwd
-//		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_remove.html';
-//
-//		require_once($this->layout->getUrl());
+		// set json srl
+		$json_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
+
+		// check admin
+		$this->checkAdmin();
+
+		// set repo
+		$repo = new stdClass();
+		$repo->json = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'field' => 'srl,name',
+			'where' => 'srl=' . (int)$json_srl
+		]);
+
+		// set skin path
+		$this->setSkinPath('remove');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.remove', [
+			'json_srl' => $json_srl,
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'action' => $this->parent->params['action'],
+			'typeName' => '삭제'
+		]);
 	}
 
 	/**

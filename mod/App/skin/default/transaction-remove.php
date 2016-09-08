@@ -30,7 +30,7 @@ if ($errorValue)
 // remove data
 $result = core\Spawn::delete([
 	'table' => core\Spawn::getTableName($this->name),
-	'where' => 'srl=' . $post['app_srl']
+	'where' => 'srl=' . (int)$post['app_srl']
 ]);
 if ($result != 'success')
 {

@@ -63,8 +63,8 @@ if ($result != 'success')
 
 
 // redirect url
-return array(
+return [
 	'state' => 'success',
 	'action' => 'redirect',
 	'url' => __GOOSE_ROOT__ . '/' . $this->name . '/index/'
-);
+];

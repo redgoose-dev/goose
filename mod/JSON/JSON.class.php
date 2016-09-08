@@ -21,28 +21,27 @@ class JSON {
 	{
 		if ($this->params['method'] == 'POST')
 		{
+			$result = null;
 			switch($this->params['action'])
 			{
 				case 'create':
 					$result = $this->transaction('create', $_POST);
-					core\Module::afterAction($result);
 					break;
 				case 'modify':
 					$result = $this->transaction('modify', $_POST);
-					core\Module::afterAction($result);
 					break;
 				case 'remove':
 					$result = $this->transaction('remove', $_POST);
-					core\Module::afterAction($result);
 					break;
 			}
-			core\Goose::end();
+			if ($result) core\Module::afterAction($result);
 		}
 		else
 		{
 			$view = new View($this);
 
-			switch ($this->params['action']) {
+			switch ($this->params['action'])
+			{
 				case 'read':
 					$view->view_read();
 					break;
@@ -74,13 +73,13 @@ class JSON {
 	 * @param array $post
 	 * @return array
 	 */
-	public function transaction($method, $post=array())
+	public function transaction($method, $post=[])
 	{
-		if (!$method) return array('state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.');
-		if ($this->name != 'json') return array('state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.');
-		if (!$this->isAdmin) return array('state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.');
+		if (!$method) return [ 'state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.' ];
+		if ($this->name != 'JSON') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if (!$this->isAdmin) return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
 
-		$loc = __GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php';
+		$loc = __GOOSE_PWD__ . $this->skinPath . 'transaction-' . $method . '.php';
 
 		if (file_exists($loc))
 		{
@@ -88,11 +87,11 @@ class JSON {
 		}
 		else
 		{
-			return array(
+			return [
 				'state' => 'error',
 				'action' => 'back',
 				'message' => '처리파일이 없습니다.'
-			);
+			];
 		}
 	}
 
@@ -110,11 +109,12 @@ class JSON {
 	public function install($installData)
 	{
 		// create table
-		$query = core\Spawn::arrayToCreateTableQuery(array(
-			'tableName' => core\Spawn::getTableName($this->name)
-			,'fields' => $installData
-		));
+		$query = core\Spawn::arrayToCreateTableQuery([
+			'tableName' => core\Spawn::getTableName($this->name),
+			'fields' => $installData
+		]);
 
-		return core\Spawn::action($query);
+		$result = core\Spawn::action($query);
+		return $result;
 	}
 }

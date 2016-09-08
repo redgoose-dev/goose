@@ -35,14 +35,14 @@ class App {
 					$result = $this->transaction('remove', $_POST);
 					break;
 			}
-
 			if ($result) core\Module::afterAction($result);
 		}
 		else
 		{
 			$view = new View($this);
 
-			switch ($this->params['action']) {
+			switch ($this->params['action'])
+			{
 				case 'create':
 					$view->view_create();
 					break;
@@ -113,5 +113,4 @@ class App {
 		$result = core\Spawn::action($query);
 		return $result;
 	}
-
 }
