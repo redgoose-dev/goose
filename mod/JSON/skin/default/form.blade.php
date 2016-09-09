@@ -66,8 +66,8 @@
 
 @section('script')
 <script src="{{ $root }}/vendor/JSONEditor/dist/js/JSONEditor.class.js"></script>
+<script src="{{ $root }}/vendor/JSONEditor/vendor/jquery-sortable/jquery-sortable.min.js"></script>
 <script src="{{ $root }}/vendor/validation/jquery.validate.min.js"></script>
 <script src="{{ $root }}/vendor/validation/localization/messages_ko.js"></script>
-<script src="{{ $root }}/vendor/JSONEditor/vendor/jquery-sortable/jquery-sortable.js"></script>
 <script src="{{ $root }}/{{ $mod->skinPath }}js/json.js"></script>
 @endsection

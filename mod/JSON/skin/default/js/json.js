@@ -101,6 +101,7 @@ jQuery(function($){
 
 	// value validate
 	$form.validate({
+		ignore: '[contenteditable]',
 		rules : {
 			name : {required : true, minlength : 3}
 		}
