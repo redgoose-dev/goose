@@ -1,64 +1,86 @@
 <?php
 namespace mod\Script;
-use core;
+use mod, core, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
-class View extends Script
+class View
 {
-	private $parent;
+	public $parent;
 
-	/**
-	 * construct
-	 *
-	 * @param Script $parent
-	 */
 	public function __construct($parent)
 	{
-		$this->name = 'view';
+		$this->name = 'View';
 		$this->parent = $parent;
 
-		$this->param = $this->parent->param;
-		$this->path = $this->parent->path;
-		$this->set = $this->parent->set;
-		$this->skinPath = $this->parent->skinPath;
-		$this->runPath = $this->parent->runPath;
+		// set blade class
+		$this->blade = new core\Blade();
 	}
 
-	/**
-	 * index
-	 */
-	protected function render()
-	{
-		// create layout module
-		$this->layout = core\Module::load('layout');
 
-		// act view index
-		$this->view_index();
+	/**
+	 * check admin
+	 */
+	private function checkAdmin()
+	{
+		if (!$this->parent->isAdmin)
+		{
+			core\Util::back('권한이 없습니다.');
+			core\Goose::end();
+		}
 	}
 
 	/**
 	 * view - index
 	 */
-	private function view_index()
+	public function view_index()
 	{
-		// set repo
-		$repo = Array('run');
+		$runPath = __GOOSE_PWD__ . $this->parent->runPath;
+		$repo = new stdClass();
+		$repo->run = [];
+		$runDirs = core\Util::getDir(__GOOSE_PWD__.$this->parent->runPath, 'name');
 
-		// get data
-		$repo['run'] = core\Util::getDir(__GOOSE_PWD__.$this->runPath, 'name');
-
-		// set data
-		foreach($repo['run'] as $k=>$v)
+		// repo->run processing
+		foreach($runDirs as $k=>$v)
 		{
-			$meta = core\Util::jsonToArray(core\Util::openFile(__GOOSE_PWD__.$this->runPath.$v['name'].'/meta.json'), null, true);
-			$repo['run'][$k]['meta'] = $meta;
+			if (file_exists($runPath . $v['name'] . '/meta.json') && file_exists($runPath . $v['name'] . '/run.php'))
+			{
+				$repo->run[] = [
+					'name' => $v['name'],
+					'meta' => core\Util::jsonToArray(core\Util::openFile($runPath . $v['name'] . '/meta.json'), null, true),
+					'path' => __GOOSE_ROOT__ . '/' . $this->parent->runPath . $v['name']
+				];
+			}
 		}
 
-		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_index.html';
+		// set skin path
+		$this->setSkinPath('index');
 
-		require_once($this->layout->getUrl());
+		// render page
+		$this->blade->render($this->parent->skinAddr . '.index', [
+			'mod' => $this->parent,
+			'repo' => $repo
+		]);
 	}
 
+	/**
+	 * set skin path
+	 *
+	 * @param string $type
+	 * @param string $userSkin
+	 */
+	private function setSkinPath($type, $userSkin=null)
+	{
+		// check blade file
+		$bladeResult = core\Blade::isFile(__GOOSE_PWD__ . 'mod', $type, [
+			$this->parent->name . '.skin.' . $_GET['skin'],
+			$this->parent->name . '.skin.' . $userSkin,
+			$this->parent->name . '.skin.' . $this->parent->set['skin'],
+			$this->parent->name . '.skin.default'
+		]);
+
+		// set blade and file path
+		$this->parent->skinAddr = $bladeResult['address'];
+		$this->parent->skinPath = 'mod/' . $bladeResult['path'] . '/';
+	}
 }

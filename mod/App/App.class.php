@@ -1,13 +1,13 @@
 <?php
 namespace mod\App;
-use core;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
 class App {
 
-	public $name, $set, $path, $params;
-	public $skinPath, $skinAddr, $message;
+	public $name, $set, $params, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
 	public function __construct($params=[])
 	{

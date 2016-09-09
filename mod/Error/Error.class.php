@@ -1,19 +1,20 @@
 <?php
 namespace mod\Error;
-use core, stdClass;
+use core, mod, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
 class Error {
 
-	public $goose, $param, $set, $name, $layout, $isAdmin, $method;
-	public $path, $skinPath, $pwd_container;
+	public $name, $set, $path, $params;
+	public $skinPath, $skinAddr, $message;
 
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
 
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
+		// set blade class
+		$this->blade = new core\Blade();
 	}
 
 	/**
@@ -33,17 +34,62 @@ class Error {
 	 * full render
 	 * 전체로 출력되는 에러페이지
 	 *
-	 * @param int $code error code
-	 * @param string $message error message
+	 * @param int $code
+	 * @param string $message
+	 * @param string $homeUrl
 	 */
-	public function render($code, $message, $url_home)
+	public function render($code, $message, $homeUrl=null)
 	{
-		$url_home = ($url_home) ? $url_home : __GOOSE_ROOT__;
-		require_once(__GOOSE_PWD__.$this->skinPath.'view_render.html');
+		// set skin path
+		$this->setSkinPath('render');
+
+		// play render page
+		$this->blade->render($this->skinAddr . '.render', [
+			'mod' => $this,
+			'homeUrl' => ($homeUrl) ? $homeUrl : __GOOSE_ROOT__,
+			'code' => $code,
+			'message' => $message
+		]);
 	}
 
+	/**
+	 * box
+	 * 페이지에서 호출되는 부분에 출력하는 에러 메시지
+	 *
+	 * @param int $code
+	 * @param string $message
+	 */
 	public function box($code, $message)
 	{
-		require_once(__GOOSE_PWD__.$this->skinPath.'view_box.html');
+		// set skin path
+		$this->setSkinPath('box');
+
+		// play render page
+		$this->blade->render($this->skinAddr . '.box', [
+			'mod' => $this,
+			'code' => $code,
+			'message' => $message
+		]);
+	}
+
+	/**
+	 * set skin path
+	 *
+	 * @param string $type
+	 * @param string $userSkin
+	 */
+	private function setSkinPath($type, $userSkin=null)
+	{
+		// check blade file
+		$bladeResult = core\Blade::isFile(__GOOSE_PWD__ . 'mod', $type, [
+			$this->name . '.skin.' . $_GET['skin'],
+			$this->name . '.skin.' . $userSkin,
+			$this->name . '.skin.' . $this->set['skin'],
+			$this->name . '.skin.default'
+		]);
+
+		// set blade and file path
+		$this->skinAddr = $bladeResult['address'];
+		$this->skinPath = 'mod/' . $bladeResult['path'] . '/';
 	}
 }

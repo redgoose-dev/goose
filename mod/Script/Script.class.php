@@ -1,31 +1,20 @@
 <?php
 namespace mod\Script;
-use core;
-
+use core, mod, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
 class Script {
 
-	public $name, $goose, $layout, $isAdmin, $param, $set;
-	public $path, $skinPath, $runPath;
+	public $name, $set, $params, $isAdmin;
+	public $path, $skinPath, $skinAddr, $runPath;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
-		$this->runPath = 'mod/Script/run/';
+		// set run path
+		$this->runPath = 'mod/' . $this->name . '/run/';
 	}
 
 	/**
@@ -33,15 +22,24 @@ class Script {
 	 */
 	public function index()
 	{
-		if ($this->param['action'] == 'run')
+		if ($this->params['action'] == 'run')
 		{
-			$result = $this->run($this->param['params'][0]);
-			if ($result) core\Module::afterAction($result);
+			$result = $this->run($this->params['params'][0]);
+			if ($result)
+			{
+				core\Module::afterAction($result);
+			}
 		}
 		else
 		{
 			$view = new View($this);
-			$view->render();
+
+			switch ($this->params['action'])
+			{
+				default:
+					$view->view_index();
+					break;
+			}
 		}
 	}
 
@@ -54,20 +52,23 @@ class Script {
 	 */
 	public function run($name)
 	{
-		if ($this->name != 'script') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if ($this->name != 'Script') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set run path
-		$path = $this->runPath.$name.'/';
+		$path = $this->runPath . $name . '/';
 
 		// check run file
-		if (!file_exists(__GOOSE_PWD__.$path.'run.php'))
+		if (!file_exists(__GOOSE_PWD__ . $path . 'run.php'))
 		{
-			return [ 'state' => 'error', 'message' => '실행코드 파일이 없습니다.' ];
+			return [
+				'state' => 'error',
+				'message' => '실행파일이 없습니다.'
+			];
 		}
 
 		// get meta data
-		$meta = core\Util::jsonToArray(core\Util::openFile(__GOOSE_PWD__.$path.'meta.json'), null, true);
+		$meta = core\Util::jsonToArray(core\Util::openFile(__GOOSE_PWD__ . $path . 'meta.json'), null, true);
 
-		return (require_once(__GOOSE_PWD__.$path.'run.php'));
+		return (require_once(__GOOSE_PWD__ . $path . 'run.php'));
 	}
 }
