@@ -1,8 +1,6 @@
 <?php
-
 namespace mod\Auth;
 use core;
-
 if (!defined('__GOOSE__')) exit();
 
 
@@ -14,10 +12,8 @@ class Auth {
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
-
-		$this->skinAddr = $this->name . '.skin.' . $this->set['skin'];
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
 	}
+
 
 	/**
 	 * index method
@@ -46,7 +42,7 @@ class Auth {
 	/**
 	 * auth
 	 *
-	 * @param int $level goose에 접근할 수 있는 레벨값
+	 * @param int $level goose 접근할 수 있는 레벨값
 	 */
 	public function auth($level=0)
 	{
@@ -88,10 +84,14 @@ class Auth {
 			'description' => $this->message['headDescription']
 		];
 
+		// set skin path
+		$this->setSkinPath('form');
+
 		$blade->render($this->skinAddr . '.form', [
 			'root' => __GOOSE_ROOT__,
 			'layout' => $layout,
 			'util' => new core\Util(),
+			'mod' => $this,
 			'user' => $user,
 			'head' => $head
 		]);
@@ -180,4 +180,24 @@ class Auth {
 		}
 	}
 
+	/**
+	 * set skin path
+	 *
+	 * @param string $type
+	 * @param string $userSkin
+	 */
+	private function setSkinPath($type, $userSkin=null)
+	{
+		// check blade file
+		$bladeResult = core\Blade::isFile(__GOOSE_PWD__ . 'mod', $type, [
+			$this->name . '.skin.' . $_GET['skin'],
+			$this->name . '.skin.' . $userSkin,
+			$this->name . '.skin.' . $this->set['skin'],
+			$this->name . '.skin.default'
+		]);
+
+		// set blade and file path
+		$this->skinAddr = $bladeResult['address'];
+		$this->skinPath = 'mod/' . $bladeResult['path'] . '/';
+	}
 }

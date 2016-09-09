@@ -8,7 +8,7 @@
 		'description' => $head['description']
 	])
 
-	<form action="{{ $root }}/auth/login/" method="post" class="form-auth">
+	<form action="{{ $root }}/{{ $mod->name }}/login/" method="post" class="form-auth">
 		<input type="hidden" name="redir" value="{{ $_SERVER['REQUEST_URI'] }}">
 		<fieldset>
 			<legend class="blind">authentication form</legend>

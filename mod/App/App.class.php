@@ -6,8 +6,8 @@ if (!defined('__GOOSE__')) exit();
 
 class App {
 
-	public $name, $params, $set, $isAdmin;
-	public $path, $skinPath, $skinAddr;
+	public $name, $set, $path, $params;
+	public $skinPath, $skinAddr, $message;
 
 	public function __construct($params=[])
 	{
