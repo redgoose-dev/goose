@@ -1,6 +1,6 @@
 <?php
 namespace mod\App;
-use core, mod;
+use core, mod, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
@@ -113,4 +113,22 @@ class App {
 		$result = core\Spawn::action($query);
 		return $result;
 	}
+
+//	/**
+//	 * uninstall
+//	 *
+//	 * @return array
+//	 */
+//	public function uninstall()
+//	{
+//		$result = core\Spawn::dropTable(core\Spawn::getTableName($this->name));
+//		if ($result == 'success')
+//		{
+//			return [ 'state' => 'success', 'message' => 'complete uninstall module' ];
+//		}
+//		else
+//		{
+//			return [ 'state' => 'error', 'message' => $result ];
+//		}
+//	}
 }

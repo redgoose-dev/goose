@@ -114,24 +114,30 @@ class Install {
 	}
 
 	/**
-	 * install module
+	 * uninstall module
 	 *
 	 * @param string $modName module name
 	 * @return array
 	 */
 	public function unInstallModule($modName=null)
 	{
-		if (!$modName) return Array('state' => 'error', 'message' => 'not found module name');
+		if (!$modName) return [ 'state' => 'error', 'message' => 'not found module name' ];
 
 		$result = core\Module::uninstall($modName);
 
 		if ($result['state'] == 'success')
 		{
-			return Array('state' => 'success', "message" => "[$modName] Complete uninstall");
+			return [
+				'state' => 'success',
+				"message" => "[$modName] Complete uninstall"
+			];
 		}
 		else if ($result['state'] == 'error')
 		{
-			return Array('state' => 'error', "message" => "[$modName] ERROR : $result[message]");
+			return [
+				'state' => 'error',
+				"message" => "[$modName] ERROR : $result[message]"
+			];
 		}
 	}
 }

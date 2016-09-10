@@ -44,6 +44,7 @@ class Util {
 		echo ($msg) ? "alert('$msg');" : "";
 		echo "history.back();";
 		echo self::tagScriptFoot;
+		Goose::end();
 	}
 
 	/**
@@ -59,6 +60,7 @@ class Util {
 		echo ($msg) ? "alert('$msg');" : "";
 		echo ($loc) ? "location.href='$loc';" : "";
 		echo self::tagScriptFoot;
+		Goose::end();
 	}
 
 	/**
@@ -69,6 +71,7 @@ class Util {
 		echo self::tagScriptHead;
 		echo "location.reload();";
 		echo self::tagScriptFoot;
+		Goose::end();
 	}
 
 	/**

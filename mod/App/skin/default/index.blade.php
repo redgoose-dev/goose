@@ -25,8 +25,8 @@
 							<span><b>article</b>{{ $app['articleCount'] }}</span>
 						</div>
 						<nav>
-							<a href="{{ $root }}/App/modify/{{ $app['srl'] }}/">수정</a>
-							<a href="{{ $root }}/App/remove/{{ $app['srl'] }}/">삭제</a>
+							<a href="{{ $root }}/{{ $mod->name }}/modify/{{ $app['srl'] }}/">수정</a>
+							<a href="{{ $root }}/{{ $mod->name }}/remove/{{ $app['srl'] }}/">삭제</a>
 						</nav>
 					</div>
 				</div>

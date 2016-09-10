@@ -9,7 +9,7 @@
 		'isHeadNavigation' => true
 	])
 
-	<form action="{{ $root }}/App/{{ $action }}/" method="post" id="regsterForm">
+	<form action="{{ $root }}/{{ $mod->name }}/{{ $action }}/" method="post" id="regsterForm">
 		<input type="hidden" name="app_srl" value="{{ $app_srl }}"/>
 
 		<fieldset class="form-group">

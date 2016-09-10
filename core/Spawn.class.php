@@ -382,7 +382,8 @@ class Spawn {
 	 */
 	public static function dropTable($tableName=null)
 	{
-		return Spawn::action('drop table '.$tableName);
+		$qry = 'drop table ' . $tableName;
+		return Spawn::action($qry);
 	}
 
 	/**

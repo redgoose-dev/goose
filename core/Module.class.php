@@ -223,21 +223,21 @@ class Module {
 
 		if (method_exists($mod, 'uninstall'))
 		{
-			$result = $mod->uninstall($moduleName);
+			$result = $mod->uninstall();
 
 			if ($result['state'] == 'success')
 			{
 				self::setInstallModule('remove', $moduleName);
-				return Array('state' => 'success');
+				return [ 'state' => 'success' ];
 			}
 			else
 			{
-				return Array('state' => 'error', 'message' => $result['message']);
+				return [ 'state' => 'error', 'message' => $result['message'] ];
 			}
 		}
 		else
 		{
-			return Array('state' => 'error', 'message' => 'not found uninstall method');
+			return [ 'state' => 'error', 'message' => 'not found uninstall method' ];
 		}
 	}
 
