@@ -330,21 +330,23 @@ class Util {
 	 * 하위 파일목록을 가져온다.
 	 *
 	 * @param string $path
+	 * @param string $extension
 	 * @return array
 	 */
-	public static function getFiles($path=null)
+	public static function getFiles($path=null, $extension=null)
 	{
-		$results = array();
-		if(!($path = opendir($path)))
+		$results = [];
+		if(!($dir = opendir($path)))
 		{
 			return null;
 		}
-		while ($file = readdir($path))
+		while ($file = readdir($dir))
 		{
 			if (is_dir($file) != '1' && !preg_match('/^\./', $file)) {
-				$results[] = array(
-					'filename' => $file
-				);
+				if (!$extension || ($extension && (self::getExtension($path . $file) == $extension)))
+				{
+					$results[] = [ 'filename' => $file ];
+				}
 			}
 		}
 		return $results;
@@ -357,7 +359,7 @@ class Util {
 	 * @param string $get
 	 * @return string
 	 */
-	public static function getParameter($get)
+	public function getParameter($get)
 	{
 		if ($_POST[$get])
 		{

@@ -1,83 +1,36 @@
 <?php
 namespace mod\Page;
-use core;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
 class Page {
 
-	public $name, $goose, $layout, $param, $set;
-	public $path, $pwd_container, $viewPath;
+	public $name, $set, $params, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params=[])
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
-
-		$this->viewPath = $this->path.'skin/'.$this->set['skin'].'/';
+		core\Module::initModule($this, $params);
 	}
+
 
 	/**
 	 * index
 	 */
 	public function index()
 	{
-		// create layout module
-		$this->layout = core\Module::load('layout');
+		$view = new View($this);
 
-		if ($this->param['action'])
+		if ($this->params['action'])
 		{
-			$this->render($this->param['action']);
+			$view->view_read($this->params['action']);
 		}
-		else if (!$this->param['action'] || ($this->param['action'] == 'index'))
+		else
 		{
-			$this->view_index();
+			$view->view_index();
 		}
 	}
-
-	/**
-	 * render
-	 *
-	 * @param string $action
-	 */
-	public function render($action)
-	{
-		$this->pwd_container = __GOOSE_PWD__.$this->path.'pages/'.$action.'.html';
-		if (!file_exists($this->pwd_container))
-		{
-			core\Goose::error(404);
-		}
-
-		require_once($this->layout->getUrl());
-	}
-
-	/**
-	 * view - index
-	 */
-	private function view_index()
-	{
-		// set repo
-		$repo = [];
-
-		// get data
-		$data = $this->getFileIndex();
-		$repo['pages'] = ($data['state'] == 'success') ? $data['data'] : [];
-
-		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->viewPath.'view_index.html';
-
-		require_once($this->layout->getUrl());
-	}
-
 
 
 	/**********************************************
@@ -91,29 +44,10 @@ class Page {
 	 */
 	public function getFileIndex()
 	{
-		if ($this->name != 'page') return array( 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' );
-
-		// check user
-		if (!$this->isAdmin)
-		{
-			return array(
-				'state' => 'error',
-				'action' => 'back',
-				'message' => '권한이 없습니다.'
-			);
-		}
+		if ($this->name != 'Page') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if (!$this->isAdmin) return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
 
 		// get datas
-		$result = core\Util::getFiles(__GOOSE_PWD__.$this->path.'pages/');
-
-		// return
-		if ($result)
-		{
-			return array( 'state' => 'success', 'data' => $result );
-		}
-		else
-		{
-			return array( 'state' => 'error', 'message' => 'no data' );
-		}
+		return core\Util::getFiles(__GOOSE_PWD__ . $this->path . 'pages/', 'html');
 	}
 }
