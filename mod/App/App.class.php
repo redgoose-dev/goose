@@ -1,6 +1,6 @@
 <?php
 namespace mod\App;
-use core, mod, stdClass;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
