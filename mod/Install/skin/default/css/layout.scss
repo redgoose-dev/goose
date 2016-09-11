@@ -14,7 +14,7 @@ button {
 	border: none;
 }
 
-main {margin: 0 auto; padding: 0 15px; max-width: 720px;}
+main {margin: 0 auto; padding: 10px 15px 30px; max-width: 720px;}
 header {
 	h1 {color: #b31e37; font-size: 32px; text-align: center;}
 	.error {color: red; font-size: 14px; font-weight: bold;}
@@ -27,7 +27,6 @@ form {
 	}
 	label {
 		display: block; margin: 20px 0;
-		&.first {margin-top: 10px;}
 		> strong {
 			margin: 0 0 5px 0; font-weight: normal;
 			display: block; font-size: 14px; color: #333;
@@ -54,6 +53,7 @@ form {
 			> label.error {display: block; margin: 6px 0 0; font-size: 13px;}
 		}
 	}
+	legend + label {margin-top: 5px;}
 	hr {
 		display: block;
 		margin: 20px 0; height: 1px;

@@ -26,18 +26,18 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 	<form action="<?=__GOOSE_ROOT__?>/" method="post" id="regsterForm">
 		<fieldset>
 			<legend>Location</legend>
-			<label class="first">
+			<label>
 				<strong>Relative url</strong>
 				<span><input type="text" name="goose_root" id="goose_root" size="45" maxlength="255" value="<?=__GOOSE_ROOT__?>" /></span>
 			</label>
-			<label class="first">
+			<label>
 				<strong>Install url</strong>
 				<span><input type="text" name="goose_url" id="goose_url" size="45" maxlength="255" value="<?='http://'.$_SERVER['HTTP_HOST'].__GOOSE_ROOT__?>" /></span>
 			</label>
 		</fieldset>
 		<fieldset>
 			<legend>Database infomation</legend>
-			<label class="first">
+			<label>
 				<strong>DB user id</strong>
 				<span><input type="text" name="dbId" id="dbId" size="15" maxlength="20" /></span>
 			</label>
@@ -70,7 +70,7 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 
 		<fieldset>
 			<legend>Admin infomation</legend>
-			<label class="first">
+			<label>
 				<strong>E-mail</strong>
 				<span><input type="email" name="email" id="email" size="28" maxlength="40" /></span>
 			</label>
@@ -104,7 +104,7 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 
 		<fieldset>
 			<legend>API</legend>
-			<label class="first">
+			<label>
 				<strong>API KEY prefix</strong>
 				<span><input type="text" name="apiPrefix" id="apiPrefix" size="28" maxlength="20" value="<?=$apikeyPrefix?>" /></span>
 			</label>
@@ -112,7 +112,7 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 
 		<fieldset>
 			<legend>ETC</legend>
-			<label class="first">
+			<label>
 				<strong>Timezone</strong>
 				<span>
 					<input type="text" name="timezone" size="24" maxlength="30" value="Asia/Seoul" required /><br/>

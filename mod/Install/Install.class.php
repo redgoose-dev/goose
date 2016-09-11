@@ -11,9 +11,9 @@ class Install {
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
-
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
+		core\Util::console($this->skinPath);
 	}
+
 
 	/**
 	 * form
@@ -21,8 +21,7 @@ class Install {
 	 */
 	public function form()
 	{
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
-		require_once(__GOOSE_PWD__.$this->skinPath.'view_form.html');
+		require_once(__GOOSE_PWD__ . $this->skinPath . 'view-form.html');
 	}
 
 	/**
@@ -37,8 +36,7 @@ class Install {
 			core\Goose::end();
 		}
 
-		$this->skinPath = $this->path.'skin/'.$this->set['skin'].'/';
-		require_once(__GOOSE_PWD__.$this->skinPath.'transaction_install.php');
+		require_once(__GOOSE_PWD__ . $this->skinPath . 'transaction-install.php');
 	}
 
 	/**
@@ -49,10 +47,7 @@ class Install {
 	 */
 	public static function tpl_config($data=null)
 	{
-		if (!$data)
-		{
-			return '';
-		}
+		if (!$data) return '';
 
 		$str = "<?php\n";
 		$str .= "if (!defined('__GOOSE__')) exit();\n";
@@ -67,11 +62,11 @@ class Install {
 		$str .= "\$basic_module = '".$data['basic_module']."';\n";
 		$str .= "\n";
 		$str .= "\$accessLevel = [\n";
-		$str .= "\t'login' => ".$data['level']['login']."\n";
-		$str .= "\t,'admin' => ".$data['level']['admin']."\n";
+		$str .= "\t'login' => ".$data['level']['login'].",\n";
+		$str .= "\t'admin' => ".$data['level']['admin']."\n";
 		$str .= "];";
 
-		return core\Util::fop(__GOOSE_PWD__.'data/config.php', 'w', $str, 0755);
+		return core\Util::fop(__GOOSE_PWD__ . 'data/config.php', 'w', $str, 0755);
 	}
 
 	/**

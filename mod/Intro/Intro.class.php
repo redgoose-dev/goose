@@ -1,6 +1,6 @@
 <?php
 namespace mod\Intro;
-use core, stdClass;
+use core, mod, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 

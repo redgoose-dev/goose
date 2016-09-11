@@ -1,8 +1,5 @@
 <?php
-use Core\Util;
-use Core\Goose;
-use Core\Spawn;
-
+use core;
 if (!defined('__GOOSE__')) exit();
 
 global $goose;
@@ -15,20 +12,20 @@ global $goose;
  */
 function checkPost()
 {
-	$errorValue = Util::checkExistValue($_POST, [ 'goose_url', 'dbId', 'dbName', 'email', 'name' ]);
+	$errorValue = core\Util::checkExistValue($_POST, [ 'goose_url', 'dbId', 'dbName', 'email', 'name' ]);
 	if ($errorValue)
 	{
-		Util::back("[$errorValue]값이 없습니다.");
-		Goose::end();
+		core\Util::back("[$errorValue]값이 없습니다.");
+		core\Goose::end();
 	}
 	if (!$_POST['dbPassword'] || ($_POST['dbPassword'] != $_POST['dbPassword2']))
 	{
-		Util::back("DB 비밀번호와 확인값이 다릅니다.");
+		core\Util::back("DB 비밀번호와 확인값이 다릅니다.");
 		return false;
 	}
 	if (!$_POST['password'] || ($_POST['password'] != $_POST['password2']))
 	{
-		Util::back("관리자 비밀번호와 확인값이 다릅니다.");
+		core\Util::back("관리자 비밀번호와 확인값이 다릅니다.");
 		return false;
 	}
 	return true;
@@ -39,26 +36,26 @@ function checkPost()
 if ( checkPost() == true )
 {
 	// change permission goose root
-	$root_permission = Util::getPermission(__GOOSE_PWD__);
+	$root_permission = core\Util::getPermission(__GOOSE_PWD__);
 	if ($root_permission != '0777' && $root_permission != '0707')
 	{
 		if (!chmod(__GOOSE_PWD__, 0707))
 		{
-			echo '<p>Please change the permission of `'.__GOOSE_PWD__.'` to 707 folder.</p>';
-			Goose::end();
+			echo '<p>Please change the permission of `' . __GOOSE_PWD__ . '` to 707 folder.</p>';
+			core\Goose::end();
 		}
 	}
 
 	// check writable directory
 	if (!is_writable(__GOOSE_PWD__))
 	{
-		Goose::error(101, 'Not a writable directory.');
+		core\Goose::error(101, 'Not a writable directory.');
 	}
 
 	// create directories
-	Util::createDirectory(__GOOSE_PWD__."data", 0755);
-	Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
-	Util::createDirectory(__GOOSE_PWD__."data/cache", 0755);
+	core\Util::createDirectory(__GOOSE_PWD__."data", 0755);
+	core\Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
+	core\Util::createDirectory(__GOOSE_PWD__."data/cache", 0755);
 
 	// create config.php
 	$tpl_config = $this->tpl_config([
@@ -84,18 +81,18 @@ if ( checkPost() == true )
 	]);
 	if ($tpl_config != 'success')
 	{
-		Goose::error(101, 'Failed to create the file data/config.php');
+		core\Goose::error(101, 'Failed to create the file data/config.php');
 	}
 
 	// create modules.json
 	if ($this->tpl_modules() != 'success')
 	{
-		Goose::error(101, 'Failed to create the file data/modules.json');
+		core\Goose::error(101, 'Failed to create the file data/modules.json');
 	}
 }
 else
 {
-	Goose::end();
+	core\Goose::end();
 }
 
 
@@ -123,8 +120,8 @@ foreach($arr as $k=>$v)
 
 
 // add admin user
-$result = Spawn::insert([
-	'table' => Spawn::getTableName('User'),
+$result = core\Spawn::insert([
+	'table' => core\Spawn::getTableName('User'),
 	'data' => [
 		'srl' => null,
 		'email' => $_POST['email'],
@@ -138,18 +135,18 @@ echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "<strong styl
 
 
 // add basic navigation on json table
-$cnt = Spawn::count([
-	'table' => Spawn::getTableName('JSON'),
+$cnt = core\Spawn::count([
+	'table' => core\Spawn::getTableName('JSON'),
 	'where' => "name='Goose Navigation'"
 ]);
 if (!$cnt)
 {
-	$data = Util::checkUserFile(__GOOSE_PWD__.'bootstrap/misc/navigationTree.json');
-	$data = Util::openFile($data);
-	$data = Util::jsonToArray($data, true, true);
-	$data = Util::arrayToJson($data, true);
-	$result = Spawn::insert([
-		'table' => Spawn::getTableName('JSON'),
+	$data = core\Util::checkUserFile(__GOOSE_PWD__.'bootstrap/misc/navigationTree.json');
+	$data = core\Util::openFile($data);
+	$data = core\Util::jsonToArray($data, true, true);
+	$data = core\Util::arrayToJson($data, true);
+	$result = core\Spawn::insert([
+		'table' => core\Spawn::getTableName('JSON'),
 		'data' => [
 			'srl' => null,
 			'name' => 'Goose Navigation',
@@ -160,13 +157,14 @@ if (!$cnt)
 }
 else
 {
-	$result = '"Goose Navigation" Data already exists.';
+	$result = '`Goose Navigation` Data already exists.';
 }
-echo "<p>Add json data - ".(($result == 'success') ? 'Complete' : "<strong style='color: red; font-weight: bold;'>ERROR : $result</strong>")."</p>";
+
+echo '<p>Add json data - ' . (($result == 'success') ? 'Complete' : '<strong style="color: red; font-weight: bold;">ERROR : $result</strong>') . '</p>';
 
 
 echo "<hr/>";
 echo "<h1>END INSTALL</h1>";
-echo "<nav><a href=\"".__GOOSE_ROOT__."\">Go to intro page</a></nav>";
+echo '<nav><a href="' . __GOOSE_ROOT__ . '"><b>Go to intro page</b></a></nav>';
 
-Goose::end();
+core\Goose::end();
