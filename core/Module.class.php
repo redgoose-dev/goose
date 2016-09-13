@@ -1,10 +1,7 @@
 <?php
-
 namespace core;
 
-/**
- * Module
- */
+
 class Module {
 
 	const MOD_DIR = 'mod';

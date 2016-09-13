@@ -1,56 +1,23 @@
 <?php
 namespace mod\Article;
-use core;
+use core, mod, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
 class View {
 
-	private $parent;
+	/** @var  Article $parent */
+	public $parent;
 
-	/**
-	 * construct
-	 *
-	 * @param Article $parent
-	 */
 	public function __construct($parent)
 	{
-		$this->name = 'view';
+		$this->name = 'View';
 		$this->parent = $parent;
 
-		$this->param = $this->parent->param;
-		$this->path = $this->parent->path;
-		$this->set = $this->parent->set;
-		$this->skinPath = $this->parent->skinPath;
+		// set blade class
+		$this->blade = new core\Blade();
 	}
 
-	/**
-	 * index
-	 */
-	protected function render()
-	{
-		// create layout module
-		$this->layout = core\Module::load('layout');
-
-		switch($this->param['action'])
-		{
-			case 'read':
-				$this->view_read();
-				break;
-			case 'create':
-				$this->view_create();
-				break;
-			case 'modify':
-				$this->view_modify();
-				break;
-			case 'remove':
-				$this->view_remove();
-				break;
-			default:
-				$this->view_index();
-				break;
-		}
-	}
 
 	/**
 	 * check permission
@@ -59,14 +26,10 @@ class View {
 	 */
 	private function checkAdmin($permission=null)
 	{
-		$permission = (isset($permission)) ? $permission : $this->set['adminPermission'];
-		if (!$this->parent->isAdmin)
+		$permission = (isset($permission)) ? (int)$permission : (int)$this->parent->set['adminPermission'];
+		if (!$this->parent->isAdmin && $_SESSION['goose_level'] < $permission)
 		{
-			if ($_SESSION['goose_level'] < (int)$permission)
-			{
-				core\Util::back('권한이 없습니다.');
-				core\Goose::end();
-			}
+			core\Util::back('권한이 없습니다.');
 		}
 	}
 
@@ -74,370 +37,435 @@ class View {
 	 * check nest permission
 	 *
 	 * @param int $permission
-	 *
 	 */
-	private function checkNestPermission($permission)
+	private function checkNestPermission($permission=0)
 	{
-		$permission = (isset($permission)) ? $permission : $this->set['permission'];
 		if ($_SESSION['goose_level'] < $permission)
 		{
-			core\Util::redirect(__GOOSE_ROOT__.'/nest/', '둥지의 권한이 없습니다.');
-			core\Goose::end();
+			core\Util::redirect(__GOOSE_ROOT__ . '/Nest/index/', '둥지의 권한이 없습니다.');
 		}
 	}
 
 	/**
 	 * view - index
 	 */
-	private function view_index()
+	public function view_index()
 	{
 		// set srl
-		$nest_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
-		$category_srl = ($this->param['params'][1]) ? (int)$this->param['params'][1] : null;
+		$nest_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
+		$category_srl = ($this->parent->params['params'][1]) ? (int)$this->parent->params['params'][1] : null;
 
-		// set repo
-		$repo = [ 'article' => null, 'category' => null, 'nest' => null ];
-
-		// load modules
-		$nest = core\Module::load('nest');
-		$category = core\Module::load('category');
+		// make repo
+		$repo = new stdClass();
+		$repo->nest = null;
+		$repo->category = [];
 
 		// get nest data
 		if ($nest_srl)
 		{
-			$data = $nest->getItem([ 'where' => 'srl='.$nest_srl ]);
-			$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+			$repo->nest = core\Spawn::item([
+				'table' => core\Spawn::getTableName('Nest'),
+				'field' => 'srl,name,json',
+				'where' => 'srl=' . $nest_srl,
+				'jsonField' => ['json']
+			]);
 
 			// get category data
-			if ($repo['nest']['json']['useCategory'])
+			if ($repo->nest['json']['useCategory'])
 			{
-				$param = ($repo['nest']['srl']) ? 'nest_srl='.(int)$repo['nest']['srl'] : null;
-				$data = $category->getItems([
-					'where' => $param,
+				$repo->category = core\Spawn::items([
+					'table' => core\Spawn::getTableName('Category'),
+					'field' => 'srl,name',
+					'where' => 'nest_srl=' . $nest_srl,
 					'order' => 'turn',
 					'sort' => 'asc'
 				]);
-				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
-			}
-		}
-
-		// check permission
-		$this->checkNestPermission($repo['nest']['json']['permission']);
-
-		// set article params
-		$param = '';
-		$param .= ($nest_srl) ? ' nest_srl='.$nest_srl : '';
-		$param .= ($nest_srl && $category_srl) ? ' and' : '';
-		$param .= ($category_srl) ? ' category_srl='.$category_srl : '';
-		$param .= ($category_srl && $_GET['keyword']) ? ' and' : '';
-		$param .= ($_GET['keyword']) ? ' and (title LIKE \'%'.$_GET['keyword'].'%\' or content LIKE \'%'.$_GET['keyword'].'%\')' : '';
-
-		// get article count
-		$count = $this->parent->getCount( array('where' => $param) );
-		$count = $count['data'];
-
-		// get article data
-		//if ($count)
-		if (true)
-		{
-			// set listCount
-			$pagePerCount = ($repo['nest']['json']['listCount']) ? $repo['nest']['json']['listCount'] : $this->set['pagePerCount'];
-
-			// set paginate
-			require_once(__GOOSE_PWD__.'core/classes/Paginate.class.php');
-			$paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
-			$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
-			$paginate = new core\Paginate($count, $_GET['page'], $paginateParameter, (int)$pagePerCount, 5);
-
-			// get article data
-			$data = $this->parent->getItems(array(
-				'where' => $param,
-				'limit' => array($paginate->offset, $paginate->size)
-			));
-			$repo['article'] = ($data['state'] == 'success') ? $data['data'] : null;
-
-			foreach($repo['article'] as $k=>$v)
-			{
-				// get category name
-				if ($v['category_srl'])
+				foreach($repo->category as $k=>$v)
 				{
-					$data = $category->getItem( array('field' => 'name', 'where' => 'srl='.$v['category_srl']) );
-					$repo['article'][$k]['categoryName'] = ($data['state'] == 'success') ? $data['data']['name'] : null;
+					$repo->category[$k]['countArticle'] = core\Spawn::count([
+						'table' => core\Spawn::getTableName($this->parent->name),
+						'where' => 'category_srl=' . (int)$v['srl']
+					]);
 				}
 			}
 		}
 
-		// set pwd_container
-		$this->pwd_container = core\Util::isFile(array(
-			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_index.html',
-			__GOOSE_PWD__.$this->skinPath.'view_index.html'
-		));
+		// check permission
+		$permission = new stdClass();
+		$permission->level1 = (isset($repo->nest['json']['permission'])) ? (int)$repo->nest['json']['permission'] : 0;
+		$permission->level2 = (isset($repo->nest['json']['permission2'])) ? (int)$repo->nest['json']['permission2'] : 0;
+		$this->checkNestPermission($permission->level1);
+		if ($permission->level2 < $_SESSION['goose_level'])
+		{
+			$this->parent->isAdmin = true;
+		}
+
+		// set article params
+		$param = ($nest_srl) ? ' nest_srl='.$nest_srl : '';
+		$param .= ($nest_srl && $category_srl) ? ' and' : '';
+		$param .= ($category_srl) ? ' category_srl='.$category_srl : '';
+		$param .= (($nest_srl || $category_srl) && $_GET['keyword']) ? ' and' : '';
+		$param .= ($_GET['keyword']) ? ' (title LIKE \'%' . $_GET['keyword'] . '%\' or content LIKE \'%' . $_GET['keyword'] . '%\')' : '';
+
+		// get article count
+		$articleCount = core\Spawn::count([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => $param
+		]);
+
+		// get article data
+		if ($articleCount)
+		{
+			// set listCount
+			$pagePerCount = ($repo->nest['json']['listCount']) ? $repo->nest['json']['listCount'] : $this->parent->set['pagePerCount'];
+
+			// set paginate
+			$paginateParameter = [ 'keyword' => (isset($_GET['keyword'])) ? $_GET['keyword'] : '' ];
+			$_GET['page'] = (isset($_GET['page']) && $_GET['page'] > 1) ? $_GET['page'] : 1;
+			$repo->paginate = new core\Paginate($articleCount, $_GET['page'], $paginateParameter, (int)$pagePerCount, 5);
+
+			// get article data
+			$repo->article = core\Spawn::items([
+				'table' => core\Spawn::getTableName($this->parent->name),
+				'where' => $param,
+				'order' => 'srl',
+				'sort' => 'desc',
+				'limit' => [ $repo->paginate->offset, $repo->paginate->size ],
+				'jsonField' => [ 'json' ]
+			]);
+
+			foreach($repo->article as $k=>$v)
+			{
+				if ($v['category_srl'])
+				{
+					$data = core\Spawn::item([
+						'table' => core\Spawn::getTableName('Category'),
+						'field' => 'name',
+						'where' => 'srl=' . (int)$v['category_srl']
+					]);
+					$repo->article[$k]['categoryName'] = (isset($data['name'])) ? $data['name'] : '';
+				}
+			}
+		}
 
 		// set skin path
-		$this->skinPath = core\Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
+		$this->setSkinPath('index', $repo->nest['json']['articleSkin']);
 
-		require_once($this->layout->getUrl());
+		// render page
+		$this->blade->render($this->parent->skinAddr . '.index', [
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'nest_srl' => $nest_srl,
+			'category_srl' => $category_srl,
+			'totalArticleCount' => core\Spawn::count([
+				'table' => core\Spawn::getTableName($this->parent->name),
+				'where' => ($nest_srl) ? 'nest_srl=' . $nest_srl : null
+			])
+		]);
 	}
 
 	/**
 	 * view - read
 	 */
-	private function view_read()
+	public function view_read()
 	{
 		$article_srl = null;
+		$category_srl = null;
 
 		// set srl
-		if ($this->param['params'][1])
+		if ($this->parent->params['params'][1])
 		{
-			$category_srl = (int)$this->param['params'][0];
-			$article_srl = (int)$this->param['params'][1];
+			$category_srl = (int)$this->parent->params['params'][0];
+			$article_srl = (int)$this->parent->params['params'][1];
 		}
-		else if ($this->param['params'][0])
+		else if ($this->parent->params['params'][0])
 		{
-			$article_srl = (int)$this->param['params'][0];
+			$article_srl = (int)$this->parent->params['params'][0];
 		}
 
 		// check article_srl
 		if (!$article_srl)
 		{
-			core\Util::back('article_srl값이 없습니다.');
-			core\Goose::end();
+			core\Util::back('`article_srl`값이 없습니다.');
 		}
 
+		// make repo
+		$repo = new stdClass();
+
 		// update hit
-		if ($this->set['enableUpdateHit'] && $article_srl)
+		if ($this->parent->set['enableUpdateHit'] && $article_srl)
 		{
-			$this->parent->updateHit($article_srl, 1, __GOOSE_ROOT__.'/');
+			$repo->resultUpdateHit = core\Util::jsonToArray($this->parent->updateHit($article_srl, 1, __GOOSE_ROOT__ . '/'));
 		}
 
 		// get article data
-		$data = $this->parent->getItem( array('where' => 'srl='.$article_srl) );
-		$repo['article'] = ($data['state'] == 'success') ? $data['data'] : null;
+		$repo->article = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => 'srl=' . $article_srl,
+			'jsonField' => [ 'json' ]
+		]);
 
 		// get file data
-		$file = core\Module::load('file');
-		if ($file->name)
-		{
-			$data = $file->getItems(array(
-				'where' => 'article_srl='.$article_srl,
-				'sort' => 'asc'
-			));
-			$repo['file'] = ($data['state'] == 'success') ? $data['data'] : null;
-		}
+		$repo->file = core\Spawn::items([
+			'table' => core\Spawn::getTableName('File'),
+			'where' => 'article_srl=' . $article_srl,
+			'order' => 'srl',
+			'sort' => 'asc'
+		]);
 
 		// get nest data
-		if ($repo['article']['nest_srl'])
+		if ($repo->article['nest_srl'])
 		{
-			$nest = core\Module::load('nest');
-			if ($nest->name)
-			{
-				$data = $nest->getItem(array('where' => 'srl='.(int)$repo['article']['nest_srl']));
-				$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
-			}
+			$repo->nest = core\Spawn::item([
+				'table' => core\Spawn::getTableName('Nest'),
+				'field' => 'srl,name,json',
+				'where' => 'srl=' . (int)$repo->article['nest_srl'],
+				'jsonField' => [ 'json' ]
+			]);
 		}
 
 		// get category data
-		if ($repo['nest']['json']['useCategory'] && $repo['article']['category_srl'])
+		if ($repo->nest['json']['useCategory'] && $repo->article['category_srl'])
 		{
-			$category = core\Module::load('category');
-			if ($category->name)
-			{
-				$data = $category->getItem(array('where' => 'srl=' . (int)$repo['article']['category_srl']));
-				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
-			}
+			$repo->category = core\Spawn::item([
+				'table' => core\Spawn::getTableName('Category'),
+				'where' => 'srl=' . (int)$repo->article['category_srl']
+			]);
 		}
 
 		// check permission
-		$this->checkNestPermission($repo['nest']['json']['permission']);
-
-		// set pwd_container
-		$this->pwd_container = core\Util::isFile(array(
-			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_read.html',
-			__GOOSE_PWD__.$this->skinPath.'view_read.html'
-		));
+		$permission = new stdClass();
+		$permission->level1 = (isset($repo->nest['json']['permission'])) ? (int)$repo->nest['json']['permission'] : 0;
+		$permission->level2 = (isset($repo->nest['json']['permission2'])) ? (int)$repo->nest['json']['permission2'] : 0;
+		$this->checkNestPermission($permission->level1);
+		if ($permission->level2 < $_SESSION['goose_level'])
+		{
+			$this->parent->isAdmin = true;
+		}
 
 		// set skin path
-		$this->skinPath = core\Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
+		$this->setSkinPath('read', $repo->nest['json']['articleSkin']);
 
-		require_once($this->layout->getUrl());
+		// render page
+		$this->blade->render($this->parent->skinAddr . '.read', [
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'article_srl' => $article_srl,
+			'category_srl' => $category_srl
+		]);
 	}
 
 	/**
 	 * view - create
 	 */
-	private function view_create()
+	public function view_create()
 	{
-		$nest_srl = ($this->param['params'][0]) ? (int)$this->param['params'][0] : null;
-		$category_srl = ($this->param['params'][1]) ? (int)$this->param['params'][1] : null;
+		$nest_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
+		$category_srl = ($this->parent->params['params'][1]) ? (int)$this->parent->params['params'][1] : null;
 
-		// set repo
-		$repo = [];
+		// make repo
+		$repo = new stdClass();
+		$repo->nest = [];
+		$repo->category = [];
 
 		// get nest data
 		if ($nest_srl)
 		{
-			$nest = core\Module::load('nest');
-			if ($nest->name)
-			{
-				$data = $nest->getItem(array('where' => 'srl=' . (int)$nest_srl));
-				$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
-			}
-		}
+			$repo->nest = core\Spawn::item([
+				'table' => core\Spawn::getTableName('Nest'),
+				'field' => 'srl,app_srl,name,json',
+				'where' => 'srl=' . $nest_srl,
+				'jsonField' => ['json']
+			]);
 
-		if (isset($repo['nest']['json']['useCategory']))
-		{
-			$category = core\Module::load('category');
-			if ($category->name)
+			// get category data
+			if ($repo->nest['json']['useCategory'])
 			{
-				$data = $category->getItems([
-					'where' => 'nest_srl=' . $repo['nest']['srl'],
+				$repo->category = core\Spawn::items([
+					'table' => core\Spawn::getTableName('Category'),
+					'field' => 'srl,name',
+					'where' => 'nest_srl=' . $nest_srl,
 					'order' => 'turn',
 					'sort' => 'asc'
 				]);
-				$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
 			}
+
+			// check permission
+			$this->checkAdmin($repo->nest['json']['permission2']);
+		}
+		else
+		{
+			// check permission
+			$this->checkAdmin($this->parent->set['adminPermission']);
 		}
 
-		// check permission
-		$this->checkAdmin($repo['nest']['json']['permission2']);
-
-		// set pwd_container
-		$this->pwd_container = core\Util::isFile(array(
-			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_form.html',
-			__GOOSE_PWD__.$this->skinPath.'view_form.html'
-		));
-
 		// set skin path
-		$this->skinPath = core\Util::isDir($this->path.'skin/{dir}/', $repo['nest']['json']['articleSkin'], $this->set['skin'], __GOOSE_PWD__);
+		$this->setSkinPath('form');
 
-		require_once($this->layout->getUrl());
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'nest_srl' => $nest_srl,
+			'category_srl' => $category_srl,
+			'action' => $this->parent->params['action'],
+			'typeName' => '등록'
+		]);
 	}
 
 	/**
 	 * view - modify
 	 */
-	private function view_modify()
+	public function view_modify()
 	{
+		$article_srl = null;
+		$category_srl = null;
+
 		// set srl
-		if ($this->param['params'][1])
+		if ($this->parent->params['params'][1])
 		{
-			$category_srl = (int)$this->param['params'][0];
-			$article_srl = (int)$this->param['params'][1];
+			$category_srl = (int)$this->parent->params['params'][0];
+			$article_srl = (int)$this->parent->params['params'][1];
 		}
-		else if ($this->param['params'][0])
+		else if ($this->parent->params['params'][0])
 		{
-			$article_srl = (int)$this->param['params'][0];
+			$article_srl = (int)$this->parent->params['params'][0];
 		}
 
 		// check article_srl
 		if (!$article_srl)
 		{
 			core\Util::back('article_srl값이 없습니다.');
-			core\Goose::end();
 		}
 
-		// set repo
-		$repo = [];
+		// make repo
+		$repo = new stdClass();
 
 		// get article data
-		$data = $this->parent->getItem( array('where' => 'srl='.$article_srl) );
-		$repo['article'] = ($data['state'] == 'success') ? $data['data'] : null;
+		$repo->article = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => 'srl=' . $article_srl,
+			'jsonField' => ['json']
+		]);
 
 		// get file data
-		$file = core\Module::load('file');
-		$data = $file->getItems( array('where' => 'article_srl='.$article_srl) );
-		$repo['file'] = ($data['state'] == 'success') ? $data['data'] : null;
+		$repo->file = core\Spawn::items([
+			'table' => core\Spawn::getTableName('File'),
+			'where' => 'article_srl=' . $article_srl
+		]);
 
 		// get nest data
-		$nest = core\Module::load('nest');
-		$data = $nest->getItem( array('where' => 'srl='.$repo['article']['nest_srl']) );
-		$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
+		$repo->nest = core\Spawn::item([
+			'table' => core\Spawn::getTableName('Nest'),
+			'where' => 'srl='.$repo->article['nest_srl'],
+			'jsonField' => ['json']
+		]);
 
 		// get category data
-		if ($repo['nest']['json']['useCategory'])
+		if ($repo->nest['json']['useCategory'])
 		{
-			$category = core\Module::load('category');
-			$data = $category->getItems(array(
-				'where' => 'nest_srl='.$repo['nest']['srl'],
+			$repo->category = core\Spawn::items([
+				'table' => core\Spawn::getTableName('Category'),
+				'where' => 'nest_srl=' . $repo->nest['srl'],
 				'order' => 'turn',
 				'sort' => 'asc'
-			));
-			$repo['category'] = ($data['state'] == 'success') ? $data['data'] : null;
+			]);
 		}
 
 		// check permission
-		$this->checkAdmin($repo['nest']['json']['permission2']);
-
-		// set pwd_container
-		$this->pwd_container = core\Util::isFile(array(
-			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_form.html',
-			__GOOSE_PWD__.$this->skinPath.'view_index.html'
-		));
+		$this->checkAdmin($repo->nest['json']['permission2']);
 
 		// set skin path
-		$this->skinPath = core\Util::isDir(
-			$this->path.'skin/{dir}/',
-			$repo['nest']['json']['articleSkin'],
-			$this->set['skin'], __GOOSE_PWD__);
+		$this->setSkinPath('form');
 
-		require_once($this->layout->getUrl());
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.form', [
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'article_srl' => $article_srl,
+			'category_srl' => $category_srl,
+			'action' => $this->parent->params['action'],
+			'typeName' => '수정'
+		]);
 	}
 
 	/**
 	 * view - remove
 	 */
-	private function view_remove()
+	public function view_remove()
 	{
 		$article_srl = null;
+		$category_srl = null;
 
 		// set srl
-		if ($this->param['params'][1])
+		if ($this->parent->params['params'][1])
 		{
-			$category_srl = (int)$this->param['params'][0];
-			$article_srl = (int)$this->param['params'][1];
+			$category_srl = (int)$this->parent->params['params'][0];
+			$article_srl = (int)$this->parent->params['params'][1];
 		}
-		else if ($this->param['params'][0])
+		else if ($this->parent->params['params'][0])
 		{
-			$article_srl = (int)$this->param['params'][0];
+			$article_srl = (int)$this->parent->params['params'][0];
 		}
 
 		// check article_srl
 		if (!$article_srl)
 		{
 			core\Util::back('article_srl값이 없습니다.');
-			core\Goose::end();
 		}
 
-		// set repo
-		$repo = [];
+		// make repo
+		$repo = new stdClass();
 
 		// get article data
-		$data = $this->parent->getItem([ 'where' => 'srl='.$article_srl ]);
-		$repo['article'] = ($data['state'] == 'success') ? $data['data'] : null;
-
-		// get nest data
-		$nest = core\Module::load('nest');
-		if ($nest->name)
-		{
-			$data = $nest->getItem([ 'where' => 'srl='.$repo['article']['nest_srl'] ]);
-			$repo['nest'] = ($data['state'] == 'success') ? $data['data'] : null;
-		}
-
-		// check permission
-		$this->checkAdmin($repo['nest']['json']['permission2']);
-
-		// set pwd_container
-		$this->pwd_container = core\Util::isFile([
-			__GOOSE_PWD__.$this->path.'skin/'.$repo['nest']['json']['articleSkin'].'/view_remove.html',
-			__GOOSE_PWD__.$this->skinPath.'view_remove.html'
+		$repo->article = core\Spawn::item([
+			'table' => core\Spawn::getTableName($this->parent->name),
+			'where' => 'srl=' . $article_srl,
+			'jsonField' => ['json']
 		]);
 
-		// set skin path
-		$this->skinPath = core\Util::isDir(
-			$this->path.'skin/{dir}/',
-			$repo['nest']['json']['articleSkin'],
-			$this->set['skin'], __GOOSE_PWD__);
+		// get nest data
+		$repo->nest = core\Spawn::item([
+			'table' => core\Spawn::getTableName('Nest'),
+			'where' => 'srl='.$repo->article['nest_srl'],
+			'jsonField' => ['json']
+		]);
 
-		require_once($this->layout->getUrl());
+		// check permission
+		$this->checkAdmin($repo->nest['json']['permission2']);
+
+		// set skin path
+		$this->setSkinPath('remove');
+
+		// play render page
+		$this->blade->render($this->parent->skinAddr . '.remove', [
+			'mod' => $this->parent,
+			'repo' => $repo,
+			'article_srl' => $article_srl,
+			'category_srl' => $category_srl,
+			'action' => $this->parent->params['action'],
+			'typeName' => '삭제'
+		]);
+	}
+
+	/**
+	 * set skin path
+	 *
+	 * @param string $type
+	 * @param string $userSkin
+	 */
+	private function setSkinPath($type, $userSkin=null)
+	{
+		// check blade file
+		$bladeResult = core\Blade::isFile(__GOOSE_PWD__ . 'mod', $type, [
+			$this->parent->name . '.skin.' . $_GET['skin'],
+			$this->parent->name . '.skin.' . $userSkin,
+			$this->parent->name . '.skin.' . $this->parent->set['skin'],
+			$this->parent->name . '.skin.default'
+		]);
+
+		// set blade and file path
+		$this->parent->skinAddr = $bladeResult['address'];
+		$this->parent->skinPath = 'mod/' . $bladeResult['path'] . '/';
 	}
 }

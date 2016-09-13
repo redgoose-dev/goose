@@ -1,6 +1,6 @@
 <?php
 namespace mod\File;
-use core;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
@@ -25,48 +25,34 @@ class File {
 			switch($this->params['action'])
 			{
 				case 'upload':
-					$result = $this->actUploadFiles(
-						$_FILES['file'],
-						$post['upload_loc'],
-						($post['table']) ? $post['table'] : $this->name
-					);
+					$result = $this->actUploadFiles($_FILES['file'], null, null, 1);
 					echo core\Util::arrayToJson($result);
 					break;
+
 				case 'remove':
 					$data = core\Util::jsonToArray($post['data'], true);
 					$fileSrls = $fileTmpSrls = [];
 
 					foreach($data as $k=>$v)
 					{
-						if ($v['table'] == 'file_tmp')
-						{
-							$fileTmpSrls[] = $v['srl'];
-						}
-						else if ($v['table'] == 'file')
-						{
-							$fileSrls[] = $v['srl'];
-						}
+						$fileSrls[] = $v['srl'];
 					}
 
-					if (count($fileSrls))
-					{
-						$this->actRemoveFile($fileSrls, 'file');
-					}
-					if (count($fileTmpSrls))
-					{
-						$this->actRemoveFile($fileTmpSrls, 'file_tmp');
-					}
-
-					echo json_encode([ 'state' => 'success' ]);
+					$result = $this->actRemoveFile($fileSrls);
+					echo json_encode($result);
 					break;
 			}
-			core\Goose::end(false);
 		}
 		else
 		{
-			require_once(__GOOSE_PWD__.$this->path.'view.class.php');
 			$view = new View($this);
-			$view->render();
+
+			switch ($this->params['action'])
+			{
+				default:
+					$view->view_index();
+					break;
+			}
 		}
 	}
 
@@ -82,10 +68,7 @@ class File {
 	 */
 	private function checkExistFile($dir='', $file='', $n=null)
 	{
-		if (!$file)
-		{
-			return null;
-		}
+		if (!$file) return null;
 
 		if (is_null($n))
 		{
@@ -95,10 +78,10 @@ class File {
 		else
 		{
 			$n = $n + 1;
-			$newFilename = basename($file, strrchr($file, '.')).'-'.$n.'.'.substr(strrchr($file, '.'), 1);
+			$newFilename = basename($file, strrchr($file, '.')) . '-' . $n . '.' . substr(strrchr($file, '.'), 1);
 		}
 
-		if (file_exists($dir.$newFilename))
+		if (file_exists($dir . $newFilename))
 		{
 			return $this->checkExistFile($dir, $file, $n);
 		}
@@ -118,10 +101,7 @@ class File {
 	 */
 	private function checkFilename($name=null, $is_random=false)
 	{
-		if (!$name)
-		{
-			return null;
-		}
+		if (!$name) return null;
 
 		// set source
 		$src = [
@@ -130,10 +110,7 @@ class File {
 		];
 
 		// check file type
-		if (!in_array($src[1], $this->set['allowFileType']))
-		{
-			return null;
-		}
+		if (!in_array($src[1], $this->set['allowFileType'])) return null;
 
 		// remove special characters
 		$src[0] = core\Util::removeSpecialChar($src[0]);
@@ -141,10 +118,10 @@ class File {
 		// make random name
 		if (!$src[0] || $is_random)
 		{
-			$src[0] = md5(date('YmdHis').'-'.rand());
+			$src[0] = md5(date('YmdHis') . '-' . rand());
 		}
 
-		return $src[0].'.'.$src[1];
+		return $src[0] . '.' . $src[1];
 	}
 
 
@@ -158,19 +135,13 @@ class File {
 	 *
 	 * @param array $file 파일목록($_FILES['name'])
 	 * @param string|null $dir 업로드 디렉토리
-	 * @param string $table 업로드 테이블 (file|file_tmp)
-	 * @param int $article_srl 마지막 article번호. 테이블이 file_tmp라면 필요없음
+	 * @param int $article_srl 마지막 article번호
+	 * @param int $ready 대기상태(0:사용하기, 1:대기)
 	 * @return array
 	 */
-	public function actUploadFiles($file=[], $dir=null, $table='', $article_srl=null)
+	public function actUploadFiles($file=[], $dir=null, $article_srl=null, $ready=0)
 	{
-		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
-
-		// check table
-		if ($table != 'file' && $table !='file_tmp')
-		{
-			return [ 'state' => 'error', 'message' => '$table값이 잘못되었습니다.' ];
-		}
+		if ($this->name != 'File') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// check upload file
 		if (!$file['name'] || (is_array($file['name']) && !$file['name'][0]))
@@ -190,16 +161,16 @@ class File {
 
 		// set variable
 		$result = [];
-		$month = Date('Ym');
+		$month = date('Ym');
 
 		// set path
-		$path = ($dir) ? $dir : $this->set['upPath_original'].'/';
-		$path_absolute = __GOOSE_PWD__.$path;
+		$path = ($dir) ? $dir : $this->set['upPath_original'] . '/';
+		$path_absolute = __GOOSE_PWD__ . $path;
 
 		// make directory
-		if (!is_dir($path_absolute.$month))
+		if (!is_dir($path_absolute . $month))
 		{
-			core\Util::createDirectory($path_absolute.$month, 0777);
+			core\Util::createDirectory($path_absolute . $month, 0777);
 		}
 
 		// action upload
@@ -232,62 +203,39 @@ class File {
 			}
 
 			// check exist file
-			$file['name'][$i] = $this->checkExistFile($path_absolute.$month.'/', $file['name'][$i], null);
+			$file['name'][$i] = $this->checkExistFile($path_absolute . $month . '/', $file['name'][$i], null);
 
 			// copy file
-			if ($file['tmp_name'][$i] && is_dir($path_absolute.$month.'/'))
+			if ($file['tmp_name'][$i] && is_dir($path_absolute . $month . '/'))
 			{
-				move_uploaded_file($file['tmp_name'][$i], $path_absolute.$month.'/'.$file['name'][$i]);
+				move_uploaded_file($file['tmp_name'][$i], $path_absolute . $month . '/' . $file['name'][$i]);
 			}
 			else
 			{
-				$result[] = [
-					'state' => 'error',
-					'message' => 'upload error'
-				];
+				$result[] = [ 'state' => 'error', 'message' => 'upload error' ];
 				continue;
 			}
 
 			// insert data
-			if ($table == 'file')
-			{
-				$db_result = core\Spawn::insert([
-					'table' => core\Spawn::getTableName($table),
-					'data' => [
-						'srl' => null,
-						'article_srl' => $article_srl,
-						'name' => $file['name'][$i],
-						'loc' => $path.$month.'/'.$file['name'][$i],
-						'type' => $file['type'][$i],
-						'size' => (int)$file['size'][$i],
-						'regdate' => date("YmdHis")
-					]
-				]);
-			}
-			else if ($table == 'file_tmp')
-			{
-				$db_result = core\Spawn::insert([
-					'table' => core\Spawn::getTableName($table),
-					'data' => [
-						'srl' => null,
-						'name' => $file['name'][$i],
-						'loc' => $path.$month.'/'.$file['name'][$i],
-						'type' => $file['type'][$i],
-						'size' => (int)$file['size'][$i],
-						'regdate' => date("YmdHis")
-					]
-				]);
-			}
-			else
-			{
-				$db_result = null;
-			}
+			$db_result = core\Spawn::insert([
+				'table' => core\Spawn::getTableName($this->name),
+				'data' => [
+					'srl' => null,
+					'article_srl' => $article_srl,
+					'name' => $file['name'][$i],
+					'loc' => $path . $month . '/' . $file['name'][$i],
+					'type' => $file['type'][$i],
+					'size' => (int)$file['size'][$i],
+					'regdate' => date("YmdHis"),
+					'ready' => $ready
+				]
+			]);
 			if ($db_result != 'success')
 			{
 				// remove file
-				if (file_exists($path_absolute.$month.'/'.$file['name'][$i]))
+				if (file_exists($path_absolute . $month . '/' . $file['name'][$i]))
 				{
-					@unlink($path_absolute.$month.'/'.$file['name'][$i]);
+					@unlink($path_absolute . $month . '/' . $file['name'][$i]);
 				}
 				$result[] = [
 					'state' => 'error',
@@ -298,7 +246,7 @@ class File {
 			{
 				$result[] = [
 					'state' => 'success',
-					'loc' => $path.$month.'/'.$file['name'][$i],
+					'loc' => $path . $month . '/' . $file['name'][$i],
 					'name' => $file['name'][$i],
 					'size' => $file['size'][$i],
 					'type' => $file['type'][$i],
@@ -315,13 +263,11 @@ class File {
 	 * 파일삭제, 데이터베이스에 있는 정보도 삭제한다.
 	 *
 	 * @param array $srls file srl
-	 * @param string|null $table module name
 	 * @return array
 	 */
-	public function actRemoveFile($srls=[], $table=null)
+	public function actRemoveFile($srls=[])
 	{
-		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
-		if (!$table) return [ 'state' => 'error', 'message' => '$table값이 없습니다.' ];
+		if ($this->name != 'File') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set result
 		$result = [];
@@ -330,21 +276,20 @@ class File {
 		for ($i=0; count($srls)>$i; $i++)
 		{
 			// get data
-			$data = $this->getItem([
-				'table' => core\Spawn::getTableName($table),
-				'where' => 'srl='.$srls[$i]
+			$data = core\Spawn::item([
+				'table' => core\Spawn::getTableName($this->name),
+				'where' => 'srl=' . $srls[$i]
 			]);
-			$data = ($data['state'] == 'success') ? $data['data'] : null;
 
-			if (file_exists(__GOOSE_PWD__.$data['loc']))
+			if (file_exists(__GOOSE_PWD__ . $data['loc']))
 			{
-				@unlink(__GOOSE_PWD__.$data['loc']);
+				@unlink(__GOOSE_PWD__ . $data['loc']);
 			}
 
 			// remove data
 			$result_db = core\Spawn::delete([
-				'table' => core\Spawn::getTableName($table),
-				'where' => 'srl='.$data['srl']
+				'table' => core\Spawn::getTableName($this->name),
+				'where' => 'srl=' . $data['srl']
 			]);
 			if ($result_db != 'success')
 			{
@@ -360,50 +305,6 @@ class File {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * api - action file_tmp to file
-	 * file_tmp에 있는 db데이터를 file로 옮긴다.
-	 *
-	 * @param array $file_tmp_srls
-	 * @param int|null $article_srl
-	 * @return array
-	 */
-	public function actDBFiletmpToFile($file_tmp_srls=[], $article_srl=null)
-	{
-		if ($this->name != 'file') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
-
-		foreach ($file_tmp_srls as $k=>$v)
-		{
-			$data = $this->getItem([
-				'table' => core\Spawn::getTableName('file_tmp'),
-				'where' => 'srl='.(int)$v
-			]);
-			$tmpData = ($data['state'] == 'success') ? $data['data'] : null;
-
-			$db_result = core\Spawn::insert([
-				'table' => core\Spawn::getTableName('file'),
-				'data' => [
-					'srl' => null,
-					'article_srl' => $article_srl,
-					'name' => $tmpData['name'],
-					'loc' => $tmpData['loc'],
-					'type' => $tmpData['type'],
-					'size' => (int)$tmpData['size'],
-					'regdate' => $tmpData['regdate']
-				]
-			]);
-			if ($db_result != 'success') return [ 'state' => 'error', 'message' => '[file] DB : Insert Error' ];
-
-			$db_result2 = core\Spawn::delete([
-				'table' => core\Spawn::getTableName('file_tmp'),
-				'where' => 'srl='.(int)$v
-			]);
-			if ($db_result2 != 'success') return [ 'state' => 'error', 'message' => '[file_tmp] DB : remove Error' ];
-		}
-
-		return [ 'state' => 'success', 'message' => 'complete' ];
 	}
 
 
@@ -424,24 +325,18 @@ class File {
 		core\Util::createDirectory(__GOOSE_PWD__.$this->set['upPath_make'], 0777);
 
 		$query = core\Spawn::arrayToCreateTableQuery([
-			'tableName' => core\Spawn::getTableName($this->name) . '_tmp',
-			'fields' => $installData['field_tmp']
+			'tableName' => __dbPrefix__.$this->name,
+			'fields' => $installData
 		]);
 		$queryResult = core\Spawn::action($query);
 
-		$query2 = core\Spawn::arrayToCreateTableQuery([
-			'tableName' => __dbPrefix__.$this->name,
-			'fields' => $installData['field']
-		]);
-		$query2Result = core\Spawn::action($query2);
-
-		if ($queryResult == 'success' && $query2Result == 'success')
+		if ($queryResult == 'success')
 		{
 			return 'success';
 		}
 		else
 		{
-			return $queryResult . ', ' . $query2Result;
+			return $queryResult;
 		}
 	}
 }

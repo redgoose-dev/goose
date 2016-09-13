@@ -1,18 +1,19 @@
 <?php
 namespace mod\Article;
-use core;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
 class Article {
 
-	public $name, $params, $set, $isAdmin;
+	public $name, $set, $params, $isAdmin;
 	public $path, $skinPath, $skinAddr;
 
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
 	}
+
 
 	/**
 	 * index
@@ -35,14 +36,29 @@ class Article {
 					break;
 			}
 			if ($result) core\Module::afterAction($result);
-
-			core\Goose::end();
 		}
 		else
 		{
-			require_once(__GOOSE_PWD__.$this->path.'view.class.php');
 			$view = new View($this);
-			//$view->render();
+
+			switch ($this->params['action'])
+			{
+				case 'read':
+					$view->view_read();
+					break;
+				case 'create':
+					$view->view_create();
+					break;
+				case 'modify':
+					$view->view_modify();
+					break;
+				case 'remove':
+					$view->view_remove();
+					break;
+				default:
+					$view->view_index();
+					break;
+			}
 		}
 	}
 
@@ -62,15 +78,15 @@ class Article {
 	public function transaction($method, $post=[], $files=[])
 	{
 		if (!$method) return [ 'state' => 'error', 'action' => 'back', 'message' => 'method값이 없습니다.' ];
-		if ($this->name != 'article') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
+		if ($this->name != 'Article') return [ 'state' => 'error', 'action' => 'back', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		if ($post['nest_srl'])
 		{
 			$nest = core\Spawn::item([
-				'table' => core\Spawn::getTableName('nest'),
-				'where' => 'srl='.$post['nest_srl']
+				'table' => core\Spawn::getTableName('Nest'),
+				'where' => 'srl='.$post['nest_srl'],
+				'jsonField' => ['json']
 			]);
-			$nest['json'] = (isset($nest['json'])) ? core\Util::jsonToArray($nest['json'], false, true) : $nest['json'];
 		}
 		$permission = (isset($nest['json']['permission2'])) ? $nest['json']['permission2'] : $this->set['adminPermission'];
 
@@ -80,14 +96,14 @@ class Article {
 			return [ 'state' => 'error', 'action' => 'back', 'message' => '권한이 없습니다.' ];
 		}
 
-		$loc = core\Util::isFile([
-			__GOOSE_PWD__.$this->path.'skin/'.$post['skin'].'/transaction_'.$method.'.php',
-			__GOOSE_PWD__.$this->path.'skin/'.$this->set['skin'].'/transaction_'.$method.'.php'
+		$path = core\Util::isFile([
+			__GOOSE_PWD__ . $this->path . 'skin/' . $post['skin'] . '/transaction-' . $method . '.php',
+			__GOOSE_PWD__ . $this->path . 'skin/' . $this->set['skin'] . '/transaction-' . $method . '.php'
 		]);
 
-		if ($loc)
+		if ($path)
 		{
-			return (require_once($loc));
+			return (require_once($path));
 		}
 		else
 		{
@@ -98,30 +114,33 @@ class Article {
 	/**
 	 * api - update hit
 	 *
-	 * @param number $srl
-	 * @param number $count
+	 * @param int $srl
+	 * @param int $count
 	 * @param string $cookieLoc
-	 * @return array
+	 * @return string
 	 */
-	public function updateHit($srl, $count, $cookieLoc)
+	public function updateHit($srl=null, $count=1, $cookieLoc='/')
 	{
-		$article = $this->getItem([
-			'field' => 'hit',
-			'where' => 'srl='.$srl
-		]);
-		$articleCount = (isset($article['data'])) ? $article['data']['hit'] : null;
-		$articleCount += $count;
-
-		if (!isset($_COOKIE['hit-'.$srl]))
+		if (!isset($_COOKIE['hit-' . $srl]) && $srl)
 		{
+			// get article
+			$article = core\Spawn::item([
+				'table' => core\Spawn::getTableName($this->name),
+				'field' => 'hit',
+				'where' => 'srl=' . $srl
+			]);
+
+			// update count
+			$articleCount = (int)$article['hit'] + $count;
+
 			// set cookie
-			setcookie('hit-'.$srl, 1, time()+3600*24, __GOOSE_ROOT__.'/');
+			setcookie('hit-' . $srl, 1, time()+3600*24, __GOOSE_ROOT__ . '/');
 
 			// update hit
 			$result = core\Spawn::update([
 				'table' => core\Spawn::getTableName('article'),
-				'where' => 'srl='.$srl,
-				'data' => [ 'hit='.$articleCount ]
+				'where' => 'srl=' . $srl,
+				'data' => [ 'hit=' . $articleCount ]
 			]);
 			if ($result == 'success')
 			{
@@ -142,9 +161,34 @@ class Article {
 		{
 			return core\Util::arrayToJson([
 				'state' => 'error',
-				'message' => 'cookie error'
+				'message' => 'update hit error'
 			]);
 		}
+	}
+
+	/**
+	 * create link url in read page
+	 *
+	 * @param array $src
+	 * @return string
+	 */
+	public function createLinkUrlInReadPage($src=[])
+	{
+		$url = __GOOSE_ROOT__ . '/';
+
+		if ($src['type'] == 'index' && $src['main']) return $url;
+
+		$url .= $this->name . '/';
+		$url .= ($src['type']) ? $src['type'] . '/' : '';
+		$url .= ($src['nest_srl']) ? $src['nest_srl'] . '/' : '';
+		$url .= ($src['category_srl']) ? $src['category_srl'] . '/' : '';
+		$url .= ($src['article_srl']) ? $src['article_srl'] . '/' : '';
+
+		$param = ($src['page']) ? '&page=' . $src['page'] : '';
+		$param .= ($src['main']) ? '&m=' . $src['main'] : '';
+		$param = preg_replace('/^&/', '?', $param);
+
+		return $url . $param;
 	}
 
 

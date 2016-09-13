@@ -8,7 +8,7 @@
 		</h1>
 	@endif
 	@if ($description)
-		<p>{{ $description }}</p>
+		<p>{!! $description !!}</p>
 	@endif
 	@if ($mod->isAdmin && $isHeadNavigation)
 		<nav>

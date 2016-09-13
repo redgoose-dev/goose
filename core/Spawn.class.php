@@ -29,7 +29,7 @@ class Spawn {
 		try {
 			$this->db = new PDO($config[0], $config[1], $config[2]);
 			self::action("set names utf8");
-		} catch (PDOException $e) {
+		} catch (\PDOException $e) {
 			echo 'Connection failed: '.$e->getMessage();
 			die();
 		}
@@ -59,15 +59,23 @@ class Spawn {
 		$getArray['where'] = (isset($getArray['where'])) ? preg_replace("/^and|and$/", "", $getArray['where']) : '';
 
 		$str = $getArray['act'];
-		$str .= ($getArray['field']) ? ' '.$getArray['field'] : ' *';
-		$str .= ' from '.$getArray['table'];
-		$str .= ($getArray['where']) ? ' where '.$getArray['where'] : '';
-		$str .= (isset($getArray['order'])) ? ' order by '.$getArray['order'] : '';
-		$str .= (isset($getArray['sort'])) ? ' '.$getArray['sort'] : '';
+		$str .= ($getArray['field']) ? ' ' . $getArray['field'] : ' *';
+		$str .= ' from ' . $getArray['table'];
+		$str .= ($getArray['where']) ? ' where ' . $getArray['where'] : '';
+		$str .= (isset($getArray['order'])) ? ' order by ' . $getArray['order'] : '';
+		$str .= (isset($getArray['sort'])) ? ' ' . $getArray['sort'] : '';
 		if (isset($getArray['limit']))
 		{
-			$str .= ' limit ';
-			$str .= (is_array($getArray['limit'])) ? implode(',', $getArray['limit']) : $getArray['limit'];
+			if (is_array($getArray['limit']))
+			{
+				$getArray['limit'][0] = ($getArray['limit'][0]) ? $getArray['limit'][0] : 0;
+				$getArray['limit'][1] = ($getArray['limit'][1]) ? $getArray['limit'][1] : 0;
+				$str .= ' limit ' . implode(',', $getArray['limit']);
+			}
+			else
+			{
+				$str .= ' limit ' . $getArray['limit'];
+			}
 		}
 		return $str;
 	}
@@ -312,7 +320,7 @@ class Spawn {
 	 * Get item count
 	 *
 	 * @param array $data 요청 파라메터 배열
-	 * @return array
+	 * @return string|array
 	 */
 	public static function count($data)
 	{
@@ -348,7 +356,7 @@ class Spawn {
 		foreach($data['fields'] as $k=>$v)
 		{
 			$str = "`$v[name]` $v[type]";
-			$str .= ($v[length]) ? "($v[length])" : "";
+			$str .= ($v['length']) ? "($v[length])" : "";
 			$str .= " $v[etc]";
 			$str .= ($v['auto']) ? " auto_increment" : "";
 			$fields[] = $str;

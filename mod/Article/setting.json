@@ -7,5 +7,5 @@
 	"install" : true,
 	"skin" : "default",
 	"pagePerCount" : 15,
-	"enableUpdateHit" : false
+	"enableUpdateHit" : true
 }

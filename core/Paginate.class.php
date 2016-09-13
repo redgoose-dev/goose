@@ -1,24 +1,24 @@
 <?php
-
 namespace core;
+//use stdClass;
 
 
 class Paginate {
+
 	var $total, $page, $size, $scale;
 	var $start_page, $page_max, $offset, $block, $tails;
 
 	/**
 	 * Paginate
 	 *
-	 * @Param {Number} $total : total items
-	 * @Param {Number} $page : page number
-	 * @Param {Array} $arr : url parameter
-	 * @Param {Number} $size : count of list
-	 * @Param {Number} $scale : count of page
-	 * @Param {Number} $start_page : start page number
-	 * @Return void
+	 * @param int $total
+	 * @param int $page page number
+	 * @param array $arr url parameter
+	 * @param int $size count of list
+	 * @param int $scale count of page
+	 * @param int $start_page start page number
 	 */
-	public function Paginate($total="0", $page="1", $arr="", $size="10", $scale="10", $start_page="1")
+	public function __construct($total=0, $page=1, $arr=[], $size=10, $scale=10, $start_page=1)
 	{
 		$page = ($page) ? $page : 1;
 		$total = ($total) ? $total : 0;
@@ -46,43 +46,56 @@ class Paginate {
 	/**
 	 * Make navigation element
 	 *
-	 * @Return void
+	 * @return string
 	 */
 	public function createNavigation()
 	{
 		$op = null;
-		if($this->total > $this->size) {
+
+		if($this->total > $this->size)
+		{
 			$op = "<div class='gs-paginate'>\n";
-			if($this->block > 0) {
+			if ($this->block > 0)
+			{
 				$prev_block = ($this->block - 1) * $this->scale + 1;
 				$str = ($prev_block == 1) ? "" : "page=$prev_block";
 				$amp = ($this->tails && $str) ? "&" : "";
 				$str = ($str || $this->tails) ? "?".$this->tails.$amp.$str : "";
 				$op.="<a href=\"./$str\" class=\"prev\">Prev</a>\n";
-			} else {
+			}
+			else
+			{
 				$op.="";
 			}
 			$this->start_page = $this->block * $this->scale + 1;
 
-			for($i = 1; $i <= $this->scale && $this->start_page <= $this->page_max; $i++, $this->start_page++) {
-				if($this->start_page == $this->page) {
-					$op.="<strong>$this->start_page</strong>\n";
-				} else {
+			for ($i = 1; $i <= $this->scale && $this->start_page <= $this->page_max; $i++, $this->start_page++)
+			{
+				if ($this->start_page == $this->page)
+				{
+					$op .= "<strong>$this->start_page</strong>\n";
+				}
+				else
+				{
 					$str = ($this->start_page == 1) ? "" : "page=$this->start_page";
 					$amp = ($this->tails && $str) ? "&" : "";
-					$str = ($str || $this->tails) ? "?".$this->tails.$amp.$str : "";
-					$op.="<a href=\"./$str\">$this->start_page</a>\n";
+					$str = ($str || $this->tails) ? "?" . $this->tails . $amp . $str : "";
+					$op .= "<a href=\"./$str\">$this->start_page</a>\n";
 				}
 			}
-			if($this->page_max > ($this->block + 1) * $this->scale) {
+			if ($this->page_max > ($this->block + 1) * $this->scale)
+			{
 				$next_block = ($this->block + 1) * $this->scale + 1;
-				$amp = ($this->tails) ? "&" : "";
-				$op.="<a href=\"./?{$this->tails}{$amp}page={$next_block}\" class=\"next\">Next</a>\n";
-			} else {
-				$op.="";
+				$amp = ($this->tails) ? '&' : '';
+				$op .= "<a href=\"./?{$this->tails}{$amp}page={$next_block}\" class=\"next\">Next</a>\n";
+			}
+			else
+			{
+				$op .= '';
 			}
 			$op .= "</div>\n";
 		}
+
 		return $op;
 	}
 
@@ -93,13 +106,14 @@ class Paginate {
 	 */
 	public function createNavigationToObject()
 	{
+		$result = null;
+
 		if ($this->total > $this->size)
 		{
-			$result = [
-					'prev' => null,
-					'next' => null,
-					'body' => null,
-			];
+			$result = new \stdClass();
+			$result->prev = null;
+			$result->next = null;
+			$result->body = null;
 
 			if ($this->block > 0)
 			{
@@ -107,7 +121,7 @@ class Paginate {
 				$str = ($prev_block == 1) ? "" : "page=$prev_block";
 				$amp = ($this->tails && $str) ? "&" : "";
 				$str = ($str || $this->tails) ? $this->tails.$amp.$str : "";
-				$result['prev'] = [
+				$result->prev = [
 					'name' => 'prev',
 					'id' => $prev_block,
 					'url' => $str,
@@ -121,7 +135,7 @@ class Paginate {
 				$k = $i - 1;
 				if ($this->start_page == $this->page)
 				{
-					$result['body'][$k] = [
+					$result->body[$k] = [
 						'id' => $this->start_page,
 						'name' => $this->start_page,
 						'active' => true,
@@ -132,7 +146,7 @@ class Paginate {
 					$str = ($this->start_page == 1) ? "" : "page=$this->start_page";
 					$amp = ($this->tails && $str) ? "&" : "";
 					$str = ($str || $this->tails) ? $this->tails.$amp.$str : "";
-					$result['body'][$k] = [
+					$result->body[$k] = [
 						'id' => $this->start_page,
 						'name' => $this->start_page,
 						'url' => $str,
@@ -144,7 +158,7 @@ class Paginate {
 			{
 				$next_block = ($this->block + 1) * $this->scale + 1;
 				$amp = ($this->tails) ? "&" : "";
-				$result['next'] = [
+				$result->next = [
 					'name' => 'next',
 					'id' => $next_block,
 					'url' => "{$this->tails}{$amp}page={$next_block}",
@@ -156,6 +170,6 @@ class Paginate {
 			$result = null;
 		}
 
-		return ($result) ? new Object($result) : null;
+		return ($result) ? $result : null;
 	}
 }

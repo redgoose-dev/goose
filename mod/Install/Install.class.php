@@ -11,7 +11,6 @@ class Install {
 	public function __construct($params=[])
 	{
 		core\Module::initModule($this, $params);
-		core\Util::console($this->skinPath);
 	}
 
 
