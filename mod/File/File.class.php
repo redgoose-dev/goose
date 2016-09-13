@@ -6,7 +6,8 @@ if (!defined('__GOOSE__')) exit();
 
 class File {
 
-	public $name, $params, $set;
+	public $name, $set, $params, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
 	public function __construct($params=[])
 	{
@@ -25,7 +26,12 @@ class File {
 			switch($this->params['action'])
 			{
 				case 'upload':
-					$result = $this->actUploadFiles($_FILES['file'], null, null, 1);
+					$result = $this->actUploadFiles(
+						$_FILES['file'],
+						($post['uploadPath']) ? $post['uploadPath'] : null,
+						($post['article_srl']) ? $post['article_srl'] : null,
+						($post['ready']) ? $post['ready'] : 0
+					);
 					echo core\Util::arrayToJson($result);
 					break;
 

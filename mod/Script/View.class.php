@@ -4,8 +4,9 @@ use mod, core, stdClass;
 if (!defined('__GOOSE__')) exit();
 
 
-class View
-{
+class View {
+
+	/** @var Script $parent */
 	public $parent;
 
 	public function __construct($parent)

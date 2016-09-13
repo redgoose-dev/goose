@@ -6,6 +6,7 @@ if (!defined('__GOOSE__')) exit();
 
 class View {
 
+	/** @var App $parent */
 	public $parent;
 
 	public function __construct($parent)

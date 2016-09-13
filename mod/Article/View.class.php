@@ -6,7 +6,7 @@ if (!defined('__GOOSE__')) exit();
 
 class View {
 
-	/** @var  Article $parent */
+	/** @var Article $parent */
 	public $parent;
 
 	public function __construct($parent)

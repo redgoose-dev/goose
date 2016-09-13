@@ -6,6 +6,7 @@ if (!defined('__GOOSE__')) exit();
 
 class View {
 
+	/** @var File $parent */
 	private $parent;
 
 	public function __construct($parent)
@@ -35,33 +36,57 @@ class View {
 	 */
 	public function view_index()
 	{
-		var_dump('view index');
+		// make repo
+		$repo = new stdClass();
+		$repo->total = core\Spawn::count([
+			'table' => core\Spawn::getTableName($this->parent->name)
+		]);
 
+		// get files data
+		if ($repo->total)
+		{
+			$pagePerCount = $this->parent->set['pagePerCount'];
+			$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
+			$paginateParameter = [ 'keyword' => (isset($_GET['keyword'])) ? $_GET['keyword'] : '' ];
 
-//		// set repo
-//		$repo = [];
-//
-//		// get file count
-//		$count = $this->parent->getCount();
-//		$count = $count['data'];
-//
-//		if ($count)
-//		{
-//			// set paginate
-//			require_once(__GOOSE_PWD__.'core/classes/Paginate.class.php');
-//			$_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
-//			$paginate = new Paginate($count, $_GET['page'], [], (int)$this->set['pagePerCount'], 5);
-//
-//			// get article data
-//			$data = $this->parent->getItems([
-//				'limit' => [ $paginate->offset, $paginate->size ]
-//			]);
-//			$repo['file'] = ($data['state'] == 'success') ? $data['data'] : null;
-//		}
-//
-//		// set pwd_container
-//		$this->pwd_container = __GOOSE_PWD__.$this->skinPath.'view_index.html';
-//
-//		require_once($this->layout->getUrl());
+			$repo->paginate = new core\Paginate($repo->total, $_GET['page'], $paginateParameter, (int)$pagePerCount, 5);
+
+			$repo->file = core\Spawn::items([
+				'table' => core\Spawn::getTableName($this->parent->name),
+				'order' => 'srl',
+				'sort' => 'desc',
+				'limit' => [ $repo->paginate->offset, $repo->paginate->size ]
+			]);
+		}
+
+		// set skin path
+		$this->setSkinPath('index');
+
+		// render page
+		$this->blade->render($this->parent->skinAddr . '.index', [
+			'mod' => $this->parent,
+			'repo' => $repo
+		]);
+	}
+
+	/**
+	 * set skin path
+	 *
+	 * @param string $type
+	 * @param string $userSkin
+	 */
+	private function setSkinPath($type, $userSkin=null)
+	{
+		// check blade file
+		$bladeResult = core\Blade::isFile(__GOOSE_PWD__ . 'mod', $type, [
+			$this->parent->name . '.skin.' . $_GET['skin'],
+			$this->parent->name . '.skin.' . $userSkin,
+			$this->parent->name . '.skin.' . $this->parent->set['skin'],
+			$this->parent->name . '.skin.default'
+		]);
+
+		// set blade and file path
+		$this->parent->skinAddr = $bladeResult['address'];
+		$this->parent->skinPath = 'mod/' . $bladeResult['path'] . '/';
 	}
 }
