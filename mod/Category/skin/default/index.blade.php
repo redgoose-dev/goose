@@ -16,43 +16,47 @@
 		<fieldset>
 			<legend class="blind">분류목록</legend>
 			<ul class="idx-document sortable card" id="index">
-			@if(count($repo->category))
-			@foreach($repo->category as $category)
-				<li class="item" data-srl="{{ $category['srl'] }}">
-					<div class="wrap">
-						<div class="handle">
-							<i class="material-icons">dehaze</i>
-						</div>
-						<div class="body">
-							<strong class="hd">{{ $category['srl'] }}. {{ $category['name'] }}({{ $category['articleCount'] }})</strong>
-							@if($mod->isAdmin || ($permission < $_SESSION['goose_level']))
-							<nav>
-								<a href="{{ $root }}/Category/modify/{{ $category['urlParam'] }}">수정</a>
-								<a href="{{ $root }}/Category/remove/{{ $category['urlParam'] }}">삭제</a>
-							</nav>
+				@if(count($repo->category))
+					@foreach($repo->category as $category)
+					<li class="item" data-srl="{{ $category['srl'] }}">
+						<div class="wrap">
+							@if($nest_srl)
+							<div class="handle">
+								<i class="material-icons">dehaze</i>
+							</div>
 							@endif
+							<div class="body">
+								<strong class="hd">{{ $category['srl'] }}. {{ $category['name'] }}({{ $category['articleCount'] }})</strong>
+								@if($mod->isAdmin)
+								<nav>
+									<a href="{{ $root }}/Category/modify/{{ $category['urlParam'] }}">수정</a>
+									<a href="{{ $root }}/Category/remove/{{ $category['urlParam'] }}">삭제</a>
+								</nav>
+								@endif
+							</div>
 						</div>
-					</div>
-				</li>
-			@endforeach
-			@else
+					</li>
+					@endforeach
+				@else
 				<li class="empty">데이터가 없습니다.</li>
-			@endif
+				@endif
 			</ul>
 		</fieldset>
 
 		<nav class="gs-btn-group right">
-			<?php $param = ($nest_srl) ? $nest_srl . '/' : '' ?>
-			@if($mod->isAdmin || ($permission < $_SESSION['goose_level']))
-			<a href="{{ $root }}/Category/create/{{ $param }}" class="gs-button col-key">분류추가</a>
+			@if($nest_srl)
+				@if($mod->isAdmin)
+				<a href="{{ $root }}/Category/create/{{ $nest_srl }}/" class="gs-button col-key">분류추가</a>
+				@endif
+				<a href="{{ $root }}/Article/index/{{ $nest_srl }}/" class="gs-button">문서목록</a>
 			@endif
-			<a href="{{ $root }}/Article/index/{{ $param }}" class="gs-button">문서목록</a>
 			<a href="{{ $root }}/Nest/index/{{ ($_SESSION['app_srl']) ? $_SESSION['app_srl'].'/' : '' }}" class="gs-button">둥지목록</a>
 		</nav>
 	</form>
 </section>
 @endsection
 
+@if($nest_srl)
 @section('script')
 <script src="{{ $root }}/vendor/Sortable/Sortable.min.js"></script>
 <script>
@@ -92,3 +96,4 @@ jQuery(function($) {
 });
 </script>
 @endsection
+@endif

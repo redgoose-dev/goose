@@ -89,15 +89,18 @@ class View {
 		$this->setSkinPath('index');
 
 		// set permission
-		$permission = (isset($repo->nest['json']['permission2'])) ? $repo->nest['json']['permission2'] : $this->parent->set['permission'];
+		$permission = (isset($repo->nest['json']['permission2'])) ? $repo->nest['json']['permission2'] : ((isset($this->parent->set['permission'])) ? $this->parent->set['permission'] : 0);
+		if ($permission < $_SESSION['goose_level'])
+		{
+			$this->parent->isAdmin = true;
+		}
 
 		// render page
 		$this->blade->render($this->parent->skinAddr . '.index', [
 			'root' => __GOOSE_ROOT__,
 			'mod' => $this->parent,
 			'repo' => $repo,
-			'nest_srl' => $nest_srl,
-			'permission' => $permission
+			'nest_srl' => $nest_srl
 		]);
 	}
 
@@ -139,9 +142,19 @@ class View {
 	 */
 	public function view_modify()
 	{
-		// set nest_srl
-		$nest_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
-		$category_srl = ($this->parent->params['params'][1]) ? (int)$this->parent->params['params'][1] : null;
+		$nest_srl = null;
+		$category_srl = null;
+
+		// set srl
+		if ($this->parent->params['params'][1])
+		{
+			$nest_srl = (int)$this->parent->params['params'][0];
+			$category_srl = (int)$this->parent->params['params'][1];
+		}
+		else if ($this->parent->params['params'][0])
+		{
+			$category_srl = (int)$this->parent->params['params'][0];
+		}
 
 		// make repo
 		$repo = new stdClass();
@@ -179,9 +192,19 @@ class View {
 	 */
 	public function view_remove()
 	{
-		// set nest_srl
-		$nest_srl = ($this->parent->params['params'][0]) ? (int)$this->parent->params['params'][0] : null;
-		$category_srl = ($this->parent->params['params'][1]) ? (int)$this->parent->params['params'][1] : null;
+		$nest_srl = null;
+		$category_srl = null;
+
+		// set srl
+		if ($this->parent->params['params'][1])
+		{
+			$nest_srl = (int)$this->parent->params['params'][0];
+			$category_srl = (int)$this->parent->params['params'][1];
+		}
+		else if ($this->parent->params['params'][0])
+		{
+			$category_srl = (int)$this->parent->params['params'][0];
+		}
 
 		// make repo
 		$repo = new stdClass();

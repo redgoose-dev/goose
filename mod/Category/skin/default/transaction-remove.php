@@ -16,7 +16,7 @@ if (!$this->isAdmin)
 
 
 // check post
-$errorValue = core\Util::checkExistValue($post, [ 'nest_srl', 'category_srl' ]);
+$errorValue = core\Util::checkExistValue($post, [ 'category_srl' ]);
 if ($errorValue)
 {
 	return [

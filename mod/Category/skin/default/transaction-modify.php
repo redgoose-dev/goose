@@ -5,7 +5,7 @@ if (!defined('__GOOSE__')) exit();
 
 
 // check post
-$errorValue = core\Util::checkExistValue($post, [ 'nest_srl', 'category_srl', 'name' ]);
+$errorValue = core\Util::checkExistValue($post, [ 'category_srl', 'name' ]);
 if ($errorValue)
 {
 	return [
