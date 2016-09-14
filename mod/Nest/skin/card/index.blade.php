@@ -60,5 +60,5 @@
 @endsection
 
 @section('style')
-<link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}card.css">
+<link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}css/card.css">
 @endsection

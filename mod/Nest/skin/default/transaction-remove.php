@@ -2,50 +2,51 @@
 if (!defined('__GOOSE__')) exit();
 
 
-/**
- * @var array $post
- */
+/** @var array $post */
 
-// remove article data
+// remove article,file data
 if ($post['delete_article'])
 {
+	// get article data
+	$articles = core\Spawn::items([
+		'table' => core\Spawn::getTableName('Article'),
+		'field' => 'srl',
+		'where' => 'nest_srl=' . (int)$post['nest_srl'],
+	]);
+	$file_srls = [];
+	foreach($articles as $k=>$v)
+	{
+		$data = core\Spawn::items([
+			'table' => core\Spawn::getTableName('File'),
+			'field' => 'srl',
+			'where' => 'article_srl=' . (int)$v['srl']
+		]);
+		foreach($data as $k2=>$v2)
+		{
+			if ($v2['srl'])
+			{
+				$file_srls[] = (int)$v2['srl'];
+			}
+		}
+	}
+
+	// remove files
 	$file = new mod\File\File();
-	// TODO : Article 모듈 작업 끝내면 작업하기
-//	// remove attach files
-//	$articles = core\Spawn::items([
-//		'table' => core\Spawn::getTableName('Article'),
-//		'field' => 'srl',
-//		'where' => 'nest_srl='.(int)$post['nest_srl'],
-//	]);
-//	$file_srls = [];
-//	foreach($articles as $k=>$v)
-//	{
-//		$data = $file->getItems([ 'field' => 'srl', 'where' => 'article_srl='.(int)$v['srl'] ]);
-//		if ($data['state'] == 'success')
-//		{
-//			foreach($data['data'] as $k2=>$v2)
-//			{
-//				if ($v2['srl'])
-//				{
-//					$file_srls[] = (int)$v2['srl'];
-//				}
-//			}
-//		}
-//	}
-//	$file->actRemoveFile($file_srls, 'file');
-//	$result = core\Spawn::delete([
-//		'table' => core\Spawn::getTableName('Article'),
-//		'where' => 'nest_srl='.(int)$post['nest_srl'],
-//		'debug' => false
-//	]);
+	$result = $file->actRemoveFile($file_srls);
+	if ($result['state'] == 'error') core\Util::back('remove files error');
+
+	// remove articles
+	$result = core\Spawn::delete([
+		'table' => core\Spawn::getTableName('Article'),
+		'where' => 'nest_srl=' . (int)$post['nest_srl']
+	]);
 }
-exit;
 
 
 // remove category data
 $result = core\Spawn::delete([
 	'table' => core\Spawn::getTableName('Category'),
-	'where' => 'nest_srl='.(int)$post['nest_srl']
+	'where' => 'nest_srl=' . (int)$post['nest_srl']
 ]);
 
 

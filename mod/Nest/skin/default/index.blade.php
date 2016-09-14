@@ -46,7 +46,7 @@
 						<div class="body">
 							<a href="{{ $root }}/Article/index/{{ $nest['srl'] }}/">
 								<strong class="hd">
-									{{ $appName }}
+									{{ ($nest['appName']) ? '['.$nest['appName'].']' : '' }}
 									{{ $nest['name'] }}
 									<em class="gs-brk-cnt">{{ $nest['countArticle'] }}</em>
 								</strong>
