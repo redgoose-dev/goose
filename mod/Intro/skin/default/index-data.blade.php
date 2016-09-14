@@ -19,6 +19,8 @@ function getArticles($totalPrintCount)
 	$article = core\Spawn::items([
 		'table' => core\Spawn::getTableName('Article'),
 		'limit' => [ 0, $totalPrintCount ],
+		'order' => 'srl',
+		'sort' => 'desc',
 		'jsonField' => ['json']
 	]);
 

@@ -57,12 +57,10 @@ jQuery(function($){
 	{
 		var defer = $.Deferred();
 		var req = $.ajax({
-			url : userData.gooseRoot + '/script/run/markdown_preview/'
-			,type : 'post'
-			,data : {
-				title : '...'
-				,nest_srl : userData.form.nest_srl.value
-				,content : userData.form.content.value
+			url : userData.previewScriptPath,
+			type : 'post',
+			data : {
+				content : userData.form.content.value
 			}
 		});
 		req.done(function(str){
@@ -167,8 +165,7 @@ jQuery(function($){
 		uploadScript : userData.root + '/file/upload/',
 		removeScript : userData.root + '/file/remove/',
 		uploadParams : {
-			table : 'file_tmp',
-			upload_loc : userData.originalPath
+			ready : 1
 		},
 		srcPrefixName : userData.url,
 		queue : {
@@ -239,7 +236,7 @@ jQuery(function($){
 					name : 'remove queue',
 					iconName : 'close',
 					action : function(app, file) {
-						app.queue.removeQueue(file.srl, false, true);
+						app.queue.removeQueue(file.id, false, true);
 					}
 				}
 			]
@@ -301,13 +298,13 @@ jQuery(function($){
 					src : res[0].loc,
 					srl : res[0].srl,
 					name : res[0].name,
-					table : 'file_tmp'
+					ready : res[0].ready
 				}
 			}
 		},
 		removeParamsFilter : function(res) {
 			return {
-				data : JSON.stringify([{ table : res.table, srl : res.srl }])
+				data : JSON.stringify([{ srl : res.srl }])
 			};
 		},
 		removeDataFilter : function(res) {},
@@ -315,13 +312,6 @@ jQuery(function($){
 			userData.addQueue.push(file.srl);
 		},
 		init : function(app) {
-			// add queue srls
-			for(var i=0; i<userData.pushDatas.length; i++)
-			{
-				if (userData.pushDatas[i].table !== 'file_tmp') continue;
-				userData.addQueue.push(userData.pushDatas[i].srl);
-			}
-
 			// set thumbnail queue
 			if (userData.articleData.thumbnail)
 			{
@@ -337,7 +327,6 @@ jQuery(function($){
 	var $mkEditor = $('div.mk-editor');
 	var $mkEditorButtons = $mkEditor.find('a[data-control]');
 	$mkEditorButtons.on('click', function(){
-
 		var mode = $(this).attr('data-control');
 		var $target = $mkEditor.find('[data-target=' + mode + ']');
 
@@ -388,7 +377,7 @@ jQuery(function($){
 		json = encodeURIComponent(JSON.stringify(json));
 		userData.form.json.value = json;
 
-		//return false;
+		// return false;
 	});
 
 });

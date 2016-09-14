@@ -251,7 +251,8 @@ class View {
 			'mod' => $this->parent,
 			'repo' => $repo,
 			'article_srl' => $article_srl,
-			'category_srl' => $category_srl
+			'category_srl' => $category_srl,
+			'externalLoad' => false
 		]);
 	}
 
@@ -300,7 +301,7 @@ class View {
 		}
 
 		// set skin path
-		$this->setSkinPath('form');
+		$this->setSkinPath('form', $repo->nest['json']['articleSkin']);
 
 		// play render page
 		$this->blade->render($this->parent->skinAddr . '.form', [
@@ -309,7 +310,8 @@ class View {
 			'nest_srl' => $nest_srl,
 			'category_srl' => $category_srl,
 			'action' => $this->parent->params['action'],
-			'typeName' => '등록'
+			'typeName' => '등록',
+			'file' => new mod\File\File()
 		]);
 	}
 
@@ -376,7 +378,7 @@ class View {
 		$this->checkAdmin($repo->nest['json']['permission2']);
 
 		// set skin path
-		$this->setSkinPath('form');
+		$this->setSkinPath('form', $repo->nest['json']['articleSkin']);
 
 		// play render page
 		$this->blade->render($this->parent->skinAddr . '.form', [
@@ -385,7 +387,8 @@ class View {
 			'article_srl' => $article_srl,
 			'category_srl' => $category_srl,
 			'action' => $this->parent->params['action'],
-			'typeName' => '수정'
+			'typeName' => '수정',
+			'file' => new mod\File\File()
 		]);
 	}
 
@@ -435,7 +438,7 @@ class View {
 		$this->checkAdmin($repo->nest['json']['permission2']);
 
 		// set skin path
-		$this->setSkinPath('remove');
+		$this->setSkinPath('remove', $repo->nest['json']['articleSkin']);
 
 		// play render page
 		$this->blade->render($this->parent->skinAddr . '.remove', [

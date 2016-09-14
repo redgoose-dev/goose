@@ -13,27 +13,13 @@ else if (!isset($action))
 	return "[]";
 }
 
-
-switch($action)
-{
-	case 'create':
-		$files = Spawn::items([
-			'table' => Spawn::getTableName('file_tmp'),
-			'order' => 'srl',
-			'sort' => 'asc'
-		]);
-		$table = 'file_tmp';
-		break;
-	case 'modify':
-		$files = Spawn::items([
-			'table' => Spawn::getTableName('file'),
-			'where' => 'article_srl='.(int)$article_srl,
-			'order' => 'srl',
-			'sort' => 'asc'
-		]);
-		$table = 'file';
-		break;
-}
+// get file data
+$files = core\Spawn::items([
+	'table' => core\Spawn::getTableName('File'),
+	'where' => (($action == 'modify') ? 'article_srl=' . (int)$article_srl : 'ready=1'),
+	'order' => 'srl',
+	'sort' => 'asc'
+]);
 
 // adjust data
 $pushData = [];
@@ -48,7 +34,7 @@ if (count($files))
 			'size' => (int)$v['size'],
 			'src' => $v['loc'],
 			'type' => $v['type'],
-			'table' => $table
+			'ready' => (int)$v['ready']
 		];
 		$pushData[] = $item;
 	}

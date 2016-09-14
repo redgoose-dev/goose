@@ -67,6 +67,7 @@ class Blade {
 		$data['layout'] = $layout;
 		$data['root'] = __GOOSE_ROOT__;
 		$data['pwd'] = __GOOSE_PWD__;
+		$data['url'] = __GOOSE_URL__;
 
 		// render page
 		echo $this->blade->run($path, $data);

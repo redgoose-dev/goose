@@ -233,7 +233,7 @@ class File {
 					'type' => $file['type'][$i],
 					'size' => (int)$file['size'][$i],
 					'regdate' => date("YmdHis"),
-					'ready' => $ready
+					'ready' => (int)$ready
 				]
 			]);
 			if ($db_result != 'success')
@@ -256,7 +256,8 @@ class File {
 					'name' => $file['name'][$i],
 					'size' => $file['size'][$i],
 					'type' => $file['type'][$i],
-					'srl' => (int)core\Spawn::getLastIdx()
+					'srl' => (int)core\Spawn::getLastIdx(),
+					'ready' => (int)$ready
 				];
 			}
 		}
@@ -276,7 +277,8 @@ class File {
 		if ($this->name != 'File') return [ 'state' => 'error', 'message' => '잘못된 객체로 접근했습니다.' ];
 
 		// set result
-		$result = [];
+		$error = false;
+		$errorMessage = '';
 
 		// action
 		for ($i=0; count($srls)>$i; $i++)
@@ -299,18 +301,19 @@ class File {
 			]);
 			if ($result_db != 'success')
 			{
-				$result[] = [
-					'state' => 'error',
-					'message' => 'Fail execution database'
-				];
-			}
-			else
-			{
-				$result[] = [ 'state' => 'success' ];
+				$error = true;
+				$errorMessage = 'Fail execution database';
 			}
 		}
 
-		return $result;
+		if ($error)
+		{
+			return [ 'state' => 'error', 'message' => $errorMessage ];
+		}
+		else
+		{
+			return [ 'state' => 'success' ];
+		}
 	}
 
 

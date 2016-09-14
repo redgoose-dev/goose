@@ -11,29 +11,36 @@
 	])
 
 	@if(count($repo->category))
-	<nav class="idx-category">
-		<ul>
-			<li{!! (!$category_srl) ? ' class="active"' : '' !!}>
-				<a href="{{ $root }}/{{ $mod->name }}/index/{{ ($nest_srl) ? $nest_srl . '/' : '' }}">
-					<span>All</span><em>{{ $totalArticleCount }}</em>
-				</a>
-			</li>
-			@foreach($repo->category as $category)
-			<li{!! ($category_srl == $category['srl']) ? ' class="active"' : '' !!}>
-				<a href="{{ $root }}/{{ $mod->name }}/index/{{ ($nest_srl) ? $nest_srl . '/' : '0/' }}{{ $category['srl'] . '/' }}">
-					<span>{{ $category['name'] }}</span><em>{{ $category['countArticle'] }}</em>
-				</a>
-			</li>
-			@endforeach
-		</ul>
-	</nav>
+		<nav class="idx-category">
+			<ul>
+				<li{!! (!$category_srl) ? ' class="active"' : '' !!}>
+					<a href="{{ $root }}/{{ $mod->name }}/index/{{ ($nest_srl) ? $nest_srl . '/' : '' }}">
+						<span>All</span><em>{{ $totalArticleCount }}</em>
+					</a>
+				</li>
+				@foreach($repo->category as $category)
+					<li{!! ($category_srl == $category['srl']) ? ' class="active"' : '' !!}>
+						<a href="{{ $root }}/{{ $mod->name }}/index/{{ ($nest_srl) ? $nest_srl . '/' : '0/' }}{{ $category['srl'] . '/' }}">
+							<span>{{ $category['name'] }}</span><em>{{ $category['countArticle'] }}</em>
+						</a>
+					</li>
+				@endforeach
+			</ul>
+		</nav>
 	@endif
 
-	<ul class="idx-document list">
+	<ul class="idx-document {{ $repo->nest['json']['articleListType'] or 'list' }}">
 		@if(count($repo->article))
 			@foreach($repo->article as $article)
 			<li>
 				<a class="wrap" href="{{ $root }}/{{ $mod->name }}/read/{{ ($category_srl) ? $category_srl . '/' : '' }}{{ $article['srl'] . '/' }}{{ ($_GET['page'] > 1) ? '?page=' . $_GET['page'] : '' }}">
+					<figure class="figure">
+						@if($article['json']['thumbnail']['url'] && file_exists($pwd . $article['json']['thumbnail']['url']))
+						<img src="{{ $root }}/{{ $article['json']['thumbnail']['url'] }}" alt="{{ $article['title'] }}">
+						@else
+						<span class="noimg">no img</span>
+						@endif
+					</figure>
 					<div class="body">
 						<strong class="hd">{{ $article['title'] }}</strong>
 						<div class="inf">

@@ -1,6 +1,9 @@
 <?php
 if (!defined('__GOOSE__')) exit();
 
+/** @var array $post */
+
+
 // 외부에서 불러들인 처리파일이라는 확인값
 $isExternalTransaction = true;
 
@@ -15,11 +18,11 @@ $post['content'] = addslashes($post['content']);
 
 
 // update db
-$dbUpdateResult = require_once(__DIR__.'/../'.$this->set['skin'].'/transaction_'.$method.'.php');
+$dbUpdateResult = require_once(__DIR__.'/../default/transaction-create.php');
 
 
 // include func
-require_once('func.php');
+require_once('lib/func.php');
 
 
 if ($dbUpdateResult['state'] == 'success')
@@ -30,8 +33,8 @@ if ($dbUpdateResult['state'] == 'success')
 	// get article json
 	$article_json = getArticleJSON($article_srl);
 
-	// move file_tmp to file data
-	$thumbnail_srl = fileUpload($post, $article_srl, $article_json['thumbnail']['srl']);
+	// off ready file data
+	$thumbnail_srl = translateFileData($post, $article_srl, $article_json['thumbnail']['srl']);
 
 	// upload thumbnail image
 	if ($thumbnail_srl)
@@ -40,11 +43,11 @@ if ($dbUpdateResult['state'] == 'success')
 
 		$article_json['thumbnail']['srl'] = $thumbnail_srl;
 		$article_json['thumbnail']['url'] = $thumbnailUrl;
-		$json_result = Util::arrayToJson($article_json);
 
-		$result = Spawn::update([
-			'table' => Spawn::getTableName('article'),
-			'where' => 'srl='.$article_srl,
+		$json_result = core\Util::arrayToJson($article_json);
+		$result = core\Spawn::update([
+			'table' => core\Spawn::getTableName('Article'),
+			'where' => 'srl=' . $article_srl,
 			'data' => [
 				"json='$json_result'"
 			]

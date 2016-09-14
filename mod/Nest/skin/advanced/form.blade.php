@@ -92,7 +92,7 @@
 					<select name="articleListType" id="articleListType">
 						@foreach($mod->set['articleListTypes'] as $type)
 							<?php $selected = ($type == $repo->nest['json']['articleListType']) ? ' selected' : '' ?>
-							<?php (!$repo->nest['json']['articleListType'] && $type=='card') ? ' selected' : $selected ?>
+							<?php $selected = (!$repo->nest['json']['articleListType'] && $type=='card') ? ' selected' : $selected ?>
 							<option value="{{ $type }}"{{ $selected }}>{{ $type }}</option>
 						@endforeach
 					</select>
