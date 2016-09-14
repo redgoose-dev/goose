@@ -44,7 +44,7 @@ var getDateNow = function(isDate, isTime)
 
 // scss to css [watch]
 gulp.task('scss:watch', function(){
-	gulp.watch('**/*.scss')
+	gulp.watch('./mod/**/*.scss')
 		.on('change', function(file){
 			// skip import file (xyz.src.scss)
 			if ( /src.scss$/.test(getFilename(file.path)) ) return;
@@ -67,7 +67,7 @@ gulp.task('scss:watch', function(){
 // compress javascript [watch]
 gulp.task('js:watch', function(){
 	// do not compile script files
-	gulp.watch('./module/**/*.js')
+	gulp.watch('mod/**/*.js')
 		.on('change', function(file){
 			if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) ) return;
 
