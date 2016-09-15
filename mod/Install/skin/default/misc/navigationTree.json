@@ -25,13 +25,14 @@
 	},
 	{
 		"name": "Resource",
-		"url": "{GOOSE_ROOT}/ExternalResource/",
+		"url": "http://src.goose-dev.com/",
+		"target" : "_blank",
 		"permission" : 0
 	},
 	{
 		"name": "Documentation",
 		"url": "http://redgoosedev.github.io/goose/#Documentation",
-		"target": "goose",
+		"target": "_blank",
 		"permission" : 0
 	}
 ]
