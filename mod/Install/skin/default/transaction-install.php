@@ -141,7 +141,7 @@ $cnt = core\Spawn::count([
 ]);
 if (!$cnt)
 {
-	$data = core\Util::checkUserFile(__GOOSE_PWD__.'bootstrap/misc/navigationTree.json');
+	$data = core\Util::checkUserFile(__GOOSE_PWD__ . $this->skinPath . 'misc/navigationTree.json');
 	$data = core\Util::openFile($data);
 	$data = core\Util::jsonToArray($data, true, true);
 	$data = core\Util::arrayToJson($data, true);

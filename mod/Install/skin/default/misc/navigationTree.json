@@ -25,7 +25,7 @@
 	},
 	{
 		"name": "Resource",
-		"url": "{GOOSE_ROOT}/Resource/",
+		"url": "{GOOSE_ROOT}/ExternalResource/",
 		"permission" : 0
 	},
 	{
