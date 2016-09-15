@@ -67,7 +67,7 @@ gulp.task('scss:watch', function(){
 // compress javascript [watch]
 gulp.task('js:watch', function(){
 	// do not compile script files
-	gulp.watch('mod/**/*.js')
+	gulp.watch([ 'mod/**/*.js', '!mod/ExternalResource/**/*.js' ])
 		.on('change', function(file){
 			if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) ) return;
 
