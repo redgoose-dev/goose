@@ -1,30 +1,21 @@
 <?php
-namespace mod\Resource;
-use core;
+namespace mod\ExternalResource;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
-class Resource {
+class ExternalResource {
 
-	public $goose, $param, $set, $name, $layout, $isAdmin, $method;
-	public $path, $skinPath, $pwd_container;
+	public $name, $set, $params, $isAdmin;
+	public $path, $skinPath, $skinAddr, $skinUrl, $ftp;
 
-	/**
-	 * construct
-	 *
-	 * @param array $getter
-	 */
-	public function __construct($getter=array())
+	public function __construct($params)
 	{
-		$this->name = $getter['name'];
-		$this->goose = $getter['goose'];
-		$this->isAdmin = $getter['isAdmin'];
-		$this->param = $getter['param'];
-		$this->path = $getter['path'];
-		$this->set = $getter['set'];
+		core\Module::initModule($this, $params);
 
-		$this->viewPath = $this->path.'app/';
-		$this->url = __GOOSE_ROOT__.'/'.$this->name;
+		$this->skinAddr = $this->name . '.app';
+		$this->skinPath = $this->path . 'app/';
+		$this->skinUrl = __GOOSE_ROOT__ . '/' . $this->name;
 		$this->ftp = null;
 	}
 
@@ -33,12 +24,10 @@ class Resource {
 	 */
 	public function index()
 	{
-		// set layout module
-		$this->layout = core\Module::load('layout');
-
+		// get ftp connect information
 		$this->loadFtpInfo();
 
-		if ($this->param['method'] == 'POST')
+		if ($this->params['method'] == 'POST')
 		{
 			// POST
 
@@ -73,14 +62,16 @@ class Resource {
 		{
 			// GET
 
-			switch($this->param['action'])
+			switch($this->params['action'])
 			{
 				case 'setting':
-					$this->view_index('view_setting');
+					$view = new View($this);
+					$view->view_setting();
 					break;
 
 				default:
-					$this->view_index('view_index');
+					$view = new View($this);
+					$view->view_index();
 					break;
 
 				case 'checkInstall':
@@ -106,18 +97,18 @@ class Resource {
 		}
 	}
 
-	/**
-	 * view - index
-	 *
-	 * @param string $fileName
-	 */
-	private function view_index($fileName)
-	{
-		// set pwd_container
-		$this->pwd_container = __GOOSE_PWD__.$this->viewPath.$fileName.'.html';
-
-		require_once($this->layout->getUrl());
-	}
+//	/**
+//	 * view - index
+//	 *
+//	 * @param string $fileName
+//	 */
+//	private function view_index($fileName)
+//	{
+//		// set pwd_container
+//		$this->pwd_container = __GOOSE_PWD__.$this->viewPath.$fileName.'.html';
+//
+//		require_once($this->layout->getUrl());
+//	}
 
 	/**
 	 * test ftp
@@ -238,16 +229,14 @@ class Resource {
 	}
 
 	/**
-	 * load ftp info
-	 *
-	 * @return void
+	 * load ftp information
 	 */
 	private function loadFtpInfo()
 	{
 		$ftp_account = null;
-		if (file_exists(__GOOSE_PWD__.'data/ftp.php'))
+		if (file_exists(__GOOSE_PWD__ . 'data/ftp.php'))
 		{
-			require_once(__GOOSE_PWD__.'data/ftp.php');
+			require_once(__GOOSE_PWD__ . 'data/ftp.php');
 			$this->ftp = $ftp_account;
 		}
 	}
