@@ -116,7 +116,7 @@ var userData = {
 	root : '{{ $root }}',
 	url : '{{ $url }}/',
 	originalPath : '{{ $file->set['upPath_original'] }}/',
-	previewScriptPath : '{{ $root }}/script/run/markdown_preview/',
+	previewScriptPath : '{{ $root }}/Script/run/markdown_preview/',
 	pushDatas : function(src) {
 		try {
 			return JSON.parse(decodeURIComponent(src));
