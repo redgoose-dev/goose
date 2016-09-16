@@ -21,7 +21,8 @@
 							<strong class="hd">{{ $json['name'] }}</strong>
 						</a>
 						<div class="inf">
-							<span><b>Date</b>{{ core\Util::convertDate($json['regdate']) }}</span>
+							<span><b>srl</b>{{ $json['srl'] }}</span>
+							<span><b>date</b>{{ core\Util::convertDate($json['regdate']) }} {{ core\Util::convertTime($json['regdate']) }}</span>
 						</div>
 						@if($admin)
 						<nav>

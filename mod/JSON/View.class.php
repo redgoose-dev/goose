@@ -40,7 +40,9 @@ class View {
 		$repo = new stdClass();
 		$repo->json = core\Spawn::items([
 			'table' => core\Spawn::getTableName($this->parent->name),
-			'field' => 'srl,name,regdate'
+			'field' => 'srl,name,regdate',
+			'order' => 'srl',
+			'sort' => 'desc'
 		]);
 
 		// set skin path
