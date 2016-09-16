@@ -2,6 +2,5 @@
 	"name" : "Install",
 	"title" : "Install",
 	"description" : "Goose 설치 모듈",
-	"install" : false,
 	"skin" : "default"
 }

@@ -1,42 +1,44 @@
-### Introduce
+## Introduce
 이 모듈은 url 주소를 처리해주는 모듈입니다.
 
-`http://fruits.com/apple/banana/12/`형태의 url주소를 어떻게 실항하는지에 대하여 결정하고, 값을 전달받을 수 있게 도와주는 역할을 합니다.  
+`http://fruits.com/apple/banana/12/`형태의 url 주소를 어떻게 이동하는지에 대하여 결정하고, 값을 전달받을 수 있게 도와주는 역할을 합니다.  
 [AltoRouter](https://github.com/dannyvankooten/AltoRouter) 클래스를 사용하며 모듈을 로드할때 같이 AltoRouter 클래스 인스턴스 변수로 만듭니다.
 
 
-### setting.json
+
+## setting.json
 모듈의 환경설정 파일입니다. 설정에 대한 소개는 다음과 같습니다.
 
-* __name__  
+#### name
 모듈의 id값
 
-* __title__  
+#### title
 출력되는 제목값
 
-* __description__  
+#### description
 모듈의 설명
 
-* __permission__  
+#### permission
 접근권한 번호
 
-* __basicModule__  
+#### basicModule
 `/`로 접근했을때 실행되는 모듈이름
 
 
-### AltoRouter
+
+## AltoRouter
 router 모듈에서 사용되는 php 클래스를 설치하고 사용법을 알려주는 url은 다음과 같습니다.
 
 http://altorouter.com/usage/install.html
 
 
-### 앱 제작할때의 사용법
+## 앱 제작할때의 사용법
 앱을 만들때 이 모듈을 불러와서 활용할 수 있습니다.  
 router 모듈을 활용한 소스는 다음과 같이 `모듈 불러오기 -> 루트 경로 설정 -> 라우트 맵 설정 -> match 설정 -> url에 맞춰 실행` 순서로 실행됩니다.
 
 ```
 // load router module
-$router = Module::load('router');
+$router = core\Module::load('Router');
 // set base path
 $router->route->setBasePath('/');
 

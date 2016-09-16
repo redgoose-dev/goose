@@ -36,6 +36,10 @@ class Auth {
 			case "logout":
 				self::logout();
 				break;
+
+			default:
+				echo "Authentication page";
+				break;
 		}
 	}
 

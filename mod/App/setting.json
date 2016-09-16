@@ -6,12 +6,5 @@
 	"adminPermission" : 100,
 	"install" : true,
 	"skin" : "default",
-	"pagePerCount" : 15,
-	"listStyle" : "card",
-	"allowApi" : {
-		"read" : {
-			"nest" : [ "srl", "id", "name", "regdate" ]
-		},
-		"write" : []
-	}
+	"listStyle" : "card"
 }

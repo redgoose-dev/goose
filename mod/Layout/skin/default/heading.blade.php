@@ -12,10 +12,10 @@
 	@endif
 	@if ($mod->isAdmin && $isHeadNavigation)
 		<nav>
-			<a href="{{ $root }}/Help/{{ $mod->name }}/" class="help" title="go to help">
+			<a href="{{ $root }}/Help/{{ $modName or $mod->name }}/" class="help" title="go to help">
 				<i class="material-icons">help</i>
 			</a>
-			<a href="{{ $root }}/Modules/editSetting/{{ $mod->name }}/" class="setting" title="edit setting">
+			<a href="{{ $root }}/Modules/editSetting/{{ $modName or $mod->name }}/" class="setting" title="edit setting">
 				<i class="material-icons">settings</i>
 			</a>
 		</nav>

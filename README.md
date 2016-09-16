@@ -35,12 +35,10 @@ __http://src.goose-dev.com__
 
 * jquery - https://jquery.com
 * Sortable - https://github.com/RubaXa/Sortable
-* JSONEditor - https://github.com/RedgooseDev/JSONEditor
 * Parsedown - http://parsedown.org
 * Snippet
 * jQuery Validation - http://jqueryvalidation.org
-* react.js - https://facebook.github.io/react
-* react router - https://github.com/reactjs/react-router
+* JSONEditor - https://github.com/RedgooseDev/JSONEditor
 * rg-Uploader - https://github.com/RedgooseDev/rg-Uploader
 
 

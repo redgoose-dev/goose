@@ -1,50 +1,55 @@
-### Introduce
+## Introduce
 이 모듈은 Article 모듈의 글의 분류로 묶기위해 사용되며 nest 모듈에서 사용유무를 정할 수 있습니다.
 
 
-### Address guide
-* `{goose}/category/index/{nest_srl}/`  
-둥지를 선택한 분류의 목록
 
-* `{goose}/category/create/{nest_srl}/`  
-분류 만들기 페이지
+## URL guide
 
-* `{goose}/category/modify/{nest_srl}/{srl}/`  
-분류 수정 페이지
+#### 둥지를 선택한 분류의 목록
+`/mod/Category/index/{nest_srl}/`
 
-* `{goose}/category/remove/{nest_srl}/{srl}/`  
-분류 삭제 페이지
+#### 분류 만들기
+`/mod/Category/create/{nest_srl}/`
+
+#### 분류 수정
+`/mod/Category/modify/{nest_srl}/{srl}/`
+
+#### 분류 삭제
+`/mod/Category/remove/{nest_srl}/{srl}/`
 
 
-### setting.json
+
+## setting.json
+
 모듈의 환경설정 파일입니다. 설정에 대한 소개는 다음과 같습니다.
 
-* __name__  
+#### name
 모듈의 id값
 
-* __title__  
+#### title
 출력되는 제목값
 
-* __description__  
+#### description
 모듈의 설명
 
-* __permission__  
+#### permission
 접근권한 번호 (숫자가 높을수록 권한이 높습니다.)
 
-* __adminPermission__  
+#### adminPermission
 모듈 관리자 권한 번호 (숫자가 높을수록 권한이 높습니다.)
 
-* __install__  
+#### install
 인스톨이 필요한 모듈인지에 대한 유무를 정합니다.
 
-* __skin__  
+#### skin
 다른형태로 목록이나 폼 페이지가 출력되는 스킨값
 
-* __pagePerCount__  
+#### pagePerCount
 한페이지에 출력되는 글 갯수
 
 
-### Database field
+
+## Database field
 
 모듈을 설치할때 사용되는 db 필드들입니다.
 
@@ -57,39 +62,22 @@
 | regdate    | varchar    | 날짜
 
 
-### Module API
+
+## Module API
 
 모듈에서 제공하는 api입니다. 우선 다음과 같이 모듈 인스턴스 변수값에 담아야합니다.
+
 ```
-$mod = Module::load('category');
+$category = new mod\Category\Category();
+$category = core\Module::load('Category');
 ```
 
-* __$mod->getCount()__  
-조건에 맞는 글 갯수를 가져옵니다.  
-```
-$count = $mod->getCount();
-```
-
-* __$mod->getItems()__  
-조건에 맞는 글들을 모음을 가져옵니다.
-```
-$data = $mod->getItems();
-```
-
-* __$mod->getItem()__  
-조건에 맞는 글 한개만 가져옵니다.
-```
-$data = $mod->getItem(array(
-	'where' => 'srl=1'
-));
-```
-
-* __$mod->transaction()__  
+#### $mod->transaction()
 글을 등록하거나 수정, 삭제 처리합니다.
 ```
-$result_make = $mod->transaction('create', $_POST); // make
-$result_modify = $mod->transaction('modify', $_POST); // modify
-$result_remove = $mod->transaction('remove', $_POST); // remove
-$result_sort = $mod->transaction('sort', $_POST); // sort
+$result_make = $category->transaction('create', $_POST); // make
+$result_modify = $category->transaction('modify', $_POST); // modify
+$result_remove = $category->transaction('remove', $_POST); // remove
+$result_sort = $category->transaction('sort', $_POST); // sort
 ```
-$\_POST값에 대해서는 `{module}/skin/default/view_form.php` 파일을 참고해주세요.
+`$_POST`값에 대해서는 `/mod/Category/skin/default/form.blade.php` 파일을 참고해주세요.

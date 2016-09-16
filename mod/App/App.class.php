@@ -114,21 +114,21 @@ class App {
 		return $result;
 	}
 
-//	/**
-//	 * uninstall
-//	 *
-//	 * @return array
-//	 */
-//	public function uninstall()
-//	{
-//		$result = core\Spawn::dropTable(core\Spawn::getTableName($this->name));
-//		if ($result == 'success')
-//		{
-//			return [ 'state' => 'success', 'message' => 'complete uninstall module' ];
-//		}
-//		else
-//		{
-//			return [ 'state' => 'error', 'message' => $result ];
-//		}
-//	}
+	/**
+	 * uninstall
+	 *
+	 * @return array
+	 */
+	public function uninstall()
+	{
+		$result = core\Spawn::dropTable(core\Spawn::getTableName($this->name));
+		if ($result == 'success')
+		{
+			return [ 'state' => 'success', 'message' => 'complete uninstall module' ];
+		}
+		else
+		{
+			return [ 'state' => 'error', 'message' => $result ];
+		}
+	}
 }

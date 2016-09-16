@@ -6,7 +6,7 @@
 	@include($layout->skinAddr.'.heading', [
 		'title' => '[' . $mod->name . '] 모듈 환경설정',
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => false
 	])
 
 	<form action="{{ $root }}/{{ $mod->name }}/{{ $action }}/" method="post" name="post" id="regsterForm">

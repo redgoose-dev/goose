@@ -32,6 +32,8 @@
 			</a>
 		</li>
 		@endforeach
+	@else
+		<li class="empty">데이터가 없습니다.</li>
 	@endif
 	</ul>
 

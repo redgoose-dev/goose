@@ -4,9 +4,9 @@
 @section('content')
 <section>
 	@include($layout->skinAddr.'.heading', [
-		'title' => $mod->set['title'] . '-' . $repo->setting['title'],
+		'title' => $mod->set['title'] . ' - ' . $repo->setting['title'],
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => false
 	])
 
 	<div class="gs-article-body">{!! $content !!}</div>
