@@ -160,7 +160,7 @@ else
 	$result = '`Goose Navigation` Data already exists.';
 }
 
-echo '<p>Add json data - ' . (($result == 'success') ? 'Complete' : '<strong style="color: red; font-weight: bold;">ERROR : $result</strong>') . '</p>';
+echo '<p>Add json data - ' . (($result == 'success') ? 'Complete' : '<strong style="color: red; font-weight: bold;">ERROR : ' . $result . '</strong>') . '</p>';
 
 
 echo "<hr/>";

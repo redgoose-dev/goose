@@ -87,10 +87,12 @@ class Goose {
 	 *
 	 * @param int $code error code
 	 * @param string $msg error message
+	 * @param string $url_home
 	 */
-	public static function error($code=null, $msg=null, $url_home=__GOOSE_ROOT__)
+	public static function error($code=null, $msg=null, $url_home)
 	{
 		$error = new mod\Error\Error();
+		$url_home = ($url_home) ? $url_home : __GOOSE_ROOT__;
 		$url_home .= (preg_match('/\/$/', $url_home)) ? '' : '/';
 
 		// act error

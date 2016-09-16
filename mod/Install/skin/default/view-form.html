@@ -18,7 +18,7 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 		<?php
 		if (version_compare(PHP_VERSION, __GOOSE_MIN_PHP_VERSION__, '<'))
 		{
-			echo "<p class=\"error\">".__GOOSE_MIN_PHP_VERSION__."이상의 PHP버전이 설치되어있어야합니다. 현재버전:".PHP_VERSION."</p>";
+			echo "<p class=\"error\">".__GOOSE_MIN_PHP_VERSION__ . '이상의 PHP버전이 설치되어있어야합니다.<br>현재버전:' . PHP_VERSION."</p>";
 		}
 		?>
 	</header>
@@ -118,7 +118,6 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 					<input type="text" name="timezone" size="24" maxlength="30" value="Asia/Seoul" required /><br/>
 					<span><a href="http://php.net/manual/en/timezones.php" target="_blank">List of Supported Timezones</a> 페이지에 있는 지역을 참고하여 해당지역을 입력해주세요.</span>
 				</span>
-
 			</label>
 		</fieldset>
 		<nav>
@@ -126,7 +125,6 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 		</nav>
 	</form>
 </main>
-
 <script src="<?=__GOOSE_ROOT__?>/vendor/jQuery/jquery-3.1.0.min.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/validation/jquery.validate.min.js"></script>
 <script src="<?=__GOOSE_ROOT__?>/vendor/validation/localization/messages_ko.js"></script>

@@ -88,7 +88,6 @@ class Module {
 	 *
 	 * @param object $instance
 	 * @param array $params
-	 * @return null
 	 */
 	public static function initModule($instance, $params=[])
 	{

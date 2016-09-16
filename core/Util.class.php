@@ -93,7 +93,7 @@ class Util {
 
 			return $result;
 
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return null;
 		}
 	}
@@ -117,7 +117,7 @@ class Util {
 			{
 				return json_decode($json, ($type) ? $type : true);
 			}
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return null;
 		}
 	}

@@ -46,7 +46,7 @@ class Blade {
 	{
 		if (!class_exists('eftec\bladeone\BladeOne'))
 		{
-			include __GOOSE_PWD__ . "vendor/BladeOne/BladeOne.php";
+			include __GOOSE_PWD__ . 'vendor/BladeOne/BladeOne.php';
 		}
 		if (!class_exists('eftec\bladeone\BladeOne'))
 		{

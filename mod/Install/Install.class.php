@@ -6,7 +6,8 @@ if (!defined('__GOOSE__')) exit();
 
 class Install {
 
-	public $name, $path, $set, $skinPath;
+	public $name, $set, $params, $isAdmin;
+	public $path, $skinPath, $skinAddr;
 
 	public function __construct($params=[])
 	{

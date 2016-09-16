@@ -188,7 +188,7 @@ class Spawn {
 		$result = '';
 		if ($get['table'] and $get['data'] and $get['where'])
 		{
-			$result = "update $get[table] set ";
+			$result = 'update ' . $get['table'] . ' set ';
 			$sw = true;
 			foreach ($get['data'] as $k=>$v)
 			{
@@ -202,7 +202,7 @@ class Spawn {
 					$result .= ($v) ? ','.$v : '';
 				}
 			}
-			$result .= " where $get[where]";
+			$result .= ' where ' . $get['where'];
 		}
 		if (isset($get['debug']) && $get['debug'] == true)
 		{
