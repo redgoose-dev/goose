@@ -18,7 +18,7 @@
 		"permission" : 100
 	},
 	{
-		"name": "Module",
+		"name": "Modules",
 		"url": "{GOOSE_ROOT}/Modules/index/",
 		"target": "",
 		"permission" : 100

@@ -14,7 +14,7 @@
 		@if(count($repo->articles))
 		@foreach($repo->articles as $item)
 		<li>
-			<a href="{{ $root }}/article/read/{{ $item['srl'] }}/?m=1" class="wrap">
+			<a href="{{ $root }}/Article/read/{{ $item['srl'] }}/?m=1" class="wrap">
 				<figure class="figure">
 					@if($item['json']['thumbnail']['url'])
 					<img src="{{ $root }}/{{ $item['json']['thumbnail']['url'] }}" alt="{{ $item['title'] }}"/>
