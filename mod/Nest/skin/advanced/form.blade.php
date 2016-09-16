@@ -7,7 +7,8 @@
 <section>
 	@include($layout->skinAddr.'.heading', [
 		'title' => $mod->set['title'] . ' ' . $typeName,
-		'description' => $mod->set['description']
+		'description' => $mod->set['description'],
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	<form action="{{ $root }}/{{ $mod->name }}/{{ $action }}/" method="post" id="regster-form">

@@ -7,7 +7,7 @@
 		'titleType' => $repo->nest['name'],
 		'title' => $mod->set['title'],
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	<form action="{{ $root }}/Category/sort/" method="post" name="listForm" id="listForm">

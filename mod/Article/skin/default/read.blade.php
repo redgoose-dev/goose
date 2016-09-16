@@ -73,7 +73,7 @@
 	@include($layout->skinAddr.'.heading', [
 		'title' => $repo->article['title'],
 		'description' => '<span>' . core\Util::convertDate($repo->article['regdate']) . ' ' . core\Util::convertTime($repo->article['regdate']) . '</span>' . '<span>hit:' . $repo->article['hit'],
-		'isHeadNavigation' => true,
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 		'titleType' => $repo->category['name']
 	])
 

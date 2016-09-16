@@ -6,7 +6,7 @@
 	@include($layout->skinAddr.'.heading', [
 		'title' => $mod->set['title'] . ' ' . $typeName,
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	<form action="{{ $root }}/{{ $mod->name }}/remove/" method="post" id="regsterForm">

@@ -6,7 +6,8 @@
 <section>
 	@include($layout->skinAddr.'.heading', [
 		'title' => $mod->set['title'],
-		'description' => $mod->set['description']
+		'description' => $mod->set['description'],
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	<!-- index -->

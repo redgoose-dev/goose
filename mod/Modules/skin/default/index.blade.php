@@ -6,7 +6,7 @@
 	@include($layout->skinAddr.'.heading', [
 		'title' => $mod->set['title'],
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => [ 'help' => false, 'setting' => true ]
 	])
 
 	<ul class="idx-document list">

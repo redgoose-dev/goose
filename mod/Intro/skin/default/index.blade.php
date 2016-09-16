@@ -6,7 +6,7 @@
 <section>
 	@include($layout->skinAddr.'.heading', [
 		'title' => 'Newstest articles',
-		'description' => ''
+		'description' => '최근에 올라온 Article 데이터를 출력합니다.'
 	])
 
 	<!-- index -->

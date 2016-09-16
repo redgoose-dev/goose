@@ -6,7 +6,7 @@
 	@include($layout->skinAddr.'.heading', [
 		'title' => $mod->set['title'],
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	<?php $admin = ($mod->isAdmin || ($mod->set['adminPermission'] <= $_SESSION['goose_level'])) ?>

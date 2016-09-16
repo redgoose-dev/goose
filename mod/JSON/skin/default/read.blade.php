@@ -6,7 +6,7 @@
 	@include($layout->skinAddr.'.heading', [
 		'title' => $repo->json['name'],
 		'description' => 'regdate: ' . core\Util::convertDate($repo->json['regdate']) . ' ' . core\Util::convertTime($repo->json['regdate']),
-		'isHeadNavigation' => true,
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ],
 		'titleType' => $mod->name
 	])
 

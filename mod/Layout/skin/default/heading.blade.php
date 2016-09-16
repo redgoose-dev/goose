@@ -10,14 +10,18 @@
 	@if ($description)
 		<p>{!! $description !!}</p>
 	@endif
-	@if ($mod->isAdmin && $isHeadNavigation)
+	@if ($isHeadNavigation)
 		<nav>
+			@if($isHeadNavigation['help'])
 			<a href="{{ $root }}/Help/{{ $modName or $mod->name }}/" class="help" title="go to help">
 				<i class="material-icons">help</i>
 			</a>
+			@endif
+			@if($isHeadNavigation['setting'] && $mod->isAdmin)
 			<a href="{{ $root }}/Modules/editSetting/{{ $modName or $mod->name }}/" class="setting" title="edit setting">
 				<i class="material-icons">settings</i>
 			</a>
+			@endif
 		</nav>
 	@endif
 </header>

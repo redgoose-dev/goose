@@ -7,7 +7,7 @@
 		'titleType' => $repo->nest['name'],
 		'title' => $mod->set['title'] . ' ' . $typeName,
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	<form action="{{ $root }}/Category/{{ $mod->params['action'] }}/" method="post" id="regsterForm">

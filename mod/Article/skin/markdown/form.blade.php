@@ -7,7 +7,7 @@
 		'titleType' => $repo->nest['name'],
 		'title' => $mod->set['title'] . ' ' . $typeName,
 		'description' => $mod->set['description'],
-		'isHeadNavigation' => true
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	<form name="writeForm" action="{{ $root }}/{{ $mod->name }}/{{ $action }}/" method="post" enctype="multipart/form-data">
