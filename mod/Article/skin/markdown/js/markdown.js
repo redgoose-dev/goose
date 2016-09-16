@@ -162,8 +162,8 @@ jQuery(function($){
 		allowFileTypes : ['jpeg', 'png', 'gif'],
 		limitSize : 3000000,
 		limitSizeTotal : 10000000,
-		uploadScript : userData.root + '/file/upload/',
-		removeScript : userData.root + '/file/remove/',
+		uploadScript : userData.root + '/File/upload/',
+		removeScript : userData.root + '/File/remove/',
 		uploadParams : {
 			ready : 1
 		},
