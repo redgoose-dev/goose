@@ -32,7 +32,7 @@
 		<ol>
 			<li>
 				git를 이용할 수 있는 터미널에서 웹서버 경로에서 설치를 원하는 곳으로 이동하여 아래 명령을 실행해줍니다.  
-				<pre class="code"><code>git clone https://github.com/RedgooseDev/goose.git </code></pre>
+				<pre class="code"><code>git clone --recursive https://github.com/RedgooseDev/goose.git</code></pre>
 				 github에서 복제받으면 /www/goose/ 경로로 소스가 복제됩니다. 
 
 			</li>
@@ -41,6 +41,11 @@
 			<li>항목을 전부 입력했으면 INSTALL 버튼을 누르면 아래 그림과 같이 설치한 항목이 출력이 됩니다. </li>
 			<li>다시 <code>http://xxx.com/www/goose/</code>경로로 접속하면 아래 그림과 같이 인트로 Goose 관리페이지를 볼 수 있습니다.</li>
 		</ol>
+		<h2>Update</h2>
+		<p>
+			Goose경로로 이동한 후에 다음과 같은 명령으로 Goose를 업데이트할 수 있습니다.
+		</p>
+		<pre class="code"><code>git pull origin master --recurse-submodules</code></pre>
 	</section>
 
 	<section id="DocUseGoose">
@@ -70,7 +75,7 @@
 			<h1><span>Module address</span></h1>
 			<p>
 				각 모듈에 접근할 수 있는 주소입니다.<br/>
-				자세한 모든 모듈은 <strong>[Develop module - Basic modules list]</strong> 섹션을 참고해주세요.
+				자세한 모든 모듈은 <strong><a href="#Documentation/DocDevelopModuleList">Basic modules list</a></strong> 섹션을 참고해주세요.
 			</p>
 			<div class="ui-scroll-table">
 				<div class="wrap">
@@ -86,22 +91,22 @@
 						<tbody>
 						<tr>
 							<th>App</th>
-							<td>{goose}/app/index/</td>
+							<td>{goose}/App/index/</td>
 							<td>둥지의 그룹 모듈</td>
 						</tr>
 						<tr>
 							<th>Article</th>
-							<td>{goose}/article/index/{nest_srl}/</td>
+							<td>{goose}/Article/index/{nest_srl}/</td>
 							<td>게시글 모듈</td>
 						</tr>
 						<tr>
 							<th>Category</th>
-							<td>{goose}/category/index/{nest_srl}/</td>
+							<td>{goose}/Category/index/{nest_srl}/</td>
 							<td>게시글의 분류 모듈</td>
 						</tr>
 						<tr>
 							<th>File</th>
-							<td>{goose}/file/index/</td>
+							<td>{goose}/File/index/</td>
 							<td>게시글의 첨부파일 모듈</td>
 						</tr>
 						<tr>
@@ -111,27 +116,27 @@
 						</tr>
 						<tr>
 							<th>JSON</th>
-							<td>{goose}/json/index/</td>
+							<td>{goose}/JSON/index/</td>
 							<td>json데이터 관리 모듈</td>
 						</tr>
 						<tr>
 							<th>Modules</th>
-							<td>{goose}/modules/index/</td>
+							<td>{goose}/Modules/index/</td>
 							<td>모듈의 목록</td>
 						</tr>
 						<tr>
 							<th>Nest</th>
-							<td>{goose}/nest/index/</td>
+							<td>{goose}/Nest/index/</td>
 							<td>article의 그룹이 되는 둥지 모듈</td>
 						</tr>
 						<tr>
 							<th>Page</th>
-							<td>{goose}/page/</td>
+							<td>{goose}/Page/</td>
 							<td>일반적인 형식의 페이지 모듈</td>
 						</tr>
 						<tr>
 							<th>User</th>
-							<td>{goose}/user/index</td>
+							<td>{goose}/User/index/</td>
 							<td>사용자 데이터 관리 모듈</td>
 						</tr>
 						</tbody>
@@ -166,11 +171,11 @@
 				</li>
 				<li>
 					<strong>Category</strong>
-					<p>article의 분류 데이터입니다. 게시판의 분류라고 볼 수 있습니다.</p>
+					<p>Article의 분류 데이터입니다. 게시판의 분류라고 볼 수 있습니다.</p>
 				</li>
 				<li>
 					<strong>File</strong>
-					<p>article의 첨부파일 입니다.</p>
+					<p>Article의 첨부파일 입니다.</p>
 				</li>
 			</ul>
 		</section>
@@ -179,7 +184,7 @@
 			<h1><span>Make nest</span></h1>
 			<p>글을 쓰기 이전에 둥지를 만들어 줘야합니다.</p>
 			<ol>
-				<li>"Nest"메뉴를 선택해줍니다. 메뉴에서 선택하여 들어가도 되고, <code>{goose}/nest/index/</code> 주소를 통해 들어가도 됩니다.</li>
+				<li>"Nest"메뉴를 선택해줍니다. 메뉴에서 선택하여 들어가도 되고, <code>{goose}/Nest/index/</code> 주소를 통해 들어가도 됩니다.</li>
 				<li>Nest 목록 화면 아래쪽에 "둥지만들기" 버튼을 선택하면 둥지만들기 작성폼으로 이동합니다.</li>
 				<li>항목을 입력하고 "만들기" 버튼을 누르면 목록에 새로운 둥지가 생깁니다.</li>
 			</ol>
@@ -191,7 +196,7 @@
 				</li>
 				<li>
 					<strong>Article skin</strong>
-					<p> 둥지 하위의 데이터인 Article 모듈의 스킨입니다. 다양한 스타일의 article 모듈 스킨 중 하나를 선택하세요. </p>
+					<p> 둥지 하위의 데이터인 Article 모듈의 스킨입니다. 다양한 스타일의 Article 모듈 스킨 중 하나를 선택하세요. </p>
 				</li>
 				<li>
 					<strong>App</strong>
@@ -199,7 +204,7 @@
 				</li>
 				<li>
 					<strong>아이디 </strong>
-					<p>둥지의 고유이름을 지정합니다. app을 개발할때 고유 이름으로 둥지를 접근할때 좋은 수단이 됩니다. </p>
+					<p>둥지의 고유이름을 지정합니다. App을 개발할때 고유 이름으로 둥지를 접근할때 좋은 수단이 됩니다. </p>
 				</li>
 				<li>
 					<strong>둥지이름</strong>
@@ -207,11 +212,11 @@
 				</li>
 				<li>
 					<strong>목록수</strong>
-					<p> article 목록에서 표시되는 글 갯수를 정합니다. </p>
+					<p> Article 목록에서 표시되는 글 갯수를 정합니다. </p>
 				</li>
 				<li>
 					<strong>분류사용</strong>
-					<p> article의 분류를 사용하는지에 대한 여부를 선택합니다. 분류는 category 모듈의 데이터입니다.</p>
+					<p> Article의 분류를 사용하는지에 대한 여부를 선택합니다. 분류는 Category 모듈의 데이터입니다.</p>
 				</li>
 			</ul>
 		</section>
@@ -220,12 +225,12 @@
 			<h1><span>Make article</span></h1>
 			<p>
 				둥지를 만들고나면 글을 게시글을 작성할 수 있습니다.<br/>
-				둥지에서 article skin에 따라 형태나 내용이 바뀔수도 있습니다.
+				둥지에서 Article skin에 따라 형태나 내용이 바뀔수도 있습니다.
 			</p>
 			<ol>
 				<li>둥지 목록에서 만들어진 둥지를 선택합니다.</li>
-				<li>article 목록에서 "글쓰기" 버튼을 선택합니다.</li>
-				<li>글쓰기 폼에서 나와있는 항목을 입력하고, 필요하면 파일첨부를 합니다. article 모듈 스킨에 따라 입력폼의 종류가 바뀝니다.</li>
+				<li>Article 목록에서 "글쓰기" 버튼을 선택합니다.</li>
+				<li>글쓰기 폼에서 나와있는 항목을 입력하고, 필요하면 파일첨부를 합니다. Article 모듈 스킨에 따라 입력폼의 종류가 바뀝니다.</li>
 				<li>항목을 작성하면 "만들기" 버튼을 누르면 목록에서 글이 추가됩니다.</li>
 			</ol>
 		</section>
@@ -234,7 +239,7 @@
 			<h1><span>Edit Navigation</span></h1>
 			<p>
 				인스톨을 한 Goose에서 기본적으로 제공하는 메뉴가 있지만 메뉴를 직접 편집할 수 있습니다.<br/>
-				각 모듈의 주소는 [Module address] 섹션에서 확인할 수 있습니다.
+				각 모듈의 주소는 <a href="#Documentation/DocUseGooseModuleAddress">Module address</a> 섹션에서 확인할 수 있습니다.
 			</p>
 			<ol>
 				<li><strong>[JSON]</strong> 메뉴를 선택합니다.</li>
@@ -251,7 +256,7 @@
 			</p>
 			<h2>도움말 보는법</h2>
 			<p>관리자의 모듈화면에서 제목옆에 동그란 빨간색의 <b>"?"</b>버튼을 볼 수 있습니다. 그것을 누르면 해당 모듈의 도움말을 볼 수 있습니다.</p>
-			<p>다른 방법으로는 주소에서 <code>{goose}/module/index/</code> 경로로 접속하면 모듈의 목록을 볼 수 있습니다. 목록에서 도움말 문서가 있는 모듈이라면 설명 아래쪽에 <strong>[도움말]</strong> 버튼을 볼 수 있습니다.</p>
+			<p>다른 방법으로는 주소에서 <code>{goose}/Module/index/</code> 경로로 접속하면 모듈의 목록을 볼 수 있습니다. 목록에서 도움말 문서가 있는 모듈이라면 설명 아래쪽에 <strong>[도움말]</strong> 버튼을 볼 수 있습니다.</p>
 		</section>
 	</section>
 
@@ -264,6 +269,10 @@
 
 		<h2>상수 설정값</h2>
 		<ul>
+			<li>
+				<strong>__GOOSE_PWD__</strong>
+				<p>goose가 설치된 절대경로주소</p>
+			</li>
 			<li>
 				<strong>__GOOSE_URL__</strong>
 				<p>goose가 설치된 경로주소. 도메인 이름까지 모두 포함된 주소입니다. ex) http://domain.com/goose/ </p>
@@ -302,7 +311,7 @@
 				 <p>서버 세팅에 의해서 관리자 경로로 접근하면 {goose}/index.php가 실행됩니다. </p>
 			</li>
 			<li>
-				<strong>core/init.php 실행</strong>
+				<strong>bootstrap/init.php 실행</strong>
 				 <p>여기서 기초적인 작업이 다 이루어집니다. </p>
 			</li>
 			<li>
@@ -323,7 +332,7 @@
 			</li>
 			<li>
 				<strong>인스톨 검사db접속 및 초기화</strong>
-				 <p>$goose 객체에서 Spawn클래스를 이용하여 db를 접속하고 $goose->spawn 객체로 만듭니다.</p>
+				 <p>$goose 객체에서 <code>core\Spawn</code>클래스를 이용하여 db를 접속하고 <code>$goose->spawn</code> 객체로 만듭니다.</p>
 			</li>
 			<li>
 				<strong>주소 라우트 초기화</strong>
@@ -358,26 +367,26 @@
 			</p>
 			<ul>
 				<li>
-					<strong>Goose::getInstance();</strong>
+					<strong>core\Goose::getInstance();</strong>
 					 <p>싱글톤 객체로 인스턴스 변수를 가져옵니다. </p>
 <pre class="code"><code>// $goose 인스턴스 변수를 만들고 초기화 합니다.
-$goose = Goose::getInstance();
+$goose = core\Goose::getInstance();
 $goose->init();</code></pre>
 				</li>
 				<li>
 					<strong>$object->createSpawn();</strong>
-					 <p> Spawn클래스를 인스턴스 객체화합니다. 이 메서드를 실행하면 <code>$goose->spawn</code> 형식으로 접근 가능합니다. </p>
+					 <p>core\Spawn클래스를 인스턴스 객체화합니다. 이 메서드를 실행하면 <code>$goose->spawn</code> 형식으로 접근 가능합니다. </p>
 				</li>
 				<li>
-					<strong>Goose::isInstalled() ;</strong>
+					<strong>core\Goose::isInstalled() ;</strong>
 					 <p>인스톨이 됐는지 확인합니다. </p>
 				</li>
 				<li>
-					<strong>Goose::end();</strong>
+					<strong>core\Goose::end();</strong>
 					 <p> 프로그램을 종료할때 사용합니다. </p>
 				</li>
 				<li>
-					<strong>Goose::error();</strong>
+					<strong>core\Goose::error();</strong>
 					 <p> 프로그램이 오류가 났을때의 처리 메서드입니다.</p>
 				</li>
 			</ul>
@@ -394,31 +403,31 @@ $goose->init();</code></pre>
 			</p>
 			<ul>
 				<li>
-					<strong>Module::existModule();</strong>
+					<strong>core\Module::existModule();</strong>
 					<p>모듈이 존재하는지 체크하고 경로를 반환합니다. </p>
 				</li>
 				<li>
-					<strong>Module::load();</strong>
+					<strong>core\Module::load();</strong>
 					<p>모듈을 불러와서 객체화시킵니다. </p>
 				</li>
 				<li>
-					<strong>Module::install();</strong>
+					<strong>core\Module::install();</strong>
 					<p>모듈을 인스톨합니다. </p>
 				</li>
 				<li>
-					<strong>Module::getInstallModule();</strong>
+					<strong>core\Module::getInstallModule();</strong>
 					<p>설치되어있는 모듈의 목록을 가져옵니다. </p>
 				</li>
 				<li>
-					<strong>Module::setInstallModule();</strong>
+					<strong>core\Module::setInstallModule();</strong>
 					<p>설치된 모듈목록의 원소를 추가하거나 제거합니다. </p>
 				</li>
 				<li>
-					<strong>Module::afterAction();</strong>
+					<strong>core\Module::afterAction();</strong>
 					<p>특정 결과값에 의해서 페이지 뒤로가거나 alert 메세지를 띄우거나 특정한 페이지로 이동합니다.</p>
 				</li>
 				<li>
-					<strong>Module::existMethod();</strong>
+					<strong>core\Module::existMethod();</strong>
 					<p>모듈의 메서드가 존재하는지 확인합니다.</p>
 				</li>
 			</ul>
@@ -427,30 +436,29 @@ $goose->init();</code></pre>
 		<section id="DocCoreClassPaginate">
 			<h1><span>Paginate.class.php</span></h1>
 			<p>목록의 페이지번호에 관련된 처리를 담당합니다.</p>
-<pre><code>require_once('{goose}/core/classes/Paginate.class.php');
-$paginateParameter = array('keyword'=>(isset($_GET['keyword']))?$_GET['keyword']:'');
+<pre><code>$paginateParameter = [ 'keyword' => (isset($_GET['keyword'])) ? $_GET['keyword'] : '' ];
 $_GET['page'] = ((isset($_GET['page'])) && $_GET['page'] > 1) ? $_GET['page'] : 1;
-$paginate = new Paginate($count, $_GET['page'], $paginateParameter, 15, 5); 
-$originalParam = array(
-	'table' => Spawn::getTableName('nest'),
+$paginate = new core\Paginate($count, $_GET['page'], $paginateParameter, 15, 5); 
+$originalParam = [
+	'table' => core\Spawn::getTableName('nest'),
 	'order' => 'srl',
 	'sort' => 'desc',
-	'limit' => array($paginate->offset, $paginate->size)
-);
+	'limit' => [ $paginate->offset, $paginate->size ]
+];
 
 // print paginavigation
-$paginate->createNavigation();</code></pre>
+echo $paginate->createNavigation();</code></pre>
 		</section>
 
 		<section id="DocCoreClassSpawn">
 			<h1><span>Spawn.class.php</span></h1>
 			<p>데이터베이스 처리를 담당합니다.</p>
-			<pre class="code"><code>$spawn = new Spawn();</code></pre>
+			<pre class="code"><code>$spawn = new core\Spawn();</code></pre>
 			<ul>
 				<li>
 					<strong>$spawn->connect();</strong>
 					<p>db 접속합니다.</p>
-					<pre class="code"><code>$spawn->connect(array('mysql:dbname=DB_NAME;host=localhost', 'USER_ID', 'USER_PASSWORD'));</code></pre>
+					<pre class="code"><code>$spawn->connect(['mysql:dbname=DB_NAME;host=localhost', 'USER_ID', 'USER_PASSWORD']);</code></pre>
 				</li>
 				<li>
 					<strong>$spawn->disconnect();</strong>
@@ -458,72 +466,72 @@ $paginate->createNavigation();</code></pre>
 					<pre class="code"><code>$spawn->disconnect();</code></pre>
 				</li>
 				<li>
-					<strong>Spawn::getTableName();</strong>
+					<strong>core\Spawn::getTableName();</strong>
 					<p>(설치시 {goose}/data/config.php파일에서 table_prefix값) + module_name 형식으로 이루어진 테이블 이름을 가져옵니다.</p>
-					<pre class="code"><code>$tableName = Spawn::getTableName('modName'); // $tableName : GOOSE_modName</code></pre>
+					<pre class="code"><code>$tableName = core\Spawn::getTableName('modName'); // $tableName : goose_modName</code></pre>
 				</li>
 				<li>
-					<strong>Spawn::action();</strong>
+					<strong>core\Spawn::action();</strong>
 					<p>특정 sql 명령어를 실행합니다.</p>
-					<pre class="code"><code>Spawn::action('drop table TABLE_NAME');</code></pre>
+					<pre class="code"><code>core\Spawn::action('drop table TABLE_NAME');</code></pre>
 				</li>
 				<li>
-					<strong>Spawn::getQuery();</strong>
+					<strong>core\Spawn::getQuery();</strong>
 					<p>sql 쿼리를 가져옵니다.</p>
-<pre class="code"><code>$qry = Spawn::getQuery(array(
+<pre class="code"><code>$qry = core\Spawn::getQuery([
 	'act' => 'select',
-	'table' => 'GOOSE_helloworld3',
+	'table' => 'goose_helloworld',
 	'where' => 'srl=2'
-));
+]);
 var_dump($qry); // string(43) "select * from GOOSE_helloworld3 where srl=2"
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::insert();</strong>
+					<strong>core\Spawn::insert();</strong>
 					<p>데이터를 삽입합니다.</p>
-<pre class="code"><code>$result = Spawn::insert(array(
-	'table' => 'GOOSE_helloworld3',
-	'data' => array(
+<pre class="code"><code>$result = core\Spawn::insert([
+	'table' => 'goose_helloworld3',
+	'data' => [
 		'srl' => null,
 		'name' => "원숭이",
 		'title' => "우끼끼끼~~~~",
 		'regdate' => date('YmdHis')
-	)
-));
+	]
+]);
 var_dump($result); // string(7) "success"
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::update();</strong>
+					<strong>core\Spawn::update();</strong>
 					<p>데이터를 수정합니다.</p>
-<pre class="code"><code>$result = Spawn::update(array(
-	'table' => 'GOOSE_helloworld3',
-	'data' => array(
+<pre class="code"><code>$result = core\Spawn::update([
+	'table' => 'goose_helloworld',
+	'data' => [
 		"name='호랑이'",
 		"title='어흥어흥~'"
-	),
+	],
 	'where' => 'srl=1',
-));
+]);
 var_dump($result); // string(7) "success"
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::delete();</strong>
+					<strong>core\Spawn::delete();</strong>
 					<p>데이터를 삭제합니다.</p>
-<pre class="code"><code>$result = Spawn::delete(array(
-	'table' => 'GOOSE_helloworld3',
+<pre class="code"><code>$result = core\Spawn::delete([
+	'table' => 'goose_helloworld3',
 	'where' => 'srl=1'
-));
+]);
 var_dump($result); // string(7) "success"
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::items();</strong>
+					<strong>core\Spawn::items();</strong>
 					<p>여러개의 데이터를 가져옵니다.</p>
-<pre class="code"><code>$items = Spawn::items(array(
-	'table' => 'GOOSE_helloworld3',
+<pre class="code"><code>$items = core\Spawn::items([
+	'table' => 'goose_helloworld3',
 	'sort' => 'desc'
-));
+]);
 foreach ($items as $k=>$v)
 {
 	var_dump($v);
@@ -531,60 +539,60 @@ foreach ($items as $k=>$v)
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::item();</strong>
+					<strong>core\Spawn::item();</strong>
 					<p>하나의 데이터를 가져옵니다.</p>
-<pre class="code"><code>$item = Spawn::item(array(
-	'table' => 'GOOSE_helloworld3',
+<pre class="code"><code>$item = core\Spawn::item([
+	'table' => 'goose_helloworld',
 	'where' => 'srl=1'
-));
+]);
 var_dump($item);
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::count();</strong>
+					<strong>core\Spawn::count();</strong>
 					<p>데이터의 갯수를 가져옵니다.</p>
-<pre class="code"><code>$count = Spawn::count(array(
-	'table' => 'GOOSE_helloworld3',
+<pre class="code"><code>$count = core\Spawn::count([
+	'table' => 'goose_helloworld3',
 	'where' => "name='호랑이'"
-));
+]);
 var_dump($count);
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::arrayToCreateTableQuery();</strong>
+					<strong>core\Spawn::arrayToCreateTableQuery();</strong>
 					<p>배열을 통하여 테이블을 만드는 쿼리로 만들어줍니다.</p>
-<pre class="code"><code>$query = Spawn::arrayToCreateTableQuery(array(
-	'tableName' => 'GOOSE_helloworld4'
-	,'fields' => array(
-		array(
+<pre class="code"><code>$query = core\Spawn::arrayToCreateTableQuery([
+	'tableName' => 'goose_helloworld',
+	'fields' => [
+		[
 			'name' => 'srl',
 			'type' => 'int',
 			'length' => 11,
 			'etc' => 'not null',
 			'auto' => true,
 			'key' => true
-		),
-		array(
+		],
+		[
 			'name' => 'name',
 			'type' => 'varchar',
 			'length' => 50,
 			'etc' => 'default null'
-		)
-	)
-));
+		]
+	]
+]);
 var_dump($query); // string(160) "create table `GOOSE_helloworld4` (`srl` int(11) not null auto_increment,`name` varchar(50) default null, primary key (`srl`)) engine=InnoDB default charset=utf8"
-Spawn::action($query);
+core\Spawn::action($query);
 </code></pre>
 				</li>
 				<li>
-					<strong>Spawn::dropTable();</strong>
+					<strong>core\Spawn::dropTable();</strong>
 					<p>테이블을 삭제합니다.</p>
-					<pre class="code"><code>Spawn::dropTable('GOOSE_helloworld4');</code></pre>
+					<pre class="code"><code>core\Spawn::dropTable('goose_helloworld');</code></pre>
 				</li>
 				<li>
-					<strong>Spawn::getLastIdx();</strong>
+					<strong>core\Spawn::getLastIdx();</strong>
 					<p>db에서 가장 마지막에 입력된 데이터의 고유번호를 가져옵니다.</p>
-					<pre class="code"><code>$last_srl = Spawn::getLastIdx();</code></pre>
+					<pre class="code"><code>$last_srl = core\Spawn::getLastIdx();</code></pre>
 				</li>
 			</ul>
 		</section>
@@ -637,7 +645,7 @@ Spawn::action($query);
 			</p>
 <pre class="code"><code>$ cd goose
 $ pwd
-/Users/redgoose/dropbox/Sites/demos/goose</code></pre>
+/Users/username/Sites/demos/goose</code></pre>
 			<p>절대경로로 사용해도 되고, 상대경로도 사용해도 됩니다. ex) <code>../goose</code></p>
 		</section>
 
@@ -677,12 +685,12 @@ require_once('../goose/core/lib.php'); // goose의 경로. 절대경로가 될 �
 			<p>이제는 글 데이터를 가져와 목록에 출력하도록 하겠습니다.</p>
 <pre class="code"><code>&lt;?php
 // article 모듈을 불러옵니다.
-$articles = Module::load('article');
+$articles = core\Module::load('Article');
 
 // 데이터를 가져옵니다.
-$item = $articles->getItems(array(
+$item = $articles->getItems([
 	'where' => 'srl='.(int)$_GET['srl']
-));
+]);
 
 // for문으로 데이터를 출력합니다.
 echo "&lt;ul>";
@@ -740,7 +748,7 @@ echo "&lt;/ul>";
 			</figure>
 			<ol>
 				<li>
-					<strong>Module::load() 메서드 실행</strong>
+					<strong>core\Module::load() 메서드 실행</strong>
 					<p>$apple = Module::load('apple'); 형식으로 실행 시작합니다.</p>
 				</li>
 				<li>
@@ -900,7 +908,7 @@ echo "&lt;/ul>";
 			<h1><span>Make Basic Module</span></h1>
 			<p>
 				Goose 프로그램의 핵심적인 기능인 모듈을 만들도록 해보겠습니다.<br/>
-				모듈의 파일은 <code>{goose}/module/</code> 경로에 있습니다. <a href="#Documentation/DocDevelopModuleList">Module list</a> 섹션에 있는 폴더이름들을 볼 수 있습니다.
+				모듈의 파일은 <code>{goose}/Module/</code> 경로에 있습니다. <a href="#Documentation/DocDevelopModuleList">Module list</a> 섹션에 있는 폴더이름들을 볼 수 있습니다.
 			</p>
 			<h2>"helloworld"폴더를 만들고 파일구성</h2>
 			<p>
@@ -926,8 +934,8 @@ $ pwd
 						왜 <code>모듈이름.class.php</code>파일을 만들어야하는지에 대한 설명이 필요할거 같습니다.<br/>
 					</p>
 					<p>
-						모듈은 <code>Module::load('모듈이름');</code> 메서드를 통해 실행될때 <strong>{goose}/모듈이름/모듈이름.class.php파일이 먼저 include됩니다.</strong><br/>
-						<code>http://domainName.com/goose/모듈이름/</code>주소를 통해서 접근해도 <code>Module::load('모듈이름');</code> 메서드가 실행됩니다.<br/>
+						모듈은 <code>core\Module::load('모듈이름');</code> 메서드를 통해 실행될때 <strong>{goose}/모듈이름/모듈이름.class.php파일이 먼저 include됩니다.</strong><br/>
+						<code>http://domainName.com/goose/모듈이름/</code>주소를 통해서 접근해도 <code>core\Module::load('모듈이름');</code> 메서드가 실행됩니다.<br/>
 						<code>모듈이름.class.php</code>파일은 모듈을 대표하는 클래스 파일이라고 생각하시면 됩니다.
 					</p>
 					<p><br/></p>
@@ -1029,7 +1037,7 @@ if (!defined('__GOOSE__')) exit();
 class Helloworld {
 
 	public $goose;
-	public $fruits = array('apple', 'banana', 'mango', 'tomato');
+	public $fruits = [ 'apple', 'banana', 'mango', 'tomato' ];
 
 	public function index()
 	{
@@ -1054,7 +1062,7 @@ class Helloworld {
 <pre class="code"><code>
 public function index()
 {
-	$hello = Module::load('helloworld');
+	$hello = core\Module::load('helloworld');
 	var_dump($hello);
 }
 </code></pre>
@@ -1075,7 +1083,7 @@ class Helloworld2 {
 
 	public function index()
 	{
-		$hello = Module::load('helloworld');
+		$hello = core\Module::load('helloworld');
 
 		foreach($hello->fruits as $k=>$v)
 		{
@@ -1183,12 +1191,12 @@ class Helloworld3 {
 	 */
 	public function install($installData)
 	{
-		$query = Spawn::arrayToCreateTableQuery(array(
-			'tableName' => Spawn::getTableName($this->name),
+		$query = core\Spawn::arrayToCreateTableQuery(array(
+			'tableName' => core\Spawn::getTableName($this->name),
 			'fields' => $installData
 		));
 
-		return Spawn::action($query);
+		return core\Spawn::action($query);
 	}
 
 	/**
@@ -1199,8 +1207,8 @@ class Helloworld3 {
 	 */
 	public function uninstall($mod)
 	{
-		Spawn::dropTable(Spawn::getTableName($mod));
-		return array('state' => true);
+		core\Spawn::dropTable(core\Spawn::getTableName($mod));
+		return [ 'state' => 'success' ];
 	}
 }
 </code></pre>
@@ -1226,15 +1234,15 @@ class Helloworld3 {
 				이번에는 간단하게 테이블에 데이터를 입력하고 조회하는 코드를 만들어서 실행해보겠습니다.<br/>
 				helloworld3.class.php 파일에서 다음과 같이 데이터를 입력하는 소스를 입력합니다.
 			</p>
-<pre class="code"><code>$result = Spawn::insert(array(
-	'table' => Spawn::getTableName('helloworld3'),
-	'data' => array(
+<pre class="code"><code>$result = core\Spawn::insert([
+	'table' => core\Spawn::getTableName('helloworld'),
+	'data' => [
 		'srl' => null,
 		'name' => "호랑이",
 		'title' => "어흥어흥~",
 		'regdate' => date('YmdHis')
-	)
-));
+	]
+]);
 var_dump($result);
 </code></pre>
 			<p class="ui-text-right">
@@ -1252,9 +1260,9 @@ var_dump($result);
 			<p>
 				이번에는 방금 입력한 데이터를 조회해 보겠습니다.
 			</p>
-<pre class="code"><code>$result = Spawn::items(array(
-	'table' => Spawn::getTablename('helloworld3')
-));
+<pre class="code"><code>$result = core\Spawn::items([
+	'table' => core\Spawn::getTablename('helloworld3')
+]);
 echo "&lt;ul>";
 foreach ($result as $k=>$v)
 {
@@ -1321,20 +1329,19 @@ $ cd help
 			<h1><span>console.log() 활용하기</span></h1>
 			<p>
 				자바스크립트에서 <code>console.log()</code> 메서드로 메세지를 출력하면 브라우저 개발자 도구의 콘솔화면에서 메세지를 확인할 수 있습니다.<br/>
-				브라우저 개발자도구의 콘솔의 기능이 대단히 강력합니다. 배열이나 객체를 아주 효과적이고 편리하게 보여주고, 페이지 내용에 직접적인 영향을 주지 않죠. 그래서 php에서도 console.log()를 활용할 수 있는 방법이 없을까 하고 고민하다가 <code>Util::console()</code>이라는 메서드를 만들었습니다.
+				브라우저 개발자도구의 콘솔의 기능이 대단히 강력합니다. 배열이나 객체를 아주 효과적이고 편리하게 보여주고, 페이지 내용에 직접적인 영향을 주지 않죠. 그래서 php에서도 console.log()를 활용할 수 있는 방법이 없을까 하고 고민하다가 <code>core\Util::console()</code>이라는 메서드를 만들었습니다.
 			</p>
-			<p><strong>이 모듈은 <code>{goose}/core/classes/Util.class.php</code> 파일이 require 되어있어야 합니다.</strong></p>
 			<p>example)</p>
 <pre class="code"><code>&lt;?php
 // 과일의 배열
 $fruits = ['mango', 'banana', 'apple'];
-Util::console($fruits);
+core\Util::console($fruits);
 // 과일이름과 색깔이 들어있는 key=value 배열
 $fruits2 = ['mango' => 'green', 'banana' => 'yellow', 'apple' => 'red'];
-Util::console($fruits2);
+core\Util::console($fruits2);
 // load nest module
 $nest = Module::load('nest');
-Util::console($nest);
+core\Util::console($nest);
 </code></pre>
 			<p>위와같은 소스를 입력하고 브라우저에서 실행하면 아래 그림과 같이 결과를 출력합니다.</p>
 			<figure class="fig-center border">
