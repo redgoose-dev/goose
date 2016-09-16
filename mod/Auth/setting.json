@@ -1,0 +1,6 @@
+{
+	"name" : "Auth",
+	"title" : "Authentication",
+	"description" : "로그인, 로그아웃에 관련된 인증 모듈입니다.",
+	"skin" : "default"
+}

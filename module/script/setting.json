@@ -1,8 +1,0 @@
-{
-	"name" : "script",
-	"title" : "Script",
-	"description" : "간단히 php코드를 실행시키는 프로그램을 관리하는 모듈입니다.",
-	"permission" : 0,
-	"adminPermission" : 100,
-	"skin" : "default"
-}

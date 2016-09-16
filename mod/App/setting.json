@@ -1,0 +1,10 @@
+{
+	"name" : "App",
+	"title" : "APP",
+	"description" : "둥지를 그룹화시켜 관리하는 모듈입니다. 프로젝트 이름으로 사용하는것을 권장합니다.",
+	"permission" : 0,
+	"adminPermission" : 100,
+	"install" : true,
+	"skin" : "default",
+	"listStyle" : "card"
+}

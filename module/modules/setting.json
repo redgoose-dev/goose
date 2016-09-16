@@ -1,9 +1,0 @@
-{
-	"name" : "modules",
-	"title" : "Modules",
-	"description" : "모듈을 관리하는 모듈입니다.",
-	"install" : false,
-	"skin" : "default",
-	"permission" : 100,
-	"adminPermission" : 100
-}

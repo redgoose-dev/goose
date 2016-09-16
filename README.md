@@ -19,7 +19,7 @@ git clone --recursive https://github.com/RedgooseDev/goose.git
 
 업데이트를 할때 다음 명령을 사용하면 자식 git도 모두 업데이트 할 수 있습니다.
 ```
-git pull --recurse-submodules
+git pull origin master --recurse-submodules
 ```
 
 
@@ -34,14 +34,11 @@ __http://src.goose-dev.com__
 ### Vendor list
 
 * jquery - https://jquery.com
-* dragsort - http://dragsort.codeplex.com
-* Jcrop - https://github.com/tapmodo/Jcrop
-* JSONEditor - https://github.com/RedgooseDev/JSONEditor
+* Sortable - https://github.com/RubaXa/Sortable
 * Parsedown - http://parsedown.org
 * Snippet
 * jQuery Validation - http://jqueryvalidation.org
-* react.js - https://facebook.github.io/react
-* react router - https://github.com/reactjs/react-router
+* JSONEditor - https://github.com/RedgooseDev/JSONEditor
 * rg-Uploader - https://github.com/RedgooseDev/rg-Uploader
 
 

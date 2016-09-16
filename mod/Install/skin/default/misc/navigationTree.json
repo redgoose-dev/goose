@@ -1,0 +1,38 @@
+[
+	{
+		"name": "Nest",
+		"url": "{GOOSE_ROOT}/Nest/index/",
+		"target": "",
+		"permission" : 0
+	},
+	{
+		"name": "User",
+		"url": "{GOOSE_ROOT}/User/index/",
+		"target": "",
+		"permission" : 0
+	},
+	{
+		"name": "JSON",
+		"url": "{GOOSE_ROOT}/JSON/index/",
+		"target": "",
+		"permission" : 100
+	},
+	{
+		"name": "Module",
+		"url": "{GOOSE_ROOT}/Modules/index/",
+		"target": "",
+		"permission" : 100
+	},
+	{
+		"name": "Resource",
+		"url": "http://src.goose-dev.com/",
+		"target" : "_blank",
+		"permission" : 0
+	},
+	{
+		"name": "Documentation",
+		"url": "http://redgoosedev.github.io/goose/#Documentation",
+		"target": "_blank",
+		"permission" : 0
+	}
+]
