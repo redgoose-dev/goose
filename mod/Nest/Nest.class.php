@@ -135,8 +135,8 @@ class Nest {
 	public function install($installData)
 	{
 		$query = core\Spawn::arrayToCreateTableQuery([
-			'tableName' => __dbPrefix__.$this->name
-			,'fields' => $installData
+			'tableName' => core\Spawn::getTableName($this->name),
+			'fields' => $installData
 		]);
 
 		return core\Spawn::action($query);

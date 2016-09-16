@@ -88,7 +88,7 @@ class Spawn {
 	 */
 	public static function getTableName($moduleName)
 	{
-		return __dbPrefix__.$moduleName;
+		return strtolower(__dbPrefix__ . $moduleName);
 	}
 
 	/**
@@ -348,10 +348,10 @@ class Spawn {
 	 * @param array $data source
 	 * @return string
 	 */
-	public static function arrayToCreateTableQuery($data=array())
+	public static function arrayToCreateTableQuery($data=[])
 	{
-		$fields = array();
-		$fields2 = array();
+		$fields = [];
+		$fields2 = [];
 
 		foreach($data['fields'] as $k=>$v)
 		{

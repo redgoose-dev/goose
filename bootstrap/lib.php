@@ -1,7 +1,7 @@
 <?php
 if (!defined('__GOOSE__')) return false;
 
-
+// TODO 작업이 필요함
 // set error reporting
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
 {
@@ -78,12 +78,11 @@ if ($goose->isInstalled())
 	// set user info
 	if ($_SESSION['goose_name'])
 	{
-		$goose->user = new Object([
-			'srl' => $_SESSION['goose_srl'],
-			'name' => $_SESSION['goose_name'],
-			'email' => $_SESSION['goose_email'],
-			'level' => (int)$_SESSION['goose_level']
-		]);
+		$goose->user = new stdClass();
+		$goose->user->srl = $_SESSION['goose_srl'];
+		$goose->user->name = $_SESSION['goose_name'];
+		$goose->user->email = $_SESSION['goose_email'];
+		$goose->user->level = $_SESSION['goose_level'];
 	}
 	else
 	{

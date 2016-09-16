@@ -334,7 +334,7 @@ class File {
 		core\Util::createDirectory(__GOOSE_PWD__.$this->set['upPath_make'], 0777);
 
 		$query = core\Spawn::arrayToCreateTableQuery([
-			'tableName' => __dbPrefix__.$this->name,
+			'tableName' => core\Spawn::getTableName($this->name),
 			'fields' => $installData
 		]);
 		$queryResult = core\Spawn::action($query);
