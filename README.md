@@ -19,7 +19,7 @@ git clone --recursive https://github.com/RedgooseDev/goose.git
 
 업데이트를 할때 다음 명령을 사용하면 자식 git도 모두 업데이트 할 수 있습니다.
 ```
-git pull --recurse-submodules
+git pull origin master --recurse-submodules
 ```
 
 
