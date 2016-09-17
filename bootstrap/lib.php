@@ -1,23 +1,9 @@
 <?php
 if (!defined('__GOOSE__')) return false;
 
-// TODO 작업이 필요함
-// set error reporting
-if(version_compare(PHP_VERSION, '5.4.0', '<'))
-{
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
-}
-else
-{
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
-}
 
-
-// Set Timezone as server time
-if(version_compare(PHP_VERSION, '5.3.0') >= 0)
-{
-	date_default_timezone_set(@date_default_timezone_get());
-}
+// check php version
+require_once 'checkVersion.php';
 
 
 // set start microtime
@@ -27,29 +13,33 @@ if (__GOOSE_DEBUG__)
 }
 
 
-// set goose pwd
-define( '__GOOSE_PWD__', str_replace('core/lib.php', '', str_replace('\\', '/', __FILE__)) );
+// set absolute goose path
+define( '__GOOSE_PWD__', str_replace('bootstrap/lib.php', '', str_replace('\\', '/', __FILE__)) );
 
 
 // set session
 if (defined('__USE_GOOSE_SESSION__'))
 {
+	$sess_id = (isset($_POST['sess_id'])) ? $_POST['sess_id'] : ( (isset($_GET['sess_id'])) ? $_GET['sess_id'] : null );
+	if ($sess_id) session_id($sess_id);
 	session_cache_expire(30);
 	session_start();
 	session_save_path(__GOOSE_PWD__);
 }
 
 
-// load classes
-require_once(__GOOSE_PWD__.'core/classes/Object.class.php');
-require_once(__GOOSE_PWD__.'core/classes/Util.class.php');
-require_once(__GOOSE_PWD__.'core/classes/Goose.class.php');
-require_once(__GOOSE_PWD__.'core/classes/Spawn.class.php');
-require_once(__GOOSE_PWD__.'core/classes/Module.class.php');
+// load autoload
+require_once ('autoload.php');
+
+
+// init blade
+define( 'BLADE_CACHE', __GOOSE_PWD__ . 'data/cache' );
+define( 'BLADE_VIEW', __GOOSE_PWD__ . 'mod' );
+define( 'BLADEONE_MODE', 1);
 
 
 // create Goose Instance
-$goose = Goose::getInstance();
+$goose = core\Goose::getInstance();
 $goose->init();
 
 
@@ -63,7 +53,7 @@ if ($goose->isInstalled())
 	$basic_module = null; // string
 
 	// load user config file
-	require_once(__GOOSE_PWD__.'data/config.php');
+	require_once(__GOOSE_PWD__ . 'data/config.php');
 
 	// create and connect database
 	$goose->createSpawn();
@@ -88,4 +78,8 @@ if ($goose->isInstalled())
 	{
 		$goose->user = null;
 	}
+}
+else
+{
+	echo '<p>goose is not installed.</p>';
 }

@@ -547,4 +547,24 @@ class Util {
 		return $result;
 	}
 
+	/**
+	 * make object
+	 *
+	 * @param array $src
+	 * @return object
+	 */
+	public static function makeObject($src=[])
+	{
+		$result = new \stdClass();
+
+		if (count($src))
+		{
+			foreach ($src as $key=>$value)
+			{
+				$result->$key = $value;
+			}
+		}
+
+		return $result;
+	}
 }
