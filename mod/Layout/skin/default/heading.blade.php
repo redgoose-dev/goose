@@ -6,9 +6,13 @@
 			@endif
 			<span>{{ $title }}</span>
 		</h1>
+	@else
+		@yield('head-title')
 	@endif
 	@if ($description)
 		<p>{!! $description !!}</p>
+	@else
+		@yield('head-description')
 	@endif
 	@if ($isHeadNavigation)
 		<nav>

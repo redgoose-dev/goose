@@ -2,9 +2,7 @@
 
 
 @section('content-body')
-<div class="gs-article-body">
-	{!! nl2br(htmlspecialchars($repo->article['content'])) !!}
-</div>
+<div class="gs-article-body">{!! nl2br(htmlspecialchars($repo->article['content'])) !!}</div>
 @endsection
 
 @section('files')
@@ -67,22 +65,24 @@
 </nav>
 @endsection
 
+@section('head-description')
+<p>
+	<span>{{ core\Util::convertDate($repo->article['regdate']) }} {{ core\Util::convertTime($repo->article['regdate']) }}</span>
+	<span>hit: {{ $repo->article['hit'] }}</span>
+</p>
+@endsection
 
 @section('content')
 <section>
 	@include($layout->skinAddr.'.heading', [
+		'titleType' => $repo->category['name'],
 		'title' => $repo->article['title'],
-		'description' => '<span>' . core\Util::convertDate($repo->article['regdate']) . ' ' . core\Util::convertTime($repo->article['regdate']) . '</span>' . '<span>hit:' . $repo->article['hit'],
-		'isHeadNavigation' => [ 'help' => true, 'setting' => true ],
-		'titleType' => $repo->category['name']
+		'isHeadNavigation' => [ 'help' => true, 'setting' => true ]
 	])
 
 	@yield('content-body')
-
 	@yield('files')
-
 	<hr />
-
 	@yield('buttons')
 </section>
 @endsection
