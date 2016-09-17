@@ -200,7 +200,7 @@ jQuery(function($){
 							option.zoom = userData.thumbnail.zoom;
 						}
 
-						if ((userData.thumbnail.type && userData.thumbnail.type == 'crop') || !userData.thumbnail.type)
+						if ((userData.thumbnailSet.type && userData.thumbnailSet.type == 'crop') || !userData.thumbnailSet.type)
 						{
 							plugin.open(file, option);
 						}
@@ -248,8 +248,8 @@ jQuery(function($){
 			{
 				name : 'thumbnail',
 				obj : new RG_Thumbnail({
-					width : 640,
-					height : 480,
+					width : 680,
+					height : 540,
 					mobileSize : 640,
 					url_croppieCSS : userData.root + '/vendor/rg-Uploader/vendor/Croppie/croppie.css',
 					url_croppieJS : userData.root + '/vendor/rg-Uploader/vendor/Croppie/croppie.min.js',
