@@ -143,5 +143,5 @@ var userData = {
 	addQueue : []
 };
 </script>
-<script src="{{ $root }}/{{ $mod->skinPath }}js/markdown.js"></script>
+<script src="{{ $root }}/{{ $mod->skinPath }}js/markdown.min.js"></script>
 @endsection

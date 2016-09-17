@@ -312,6 +312,11 @@ jQuery(function($){
 			userData.addQueue.push(file.srl);
 		},
 		init : function(app) {
+			// push ready queue to addQueue
+			userData.addQueue = $.map(app.queue.items.files, function(file){
+				return (file.ready == 1) ? file.srl : null;
+			});
+
 			// set thumbnail queue
 			if (userData.articleData.thumbnail)
 			{
