@@ -42,7 +42,7 @@ class View {
 	{
 		if ($_SESSION['goose_level'] < $permission)
 		{
-			core\Util::redirect(__GOOSE_ROOT__ . '/Nest/index/', '둥지의 권한이 없습니다.');
+			core\Util::back('둥지의 권한이 없습니다.');
 		}
 	}
 
