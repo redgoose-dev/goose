@@ -75,5 +75,15 @@
 			</nav>
 		</dd>
 	</dl>
+
+	<form action="{{ $root }}/{{ $mod->name }}/index/{{ ($nest_srl) ? $nest_srl . '/' : '' }}" method="get" class="gs-search">
+		<fieldset>
+			<legend>keyword search form</legend>
+			<div>
+				<input type="text" name="keyword" placeholder="검색어를 입력해주세요." value="{{ $_GET['keyword'] }}" />
+				<button type="submit"><i></i><span>search</span></button>
+			</div>
+		</fieldset>
+	</form>
 </section>
 @endsection
