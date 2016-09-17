@@ -12,6 +12,6 @@ npm-debug.log
 # user files
 /data
 *.user
-*.user.*
+*--user
 robot.txt
 .htaccess
