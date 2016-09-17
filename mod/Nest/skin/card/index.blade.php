@@ -13,34 +13,36 @@
 	<!-- index -->
 	<ul class="card-index">
 		@foreach($repo->sections as $section)
-		<li>
-			<strong>{{ $section['name'] }}<em class='gs-brk-cnt'>{{ $section['count'] }}</em></strong>
-			@if(count($section['nests']))
-			<ul>
-				@foreach($section['nests'] as $nest)
-				<li>
-					<div class="body">
-						<a href="{{ $root }}/Article/index/{{ $nest['srl'] }}/">
-							<strong class="hd">{{ $nest['name'] }}<em class="gs-brk-cnt">{{ $nest['articleCount'] }}</em></strong>
-						</a>
-						@if($mod->isAdmin || ($_SESSION['goose_level'] > $nest['json']['permission2']))
-						<nav>
-							<a href="{{ $root }}/{{ $mod->name }}/modify/{{ $nest['srl'] }}/">수정</a>
-							<a href="{{ $root }}/{{ $mod->name }}/remove/{{ $nest['srl'] }}/">삭제</a>
-							@if($nest['json']['useCategory'] == 1)
-								<a href="{{ $root }}/Category/index/{{ $nest['srl'] }}/">분류설정</a>
+			@if($_SESSION['goose_level'] >= $nest['json']['permission'])
+			<li>
+				<strong>{{ $section['name'] }}<em class='gs-brk-cnt'>{{ $section['count'] }}</em></strong>
+				@if(count($section['nests']))
+				<ul>
+					@foreach($section['nests'] as $nest)
+					<li>
+						<div class="body">
+							<a href="{{ $root }}/Article/index/{{ $nest['srl'] }}/">
+								<strong class="hd">{{ $nest['name'] }}<em class="gs-brk-cnt">{{ $nest['articleCount'] }}</em></strong>
+							</a>
+							@if($mod->isAdmin || ($_SESSION['goose_level'] >= $nest['json']['permission2']))
+							<nav>
+								<a href="{{ $root }}/{{ $mod->name }}/modify/{{ $nest['srl'] }}/">수정</a>
+								<a href="{{ $root }}/{{ $mod->name }}/remove/{{ $nest['srl'] }}/">삭제</a>
+								@if($nest['json']['useCategory'] == 1)
+									<a href="{{ $root }}/Category/index/{{ $nest['srl'] }}/">분류설정</a>
+								@endif
+								@if($mod->isAdmin)
+									<a href="{{ $root }}/{{ $mod->name }}/clone/{{ $nest['srl'] }}/">복제</a>
+								@endif
+							</nav>
 							@endif
-							@if($mod->isAdmin)
-								<a href="{{ $root }}/{{ $mod->name }}/clone/{{ $nest['srl'] }}/">복제</a>
-							@endif
-						</nav>
-						@endif
-					</div>
-				</li>
-				@endforeach
-			</ul>
+						</div>
+					</li>
+					@endforeach
+				</ul>
+				@endif
+			</li>
 			@endif
-		</li>
 		@endforeach
 		@if(!$repo->totalNest)
 		<li class="empty">데이터가 없습니다.</li>

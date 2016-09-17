@@ -38,9 +38,7 @@
 	<ul class="idx-document list">
 		@if(count($repo->nests))
 			@foreach($repo->nests as $nest)
-				@if($_SESSION['goose_level'] < $nest['json']['permission'])
-				<li class=\"permission-denied\">permission denied</li>
-				@else
+				@if($_SESSION['goose_level'] >= $nest['json']['permission'])
 				<li>
 					<div class="wrap">
 						<div class="body">
@@ -60,7 +58,7 @@
 								<span><b>Nest skin</b>{{ $nest['json']['nestSkin'] }}</span>
 								<span><b>Article skin</b>{{ $nest['json']['articleSkin'] }}</span>
 							</div>
-							@if($mod->isAdmin || ($_SESSION['goose_level'] > $nest['json']['permission2']))
+							@if($mod->isAdmin || ($_SESSION['goose_level'] >= $nest['json']['permission2']))
 							<nav>
 								<a href="{{ $root }}/{{ $mod->name }}/modify/{{ $nest['srl'] }}/">수정</a>
 								<a href="{{ $root }}/{{ $mod->name }}/remove/{{ $nest['srl'] }}/">삭제</a>
