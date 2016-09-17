@@ -13,6 +13,7 @@
 	<ul class="idx-document card">
 		@if(count($repo->articles))
 		@foreach($repo->articles as $item)
+		@if(isset($item['nest']['json']['permission']) && ($_SESSION['goose_level'] >= (int)$item['nest']['json']['permission']))
 		<li>
 			<a href="{{ $root }}/Article/read/{{ $item['srl'] }}/?m=1" class="wrap">
 				<figure class="figure">
@@ -37,6 +38,13 @@
 				</div>
 			</a>
 		</li>
+		@else
+		<li class="permission-denied">
+			<div class="wrap">
+				<span>permission-denied</span>
+			</div>
+		</li>
+		@endif
 		@endforeach
 		@else
 		<li class="empty">데이터가 없습니다.</li>

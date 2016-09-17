@@ -513,6 +513,16 @@ em[class^=gs-brk-] {font-style: normal;}
 		text-align: center;
 	}
 	.permission-denied {font-size: 14px; color: #999;}
+	&.card {
+		.permission-denied {
+			.wrap {
+				@include flexbox();
+				height: 100px; text-align: center;
+				&:hover {background: inherit;}
+			}
+			span { @include flex(1); }
+		}
+	}
 
 	&.sortable {
 		.handle {
