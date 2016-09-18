@@ -19,13 +19,6 @@ function rgAutoload($className)
 		echo "</script>";
 	}
 
-	// check core class files
-	if (file_exists(__GOOSE_PWD__ . 'core/' . $fileName . '.class.php'))
-	{
-		require __GOOSE_PWD__ . 'core/' . $fileName . '.class.php';
-		return;
-	}
-
 	// check class files
 	if (file_exists(__GOOSE_PWD__ . $fileName . '.user.class.php'))
 	{
