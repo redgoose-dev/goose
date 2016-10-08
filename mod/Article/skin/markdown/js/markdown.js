@@ -164,9 +164,6 @@ jQuery(function($){
 		limitSizeTotal : 10000000,
 		uploadScript : userData.root + '/File/upload/',
 		removeScript : userData.root + '/File/remove/',
-		uploadParams : {
-			ready : 1
-		},
 		srcPrefixName : userData.url,
 		queue : {
 			style : 'list',
@@ -291,6 +288,9 @@ jQuery(function($){
 				})
 			}
 		],
+		uploadParamsFilter : function() {
+			return { ready : 1 };
+		},
 		uploadDataFilter : function(res) {
 			return {
 				state : res[0].state,
