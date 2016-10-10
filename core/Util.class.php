@@ -140,7 +140,7 @@ class Util {
 		}
 		else
 		{
-			return "'" . $obj . "'";
+			return "`" . $obj . "`";
 		}
 	}
 
