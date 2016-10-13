@@ -86,7 +86,7 @@
 .markdown-body table tr { border-top: 1px solid #ccc; background-color: #fff; }
 .markdown-body table tr:nth-child(2n) {background-color: #f8f8f8; }
 .markdown-body img {
-	max-width: 100%; display: block; margin: 15px auto;
+	max-width: 100%; display: block; margin: 50px auto;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 .markdown-body code, .markdown-body tt {
