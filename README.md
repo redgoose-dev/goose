@@ -36,10 +36,11 @@ __http://src.goose-dev.com__
 * jquery - https://jquery.com
 * Sortable - https://github.com/RubaXa/Sortable
 * Parsedown - http://parsedown.org
-* Snippet
 * jQuery Validation - http://jqueryvalidation.org
 * JSONEditor - https://github.com/RedgooseDev/JSONEditor
 * rg-Uploader - https://github.com/RedgooseDev/rg-Uploader
+* BladeOne - https://github.com/EFTEC/BladeOne
+* Snippet
 
 
 ### 알립니다!
