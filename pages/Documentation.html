@@ -607,6 +607,29 @@ core\Spawn::action($query);
 				<a href="https://github.com/RedgooseDev/goose/blob/master/core/classes/Util.class.php" target="_blank"><b>Util.class.php</b></a>
 			</p>
 		</section>
+
+		<section id="DocCoreBlade">
+			<h1><span>Blade.class.php</span></h1>
+			<p>
+				관리자의 화면출력하는 페이지들은 대부분 <a href="https://laravel.com/docs/5.3/blade" target="_blank">Blade templates</a>을 이용합니다.<br/>
+				자세한 사용법은 다음 링크를 통해서 참고하세요.
+			</p>
+			<p>
+				<a href="https://github.com/EFTEC/BladeOne" target="_blank">https://github.com/EFTEC/BladeOne</a>
+			</p>
+			<p>
+				`Blade templates`을 사용한 페이지의 이름은 `filename.blade.php`형식으로 정해져 있습니다.
+			</p>
+			<h2>how to render</h2>
+			<p>
+				프로그램 부분에서 blade 페이지를 출력하는 방법에 대해서 알아보겠습니다.<br/>
+				대부분 모듈에서 페이지를 출력하는것은 `render()` 메서드를 활용한것을 볼 수 있을겁니다. 먼저 인스턴스 객체를 만들고 `render()`메서드를 호출하여 페이지를 출력합니다.
+			</p>
+			<pre class="code"><code>$blade = new core\Blade();
+$blade->render('mod/Helloworld/index', [
+	'foo' => 'bar',
+]);</code></pre>
+		</section>
 	</section>
 
 	<!-- Create APP -->
@@ -1261,7 +1284,7 @@ var_dump($result);
 				이번에는 방금 입력한 데이터를 조회해 보겠습니다.
 			</p>
 <pre class="code"><code>$result = core\Spawn::items([
-	'table' => core\Spawn::getTablename('helloworld3')
+	'table' => core\Spawn::getTableName('helloworld3')
 ]);
 echo "&lt;ul>";
 foreach ($result as $k=>$v)
@@ -1289,10 +1312,10 @@ echo "&lt;/ul>";
 			</p>
 			<h2>도움말 문서 만들기</h2>
 			<p>
-				예제로 helloworld3 모듈의 도움말을 만들겠습니다.<br/>
-				ftp나 터미널에서 <code>{goose}/module/helloworld3/</code> 경로로 이동하고 <code>help</code> 이름의 폴더를 만들고 help 폴더로 들어갑니다.
+				예제로 Helloworld3 모듈의 도움말을 만들겠습니다.<br/>
+				ftp나 터미널에서 <code>{goose}/mod/Helloworld3/</code> 경로로 이동하고 <code>help</code> 이름의 폴더를 만들고 help 폴더로 들어갑니다.
 			</p>
-<pre class="code"><code>$ cd {goose}/module/helloworld3/
+<pre class="code"><code>$ cd {goose}/mod/Helloworld3/
 $ mkdir help
 $ cd help
 </code></pre>
@@ -1304,10 +1327,10 @@ $ cd help
 			<h2>작성한 도움말 페이지 열기</h2>
 			<p>
 				help폴더속에 내용을 작성했으면 이제 열어서 확인해봅니다.<br/>
-				<code>help/index.md</code> 경로로 파일을 만들었다면 주소창에서 <code>{goose}/help/helloworld3/</code> 경로로 들어가면 index.md 파일의 내용을 확인할 수 있습니다.
+				<code>help/index.md</code> 경로로 파일을 만들었다면 주소창에서 <code>{goose}/help/Helloworld3/</code> 경로로 들어가면 index.md 파일의 내용을 확인할 수 있습니다.
 			</p>
 			<p>
-				<code>help/pagename.html</code> 경로로 파일을 만들었다면 <code>{goose}/help/helloworld3/pagename/</code> 경로로 들어가면 페이지에 접속할 수 있습니다.
+				<code>help/pagename.html</code> 경로로 파일을 만들었다면 <code>{goose}/help/Helloworld3/pagename/</code> 경로로 들어가면 페이지에 접속할 수 있습니다.
 			</p>
 			<h2>.md파일에서 이미지나 css,js같은 외부파일 삽입하기</h2>
 			<p>
