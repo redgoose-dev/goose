@@ -2,8 +2,13 @@
 	font-family: sans-serif;
 	font-size: 15px; line-height: 1.7; color: #000;
 }
-.markdown-body > *:first-child {margin-top: 0 !important;}
-.markdown-body > *:last-child {margin-bottom: 0 !important;}
+.markdown-body > *:first-child,
+.markdown-body > *:first-child > *:first-child {
+	margin-top: 0 !important;
+}
+.markdown-body > *:last-child, .markdown-body > *:last-child > *:last-child {
+	margin-bottom: 0 !important;
+}
 .markdown-body a.absent {color: #c00; }
 .markdown-body a.anchor {
 	display: block; cursor: pointer;
