@@ -5,13 +5,19 @@ use eftec\bladeone, mod;
 
 class Blade {
 
-	function __construct()
+	/**
+	 * construct
+	 *
+	 * @param string $path_view
+	 * @param string $path_cache
+	 */
+	function __construct($path_view=BLADE_VIEW, $path_cache=BLADE_CACHE)
 	{
 		// check blade class
 		self::checkBladeOne();
 
 		// make blade instance
-		$this->blade = new bladeone\BladeOne(BLADE_VIEW, BLADE_CACHE);
+		$this->blade = new bladeone\BladeOne($path_view, $path_cache);
 	}
 
 	/**
