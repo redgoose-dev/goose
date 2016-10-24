@@ -182,6 +182,9 @@ class View {
 		// check permission
 		$this->checkAdmin($repo->nest['json']['permission2']);
 
+		// set skin path
+		$this->setSkinPath('remove', $repo->nest['json']['nestSkin']);
+
 		// play render page
 		$this->blade->render($this->parent->skinAddr . '.remove', [
 			'mod' => $this->parent,
