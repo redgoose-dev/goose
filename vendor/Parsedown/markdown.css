@@ -116,3 +116,8 @@
 	margin: 0; padding: 0;
 	background-color: transparent; border: none;
 }
+
+/* for retina */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
+	.markdown-body img { zoom: .5; }
+}
