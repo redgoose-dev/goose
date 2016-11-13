@@ -41,6 +41,11 @@
 	}
 }
 
+// view
+.gs-article-body {
+	&:after {content: ''; display: table; clear: both;}
+}
+
 
 // for retina
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
