@@ -11,6 +11,7 @@ $parsedown = new Parsedown();
 
 @section('style')
 <link rel="stylesheet" href="{{ $root }}/vendor/Parsedown/markdown.css">
+<link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}css/markdown.css">
 @endsection
 
 

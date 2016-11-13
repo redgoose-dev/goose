@@ -40,3 +40,9 @@
 		}
 	}
 }
+
+
+// for retina
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
+	.gs-article-body img { zoom: .5; }
+}
