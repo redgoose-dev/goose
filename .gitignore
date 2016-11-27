@@ -7,7 +7,8 @@ README.html
 .module-cache/
 *.psd
 ext/
-module/
+mod/
+vendor/
 
 
 # node module
@@ -31,4 +32,4 @@ node_modules/imagesloaded/*
 # user files
 data/
 *.user
-*.user.*
+*--user
