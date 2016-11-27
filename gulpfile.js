@@ -1,90 +1,49 @@
-var assets = './assets/';
-
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var scss = require('gulp-sass');
-var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
-var babel = require('gulp-babel');
-var runSequence = require('run-sequence');
+var uglify = require('gulp-uglify');
+var scss = require('gulp-sass');
+var rename = require('gulp-rename');
+var webpack = require('webpack-stream');
 
-var files = {
-	js : [
-		assets + 'js/layout.js'
-	],
-	extJS : [
-		'./node_modules/react/dist/react.js',
-		'./node_modules/react/dist/react.min.js',
-		'./node_modules/jquery/dist/jquery.js',
-		'./node_modules/jquery/dist/jquery.min.js',
-		'./node_modules/jquery/dist/jquery.min.map'
-	],
-	scss : [
-		assets + 'css/layout.scss'
-	]
-};
+var vendors = [
+	// './node_modules/react/dist/react.js',
+	// './node_modules/react-dom/dist/react-dom.js',
+	'./node_modules/react/dist/react.min.js',
+	'./node_modules/react-dom/dist/react-dom.min.js',
+	'./node_modules/jquery/dist/jquery.min.js',
+	'./node_modules/imagesloaded/imagesloaded.pkgd.min.js'
+];
 
-// react.js compile
-gulp.task('react', function(){
-	return gulp.src(assets + 'js/*.jsx')
-		.pipe(sourcemaps.init())
-		.pipe(babel())
-		.pipe(sourcemaps.write('../maps'))
-		.pipe(gulp.dest(assets + 'js/'));
-});
-
-// concat javascript files
-gulp.task('javascript', function(){
-	gulp.src(files.js)
-		.pipe(sourcemaps.init())
-		.pipe(uglify())
-		.pipe(concat('script.min.js', { newLine: '\n' }))
-		.pipe(sourcemaps.write('../maps'))
-		.pipe(gulp.dest(assets + 'js/'));
-});
-
-// react and javascript
-gulp.task('react_and_javascript', function(callback){
-	runSequence(
-		'react',
-		['javascript'],
-		callback
-	);
-});
-
-// watch react and javascript
-gulp.task('react_and_javascript:watch', function(){
-	gulp.watch([
-		assets + 'js/layout.jsx'
-	], ['react_and_javascript']);
-});
-
-// convert sass to css
+// build scss
 gulp.task('scss', function(){
-	gulp.src(files.scss)
+	gulp.src('assets/src/scss/layout.scss')
 		.pipe(sourcemaps.init())
 		.pipe(scss({
-			//outputStyle: 'compact'
+			//outputStyle : 'compact'
 			outputStyle: 'compressed'
 		}).on('error', scss.logError))
-		.pipe(sourcemaps.write('../maps'))
-		.pipe(gulp.dest(assets + 'css/'))
-	;
+		.pipe(sourcemaps.write('maps'))
+		.pipe(gulp.dest('assets/dist/css'));
 });
-// set watcher scss
 gulp.task('scss:watch', function(){
-	gulp.watch(files.scss, ['scss']);
-});
-
-// external javascript library
-gulp.task('copy_external_javascript', function(){
-	files.extJS.forEach(function(o){
-		gulp.src(o).pipe(gulp.dest( assets + 'js/external/' ));
-	});
+	gulp.watch('assets/src/scss/*.scss', ['scss']);
 });
 
 
-// default
-gulp.task('default', function(){
-	console.log('say hello');
+gulp.task('vendors', function(){
+	gulp.src(vendors)
+		.pipe(concat('vendor.js', {newLine: '\n\n'}))
+		.pipe(gulp.dest('assets/dist/js'));
+});
+
+// build app
+gulp.task('js', function() {
+	return gulp.src('assets/src/js/App.js')
+		.pipe(
+			webpack(
+				require('./webpack.config.js')
+			)
+		)
+		.pipe(gulp.dest('assets/dist/js/'));
 });
