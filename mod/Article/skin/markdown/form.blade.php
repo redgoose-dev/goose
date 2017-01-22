@@ -102,13 +102,13 @@
 
 @section('style')
 <link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}css/markdown.css">
-<link rel="stylesheet" href="{{ $root }}/vendor/rg-Uploader/dist/css/rg-uploader.min.css">
+<link rel="stylesheet" href="{{ $root }}/vendor/rg-Uploader/dist/rg-uploader.css">
 <link rel="stylesheet" href="{{ $root }}/vendor/Parsedown/markdown.css">
 @endsection
 
 @section('script')
-<script src="{{ $root }}/vendor/rg-Uploader/dist/js/rg-uploader.pkgd.js"></script>
-<script src="{{ $root }}/vendor/rg-Uploader/dist/js/plugin.pkgd.js"></script>
+<script src="{{ $root }}/vendor/rg-Uploader/dist/rg-uploader.js"></script>
+<script src="{{ $root }}/vendor/rg-Uploader/dist/rg-uploader.plugins.js"></script>
 <script>
 // set user data
 var userData = {

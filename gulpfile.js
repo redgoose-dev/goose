@@ -1,40 +1,40 @@
 function log(o){console.log(o);}
 
-var gulp = require('gulp');
-var scss = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
-var colors = require('colors');
+const gulp = require('gulp');
+const scss = require('gulp-sass');
+const uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
+const rename = require('gulp-rename');
+const colors = require('colors');
 
 
 // get parameter
-var getParams = function(optionKey)
+const getParams = function(optionKey)
 {
-	var o = process.argv.indexOf("--" + optionKey);
+	const o = process.argv.indexOf("--" + optionKey);
 	return process.argv[o+1];
 };
 
 // get Dir
-var getDir = function(pwd)
+const getDir = function(pwd)
 {
 	return pwd.replace(/[^\/]*$/, ''); // for linux
 	//return pwd.replace(/[^\\]*$/, ''); // for windows
 };
 
 // get filename
-var getFilename = function(pwd)
+const getFilename = function(pwd)
 {
 	return pwd.replace(/^.*[\\\/]/, '');
 };
 
 // get date now
-var getDateNow = function(isDate, isTime)
+const getDateNow = function(isDate, isTime)
 {
-	var o = new Date();
-	var date = o.getFullYear() + '-' + (o.getMonth()+1) + '-' + o.getDate();
-	var time = o.getHours() + ':' + o.getMinutes() + ':' + o.getSeconds();
-	var result = '';
+	const o = new Date();
+	const date = o.getFullYear() + '-' + (o.getMonth()+1) + '-' + o.getDate();
+	const time = o.getHours() + ':' + o.getMinutes() + ':' + o.getSeconds();
+	let result = '';
 	result += (isDate) ? date : '';
 	result += (isDate && isTime) ? ' ' : '';
 	result += (isTime) ? time : '';
