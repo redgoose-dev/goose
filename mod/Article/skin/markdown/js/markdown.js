@@ -160,7 +160,7 @@ jQuery(function($){
 	window.uploader = new RGUploader($('#queuesManager'), {
 		autoUpload : true,
 		allowFileTypes : ['jpeg', 'png', 'gif', 'zip', 'pdf'],
-		limitSize : 50000000,
+		limitSize : 10000000,
 		limitSizeTotal : 20000000,
 		uploadScript : userData.root + '/File/upload/',
 		removeScript : userData.root + '/File/remove/',
@@ -310,6 +310,9 @@ jQuery(function($){
 		removeDataFilter : function(res) {},
 		uploadComplete : function(file) {
 			userData.addQueue.push(file.srl);
+		},
+		uploadFail: function(oo) {
+			console.log(oo);
 		},
 		init : function(app) {
 			// push ready queue to addQueue
