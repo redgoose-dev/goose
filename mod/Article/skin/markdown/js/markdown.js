@@ -160,7 +160,7 @@ jQuery(function($){
 	window.uploader = new RGUploader($('#queuesManager'), {
 		autoUpload : true,
 		allowFileTypes : ['jpeg', 'png', 'gif', 'zip', 'pdf'],
-		limitSize : 5000000,
+		limitSize : 50000000,
 		limitSizeTotal : 20000000,
 		uploadScript : userData.root + '/File/upload/',
 		removeScript : userData.root + '/File/remove/',
