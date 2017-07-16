@@ -48,8 +48,7 @@ jQuery(function($){
 
 		var pos = getCursorPosition($(userData.form.content));
 		var val = userData.form.content.value;
-		var newContent = val.substr(0, pos) + str + val.substr(pos);
-		userData.form.content.value = newContent;
+		userData.form.content.value = val.substr(0, pos) + str + val.substr(pos);
 	};
 
 	// get preview markdown data
@@ -160,15 +159,15 @@ jQuery(function($){
 	window.uploader = new RGUploader($('#queuesManager'), {
 		autoUpload : true,
 		allowFileTypes : ['jpeg', 'png', 'gif', 'zip', 'pdf'],
-		limitSize : 10000000,
-		limitSizeTotal : 20000000,
+		limitSize : userData.uploader.limitSize,
+		limitSizeTotal : userData.uploader.limitSizeTotal,
 		uploadScript : userData.root + '/File/upload/',
 		removeScript : userData.root + '/File/remove/',
 		srcPrefixName : userData.url,
 		queue : {
 			style : 'list',
 			height : 150,
-			limit : 10,
+			limit : userData.uploader.queueLimitCount,
 			datas : userData.pushDatas,
 			buttons : [
 				{
@@ -183,7 +182,7 @@ jQuery(function($){
 					iconName : 'apps',
 					className : 'btn-make-thumbnail',
 					show : function(file) {
-						return (file.type.split('/')[0] == 'image');
+						return (file.type.split('/')[0] === 'image');
 					},
 					action : function(app, file) {
 						if (!app.plugin.child.thumbnail) return false;
@@ -191,13 +190,13 @@ jQuery(function($){
 						var option = {};
 
 						// set option
-						if (file.srl == userData.thumbnail.srl)
+						if (file.srl === userData.thumbnail.srl)
 						{
 							option.points = userData.thumbnail.points;
 							option.zoom = userData.thumbnail.zoom;
 						}
 
-						if ((userData.thumbnailSet.type && userData.thumbnailSet.type == 'crop') || !userData.thumbnailSet.type)
+						if ((userData.thumbnailSet.type && userData.thumbnailSet.type === 'crop') || !userData.thumbnailSet.type)
 						{
 							plugin.open(file, option);
 						}
@@ -311,13 +310,13 @@ jQuery(function($){
 		uploadComplete : function(file) {
 			userData.addQueue.push(file.srl);
 		},
-		uploadFail: function(oo) {
-			console.log(oo);
+		uploadFail: function(o) {
+			console.error(o);
 		},
 		init : function(app) {
 			// push ready queue to addQueue
 			userData.addQueue = $.map(app.queue.items.files, function(file){
-				return (file.ready == 1) ? file.srl : null;
+				return (file.ready === 1) ? file.srl : null;
 			});
 
 			// set thumbnail queue
@@ -346,7 +345,7 @@ jQuery(function($){
 			$target.addClass('show');
 
 			// load preview data
-			if (mode == 'preview' && userData.form.content.value)
+			if (mode === 'preview' && userData.form.content.value)
 			{
 				var preview = getPreviewMarkdownData();
 				preview.done(function(res){
