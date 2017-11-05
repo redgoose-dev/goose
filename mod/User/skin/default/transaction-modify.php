@@ -45,7 +45,7 @@ $result = core\Spawn::update([
 	'data' => [
 		"name='" . $post['name'] . "'",
 		"level=" . (int)$post['level'],
-		($post['pw']) ? "pw='" . md5($post['pw']) . "'" : null
+		($post['pw']) ? "pw='" . password_hash($post['pw'], PASSWORD_DEFAULT) . "'" : null
 	]
 ]);
 if ($result != 'success')

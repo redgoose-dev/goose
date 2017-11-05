@@ -18,9 +18,9 @@ function checkPost()
 		core\Util::back("[$errorValue]값이 없습니다.");
 		core\Goose::end();
 	}
-	if (!$_POST['dbPassword'] || ($_POST['dbPassword'] != $_POST['dbPassword2']))
+	if (!$_POST['dbPassword'])
 	{
-		core\Util::back("DB 비밀번호와 확인값이 다릅니다.");
+		core\Util::back("DB 비밀번호값이 없습니다.");
 		return false;
 	}
 	if (!$_POST['password'] || ($_POST['password'] != $_POST['password2']))
@@ -53,31 +53,31 @@ if ( checkPost() == true )
 	}
 
 	// create directories
-	core\Util::createDirectory(__GOOSE_PWD__."data", 0755);
-	core\Util::createDirectory(__GOOSE_PWD__."data/settings", 0755);
-	core\Util::createDirectory(__GOOSE_PWD__."data/cache", 0755);
+	core\Util::createDirectory(__GOOSE_PWD__."data", 0707);
+	core\Util::createDirectory(__GOOSE_PWD__."data/settings", 0707);
+	core\Util::createDirectory(__GOOSE_PWD__."data/cache", 0707);
 
 	// create config.php
-	$tpl_config = $this->tpl_config([
+	$tpl_config = core\Util::createConfig([
 		'define' => [
-			'url' =>$_POST['goose_url']
-			,'root' => ($_POST['goose_root']) ? $_POST['goose_root'] : ''
-		]
-		,'db' => [
-			'dbname' => $_POST['dbName']
-			,'name' => $_POST['dbId']
-			,'password' => $_POST['dbPassword']
-			,'host' => $_POST['dbHost']
-			,'port' => $_POST['dbPort']
-			,'prefix' => $_POST['dbPrefix']
-		]
-		,'level' => [
-			'login' => $_POST['loginLevel']
-			,'admin' => $_POST['adminLevel']
-		]
-		,'apiKey' => $_POST['apiPrefix']
-		,'timezone' => $_POST['timezone']
-		,'basic_module' => 'Intro'
+			'url' =>$_POST['goose_url'],
+			'root' => ($_POST['goose_root']) ? $_POST['goose_root'] : ''
+		],
+		'db' => [
+			'dbname' => $_POST['dbName'],
+			'name' => $_POST['dbId'],
+			'password' => $_POST['dbPassword'],
+			'host' => $_POST['dbHost'],
+			'port' => $_POST['dbPort'],
+			'prefix' => $_POST['dbPrefix']
+		],
+		'level' => [
+			'login' => $_POST['loginLevel'],
+			'admin' => $_POST['adminLevel']
+		],
+		'apiKey' => $_POST['apiPrefix'],
+		'timezone' => $_POST['timezone'],
+		'basic_module' => 'Intro'
 	]);
 	if ($tpl_config != 'success')
 	{
@@ -126,7 +126,7 @@ $result = core\Spawn::insert([
 		'srl' => null,
 		'email' => $_POST['email'],
 		'name' => $_POST['name'],
-		'pw' => md5($_POST['password']),
+		'pw' => password_hash($_POST['password'], PASSWORD_DEFAULT),
 		'level' => $_POST['adminLevel'],
 		'regdate' => date("YmdHis")
 	]

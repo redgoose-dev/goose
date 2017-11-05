@@ -118,7 +118,7 @@ class Auth {
 			'where' => "email='$email'"
 		]);
 
-		if ($user && $user['pw'] === md5($password))
+		if ($user && password_verify($password, $user['pw']))
 		{
 			$_SESSION['goose_srl'] = (int)$user['srl'];
 			$_SESSION['goose_name'] = $user['name'];

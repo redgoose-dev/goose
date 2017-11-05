@@ -46,10 +46,6 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 				<span><input type="password" name="dbPassword" size="15" id="dbPassword" maxlength="20" /></span>
 			</label>
 			<label>
-				<strong>DB confirm password</strong>
-				<span><input type="password" name="dbPassword2" size="15" id="dbPassword2" maxlength="20" /></span>
-			</label>
-			<label>
 				<strong>DB name</strong>
 				<span><input type="text" name="dbName" id="dbName" size="15" maxlength="20" /></span>
 			</label>
@@ -134,7 +130,6 @@ jQuery(function($){
 		rules : {
 			dbId : { required: true, minlength: 3 }
 			,dbPassword : { required: true }
-			,dbPassword2 : { equalTo: '#dbPassword' }
 			,dbName : { required: true }
 			,dbHost : { required: true }
 			,dbPort : { required: true }

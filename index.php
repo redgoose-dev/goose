@@ -4,4 +4,5 @@
 define('__GOOSE__', true);
 define('__GOOSE_DEBUG__', true);
 
+
 require_once dirname(__FILE__) . '/bootstrap/init.php';

@@ -2,6 +2,13 @@
 if (!defined('__GOOSE__')) return false;
 
 
+/**
+ * Goose library for external
+ *
+ * 외부에서 `Goose`를 사용하기 위한 라이브러리
+ */
+
+
 // check php version
 require_once 'checkVersion.php';
 

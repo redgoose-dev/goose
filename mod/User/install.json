@@ -23,7 +23,7 @@
 	{
 		"name" : "pw",
 		"type" : "varchar",
-		"length" : 32,
+		"length" : 100,
 		"etc" : "null default null"
 	},
 	{

@@ -567,4 +567,34 @@ class Util {
 
 		return $result;
 	}
+
+	/**
+	 * Config create
+	 *
+	 * @param array $data
+	 * @return string
+	 */
+	public static function createConfig($data=null) {
+		if (!$data) return '';
+
+		$str = "<?php\n";
+		$str .= "if (!defined('__GOOSE__')) exit();\n";
+		$str .= "\n";
+		$str .= "define( '__GOOSE_URL__', '".$data['define']['url']."' );\n";
+		$str .= "define( '__GOOSE_ROOT__', '".$data['define']['root']."' );\n";
+		$str .= "\n";
+		$str .= "\$dbConfig = ['mysql:dbname=".$data['db']['dbname'].";host=".$data['db']['host'].";port=".$data['db']['port']."', '".$data['db']['name']."', '".$data['db']['password']."'];\n";
+		$str .= "\$table_prefix = '".$data['db']['prefix']."';\n";
+		$str .= "\n";
+		$str .= "\$apiKey = '".$data['apiKey']."';\n";
+		$str .= "\$basic_module = '".$data['basic_module']."';\n";
+		$str .= "\n";
+		$str .= "\$accessLevel = [\n";
+		$str .= "\t'login' => ".$data['level']['login'].",\n";
+		$str .= "\t'admin' => ".$data['level']['admin']."\n";
+		$str .= "];";
+
+		return self::fop(__GOOSE_PWD__ . 'data/config.php', 'w', $str, 0755);
+	}
+
 }

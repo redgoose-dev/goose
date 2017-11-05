@@ -2,8 +2,8 @@
 if (!defined('__GOOSE__')) exit();
 
 // set versions
-define( '__GOOSE_MIN_PHP_VERSION__', '5.4.0' );
-define( '__GOOSE_RECOMMEND_PHP_VERSION__', '5.5.0' );
+define( '__GOOSE_MIN_PHP_VERSION__', '5.6.0' );
+define( '__GOOSE_RECOMMEND_PHP_VERSION__', '7.0.0' );
 
 
 // check php version

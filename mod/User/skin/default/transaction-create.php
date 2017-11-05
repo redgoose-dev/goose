@@ -60,7 +60,7 @@ $result = core\Spawn::insert([
 		'srl' => null,
 		'email' => $post['email'],
 		'name' => $post['name'],
-		'pw' => md5($post['pw']),
+		'pw' => password_hash($post['pw'], PASSWORD_DEFAULT),
 		'level' => $post['level'],
 		'regdate' => date('YmdHis')
 	]

@@ -15,9 +15,7 @@ class Spawn {
 	 * init and db connect
 	 */
 	public function __construct()
-	{
-
-	}
+	{}
 
 	/**
 	 * connect database
@@ -243,7 +241,7 @@ class Spawn {
 	 * Get items index
 	 *
 	 * @param array $data 요청 파라메터 배열
-	 * @return array
+	 * @return array|string
 	 */
 	public static function items($data)
 	{
@@ -283,7 +281,7 @@ class Spawn {
 	 * Get item data
 	 *
 	 * @param array $data 요청 파라메터 배열
-	 * @return array
+	 * @return array|string
 	 */
 	public static function item($data)
 	{

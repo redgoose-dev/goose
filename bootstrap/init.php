@@ -1,5 +1,5 @@
 <?php
-/* Copyright Redgoose <http://redgoose.me> */
+/* Copyright redgoose <http://redgoose.me> */
 if (!defined('__GOOSE__')) exit();
 
 
@@ -7,7 +7,7 @@ if (!defined('__GOOSE__')) exit();
 require_once 'checkVersion.php';
 
 
-// set start microtime
+// set start micro time
 if (__GOOSE_DEBUG__)
 {
 	@define( '__StartTime__', array_sum(explode(' ', microtime())) );
@@ -56,9 +56,6 @@ if ($goose->isInstalled())
 	$goose->createSpawn();
 	$goose->spawn->connect($dbConfig);
 
-	// set api_key
-	define('__apiKey__', md5($apiKey));
-
 	// set table prefix
 	define('__dbPrefix__', $table_prefix);
 
@@ -71,6 +68,14 @@ if ($goose->isInstalled())
 }
 else
 {
+	// 인스톨이 안된 상태에서 다른 경로로 접속해 있다면 첫페이지로 강제이동
+	if ($_SERVER['PHP_SELF'] !== $_SERVER['SCRIPT_NAME'])
+	{
+		$rootUrl = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
+		Header('Location:'.$rootUrl);
+		core\Goose::end();
+	}
+
 	define( '__GOOSE_ROOT__', preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']) );
 	define('__dbPrefix__', ($_POST['dbPrefix']) ? $_POST['dbPrefix'] : null);
 
