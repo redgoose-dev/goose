@@ -83,7 +83,8 @@ class View {
 			'action' => $this->parent->params['action'],
 			'typeName' => '등록',
 			'article' => new mod\Article\Article(),
-			'nowSkin' => $_GET['skin']
+			'nowSkin' => $_GET['skin'],
+			'file' => new mod\File\File()
 		]);
 	}
 
@@ -147,7 +148,8 @@ class View {
 			'article' => new mod\Article\Article(),
 			'nowSkin' => $nowSkin,
 			'nestSkinMessage' => $nestSkinMessage,
-			'useCategory' => $useCategory
+			'useCategory' => $useCategory,
+			'file' => new mod\File\File()
 		]);
 	}
 

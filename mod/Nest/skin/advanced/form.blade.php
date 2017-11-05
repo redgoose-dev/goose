@@ -101,6 +101,36 @@
 				</dd>
 			</dl>
 
+			<dl class="gs-webz">
+				<dt><label for="uploadSingle">파일첨부</label></dt>
+				<dd>
+					@set( $upload = $repo->nest['json']['upload'] )
+					<label>
+						<span>용량제한(Single) :</span>
+						<input
+							type="number" name="uploadSingle" id="uploadSingle"
+							size="20" min="100000" max="{{ $file->set['limitFileSize'] }}"
+							value="{{ $upload['single'] or 1200000 }}"/>
+					</label>
+					<br/>
+					<label>
+						<span>모든파일 용량제한(byte) :</span>
+						<input
+							type="number" name="uploadTotal"
+							size="20" min="200000" max="838860800"
+							value="{{ $upload['total'] or 20000000 }}"/>
+					</label>
+					<br/>
+					<label>
+						<span>업로드 갯수 :</span>
+						<input
+							type="number" name="uploadCount"
+							size="3" min="1" max="50"
+							value="{{ $upload['count'] or 12 }}"/>
+					</label>
+				</dd>
+			</dl>
+
 			@yield('permission')
 		</fieldset>
 
@@ -146,6 +176,11 @@ jQuery(function($){
 					type : $(form.thumbType).filter(':checked').val()
 				},
 				articleListType : form.articleListType.value,
+				upload: {
+					single: parseInt(form.uploadSingle.value),
+					total: parseInt(form.uploadTotal.value),
+					count: parseInt(form.uploadCount.value),
+				},
 				permission : parseInt(form.permission.value),
 				permission2 : parseInt(form.permission2.value)
 			};

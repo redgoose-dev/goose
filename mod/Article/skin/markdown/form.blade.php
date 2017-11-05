@@ -140,12 +140,12 @@ var userData = {
 	},
 	thumbnail : {},
 	thumbnail_image : '',
-	addQueue : [],
 	uploader: {
-		limitSize : 10000000,
-		limitSizeTotal : 20000000,
-		queueLimitCount: 30,
-	}
+		limitSize : parseInt('{{ $repo->nest['json']['upload']['single'] }}' || 1200000),
+		limitSizeTotal : parseInt('{{ $repo->nest['json']['upload']['total'] }}' || 20000000),
+		queueLimitCount: parseInt('{{ $repo->nest['json']['upload']['count'] }}' || 12),
+	},
+	addQueue : []
 };
 </script>
 <script src="{{ $root }}/{{ $mod->skinPath }}js/markdown.min.js"></script>
