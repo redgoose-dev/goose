@@ -15,3 +15,5 @@ npm-debug.log
 *--user
 robot.txt
 .htaccess
+package-lock.json
+yarn.lock
