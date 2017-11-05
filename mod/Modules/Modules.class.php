@@ -167,7 +167,7 @@ class Modules {
 		$pwd = __GOOSE_PWD__ . 'data/settings/' . $_POST['module'] . '.json';
 		$json = core\Util::jsonToArray($_POST['json']);
 		$json = core\Util::arrayToJson($json, false, true, '  ');
-		$result = core\Util::fop($pwd, 'w', $json, 0755);
+		$result = core\Util::fop($pwd, 'w', $json, 0707);
 
 		if ($result)
 		{
