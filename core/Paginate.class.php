@@ -20,22 +20,20 @@ class Paginate {
 	 */
 	public function __construct($total=0, $page=1, $arr=[], $size=10, $scale=10, $start_page=1)
 	{
-		$page = ($page) ? $page : 1;
-		$total = ($total) ? $total : 0;
+		$this->total = $total ? $total : 0;
+		$this->page = $page ? $page : 1;
+		$this->size = $size ? $size : 10;
+		$this->scale = $scale ? $scale : 10;
+		$this->start_page = $start_page ? $start_page : 1;
 
-		$this->total = $total;
-		$this->page = $page;
-		$this->size = $size;
-		$this->scale = $scale;
-		$this->start_page = $start_page;
-		$this->page_max = ceil($total / $size); // 총 페이지개수
-		$this->offset = ($page - 1) * $size; // 해당 페이지에서 시작하는 목록번호
-		$this->block = floor(($page-1) / $scale); // 페이지를 10개씩보여준다면 1~10페이지까지는 0블럭..
+		$this->page_max = ceil($this->total / $this->size); // 총 페이지개수
+		$this->offset = ($this->page - 1) * $this->size; // 해당 페이지에서 시작하는 목록번호
+		$this->block = floor(($this->page - 1) / $this->scale); // 페이지를 10개씩보여준다면 1~10페이지까지는 0블럭..
 		$this->no = $this->total - $this->offset; // 목록에서 번호나열할때 필요함
 
 		$tails = '';
 		if (is_array($arr)) {
-			while (list($key,$val)=each($arr))
+			foreach ($arr as $key=>$val)
 			{
 				$tails .= ($val) ? "$key=$val&" : "";
 			}
@@ -110,10 +108,11 @@ class Paginate {
 
 		if ($this->total > $this->size)
 		{
-			$result = new \stdClass();
-			$result->prev = null;
-			$result->next = null;
-			$result->body = null;
+			$result = (object)[
+				'prev' => null,
+				'next' => null,
+				'body' => null,
+			];
 
 			if ($this->block > 0)
 			{

@@ -147,7 +147,7 @@ class Util {
 	/**
 	 * console.log (javascript console.log)
 	 *
-	 * @param string $obj console.log에 표시할 데이터. 문자,번호,배열... 등등 값을 확인할 수 있다.
+	 * @param * $obj console.log에 표시할 데이터. 문자,번호,배열... 등등 값을 확인할 수 있다.
 	 */
 	public static function console($obj)
 	{

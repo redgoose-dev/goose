@@ -66,6 +66,7 @@ select {
 .gs-button {@extend %button;}
 button.gs-button {
 	-webkit-appearance:none; border:none;
+	border-radius: 0;
 	&.block {width: 100%;}
 }
 
