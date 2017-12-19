@@ -261,7 +261,7 @@ class Spawn {
 			if ($qry)
 			{
 				$result = $qry->fetchAll(PDO::FETCH_ASSOC);
-				if ($data['jsonField'] && count($data['jsonField']))
+				if ($result && $data['jsonField'] && count($data['jsonField']))
 				{
 					foreach ($result as $k=>$v)
 					{
@@ -301,7 +301,7 @@ class Spawn {
 			if ($qry)
 			{
 				$result = $qry->fetch(PDO::FETCH_ASSOC);
-				if ($data['jsonField'] && count($data['jsonField']))
+				if ($result && $data['jsonField'] && count($data['jsonField']))
 				{
 					$result = self::convertJsonToArray($result, $data['jsonField']);
 				}
