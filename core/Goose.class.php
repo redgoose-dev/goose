@@ -88,8 +88,9 @@ class Goose {
 	 * @param int $code error code
 	 * @param string $msg error message
 	 * @param string $url_home
+	 * @param boolean $useLayout
 	 */
-	public static function error($code=null, $msg=null, $url_home)
+	public static function error($code=null, $msg=null, $url_home, $useLayout=true)
 	{
 		$error = new mod\Error\Error();
 		$url_home = ($url_home) ? $url_home : __GOOSE_ROOT__;
@@ -100,16 +101,16 @@ class Goose {
 		{
 			case 101:
 				// custom error
-				$error->render($code, $msg, $url_home);
+				$error->render($code, $msg, $url_home, $useLayout);
 				self::end();
 				break;
 			case 403:
-				$error->render($code, 'permission denied', $url_home);
+				$error->render($code, 'permission denied', $url_home, $useLayout);
 				self::end();
 				break;
 			case 404:
 				// page not found
-				$error->render(404, 'page not found', $url_home);
+				$error->render(404, 'page not found', $url_home, $useLayout);
 				self::end();
 				break;
 			case 909:

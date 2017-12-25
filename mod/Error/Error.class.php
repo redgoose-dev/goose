@@ -37,8 +37,9 @@ class Error {
 	 * @param int $code
 	 * @param string $message
 	 * @param string $homeUrl
+	 * @param boolean $useLayout
 	 */
-	public function render($code, $message, $homeUrl=null)
+	public function render($code, $message, $homeUrl=null, $useLayout=true)
 	{
 		// set skin path
 		$this->setSkinPath('render');
@@ -48,7 +49,8 @@ class Error {
 			'mod' => $this,
 			'homeUrl' => ($homeUrl) ? $homeUrl : __GOOSE_ROOT__,
 			'code' => $code,
-			'message' => $message
+			'message' => $message,
+			'useLayout' => $useLayout
 		]);
 	}
 
