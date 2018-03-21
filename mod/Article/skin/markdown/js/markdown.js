@@ -327,6 +327,12 @@ jQuery(function($){
 					.addClass('is-thumbnail')
 					.find('.btn-make-thumbnail').addClass('on');
 			}
+
+			// toggle select queues
+			app.$container.find('.select-queue').on('click', function() {
+				app.queue.selectQueue();
+				return false;
+			});
 		}
 	});
 

@@ -84,6 +84,10 @@
 									<i class="material-icons">add_circle_outline</i>
 									<span>Add files</span>
 								</label>
+								<a href="#" class="select-queue">
+									<i class="material-icons">crop_free</i>
+									<span>Select queue</span>
+								</a>
 							</nav>
 							<div class="size-info"></div>
 						</footer>
