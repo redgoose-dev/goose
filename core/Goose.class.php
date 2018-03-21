@@ -90,7 +90,7 @@ class Goose {
 	 * @param string $url_home
 	 * @param boolean $useLayout
 	 */
-	public static function error($code=null, $msg=null, $url_home, $useLayout=true)
+	public static function error($code=null, $msg=null, $url_home=null, $useLayout=true)
 	{
 		$error = new mod\Error\Error();
 		$url_home = ($url_home) ? $url_home : __GOOSE_ROOT__;
