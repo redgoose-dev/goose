@@ -1,7 +1,7 @@
 @section('content-body')
 <?php
 // load and init Parsedown
-require_once(__GOOSE_PWD__ . '/vendor/parsedown/parsedown.php');
+require_once(__GOOSE_PWD__ . '/vendor/parsedown/Parsedown.php');
 $parsedown = new Parsedown();
 ?>
 <div class="gs-article-body">

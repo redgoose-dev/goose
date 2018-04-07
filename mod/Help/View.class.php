@@ -91,7 +91,7 @@ class View {
 		if ($fileType == 'md')
 		{
 			// load parsedown class
-			require_once(__GOOSE_PWD__ . 'vendor/parsedown/parsedown.php');
+			require_once(__GOOSE_PWD__ . 'vendor/parsedown/Parsedown.php');
 
 			// get instance parsedown
 			$parsedown = new \Parsedown();

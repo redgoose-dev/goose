@@ -10,7 +10,7 @@ if (!defined('__GOOSE__')) exit();
 $post = core\Util::getMethod();
 
 // load and init Parsedown
-require_once(__GOOSE_PWD__ . '/vendor/parsedown/parsedown.php');
+require_once(__GOOSE_PWD__ . '/vendor/parsedown/Parsedown.php');
 $parsedown = new Parsedown();
 
 // print content
