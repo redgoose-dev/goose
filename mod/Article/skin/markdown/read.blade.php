@@ -1,7 +1,7 @@
 @section('content-body')
 <?php
 // load and init Parsedown
-require_once(__GOOSE_PWD__ . '/vendor/Parsedown/Parsedown.class.php');
+require_once(__GOOSE_PWD__ . '/vendor/parsedown/parsedown.php');
 $parsedown = new Parsedown();
 ?>
 <div class="gs-article-body">
@@ -10,8 +10,7 @@ $parsedown = new Parsedown();
 @endsection
 
 @section('style')
-<link rel="stylesheet" href="{{ $root }}/vendor/Parsedown/markdown.css">
-<link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}css/markdown.css">
+<link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}css/index.css">
 @endsection
 
 

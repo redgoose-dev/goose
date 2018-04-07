@@ -17,9 +17,3 @@
 	</nav>
 </section>
 @endsection
-
-@if($fileType == 'md')
-@section('style')
-<link rel="stylesheet" href="{{ $root }}/vendor/Parsedown/markdown.css"/>
-@endsection
-@endif

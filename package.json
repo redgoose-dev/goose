@@ -1,6 +1,6 @@
 {
   "name": "Goose",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "private": false,
   "license": "SEE LICENSE IN 'LICENSE'",
   "homepage": "http://redgoose.me",
@@ -18,11 +18,11 @@
     "url": "https://github.com/RedgooseDev/goose.git"
   },
   "devDependencies": {
-    "colors": "^1.1.2",
-    "gulp": "^3.9.1",
+    "colors": "^1.2.1",
+    "gulp": "^4.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.6.0",
+    "gulp-sass": "^4.0.0",
+    "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0"
   }
 }

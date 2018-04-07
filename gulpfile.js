@@ -1,5 +1,3 @@
-function log(o){console.log(o);}
-
 const gulp = require('gulp');
 const scss = require('gulp-sass');
 const uglify = require('gulp-uglify');
@@ -7,13 +5,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const colors = require('colors');
 
-
-// get parameter
-const getParams = function(optionKey)
-{
-	const o = process.argv.indexOf("--" + optionKey);
-	return process.argv[o+1];
-};
 
 // get Dir
 const getDir = function(pwd)
@@ -44,22 +35,22 @@ const getDateNow = function(isDate, isTime)
 
 // scss to css [watch]
 gulp.task('scss:watch', function(){
-	gulp.watch('./mod/**/*.scss')
+	gulp.watch(['./mod/**/*.scss'])
 		.on('change', function(file){
 			// skip import file (xyz.src.scss)
-			if ( /src.scss$/.test(getFilename(file.path)) ) return;
+			if ( /src.scss$/.test(getFilename(file)) ) return;
 
-			log(('[' + getDateNow(true, true) + '] ').cyan + file.path);
+			console.log(('[' + getDateNow(true, true) + '] ').yellow + '/' + file);
 
 			// convert scss file
-			gulp.src(file.path)
+			gulp.src(file)
 				.pipe(sourcemaps.init())
 				.pipe(scss({
 					//outputStyle: 'compact'
 					outputStyle: 'compressed'
 				}).on('error', scss.logError))
 				.pipe(sourcemaps.write('.'))
-				.pipe(gulp.dest( getDir(file.path) ));
+				.pipe(gulp.dest( getDir(file) ));
 		});
 });
 
@@ -67,22 +58,16 @@ gulp.task('scss:watch', function(){
 // compress javascript [watch]
 gulp.task('js:watch', function(){
 	// do not compile script files
-	gulp.watch([ 'mod/**/*.js', '!mod/ExternalResource/**/*.js' ])
+	gulp.watch([ './mod/**/*.js' ])
 		.on('change', function(file){
-			if ( /node_module\/|gulpfile.js|min.js$/.test(file.path) ) return;
+			if ( /node_module\/|gulpfile.js|min.js$/.test(file) ) return;
 
-			log(('[' + getDateNow(true, true) + '] ').cyan + file.path);
+			console.log(('[' + getDateNow(true, true) + '] ').yellow + '/' + file);
 
 			// convert script file
-			gulp.src(file.path)
+			gulp.src(file)
 				.pipe(uglify())
 				.pipe(rename({ extname : '.min.js' }))
-				.pipe(gulp.dest( getDir(file.path) ));
+				.pipe(gulp.dest( getDir(file) ));
 		});
-});
-
-
-// default
-gulp.task('default', function(){
-	console.log('say hello');
 });

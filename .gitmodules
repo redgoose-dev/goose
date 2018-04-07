@@ -4,3 +4,9 @@
 [submodule "vendor/BladeOne"]
 	path = vendor/BladeOne
 	url = https://github.com/EFTEC/BladeOne.git
+[submodule "vendor/rg-uploader"]
+	path = vendor/rg-uploader
+	url = https://github.com/RedgooseDev/rg-uploader.git
+[submodule "vendor/parsedown"]
+	path = vendor/parsedown
+	url = https://github.com/erusev/parsedown.git

@@ -44,7 +44,12 @@ hr {
 
 
 // Forms
-input[type=email], input[type=text], input[type=password], input[type=number], input[type=tel], textarea {
+input[type=email],
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=tel],
+textarea {
 	margin: 2px 3px; padding: 8px 8px;
 	font-size: 14px; color: #333; vertical-align: middle;
 	background: white; border: 1px solid #acacac;
@@ -743,3 +748,7 @@ em[class^=gs-brk-] {font-style: normal;}
 		}
 	}
 }
+
+
+// markdown
+@import "markdown.src";

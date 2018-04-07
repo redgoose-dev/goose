@@ -80,14 +80,18 @@
 						<footer>
 							<nav>
 								<label class="add-file">
-									<input type="file" data-element="addfiles" multiple>
+									<input type="file" data-element="addFiles" multiple>
 									<i class="material-icons">add_circle_outline</i>
 									<span>Add files</span>
 								</label>
-								<a href="#" class="select-queue">
+								<button type="button" data-element="toggle-queues">
 									<i class="material-icons">crop_free</i>
-									<span>Select queue</span>
-								</a>
+									<span>Select queues</span>
+								</button>
+								<button type="button" data-element="attach-files">
+									<i class="material-icons">play_for_work</i>
+									<span>Attach file</span>
+								</button>
 							</nav>
 							<div class="size-info"></div>
 						</footer>
@@ -105,52 +109,51 @@
 @endsection
 
 @section('style')
-<link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}css/markdown.css">
-<link rel="stylesheet" href="{{ $root }}/vendor/rg-Uploader/dist/rg-uploader.css">
-<link rel="stylesheet" href="{{ $root }}/vendor/Parsedown/markdown.css">
+<link rel="stylesheet" href="{{ $root }}/{{ $mod->skinPath }}css/index.css">
+<link rel="stylesheet" href="{{ $root }}/vendor/rg-uploader/dist/rg-uploader.css">
 @endsection
 
 @section('script')
-<script src="{{ $root }}/vendor/rg-Uploader/dist/rg-uploader.js"></script>
-<script src="{{ $root }}/vendor/rg-Uploader/dist/rg-uploader.plugins.js"></script>
+<script src="{{ $root }}/vendor/rg-uploader/dist/rg-uploader.js"></script>
+<script src="{{ $root }}/vendor/rg-uploader/dist/rg-uploader.plugin.js"></script>
 <script>
 // set user data
-var userData = {
-	form : document.writeForm,
-	root : '{{ $root }}',
-	url : '{{ $url }}/',
-	originalPath : '{{ $file->set['upPath_original'] }}/',
-	previewScriptPath : '{{ $root }}/Script/run/markdown_preview/',
-	pushDatas : function(src) {
+window.userData = {
+	form: document.writeForm,
+	root: '{{ $root }}',
+	url: '{{ $url }}/',
+	originalPath: '{{ $file->set['upPath_original'] }}/',
+	previewScriptPath: '{{ $root }}/Script/run/markdown_preview/',
+	pushDatas: function(src) {
 		try {
 			return JSON.parse(decodeURIComponent(src));
 		} catch(e) {
 			return [];
 		}
 	}('{!! require_once($pwd.$mod->skinPath.'lib/attachFiles.php') !!}'),
-	articleData : function(src) {
+	articleData: function(src) {
 		try {
 			return JSON.parse(decodeURIComponent(src));
 		} catch(e) {
 			return {};
 		}
 	}('{{ (isset($repo->article['json'])) ? core\Util::arrayToJson($repo->article['json'], true) : '' }}'),
-	thumbnailSet : {
+	thumbnailSet: {
 		type : '{{ $repo->nest['json']['thumbnail']['type'] }}',
 		size : {
 			width : parseInt('{{ $repo->nest['json']['thumbnail']['size'][0] }}' || 150),
 			height : parseInt('{{ $repo->nest['json']['thumbnail']['size'][1] }}' || 150)
 		}
 	},
-	thumbnail : {},
-	thumbnail_image : '',
+	thumbnail: {},
+	thumbnail_image: '',
 	uploader: {
 		limitSize : parseInt('{{ $repo->nest['json']['upload']['single'] }}' || 1200000),
 		limitSizeTotal : parseInt('{{ $repo->nest['json']['upload']['total'] }}' || 20000000),
 		queueLimitCount: parseInt('{{ $repo->nest['json']['upload']['count'] }}' || 12),
 	},
-	addQueue : []
+	addQueue: []
 };
 </script>
-<script src="{{ $root }}/{{ $mod->skinPath }}js/markdown.min.js"></script>
+<script src="{{ $root }}/{{ $mod->skinPath }}js/form.js"></script>
 @endsection
