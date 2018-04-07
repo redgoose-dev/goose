@@ -60,6 +60,9 @@ textarea {
 	&.error {border: 1px solid #e80000; color: #e80000;}
 	&[disabled], &[readonly] {background: #ddd;}
 }
+textarea {
+	line-height: 22px;
+}
 select {
 	height: 30px;
 	font-size: 13px;
