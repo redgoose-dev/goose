@@ -1,9 +1,6 @@
 [submodule "vendor/JSONEditor"]
 	path = vendor/JSONEditor
 	url = https://github.com/RedgooseDev/JSONEditor.git
-[submodule "vendor/rg-Uploader"]
-	path = vendor/rg-Uploader
-	url = https://github.com/RedgooseDev/rg-Uploader.git
 [submodule "vendor/BladeOne"]
 	path = vendor/BladeOne
 	url = https://github.com/EFTEC/BladeOne.git
