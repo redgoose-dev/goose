@@ -1,0 +1,8 @@
+{
+	"name": "api",
+	"title": "API",
+	"description": "API 출력모듈",
+	"permission": 0,
+	"adminPermission": 100,
+	"install": false
+}
