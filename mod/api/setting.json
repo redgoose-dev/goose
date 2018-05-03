@@ -4,5 +4,14 @@
 	"description": "API 출력모듈",
 	"permission": 0,
 	"adminPermission": 100,
-	"install": false
+	"install": false,
+	"modules": {
+		"app": "App",
+		"article": "Article",
+		"category": "Category",
+		"file": "File",
+		"json": "JSON",
+		"nest": "Nest",
+		"user": "User"
+	}
 }
