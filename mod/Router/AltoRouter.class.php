@@ -1,19 +1,21 @@
 <?php
 namespace mod\Router;
+use Exception;
 
 // version 1.2.0
+
 
 class AltoRouter {
 
 	/**
 	 * @var array Array of all routes (incl. named routes).
 	 */
-	protected $routes = array();
+	protected $routes = [];
 
 	/**
 	 * @var array Array of all named routes.
 	 */
-	protected $namedRoutes = array();
+	protected $namedRoutes = [];
 
 	/**
 	 * @var string Can be used to ignore leading part of the Request URL (if main file lives in subdirectory of host)
@@ -23,14 +25,14 @@ class AltoRouter {
 	/**
 	 * @var array Array of default match types (regex helpers)
 	 */
-	protected $matchTypes = array(
+	protected $matchTypes = [
 		'i'  => '[0-9]++',
 		'a'  => '[0-9A-Za-z]++',
 		'h'  => '[0-9A-Fa-f]++',
 		'*'  => '.+?',
 		'**' => '.++',
 		''   => '[^/\.]++'
-	);
+	];
 
 	/**
 	 * Create router in one call from config.
@@ -38,8 +40,9 @@ class AltoRouter {
 	 * @param array $routes
 	 * @param string $basePath
 	 * @param array $matchTypes
+	 * @throws Exception
 	 */
-	public function __construct( $routes = array(), $basePath = '', $matchTypes = array() ) {
+	public function __construct( $routes = [], $basePath = '', $matchTypes = [] ) {
 		$this->addRoutes($routes);
 		$this->setBasePath($basePath);
 		$this->addMatchTypes($matchTypes);
@@ -111,7 +114,6 @@ class AltoRouter {
 			} else {
 				$this->namedRoutes[$name] = $route;
 			}
-
 		}
 
 		return;
@@ -127,7 +129,7 @@ class AltoRouter {
 	 * @return string The URL of the route with named parameters in place.
 	 * @throws Exception
 	 */
-	public function generate($routeName, array $params = array()) {
+	public function generate($routeName, array $params = []) {
 
 		// Check if named route exists
 		if(!isset($this->namedRoutes[$routeName])) {
@@ -142,7 +144,7 @@ class AltoRouter {
 
 		if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
 
-			foreach($matches as $match) {
+			foreach($matches as $index => $match) {
 				list($block, $pre, $type, $param, $optional) = $match;
 
 				if ($pre) {
@@ -150,13 +152,16 @@ class AltoRouter {
 				}
 
 				if(isset($params[$param])) {
+					// Part is found, replace for param value
 					$url = str_replace($block, $params[$param], $url);
-				} elseif ($optional) {
+				} elseif ($optional && $index !== 0) {
+					// Only strip preceeding slash if it's not at the base
 					$url = str_replace($pre . $block, '', $url);
+				} else {
+					// Strip match block
+					$url = str_replace($block, '', $url);
 				}
 			}
-
-
 		}
 
 		return $url;
@@ -170,7 +175,7 @@ class AltoRouter {
 	 */
 	public function match($requestUrl = null, $requestMethod = null) {
 
-		$params = array();
+		$params = [];
 		$match = false;
 
 		// set Request Url if it isn't passed as parameter
@@ -226,11 +231,11 @@ class AltoRouter {
 					}
 				}
 
-				return array(
+				return [
 					'target' => $target,
 					'params' => $params,
 					'name' => $name
-				);
+				];
 			}
 		}
 		return false;
@@ -238,6 +243,8 @@ class AltoRouter {
 
 	/**
 	 * Compile the regex for a given route (EXPENSIVE)
+	 * @param $route
+	 * @return string
 	 */
 	private function compileRoute($route) {
 		if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
@@ -253,14 +260,18 @@ class AltoRouter {
 					$pre = '\.';
 				}
 
+				$optional = $optional !== '' ? '?' : null;
+
 				//Older versions of PCRE require the 'P' in (?P<named>)
 				$pattern = '(?:'
-					. ($pre !== '' ? $pre : null)
-					. '('
-					. ($param !== '' ? "?P<$param>" : null)
-					. $type
-					. '))'
-					. ($optional !== '' ? '?' : null);
+						. ($pre !== '' ? $pre : null)
+						. '('
+						. ($param !== '' ? "?P<$param>" : null)
+						. $type
+						. ')'
+						. $optional
+						. ')'
+						. $optional;
 
 				$route = str_replace($block, $pattern, $route);
 			}
