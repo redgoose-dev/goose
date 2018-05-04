@@ -1,6 +1,7 @@
 <?php
 namespace mod\api;
 use core, mod;
+use core\Util;
 if (!defined('__GOOSE__')) exit();
 
 
@@ -25,9 +26,10 @@ class api {
 		// `/goose/api/nest/1/`: nest srl:1 article
 
 		// * params
-		// `field=srl,name`: field
+		// `field=srl,name`: use field
 		// `page=2`
 		// `size=10`
+		// `json=json`: json field
 
 		// * response
 		// {
@@ -45,17 +47,31 @@ class api {
 		if ($this->params['action'])
 		{
 			// TODO: 사용 가능한 모듈인지 검사
-			// TODO: 오직 json으로만 출력
-			core\Util::console($this->set['modules']);
-			$asd = 'qwe';
+			// TODO: 오직 json 으로만 출력
+
+			switch ($_SERVER['REQUEST_METHOD'])
+			{
+				case 'POST':
+					break;
+
+				case 'PATCH':
+					break;
+
+				case 'DELETE':
+					break;
+
+				case 'GET':
+				default:
+					break;
+			}
 		}
 		else
 		{
 			// 문서나 설정
-			$aa = '123';
 		}
 
-		core\Util::console('action:: ' . $this->params['action']);
+		Util::console($this->set['modules']);
+		Util::console('action:: ' . $this->params['action']);
 
 		echo "api module";
 	}
