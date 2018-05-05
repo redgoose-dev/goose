@@ -1,11 +1,12 @@
 {
-	"name" : "Article",
-	"title" : "Article",
-	"description" : "글 목록을 관리하는 모듈입니다.",
-	"permission" : 0,
-	"adminPermission" : 100,
-	"install" : true,
-	"skin" : "default",
-	"pagePerCount" : 15,
-	"enableUpdateHit" : true
+	"name": "Article",
+	"title": "Article",
+	"description": "글 목록을 관리하는 모듈입니다.",
+	"auth": true,
+	"permission": 0,
+	"adminPermission": 100,
+	"install": true,
+	"skin": "default",
+	"pagePerCount": 15,
+	"enableUpdateHit": true
 }

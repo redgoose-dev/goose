@@ -1,8 +1,9 @@
 {
-	"name" : "Page",
-	"title" : "Page",
-	"description" : "일반 페이지를 관리하는 모듈입니다.",
-	"permission" : 0,
-	"adminPermission" : 100,
-	"skin" : "default"
+	"name": "Page",
+	"title": "Page",
+	"description": "일반 페이지를 관리하는 모듈입니다.",
+	"auth": true,
+	"permission": 0,
+	"adminPermission": 100,
+	"skin": "default"
 }

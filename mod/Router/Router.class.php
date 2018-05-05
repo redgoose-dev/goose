@@ -35,13 +35,6 @@ class Router {
 			$_action = (isset($this->match['params']['action'])) ? $this->match['params']['action'] : null;
 			$_method = $_SERVER['REQUEST_METHOD'];
 
-			// check access level
-			$auth = new mod\Auth\Auth([
-				'action' => $_action,
-				'method' => $_method
-			]);
-			$auth->auth($accessLevel['login']);
-
 			// set module name
 			$modName = ($_module) ? $_module : $this->set['basicModule'];
 			$modAddr = 'mod\\' . $modName . '\\' . $modName;
@@ -69,6 +62,16 @@ class Router {
 
 			// check index method
 			if (!method_exists($baseModule, 'index')) core\Goose::error(101, '`' . $modName . '` 모듈의 index()메서드가 없습니다.');
+
+			// check access level
+			if ($baseModule->set['auth'])
+			{
+				$auth = new mod\Auth\Auth([
+					'action' => $_action,
+					'method' => $_method
+				]);
+				$auth->auth($accessLevel['login']);
+			}
 
 			// play index module
 			if (method_exists($baseModule, 'index')) $baseModule->index();

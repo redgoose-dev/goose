@@ -1,12 +1,13 @@
 {
-	"name" : "Nest",
-	"title" : "Nest",
-	"description" : "둥지를 관리하는 모듈입니다. 둥지는 article모듈의 그룹입니다.",
-	"permission" : 0,
-	"adminPermission" : 100,
-	"install" : true,
-	"skin" : "default",
-	"countArticle" : 15,
-	"articleListTypes" : ["list", "card", "thumbnail"],
-	"thumbnailSize" : [150, 150]
+	"name": "Nest",
+	"title": "Nest",
+	"description": "둥지를 관리하는 모듈입니다. 둥지는 'Article'모듈의 그룹입니다.",
+	"auth": true,
+	"permission": 0,
+	"adminPermission": 100,
+	"install": true,
+	"skin": "default",
+	"countArticle": 15,
+	"articleListTypes": ["list", "card", "thumbnail"],
+	"thumbnailSize": [150, 150]
 }
