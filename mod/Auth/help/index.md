@@ -8,7 +8,7 @@
 `{goose}/Auth/login/`
 
 #### 로그아웃 처리
-`{goose}/auth/logout/`
+`{goose}/Auth/logout/`
 
 
 

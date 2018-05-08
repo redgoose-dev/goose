@@ -124,7 +124,7 @@ class Auth {
 			$_SESSION['goose_name'] = $user['name'];
 			$_SESSION['goose_email'] = $user['email'];
 			$_SESSION['goose_level'] = (int)$user['level'];
-			$url = (strpos($redir, 'auth/login')) ? __GOOSE_ROOT__.'/' : $redir;
+			$url = (strpos($redir, 'Auth/login')) ? __GOOSE_ROOT__.'/' : $redir;
 			if ($return)
 			{
 				return json_encode([
