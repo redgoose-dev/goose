@@ -6,6 +6,13 @@
 	"permission": 0,
 	"adminPermission": 100,
 	"install": true,
+	"api": {
+		"use": true,
+		"field": ["srl", "name", "json", "regdate"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
 	"skin": "default",
 	"pagePerCount": 15
 }

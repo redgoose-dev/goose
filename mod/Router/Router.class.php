@@ -18,8 +18,8 @@ class Router {
 	/**
 	 * init
 	 *
-	 * @param $pwd_map
-	 * @param $accessLevel
+	 * @param string $pwd_map
+	 * @param array $accessLevel
 	 */
 	public function init($pwd_map, $accessLevel)
 	{

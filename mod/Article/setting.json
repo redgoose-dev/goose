@@ -6,6 +6,14 @@
 	"permission": 0,
 	"adminPermission": 100,
 	"install": true,
+	"api": {
+		"use": true,
+		"field": ["srl", "app_srl", "nest_srl", "category_srl", "user_srl", "title", "content", "hit", "json", "ip", "regdate", "modate"],
+		"jsonField": ["json"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
 	"skin": "default",
 	"pagePerCount": 15,
 	"enableUpdateHit": true

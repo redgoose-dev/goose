@@ -62,7 +62,6 @@ class Article {
 		}
 	}
 
-
 	/**********************************************
 	 * API AREA
 	 *********************************************/
@@ -191,6 +190,38 @@ class Article {
 		return $url . $param;
 	}
 
+	/**
+	 * make search
+	 *
+	 * @param string $search
+	 * @return string
+	 */
+	public function makeSearch($search='')
+	{
+		if ($app_srl = core\Util::getParameter('app'))
+		{
+			$search .= ' and app_srl='.$app_srl;
+		}
+		if ($nest_srl = core\Util::getParameter('nest'))
+		{
+			$search .= ' and nest_srl='.$nest_srl;
+		}
+		if ($category_srl = core\Util::getParameter('category'))
+		{
+			$search .= ' and category_srl='.$category_srl;
+		}
+		if ($user_srl = core\Util::getParameter('user'))
+		{
+			$search .= ' and user_srl='.$user_srl;
+		}
+		if ($keyword = core\Util::getParameter('q'))
+		{
+			$search .= ' and (title LIKE \'%'.$keyword.'%\' or content LIKE \'%'.$keyword.'%\')';
+		}
+
+		$search = preg_replace("/^ and/", "", $search);
+		return trim($search);
+	}
 
 	/**********************************************
 	 * INSTALL AREA

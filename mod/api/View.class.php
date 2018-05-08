@@ -36,7 +36,13 @@ class View {
 	 */
 	public function view_index()
 	{
+		// set skin path
+		$this->setSkinPath('index');
 
+		// render page
+		$this->blade->render($this->parent->skinAddr . '.index', [
+			'mod' => $this->parent
+		]);
 	}
 
 	/**
@@ -45,7 +51,6 @@ class View {
 	 * @param string $type
 	 * @param string $userSkin
 	 */
-	// TODO: Blade 클래스에다 집어넣을까 싶음
 	private function setSkinPath($type, $userSkin=null)
 	{
 		// check blade file

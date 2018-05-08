@@ -155,6 +155,7 @@ class View {
 	 * @param string $type
 	 * @param string $userSkin
 	 */
+	// TODO: Blade 클래스에다 집어넣을까 싶음
 	private function setSkinPath($type, $userSkin=null)
 	{
 		// check blade file

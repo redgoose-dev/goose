@@ -6,6 +6,13 @@
 	"permission": 0,
 	"adminPermission": 100,
 	"install": true,
+	"api": {
+		"use": true,
+		"field": ["srl", "article_srl", "name", "loc", "type", "size", "regdate", "ready"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
 	"skin": "default",
 	"pagePerCount": 30,
 	"upPath_upload": "data/upload",

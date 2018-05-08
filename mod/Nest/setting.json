@@ -6,6 +6,14 @@
 	"permission": 0,
 	"adminPermission": 100,
 	"install": true,
+	"api": {
+		"use": true,
+		"field": ["srl", "app_srl", "id", "name", "json", "regdate"],
+		"jsonField": ["json"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
 	"skin": "default",
 	"countArticle": 15,
 	"articleListTypes": ["list", "card", "thumbnail"],

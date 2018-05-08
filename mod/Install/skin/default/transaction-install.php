@@ -68,16 +68,16 @@ if ( checkPost() == true )
 			'name' => $_POST['dbId'],
 			'password' => $_POST['dbPassword'],
 			'host' => $_POST['dbHost'],
-			'port' => $_POST['dbPort'],
-			'prefix' => $_POST['dbPrefix']
+			'port' => $_POST['dbPort']
 		],
+		'table_prefix' => $_POST['tablePrefix'],
+		'basic_module' => 'Intro',
+		'token' => core\Util::getRandomString(),
+		'timezone' => $_POST['timezone'],
 		'level' => [
 			'login' => $_POST['loginLevel'],
 			'admin' => $_POST['adminLevel']
 		],
-		'apiKey' => $_POST['apiPrefix'],
-		'timezone' => $_POST['timezone'],
-		'basic_module' => 'Intro'
 	]);
 	if ($tpl_config != 'success')
 	{
@@ -97,13 +97,14 @@ else
 
 
 // load config file
-require_once(__GOOSE_PWD__.'data/config.php');
+$config = require_once(__GOOSE_PWD__.'data/config.php');
 
+// set table prefix
+define('__dbPrefix__', $config['table_prefix']);
 
 // create and connect database
 $goose->createSpawn();
-$goose->spawn->connect($dbConfig);
-$goose->spawn->prefix = $table_prefix;
+$goose->spawn->connect($config['db']);
 
 
 // set admin
@@ -131,7 +132,7 @@ $result = core\Spawn::insert([
 		'regdate' => date("YmdHis")
 	]
 ]);
-echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "<strong style='color: red; font-weight: bold;'>ERROR : $result</strong>")."</p>";
+echo "<p>Add admin user - ".(($result == 'success') ? 'Complete' : "<strong style='color:red;font-weight:bold;'>ERROR : $result</strong>")."</p>";
 
 
 // add basic navigation on json table

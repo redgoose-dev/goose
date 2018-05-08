@@ -6,5 +6,12 @@
 	"permission": 0,
 	"adminPermission": 100,
 	"install": true,
+	"api": {
+		"use": true,
+		"field": ["srl", "nest_srl", "turn", "name", "regdate"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
 	"skin": "default"
 }

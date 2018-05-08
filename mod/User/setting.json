@@ -6,5 +6,12 @@
 	"permission": 0,
 	"adminPermission": 100,
 	"install": true,
+	"api": {
+		"use": false,
+		"field": ["srl", "email", "name", "level", "regdate"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
 	"skin": "default"
 }

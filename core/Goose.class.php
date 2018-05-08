@@ -79,6 +79,7 @@ class Goose {
 		{
 			$goose->spawn->disconnect();
 		}
+
 		exit;
 	}
 
@@ -105,12 +106,16 @@ class Goose {
 				self::end();
 				break;
 			case 403:
-				$error->render($code, 'permission denied', $url_home, $useLayout);
+				$error->render($code, 'Permission denied', $url_home, $useLayout);
 				self::end();
 				break;
 			case 404:
 				// page not found
-				$error->render(404, 'page not found', $url_home, $useLayout);
+				$error->render(404, 'Page not found', $url_home, $useLayout);
+				self::end();
+				break;
+			case 500:
+				$error->render(500, 'Service error', $url_home, $useLayout);
 				self::end();
 				break;
 			case 909:
