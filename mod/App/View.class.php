@@ -1,13 +1,13 @@
 <?php
 namespace mod\App;
-use core, mod, stdClass;
+use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
 class View {
 
 	/** @var App $parent */
-	public $parent;
+	public $parent, $name, $blade;
 
 	public function __construct($parent)
 	{
@@ -37,7 +37,7 @@ class View {
 	public function view_index()
 	{
 		// make repo
-		$repo = new stdClass();
+		$repo = (object)[];
 		$repo->apps = core\Spawn::items([
 			'table' => core\Spawn::getTableName($this->parent->name),
 			'order' => 'srl',
@@ -81,7 +81,7 @@ class View {
 		// play render page
 		$this->blade->render($this->parent->skinAddr . '.form', [
 			'mod' => $this->parent,
-			'repo' => new stdClass(),
+			'repo' => (object)[],
 			'action' => $this->parent->params['action'],
 			'typeName' => '등록'
 		]);
@@ -99,7 +99,7 @@ class View {
 		$this->checkAdmin();
 
 		// set repo
-		$repo = new stdClass();
+		$repo = (object)[];
 		$repo->app = core\Spawn::item([
 			'table' => core\Spawn::getTableName($this->parent->name),
 			'where' => 'srl=' . (int)$app_srl
@@ -130,7 +130,7 @@ class View {
 		$this->checkAdmin();
 
 		// set repo
-		$repo = new stdClass();
+		$repo = (object)[];
 		$repo->app = core\Spawn::item([
 			'table' => core\Spawn::getTableName($this->parent->name),
 			'where' => 'srl=' . (int)$app_srl
@@ -155,6 +155,7 @@ class View {
 	 * @param string $type
 	 * @param string $userSkin
 	 */
+	// TODO: Blade 클래스에다 집어넣을까 싶음
 	private function setSkinPath($type, $userSkin=null)
 	{
 		// check blade file
@@ -169,4 +170,5 @@ class View {
 		$this->parent->skinAddr = $bladeResult['address'];
 		$this->parent->skinPath = 'mod/' . $bladeResult['path'] . '/';
 	}
+
 }

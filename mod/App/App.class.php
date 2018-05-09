@@ -14,7 +14,6 @@ class App {
 		core\Module::initModule($this, $params);
 	}
 
-
 	/**
 	 * index
 	 */
@@ -59,7 +58,6 @@ class App {
 		}
 	}
 
-
 	/**********************************************
 	 * API AREA
 	 *********************************************/
@@ -93,6 +91,26 @@ class App {
 		}
 	}
 
+	/**
+	 * make search
+	 *
+	 * @param string $search
+	 * @return string
+	 */
+	public function makeSearch($search='')
+	{
+		if ($id = core\Util::getParameter('id'))
+		{
+			$search .= ' and name LIKE \''.$id.'\'';
+		}
+		if ($name = core\Util::getParameter('name'))
+		{
+			$search .= ' and name LIKE \''.$name.'\'';
+		}
+
+		$search = preg_replace("/^ and/", "", $search);
+		return trim($search);
+	}
 
 	/**********************************************
 	 * INSTALL AREA

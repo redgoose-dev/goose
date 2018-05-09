@@ -130,7 +130,6 @@ class File {
 		return $src[0] . '.' . $src[1];
 	}
 
-
 	/**********************************************
 	 * API AREA
 	 *********************************************/
@@ -316,6 +315,34 @@ class File {
 		}
 	}
 
+	/**
+	 * make search
+	 *
+	 * @param string $search
+	 * @return string
+	 */
+	public function makeSearch($search='')
+	{
+		if ($article_srl = core\Util::getParameter('article'))
+		{
+			$search .= ' and article_srl='.$article_srl;
+		}
+		if ($name = core\Util::getParameter('name'))
+		{
+			$search .= ' and name LIKE \''.$name.'\'';
+		}
+		if ($type = core\Util::getParameter('type'))
+		{
+			$search .= ' and type LIKE \'%'.$type.'%\'';
+		}
+		if ($ready = core\Util::getParameter('ready'))
+		{
+			$search .= ' and ready='.$ready;
+		}
+
+		$search = preg_replace("/^ and/", "", $search);
+		return trim($search);
+	}
 
 	/**********************************************
 	 * INSTALL AREA

@@ -14,7 +14,6 @@ class User {
 		core\Module::initModule($this, $params);
 	}
 
-
 	/**
 	 * index
 	 */
@@ -59,7 +58,6 @@ class User {
 		}
 	}
 
-
 	/**********************************************
 	 * API AREA
 	 *********************************************/
@@ -100,6 +98,30 @@ class User {
 		}
 	}
 
+	/**
+	 * make search
+	 *
+	 * @param string $search
+	 * @return string
+	 */
+	public function makeSearch($search='')
+	{
+		if ($email = core\Util::getParameter('email'))
+		{
+			$search .= ' and email LIKE \''.$email.'\'';
+		}
+		if ($name = core\Util::getParameter('name'))
+		{
+			$search .= ' and name LIKE \''.$name.'\'';
+		}
+		if ($level = core\Util::getParameter('level'))
+		{
+			$search .= ' and level='.$level;
+		}
+
+		$search = preg_replace("/^ and/", "", $search);
+		return trim($search);
+	}
 
 	/**********************************************
 	 * INSTALL AREA

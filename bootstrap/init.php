@@ -43,28 +43,23 @@ $goose->init();
 // check install
 if ($goose->isInstalled())
 {
-	// set user config variables
-	$dbConfig = null; // array
-	$table_prefix = null; // string
-	$accessLevel = null; // int
-	$basic_module = null; // string
-
 	// load user config file
-	require_once(__GOOSE_PWD__.'data/config.php');
+	$config = require_once(__GOOSE_PWD__.'data/config.php');
 
 	// create and connect database
 	$goose->createSpawn();
-	$goose->spawn->connect($dbConfig);
+	$goose->spawn->connect($config['db']);
+	$goose->token = $config['token'];
 
 	// set table prefix
-	define('__dbPrefix__', $table_prefix);
+	define('__dbPrefix__', $config['table_prefix']);
 
 	// set admin
-	$goose->isAdmin = ($accessLevel['admin'] == $_SESSION['goose_level']) ? true : false;
+	$goose->isAdmin = ($config['accessLevel']['admin'] == $_SESSION['goose_level']) ? true : false;
 
 	// act router module
 	$router = new mod\Router\Router();
-	$router->init($router->pwd.'map.php', $accessLevel);
+	$router->init($router->pwd.'map.php', $config['accessLevel']);
 }
 else
 {
@@ -77,7 +72,6 @@ else
 	}
 
 	define( '__GOOSE_ROOT__', preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']) );
-	define('__dbPrefix__', ($_POST['dbPrefix']) ? $_POST['dbPrefix'] : null);
 
 	// load install module
 	$install = new mod\Install\Install();

@@ -62,7 +62,6 @@ class Nest {
 		}
 	}
 
-
 	/**********************************************
 	 * API AREA
 	 *********************************************/
@@ -121,6 +120,30 @@ class Nest {
 		}
 	}
 
+	/**
+	 * make search
+	 *
+	 * @param string $search
+	 * @return string
+	 */
+	public function makeSearch($search='')
+	{
+		if ($app_srl = core\Util::getParameter('app'))
+		{
+			$search .= ' and app_srl='.$app_srl;
+		}
+		if ($id = core\Util::getParameter('id'))
+		{
+			$search .= ' and id LIKE \''.$id.'\'';
+		}
+		if ($name = core\Util::getParameter('name'))
+		{
+			$search .= ' and name LIKE \''.$name.'\'';
+		}
+
+		$search = preg_replace("/^ and/", "", $search);
+		return trim($search);
+	}
 
 	/**********************************************
 	 * INSTALL AREA

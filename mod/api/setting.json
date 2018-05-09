@@ -1,0 +1,18 @@
+{
+	"name": "api",
+	"title": "API",
+	"description": "API 출력모듈",
+	"auth": false,
+	"permission": 0,
+	"adminPermission": 100,
+	"install": false,
+	"modules": {
+		"app": "App",
+		"article": "Article",
+		"category": "Category",
+		"file": "File",
+		"json": "JSON",
+		"nest": "Nest",
+		"user": "User"
+	}
+}

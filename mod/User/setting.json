@@ -1,9 +1,17 @@
 {
-	"name" : "User",
-	"title" : "User",
-	"description" : "회원정보를 관리하는 모듈입니다.",
-	"permission" : 0,
-	"adminPermission" : 100,
-	"install" : true,
-	"skin" : "default"
+	"name": "User",
+	"title": "User",
+	"description": "사용자 정보를 관리하는 모듈입니다.",
+	"auth": true,
+	"permission": 0,
+	"adminPermission": 100,
+	"install": true,
+	"api": {
+		"use": false,
+		"field": ["srl", "email", "name", "level", "regdate"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
+	"skin": "default"
 }

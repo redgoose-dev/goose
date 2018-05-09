@@ -61,7 +61,6 @@ class JSON {
 		}
 	}
 
-
 	/**********************************************
 	 * API AREA
 	 *********************************************/
@@ -95,6 +94,22 @@ class JSON {
 		}
 	}
 
+	/**
+	 * make search
+	 *
+	 * @param string $search
+	 * @return string
+	 */
+	public function makeSearch($search='')
+	{
+		if ($name = core\Util::getParameter('name'))
+		{
+			$search .= ' and name LIKE \''.$name.'\'';
+		}
+
+		$search = preg_replace("/^ and/", "", $search);
+		return trim($search);
+	}
 
 	/**********************************************
 	 * INSTALL AREA

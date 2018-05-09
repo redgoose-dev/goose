@@ -149,11 +149,14 @@ class Util {
 	 *
 	 * @param * $obj console.log에 표시할 데이터. 문자,번호,배열... 등등 값을 확인할 수 있다.
 	 */
-	public static function console($obj)
+	public static function console($obj=null)
 	{
-		echo self::tagScriptHead;
-		echo "console.log(" . self::typeCheck($obj) . ");";
-		echo self::tagScriptFoot;
+		if ($obj)
+		{
+			echo self::tagScriptHead;
+			echo "console.log(" . self::typeCheck($obj) . ");";
+			echo self::tagScriptFoot;
+		}
 	}
 
 	/**
@@ -574,8 +577,12 @@ class Util {
 	 * @param array $data
 	 * @return string
 	 */
-	public static function createConfig($data=null) {
+	public static function createConfig($data=null)
+	{
 		if (!$data) return '';
+
+		// make token
+		if (!isset($data['token'])) $data['token'] = self::getRandomString();
 
 		$str = "<?php\n";
 		$str .= "if (!defined('__GOOSE__')) exit();\n";
@@ -583,18 +590,37 @@ class Util {
 		$str .= "define( '__GOOSE_URL__', '".$data['define']['url']."' );\n";
 		$str .= "define( '__GOOSE_ROOT__', '".$data['define']['root']."' );\n";
 		$str .= "\n";
-		$str .= "\$dbConfig = ['mysql:dbname=".$data['db']['dbname'].";host=".$data['db']['host'].";port=".$data['db']['port']."', '".$data['db']['name']."', '".$data['db']['password']."'];\n";
-		$str .= "\$table_prefix = '".$data['db']['prefix']."';\n";
-		$str .= "\n";
-		$str .= "\$apiKey = '".$data['apiKey']."';\n";
-		$str .= "\$basic_module = '".$data['basic_module']."';\n";
-		$str .= "\n";
-		$str .= "\$accessLevel = [\n";
-		$str .= "\t'login' => ".$data['level']['login'].",\n";
-		$str .= "\t'admin' => ".$data['level']['admin']."\n";
+
+		$str .= "return [\n";
+		$str .= "\t'db' => [\n";
+		$str .= "\t\t'dbname' => '".$data['db']['dbname']."',\n";
+		$str .= "\t\t'name' => '".$data['db']['name']."',\n";
+		$str .= "\t\t'host' => '".$data['db']['host']."',\n";
+		$str .= "\t\t'port' => ".(int)$data['db']['port'].",\n";
+		$str .= "\t\t'password' => '".$data['db']['password']."',\n";
+		$str .= "\t],\n";
+		$str .= "\t'table_prefix' => '".$data['table_prefix']."',\n";
+		$str .= "\t'basic_module' => '".$data['basic_module']."',\n";
+		$str .= "\t'token' => '".$data['token']."',\n";
+		$str .= "\t'timezone' => '".$data['timezone']."',\n";
+		$str .= "\t'accessLevel' => [\n";
+		$str .= "\t\t'login' => ".$data['level']['login'].",\n";
+		$str .= "\t\t'admin' => ".$data['level']['admin'].",\n";
+		$str .= "\t],\n";
 		$str .= "];";
 
 		return self::fop(__GOOSE_PWD__ . 'data/config.php', 'w', $str, 0755);
+	}
+
+	/**
+	 * Get random string
+	 *
+	 * @param int $num
+	 * @return int
+	 */
+	public static function getRandomString($num=32)
+	{
+		return bin2hex(random_bytes($num));
 	}
 
 }

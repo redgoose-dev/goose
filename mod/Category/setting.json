@@ -1,9 +1,17 @@
 {
-	"name" : "Category",
-	"title" : "Category",
-	"description" : "Article의 분류를 관리하는 모듈입니다.",
-	"permission" : 0,
-	"adminPermission" : 100,
-	"install" : true,
-	"skin" : "default"
+	"name": "Category",
+	"title": "Category",
+	"description": "Article의 분류를 관리하는 모듈입니다.",
+	"auth": true,
+	"permission": 0,
+	"adminPermission": 100,
+	"install": true,
+	"api": {
+		"use": true,
+		"field": ["srl", "nest_srl", "turn", "name", "regdate"],
+		"order": "srl",
+		"size": 20,
+		"sort": null
+	},
+	"skin": "default"
 }

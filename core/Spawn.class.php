@@ -20,12 +20,16 @@ class Spawn {
 	/**
 	 * connect database
 	 *
-	 * @param array $config
+	 * @param object $config
 	 */
-	public function connect($config)
+	public function connect($config=null)
 	{
 		try {
-			$this->db = new PDO($config[0], $config[1], $config[2]);
+			$this->db = new PDO(
+				'mysql:dbname='.$config['dbname'].';host='.$config['host'].';port='.$config['port'],
+				$config['name'],
+				$config['password']
+			);
 			self::action("set names utf8");
 		} catch (\PDOException $e) {
 			echo 'Connection failed: '.$e->getMessage();
@@ -265,7 +269,10 @@ class Spawn {
 				{
 					foreach ($result as $k=>$v)
 					{
-						$result[$k] = self::convertJsonToArray($v, $data['jsonField']);
+						if ($json = self::convertJsonToArray($v, $data['jsonField']))
+						{
+							$result[$k] = $json;
+						}
 					}
 				}
 				return $result;
@@ -415,7 +422,10 @@ class Spawn {
 	{
 		foreach ($fields as $k=>$v)
 		{
-			$item[$v] = Util::jsonToArray($item[$v], null, true);
+			if ($item[$v])
+			{
+				$item[$v] = Util::jsonToArray($item[$v], null, true);
+			}
 		}
 
 		return $item;

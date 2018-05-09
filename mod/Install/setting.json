@@ -1,6 +1,6 @@
 {
-	"name" : "Install",
-	"title" : "Install",
-	"description" : "Goose 설치 모듈",
-	"skin" : "default"
+	"name": "Install",
+	"title": "Install",
+	"description": "Goose 설치 모듈",
+	"skin": "default"
 }

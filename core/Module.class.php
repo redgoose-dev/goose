@@ -72,15 +72,12 @@ class Module {
 		$modAddr = 'mod\\' . $modName . '\\' . $modName;
 
 		// check class
-		if (!class_exists($modAddr))
-		{
-			Goose::error(101, 'not found module `' . $modName . '`');
-		}
+		if (!class_exists($modAddr)) return null;
 
 		// init class
 		$resultModule = new $modAddr($params);
 
-		return $resultModule;
+		return $resultModule ? $resultModule : null;
 	}
 
 	/**
@@ -88,6 +85,7 @@ class Module {
 	 *
 	 * @param object $instance
 	 * @param array $params
+	 * @throws \ReflectionException
 	 */
 	public static function initModule($instance, $params=[])
 	{
@@ -112,7 +110,7 @@ class Module {
 		$instance->set = Module::getSetting($instance->name);
 		if (!$instance->set || !is_array($instance->set))
 		{
-			Goose::error(403, '[' . $instance->name . '] setting.json파일이 없습니다.');
+			Goose::error(500, '[' . $instance->name . '] setting.json파일이 없습니다.');
 		}
 
 		// check install

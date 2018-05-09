@@ -46,7 +46,7 @@ class Layout {
 		if ($_SESSION['goose_email'])
 		{
 			$result[] = [
-				'url' => __GOOSE_ROOT__ . '/auth/logout/',
+				'url' => __GOOSE_ROOT__ . '/Auth/logout/',
 				'name' => 'Logout',
 				'target' => null
 			];
@@ -54,7 +54,7 @@ class Layout {
 		else
 		{
 			$result[] = [
-				'url' => __GOOSE_ROOT__ . '/auth/login/',
+				'url' => __GOOSE_ROOT__ . '/Auth/login/',
 				'name' => 'Login',
 				'target' => null
 			];

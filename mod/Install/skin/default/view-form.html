@@ -1,9 +1,5 @@
 <!doctype html>
-<?php
-if (!defined('__GOOSE__')) exit();
-
-$apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
-?>
+<?php if (!defined('__GOOSE__')) exit(); ?>
 
 <html lang="ko">
 <head>
@@ -60,7 +56,7 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 			</label>
 			<label>
 				<strong>Table name prefix</strong>
-				<span><input type="text" name="dbPrefix" id="dbPrefix" size="12" maxlength="20" value="goose_" /></span>
+				<span><input type="text" name="tablePrefix" id="tablePrefix" size="12" maxlength="20" value="goose_" /></span>
 			</label>
 		</fieldset>
 
@@ -99,14 +95,6 @@ $apikeyPrefix = '__' . core\Util::generateRandomString(15) . '__';
 		</fieldset>
 
 		<fieldset>
-			<legend>API</legend>
-			<label>
-				<strong>API KEY prefix</strong>
-				<span><input type="text" name="apiPrefix" id="apiPrefix" size="28" maxlength="20" value="<?=$apikeyPrefix?>" /></span>
-			</label>
-		</fieldset>
-
-		<fieldset>
 			<legend>ETC</legend>
 			<label>
 				<strong>Timezone</strong>
@@ -133,12 +121,11 @@ jQuery(function($){
 			,dbName : { required: true }
 			,dbHost : { required: true }
 			,dbPort : { required: true }
-			,dbPrefix : { required: true }
+			,tablePrefix : { required: true }
 			,email : { required: true }
 			,name : { required: true }
 			,password : { required: true }
 			,password2 : { equalTo: '#password' }
-			,apiPrefix : { required: true }
 		}
 	});
 });
