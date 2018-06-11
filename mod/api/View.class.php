@@ -36,6 +36,21 @@ class View {
 	 */
 	public function view_index()
 	{
+		global $goose;
+
+		// check login
+		$auth = new mod\Auth\Auth([
+			'action' => null,
+			'method' => $_SERVER['REQUEST_METHOD']
+		]);
+		$auth->auth($goose->accessLevel['login']);
+
+		if (!$auth->check($goose->accessLevel['login']))
+		{
+			header('Location: '.__GOOSE_ROOT__);
+			return;
+		}
+
 		// set skin path
 		$this->setSkinPath('index');
 

@@ -4,6 +4,9 @@ use core, mod;
 if (!defined('__GOOSE__')) exit();
 
 
+// TODO: 컴포넌트별로 요구 파라메터를 만들어야함 (Nest의 makeSearch 메서드 참고)
+
+
 class api {
 
 	public $name, $set, $params, $isAdmin;
@@ -31,13 +34,13 @@ class api {
 		{
 			$getToken = core\Util::getParameter('token');
 		}
-		else if (getallheaders()['TOKEN'])
+		else if (getallheaders()['token'])
 		{
-			$getToken = getallheaders()['TOKEN'];
+			$getToken = getallheaders()['token'];
 		}
 		if ($goose->token !== $getToken)
 		{
-			$this->error('Error token');
+			$this->error('Token error', 403);
 		}
 
 		try
@@ -95,11 +98,10 @@ class api {
 	 * print error
 	 *
 	 * @param string $message
+	 * @param int $code
 	 */
-	private function error($message)
+	private function error($message, $code=500)
 	{
-		global $goose;
-
 		switch($message)
 		{
 			case 'not-found-module':
@@ -112,7 +114,7 @@ class api {
 
 		$this->output((object)[
 			'message' => $message,
-			'code' => 500
+			'code' => $code
 		]);
 	}
 
@@ -133,7 +135,7 @@ class api {
 		}
 		if (method_exists($mod, 'makeSearch'))
 		{
-			$where .= $mod->makeSearch($where);
+			$where = $mod->makeSearch($where);
 		}
 
 		// set field
@@ -160,8 +162,8 @@ class api {
 		$size = isset($_GET['size']) ? (int)$_GET['size'] : $config->size;
 		$start = ($page - 1) * $size;
 
-		// get items
-		$result = core\Spawn::items([
+		// set options
+		$options = [
 			'table' => core\Spawn::getTableName($mod->name),
 			'field' => $field,
 			'where' => $where,
@@ -170,11 +172,14 @@ class api {
 			'order' => isset($_GET['order']) ? $_GET['order'] : $config->order,
 			'limit' => [ $start, $size ],
 			'debug' => false
-		]);
+		];
+
+		// get item
+		$result = (isset($srl)) ? core\Spawn::item($options) : core\Spawn::items($options);
 
 		$this->output((object)[
 			'data' => $result,
-			'code' => 200
+			'code' => (!$result || !count($result)) ? 404 : 200
 		], true, true);
 	}
 

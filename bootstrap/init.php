@@ -50,6 +50,7 @@ if ($goose->isInstalled())
 	$goose->createSpawn();
 	$goose->spawn->connect($config['db']);
 	$goose->token = $config['token'];
+	$goose->accessLevel = $config['accessLevel'];
 
 	// set table prefix
 	define('__dbPrefix__', $config['table_prefix']);

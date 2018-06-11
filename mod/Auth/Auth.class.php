@@ -67,6 +67,25 @@ class Auth {
 	}
 
 	/**
+	 * check auth
+	 *
+	 * @param int $level
+	 * @return boolean
+	 */
+	public function check($level=0)
+	{
+		if (!isset($_SESSION['goose_level']) || !isset($_SESSION['goose_name']) || !isset($_SESSION['goose_email']))
+		{
+			return false;
+		}
+		if ($level > $_SESSION['goose_level'])
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * login form
 	 */
 	public function loginForm()
