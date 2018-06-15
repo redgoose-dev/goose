@@ -214,13 +214,23 @@ class Article {
 		{
 			$search .= ' and user_srl='.$user_srl;
 		}
-		if ($keyword = core\Util::getParameter('q'))
+		if ($title = core\Util::getParameter('title'))
 		{
-			$search .= ' and (title LIKE \'%'.$keyword.'%\' or content LIKE \'%'.$keyword.'%\')';
+			$search .= ' and title LIKE \'%'.$title.'%\'';
 		}
-
-		$search = preg_replace("/^ and/", "", $search);
-		return trim($search);
+		if ($content = core\Util::getParameter('content'))
+		{
+			$search .= ' and title LIKE \'%'.$content.'%\'';
+		}
+		if ($ip = core\Util::getParameter('ip'))
+		{
+			$search .= ' and ip LIKE \'%'.$ip.'%\'';
+		}
+		if ($q = core\Util::getParameter('q'))
+		{
+			$search .= ' and (title LIKE \'%'.$q.'%\' or content LIKE \'%'.$q.'%\')';
+		}
+		return $search;
 	}
 
 	/**********************************************

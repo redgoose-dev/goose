@@ -136,6 +136,8 @@ class api {
 		if (method_exists($mod, 'makeSearch'))
 		{
 			$where = $mod->makeSearch($where);
+			$where = preg_replace("/^ and/", "", $where);
+			$where = trim($where);
 		}
 
 		// set field
@@ -175,10 +177,10 @@ class api {
 		];
 
 		// get item
-		$result = (isset($srl)) ? core\Spawn::item($options) : core\Spawn::items($options);
+		$result = (!!$srl) ? core\Spawn::item($options) : core\Spawn::items($options);
 
 		$this->output((object)[
-			'data' => $result,
+			'data' => !!$result ? $result : null,
 			'code' => (!$result || !count($result)) ? 404 : 200
 		], true, true);
 	}
