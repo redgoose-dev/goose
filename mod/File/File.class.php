@@ -329,7 +329,7 @@ class File {
 		}
 		if ($name = core\Util::getParameter('name'))
 		{
-			$search .= ' and name LIKE \''.$name.'\'';
+			$search .= ' and name LIKE \'%'.$name.'%\'';
 		}
 		if ($type = core\Util::getParameter('type'))
 		{
@@ -339,9 +339,7 @@ class File {
 		{
 			$search .= ' and ready='.$ready;
 		}
-
-		$search = preg_replace("/^ and/", "", $search);
-		return trim($search);
+		return $search;
 	}
 
 	/**********************************************

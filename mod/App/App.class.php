@@ -101,15 +101,13 @@ class App {
 	{
 		if ($id = core\Util::getParameter('id'))
 		{
-			$search .= ' and name LIKE \''.$id.'\'';
+			$search .= ' and id LIKE \''.$id.'\'';
 		}
 		if ($name = core\Util::getParameter('name'))
 		{
-			$search .= ' and name LIKE \''.$name.'\'';
+			$search .= ' and name LIKE \'%'.$name.'%\'';
 		}
-
-		$search = preg_replace("/^ and/", "", $search);
-		return trim($search);
+		return $search;
 	}
 
 	/**********************************************

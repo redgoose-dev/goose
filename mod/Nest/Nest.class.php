@@ -138,11 +138,9 @@ class Nest {
 		}
 		if ($name = core\Util::getParameter('name'))
 		{
-			$search .= ' and name LIKE \''.$name.'\'';
+			$search .= ' and name LIKE \'%'.$name.'%\'';
 		}
-
-		$search = preg_replace("/^ and/", "", $search);
-		return trim($search);
+		return $search;
 	}
 
 	/**********************************************

@@ -118,9 +118,7 @@ class User {
 		{
 			$search .= ' and level='.$level;
 		}
-
-		$search = preg_replace("/^ and/", "", $search);
-		return trim($search);
+		return $search;
 	}
 
 	/**********************************************
